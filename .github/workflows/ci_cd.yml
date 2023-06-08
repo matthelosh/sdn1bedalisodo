@@ -1,0 +1,25 @@
+name: CD
+on:
+  push:
+    branches: [ production ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home/mandita/htdocs/mandita.sdn1-bedalisodo.sch.id
+            git pull prod main
+            git status
+            yarn --only=prod
+            yarn build
+            
+      
