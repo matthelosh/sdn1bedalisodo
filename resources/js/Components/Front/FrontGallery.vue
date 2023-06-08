@@ -52,6 +52,22 @@ const onSwiper = (swiper) => {
       </swiper-slide>
     </swiper>
   </div>
+  <div class="md-container hidden md:block w-full">
+    <div class="gallery-container grid grid-cols-3 gap-2 w-3/4 mx-auto">
+      <div 
+        class="img-container h-64 w-full rounded-xl hover:rounded-none  hover:scale-110 transition-all duration-300 hover:z-10 hover:shadow-lg hover:shadow-light-500 shadow-lime-500 aspect-square object-cover overflow-hidden group cursor-pointer relative" 
+        v-for="im in 4" 
+        :key="im">
+        
+        <img
+          :src="`/img/carousel/${im}.jpg`" 
+          alt="Foto"
+          class="group-hover:scale-150 transition-all duration-500 saturate-50 group-hover:saturate-100 absolute"
+          >
+        <h1 class="img-title">Gambar {{ im }}</h1>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 
