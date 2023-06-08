@@ -17,7 +17,7 @@ jobs:
           port: 22
           script: |
             cd /home/mandita/htdocs/mandita.sdn1-bedalisodo.sch.id
-            git pull prod main
+            git pull origin production
             git status
             yarn --only=prod
             yarn build
