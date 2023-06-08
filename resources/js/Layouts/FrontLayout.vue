@@ -92,7 +92,7 @@ const nextTrending = () => {
         <slot />
     </main>
     <footer class="w-full min-h-[200px] bg-primary">
-        <div class="grid grid-cols-1 md:grid-cols-3 m-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 m-4 my-0">
             <div class="footer-identitas p-3 flex flex-col justify-center items-center md:flex-row gap-3 text-sm">
                 <img src="/img/logo.png" alt="Logo" class="h-20 drop-shadow" />
                 <div class="footer-identitas--alamat">

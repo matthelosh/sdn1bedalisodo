@@ -23,7 +23,7 @@ const onSwiper = (swiper) => {
 </script>
 
 <template>
-  <div class="w-full overflow-hidden bg-gray-800" >
+<div class="w-full overflow-hidden bg-gray-800 p-8" >
   <div class="header flex justify-center items-end mt-4">
       <SvgIcon type="mdi" :path="mdiCamera" class="text-violet-400" size="38" />
       <h1>
@@ -31,33 +31,34 @@ const onSwiper = (swiper) => {
           <span class=" font-extralight text-gray-200 tetx-xl">Terbaru</span>
       </h1>
   </div>
-  
+  <div class="sm-container md:hidden">
     <swiper
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
-    :modules="[EffectCube, Pagination, Autoplay, EffectCards, EffectFlip, EffectCoverflow]" 
-    effect="cube"
-    :grab-cursor="true"
-    :loop="true"
-    :pagination="true"
-    :autoplay="{delay:1500}"
+      @swiper="onSwiper"
+      @slideChange="onSlideChange"
+      :modules="[EffectCube, Pagination, Autoplay, EffectCards, EffectFlip, EffectCoverflow]" 
+      effect="cube"
+      :grab-cursor="true"
+      :loop="true"
+      :pagination="true"
+      :autoplay="{delay:1500}"
 
-    class="eounded-xl"
-  >
-    <swiper-slide
-        v-for="i in 4" :key="i"
-        class="rounded-xl"
+      class="rounded-xl h-[400px] w-[300px]"
     >
-        <img :src="`/img/carousel/${i}.jpg`" alt="Foto">
-    </swiper-slide>
-  </swiper>
+      <swiper-slide
+          v-for="i in 4" :key="i"
+          class="rounded-xl"
+      >
+          <img :src="`/img/carousel/${i}.jpg`" alt="Foto">
+      </swiper-slide>
+    </swiper>
+  </div>
 </div>
 </template>
 
 <style scoped>
 .swiper {
-    width: 400px;
-    height: 400px;
+    /* width: 400px;
+    height: 400px; */
     overflow: visible;
 }
 

@@ -22,7 +22,7 @@ const search = (e) => {
 </script>
 
 <template>
-    <nav class="w-full h-14 md:h-16  border-b border-primary rounded-b-2xl shadow-lg bg-white text-dark flex items-center justify-between p-3 md:p-8 fixed md:sticky top-0 z-40">
+    <nav class="w-full h-14 md:h-16  rounded-b-2xl md:rounded-none shadow-lg bg-white text-dark flex items-center justify-between p-3 md:p-8 fixed md:sticky top-0 z-40">
         <div class="header-logo ">
             <Link href="/" class="flex items-center gap-2">
             <img src="/img/logo.png" alt="Logo" class="w-8 mx-auto drop-shadow" />

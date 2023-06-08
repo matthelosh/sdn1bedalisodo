@@ -34,29 +34,40 @@ const prestasis = ref([
 </script>
 
 <template>
-  <div class="w-full h-full relative">
-    <img src="/img/tropi-1.png" alt="Piala" class="absolute -top-14 -left-4 w-36 z-20" />
-    <h1 class="text-2xl ml-28 mt-6 py-2 pl-4 bg-purple-400 text-white font-bold tracking-wider rounded-s-full">Prestasi Siswa</h1>
-    <div class="carousel w-full  h-[500px] mt-4">
-      <Swiper class="w-full h-full"
-        :modules="[Pagination, Autoplay, EffectCoverflow]"
-        effect="coverflow"
-        :autoplay="{delay: 500}"
-        :loop="true"
-        :pagination="true"
-      >
-        <SwiperSlide v-for="(prestasi,p) in prestasis" :key="p" class="relative">
-          <img :src="prestasi.foto" alt="Foto" class="w-full h-full object-cover object-left saturate-[100%] hue-rotate-0 grayscale-[10%] contrast-[104%] brightness-[105%]">
-          <div class="caption absolute bottom-4 p-3 box-border bg-white bg-opacity-25 backdrop-blur-sm">
-            <div>
-              <h1 class="text-2xl font-bold text-white drop-shadow-md">{{ prestasi.peringkat }} {{ prestasi.kegiatan }}</h1>
-              <p class="text-white">{{ prestasi.deskripsi }}</p>
+<div class="w-full bg-gray-200 ">
+  <img src="/img/tropi-1.png" alt="Piala" class="absolute -top-14 md:top-0 -left-4 w-36 z-20" />
+      
+  <div class="w-full md:w-3/4 mx-auto grid grid-cols-1 md:grid-cols-2 h-full md:py-8 relative ">
+    <div class="w-full hidden md:block">
+      <h1 class=" text-9xl leading-none text-gray-600 text-right">
+        <span>Prestasi</span> <br>
+        <small class="font-extralight">Siswa</small>
+      </h1>
+    </div>
+    <div class="w-full">
+      
+      <div class="carousel w-full  h-[500px] mt-4">
+        <Swiper class="w-full h-full"
+          :modules="[Pagination, Autoplay, EffectCoverflow]"
+          effect="coverflow"
+          :autoplay="{delay: 5000}"
+          :loop="true"
+          :pagination="true"
+        >
+          <SwiperSlide v-for="(prestasi,p) in prestasis" :key="p" class="relative">
+            <img :src="prestasi.foto" alt="Foto" class="w-full h-full object-cover object-left-top saturate-[100%] hue-rotate-0 grayscale-[10%] contrast-[104%] brightness-[105%]">
+            <div class="caption absolute bottom-4 p-3 box-border bg-white bg-opacity-25 backdrop-blur-sm">
+              <div>
+                <h1 class="text-2xl font-bold text-white drop-shadow-md">{{ prestasi.peringkat }} {{ prestasi.kegiatan }}</h1>
+                <p class="text-white">{{ prestasi.deskripsi }}</p>
+              </div>
             </div>
-          </div>
-        </SwiperSlide>
-      </Swiper>
+          </SwiperSlide>
+        </Swiper>
+      </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>
