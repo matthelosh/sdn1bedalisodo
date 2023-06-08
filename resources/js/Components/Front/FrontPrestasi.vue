@@ -76,10 +76,5 @@ const prestasis = ref([
   overflow: hidden;
 }
 
-/* .swiper img {
-  -webkit-filter:  brightness(105%) contrast(104%) grayscale(10%) hue-rotate(0deg) invert(0%) opacity(100%) saturate(100%) sepia(50%);
-          filter:  brightness(105%) contrast(104%) grayscale(10%) hue-rotate(0deg) invert(0%) opacity(100%) saturate(100%) sepia(50%);
-  mix-blend-mode: none;
-} */
 
 </style>

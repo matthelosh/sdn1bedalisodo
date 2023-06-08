@@ -10,7 +10,6 @@ const FrontGallery = defineAsyncComponent(() => import('@/Components/Front/Front
 const Campaign = defineAsyncComponent(() => import('@/Components/Front/Campaign.vue'))
 
 const content = (html) => {
-    // let text = html.match(/<p(.)>.*?<\/p\1>/g)
     let text = html.replace(/(<([^>]+)>)/gi, "")
     return text.split(".")
 }
