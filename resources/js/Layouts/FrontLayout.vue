@@ -48,12 +48,12 @@ const nextTrending = () => {
 
 <template>
 <div class="wrapper  text-dark w-full min-h-screen bg-gray-100">
-    <header class="w-full md:block from-sky-100 to-sky-50 bg-gradient-to-br overflow-hidden relative">
-        <div class="content h-[90vh]  pt-40 relative px-8 md:px-16">
+    <header class="w-full md:block after:to-sky-100 after:from-[#78976711] overflow-hidden relative bg-[url('/img/bg-header.svg')] bg-no-repeat bg-cover bg-center after:content='' after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:bg-gradient-to-br after:backdrop-blur after:bg-opacity-20">
+        <div class="content h-[90vh]  pt-40 relative px-8 md:px-16 z-10">
             <transition name="fade">
                 <span v-if="pramuka">
-                    <img src="/img/gajah.png" alt="Siswa" class="absolute -left-56 md:left-0 md:-bottom-10 w-42 md:w-96" >
-                    <img src="/img/cat.png" alt="Siswa" class="absolute w-32 md:w-96 right-0 top-0" >
+                    <!-- <img src="/img/gajah.png" alt="Siswa" class="absolute -left-56 md:left-0 md:-bottom-10 w-42 md:w-96" > -->
+                    <!-- <img src="/img/cat.png" alt="Siswa" class="absolute w-32 md:w-96 right-0 top-0" > -->
                 </span>
             </transition>
             <transition name="slide">
@@ -61,7 +61,7 @@ const nextTrending = () => {
             </transition>
             <h1 class="font-[monoton] text-4xl md:text-6xl mb-14 -translate-y-8 md:-translate-y-12 md:translate-x-64">MANDITA</h1>
             <transition name="fade">
-                <article class="-translate-y-16 md:-translate-y-14 bg-white md:w-2/4 md:ml-64 p-3 md:p-10 shadow" v-if="pramuka">
+                <article class="-translate-y-16 md:-translate-y-14 bg-white md:w-2/4 md:ml-64 p-3 md:p-10 shadow-xl rounded-xl" v-if="pramuka">
                     <h1 class="flex justify-between">
                         <span>
                             <span class="font-mono text-xl md:text-2xl font-bold">Terbaru</span>
