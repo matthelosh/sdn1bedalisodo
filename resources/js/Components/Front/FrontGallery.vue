@@ -24,11 +24,11 @@ const onSwiper = (swiper) => {
 
 <template>
 <div class="w-full overflow-hidden bg-sky-950 p-8" >
-  <div class="header flex justify-center items-end mt-4">
+  <div class="header flex justify-center items-end mt-4 md:mb-4">
       <SvgIcon type="mdi" :path="mdiCamera" class="text-violet-400" size="38" />
       <h1>
           <span class="font-extrabold text-gray-50 text-2xl">Galeri</span>
-          <span class=" font-extralight text-gray-200 tetx-xl">Terbaru</span>
+          <span class=" font-extralight text-gray-200 text-xl">Terbaru</span>
       </h1>
   </div>
   <div class="sm-container md:hidden">
