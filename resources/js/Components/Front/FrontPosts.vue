@@ -24,13 +24,10 @@ const stripHTML = (html) => {
         </div>
         <div class="content p-3 grid grid-cols-1 md:grid-cols-3 gap-2">
             <article v-for="(post,p) in page.props.posts" :key="p" class="bg-white p-3 shadow" :class="p==0? 'md:row-span-3' : ''">
-<<<<<<< HEAD
+
                 <Link :href="`/${post.category.label.toLowerCase()}/${post.slug}`">
                     <h1 class="text-xl font-bold text-gray-800 mb-2">{{ post.title }}</h1>
                 </Link>
-=======
-                <Link :href="`/${post.category.label.toLowerCase()}/${post.slug}`" class="text-xl font-bold text-teal-600 mb-2">{{ post.title }}</Link>
->>>>>>> 24e698fcacad6be30028c963140a127b62583e95
                 <p class="hidden md:block" v-html="stripHTML(post.content)[0]"></p>
             </article>
         </div>
