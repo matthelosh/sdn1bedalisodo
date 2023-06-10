@@ -39,9 +39,9 @@ const prestasis = ref([
       
   <div class="w-full md:w-3/4 mx-auto grid grid-cols-1 md:grid-cols-2 h-full md:py-8 relative ">
     <div class="w-full hidden md:block">
-      <h1 class=" text-9xl leading-none text-gray-600 text-right">
-        <span>Prestasi</span> <br>
-        <small class="font-extralight">Siswa</small>
+      <h1 class=" text-9xl leading-none text-gray-600 text-right flex flex-col">
+        <span style="font-weight: 900;">Prestasi</span>
+        <small style="font-weight: 100;">Siswa</small>
       </h1>
     </div>
     <div class="w-full">
@@ -56,7 +56,7 @@ const prestasis = ref([
         >
           <SwiperSlide v-for="(prestasi,p) in prestasis" :key="p" class="relative">
             <img :src="prestasi.foto" alt="Foto" class="w-full h-full object-cover object-left-top saturate-[100%] hue-rotate-0 grayscale-[10%] contrast-[104%] brightness-[105%]">
-            <div class="caption absolute bottom-4 p-3 box-border bg-white bg-opacity-25 backdrop-blur-sm">
+            <div class="caption absolute bottom-4 p-3 box-border bg-white bg-opacity-25 backdrop-blur-sm w-full">
               <div>
                 <h1 class="text-2xl font-bold text-white drop-shadow-md">{{ prestasi.peringkat }} {{ prestasi.kegiatan }}</h1>
                 <p class="text-white">{{ prestasi.deskripsi }}</p>
