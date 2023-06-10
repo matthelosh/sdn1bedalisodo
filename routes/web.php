@@ -38,6 +38,13 @@ Route::prefix("")->group(function() {
             dd($request->all());
         })->name('post.upload.image');
     });
+
+    Route::post('/search', function(Request $request) {
+        return redirect()->route('search.page');
+    })->name('search.query');
+    Route::get('/search', function(Request $request) {
+        return Inertia::render('Search');
+    })->name('search.page');
 });
 
 Route::get('/dashboard', function () {
