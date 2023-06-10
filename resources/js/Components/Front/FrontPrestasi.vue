@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { usePage} from '@inertiajs/vue3';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Autoplay, EffectCoverflow } from 'swiper';
 
@@ -7,6 +8,8 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay'
 import 'swiper/css/effect-coverflow'
+
+const page = usePage();
 
 const prestasis = ref([
   {
@@ -43,6 +46,12 @@ const prestasis = ref([
         <span style="font-weight: 900;">Prestasi</span>
         <small style="font-weight: 100;">Siswa</small>
       </h1>
+      <h1 class="text-xl font-bold text-gray-800">List Prestasi</h1>
+      <ul>
+        <li v-for="(prestasi,pr) in page.props.prestasis" :key="pr" class="list-decimal ml-4">
+          {{ prestasi.kegiatan }} <span class="font-bold">{{ prestasi.tingkat }}</span> [ {{ new Date(prestasi.tanggal).getFullYear() }} ]
+        </li>
+      </ul>
     </div>
     <div class="w-full">
       
@@ -54,7 +63,7 @@ const prestasis = ref([
           :loop="true"
           :pagination="true"
         >
-          <SwiperSlide v-for="(prestasi,p) in prestasis" :key="p" class="relative">
+          <SwiperSlide v-for="(prestasi,p) in page.props.prestasis" :key="p" class="relative">
             <img :src="prestasi.foto" alt="Foto" class="w-full h-full object-cover object-left-top saturate-[100%] hue-rotate-0 grayscale-[10%] contrast-[104%] brightness-[105%]">
             <div class="caption absolute bottom-4 p-3 box-border bg-white bg-opacity-25 backdrop-blur-sm w-full">
               <div>

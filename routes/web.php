@@ -30,7 +30,7 @@ use Inertia\Inertia;
 Route::prefix("")->group(function() {
     Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
-    Route::get('/about', [FrontPageController::class, 'index'])->name('about');
+    Route::get('/about', [FrontPageController::class, 'index'])->name('About');
 
     Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
     Route::prefix("post")->group(function() {
@@ -39,12 +39,7 @@ Route::prefix("")->group(function() {
         })->name('post.upload.image');
     });
 
-    Route::post('/search', function(Request $request) {
-        return redirect()->route('search.page');
-    })->name('search.query');
-    Route::get('/search', function(Request $request) {
-        return Inertia::render('Search');
-    })->name('search.page');
+    Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
 });
 
 Route::get('/dashboard', function () {
