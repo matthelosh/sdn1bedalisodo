@@ -30,7 +30,7 @@ use Inertia\Inertia;
 Route::prefix("")->group(function() {
     Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
-    Route::get('/about', [FrontPageController::class, 'index'])->name('About');
+    Route::get('/about', [FrontPageController::class, 'index'])->name('about');
 
     Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
     Route::prefix("post")->group(function() {
