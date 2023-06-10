@@ -1,5 +1,8 @@
 <script setup>
-
+import { Link } from '@inertiajs/vue3';
+import SvgIcon from '@jamescoyle/vue-icon';
+import {mdiEmail, mdiHeart, mdiLaravel, mdiVuejs, mdiTailwind} from '@mdi/js';
+import {ChevronDoubleRightIcon} from '@heroicons/vue/24/outline';
 </script>
 <template>
     <footer class="w-full min-h-[200px] bg-primary">
@@ -18,7 +21,7 @@
             <div class="p-3 text-white">
                 <h1 class="text-lg font-bold tracking-wide text-yellow-200">Tulisan terbaru:</h1>
                 <ul>
-                    <li v-for="(post,p) in $page.props.starredPosts" :key="p">
+                    <li v-for="(post,p) in $page.props.posts" :key="p">
                         <Link class="flex items-center gap-1 text-justify text-accent hover:text-yellow-400" :href="route('Post.read', {kategori:post.category.label.toLowerCase(), slug: post.slug})"> <ChevronDoubleRightIcon class="h-3 " /> {{ post.title }}</Link>
                     </li>
 

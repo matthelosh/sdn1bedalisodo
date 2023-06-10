@@ -18,11 +18,11 @@ class PostFactory extends Factory
     {
         return [
             'author_id' => fake()->name(),
-            'category_id' => 'art',
+            'category_id' => fake()->randomElement(['art','inf','brt','crt']),
             'slug' => fake()->slug(),
             'title' => fake()->text(60),
-            'featured_image' => fake()->image(),
-            'content' => fake()->text(200),
+            'featured_image' => fake()->imageUrl(),
+            'content' => fake()->text(1000),
             'status' => 'published',
             'starred' => true
         ];

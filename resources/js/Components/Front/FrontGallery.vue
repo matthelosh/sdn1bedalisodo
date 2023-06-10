@@ -23,7 +23,7 @@ const onSwiper = (swiper) => {
 </script>
 
 <template>
-<div class="w-full overflow-hidden bg-sky-950 p-8" >
+<div class="w-full overflow-hidden bg-sky-950 p-8 md:pt-4 md:pb-8" >
   <div class="header flex justify-center items-end mt-4 md:mb-4">
       <SvgIcon type="mdi" :path="mdiCamera" class="text-violet-400" size="38" />
       <h1>

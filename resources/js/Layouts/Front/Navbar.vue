@@ -1,7 +1,8 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
-import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import { Bars3CenterLeftIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import axios from 'axios';
 
 onMounted(() => {
     navShow.value = window.innerWidth > 768 ? true : false
@@ -16,8 +17,14 @@ const toggleNav = () => {
     navShow.value = !navShow.value
 }
 
+const searchQuery = ref(null)
 const search = (e) => {
-    
+    if(searchQuery.value) {
+        // axios.get(route('search', {
+        //     _query: {q: searchQuery.value}
+        // }))
+        window.location.href = `/search?q=${searchQuery.value}`
+    }
 }
 </script>
 
@@ -35,7 +42,8 @@ const search = (e) => {
         </div>
         <div class="header-items flex items-center">
             <button class="md:hidden" @click="toggleNav">
-                <Bars3CenterLeftIcon class="h-8" />
+                <XMarkIcon class="h-8 text-red-400" v-if="navShow" />
+                <Bars3CenterLeftIcon class="h-8 " v-else />
             </button>
             <transition name="expand">
                 <ul class="header-items--nav flex flex-col justify-start md:flex-row md:gap-3 w-screen absolute md:relative md:w-auto md:shadow-none left-0 bg-white rounded-b-xl shadow-lg top-12 md:top-0" v-show="navShow">
@@ -44,12 +52,14 @@ const search = (e) => {
                             Home
                         </a>
                     </li>
-                    <li><a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">About</a></li>
+                    <li>
+                        <Link href="/about" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">Profil</Link>
+                    </li>
                     <li><a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">Students</a></li>
                     <li>
                         <form @submit.prevent="search">
                             <label for="search" class="flex items-center px-2 mb-4 md:mb-0 h-full">
-                                <input type="text" id="search" placeholder="Cari" class="rounded-xl w-full">
+                                <input type="text" id="search" placeholder="Cari" class="rounded-xl w-full" v-model="searchQuery">
                                 <MagnifyingGlassIcon class="h-6 absolute right-4 text-teal-800" />
                             </label>
                         </form>
