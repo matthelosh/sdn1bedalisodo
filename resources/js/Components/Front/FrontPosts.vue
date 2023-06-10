@@ -1,6 +1,6 @@
 <script setup>
 import { ref, defineAsyncComponent, computed } from 'vue'
-import { usePage } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiNewspaper } from '@mdi/js';
 
