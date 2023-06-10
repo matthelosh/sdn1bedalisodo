@@ -44,7 +44,7 @@ const search = (e) => {
                             Home
                         </a>
                     </li>
-                    <li><a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">About</a></li>
+                    <li><Link :href="route('about')" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">About</Link></li>
                     <li><a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">Students</a></li>
                     <li>
                         <form @submit.prevent="search">
