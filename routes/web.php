@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 /*
@@ -41,6 +42,23 @@ Route::prefix("")->group(function() {
 
     Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
 });
+
+Route::prefix('post')->group(function() {
+    Route::post('/upload-image', function(Request $request) {
+        return response()->json([
+            'url' => '/img/pramuka.png',
+        ]);
+    });
+});
+
+Route::post('/list-image', function(Request $request) {
+    $directory = 'images';
+    $files = Storage::allFiles('public/images');
+    return response()->json([
+        'status' => 'ok',
+        'images' => $files
+    ], 200);
+})->name('images.list');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
