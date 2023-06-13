@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { isClient } from '@vueuse/shared'
-import { useDraggable } from '@vueuse/core'
+import { useDraggable, useClipboard } from '@vueuse/core'
 import { UseDraggable as Draggable } from './component'
 import  SvgIcon from '@jamescoyle/vue-icon';
 import { mdiClose, mdiRefresh } from '@mdi/js';
 import axios from 'axios';
 
 const loading = ref(false)
+
+const source = ref('')
+const { text, copy, copied, isSupported } = useClipboard({ source })
 
 const el = ref<HTMLElement | null>(null)
 const handle = ref<HTMLElement | null>(null)
@@ -30,7 +33,7 @@ const listImages = async () => {
                 })
 } 
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'insertImg'])
 const closeMe = () => {
     emit('close')
 }
@@ -50,6 +53,11 @@ const onFilePicked = (e) => {
   pickedImages.value = urls
   picked.value = e.target.files
   console.log(urls)
+}
+
+const salin = (e) => {
+  
+  emit('insertImg', e.target.src)
 }
 
 onMounted(() => {
@@ -82,7 +90,7 @@ onMounted(() => {
                   <SvgIcon type="mdi" :path="mdiRefresh" size="64" class=" text-gray-600 animate-spin" />
               </div>
               <div class="w-full grid grid-cols-4 gap-1" v-else>
-                <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full h-20 object-cover cursor-grab" />
+                <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full object-cover cursor-pointer" @click="salin"/>
               </div>
             </div>
         </div>

@@ -40,7 +40,7 @@ const showFileManager = ref(false)
 const customButtons = [
     {
         name: 'uploadImage',
-        iconURL: '/icons/img-upload.png',
+        iconURL: '/icons/fm.png',
         
         exec: function (editor) {
             showFileManager.value = true
@@ -61,6 +61,13 @@ const onFeaturedImgPicked = (e) => {
 const close = () => {  
     emit('close')
 }
+
+const insertImg =(src) => {
+    jodit.value.editor.selection.insertHTML(`<img src="${src}" class="w-[100px]" />`)
+    // console.log(jodit.value)
+}
+
+const jodit = ref(null)
 
 </script>
 
@@ -91,7 +98,7 @@ const close = () => {
             
         </div>
         <div class="w-full gap-2 content-box" :class="postSettings ? 'flex' : ''">
-            <JoditEditor v-model="post.content" :extra-buttons="customButtons" />
+            <JoditEditor v-model="post.content" :extra-buttons="customButtons" ref="jodit" />
             <div class="w-1/4 bg-sky-100" v-if="postSettings">
                 <input type="file" ref="featuredImg" class="hidden" @change="onFeaturedImgPicked">
                 <img :src="post.featured_image" alt="" class="w-full" @click="$refs.featuredImg.click()">
@@ -99,5 +106,5 @@ const close = () => {
             </div>
         </div>
     </div>
-    <FileManager v-if="showFileManager" @close="showFileManager = false" class="border-sky-600 border-2" />
+    <FileManager v-if="showFileManager" @close="showFileManager = false" @insertImg="insertImg" class="border-sky-600 border-2 z-50" />
 </template>
