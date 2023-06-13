@@ -34,6 +34,24 @@ const emit = defineEmits(['close'])
 const closeMe = () => {
     emit('close')
 }
+
+const picked = ref(null)
+const pickedImages = ref([])
+
+const onFilePicked = (e) => {
+  let images = e.target.files
+  let urls = []
+  for(let i =0; i < images.length; i++) {
+    urls.push(
+      URL.createObjectURL(images.item(i))
+    )
+    // console.log(URL.createObjectURL(images.item(i)))
+  }
+  pickedImages.value = urls
+  picked.value = e.target.files
+  console.log(urls)
+}
+
 onMounted(() => {
     listImages()
 })
@@ -44,9 +62,9 @@ onMounted(() => {
     <Draggable
       v-slot="{ x, y }"
       p="x-4 y-2"
-      border="~ gray-400/30 rounded"
       shadow="~ hover:lg"
-      class="fixed bg-white z-40 rounded-xl shadow-xl w-[400px] overflow-hidden"
+      class="fixed bg-white z-40 rounded-xl shadow-xl  overflow-hidden"
+      :class="pickedImages.length > 0 ? 'w-auto' : 'w-[400px]'"
       :initial-value="{ x: innerWidth / 3.6, y: 240 }"
       :handle="handle"
     >
@@ -56,15 +74,25 @@ onMounted(() => {
             <SvgIcon type="mdi" :path="mdiClose" class="text-red-400" />
         </button>
       </div>
-      <div class="text-sm bg-gray-100 p-4">
+      <div class="text-sm bg-gray-100 p-4 flex">
+        <div>
             <h1>Data Gambar</h1>
-            <div class="w-full h-full flex items-center justify-center" v-if="loading">
-                <SvgIcon type="mdi" :path="mdiRefresh" size="64" class=" text-gray-600 animate-spin" />
-           </div>
-           <div class="w-full grid grid-cols-4 gap-1" v-else>
-            <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full h-20 object-cover cursor-grab" />
-           </div>
-           
+            <div>
+                <div class="w-full h-full flex items-center justify-center" v-if="loading">
+                  <SvgIcon type="mdi" :path="mdiRefresh" size="64" class=" text-gray-600 animate-spin" />
+              </div>
+              <div class="w-full grid grid-cols-4 gap-1" v-else>
+                <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full h-20 object-cover cursor-grab" />
+              </div>
+            </div>
+        </div>
+        <div v-if="picked" class="flex gap-2 p-4">
+          <img v-for="(gambar,g) in pickedImages" :key="g" :src="gambar" class="w-[100px] aspect-square object-cover" />
+        </div>
+      </div>
+      <div class="w-full bg-white flex p-2 items-center justify-between">
+        <input type="file" id="images" name="images" multiple accept=".jpg,.png,.jpeg" @change="onFilePicked" />
+        <button class="text-sky-600">Upload</button>
       </div>
     </Draggable>
   </div>

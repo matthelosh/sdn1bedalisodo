@@ -54,12 +54,11 @@ Route::prefix('dashboard')->group(function() {
         return Inertia::render('Auth/Dashboard');
     })->name('dashboard')->middleware('is_auth');
     Route::prefix("post")->group(function() {
-        Route::get('/', function() {
-            return Inertia::render('Auth/Post');
-        })->name('dashboard.post');
-        Route::get('/write', function() {
-            return Inertia::render('Auth/Post');
-        })->name('post.write');
+        Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
+        // Route::get('/write', [PostController::class, 'write'])->name('post.write');
+    });
+    Route::prefix('category')->group(function() {
+        Route::post('/', [CategoryController::class, 'index'])->name('category.index');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {

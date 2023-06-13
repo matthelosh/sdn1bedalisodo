@@ -1,5 +1,5 @@
 <script setup>
-import { router, Head, usePage } from '@inertiajs/vue3';
+import { router, Head, usePage, useForm } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiEye, mdiRefresh } from '@mdi/js';
@@ -7,7 +7,11 @@ import { mdiEye, mdiRefresh } from '@mdi/js';
 const page = usePage()
 const loading = ref(false)
 const showPassword = ref(false)
-const user = ref({})
+const user = useForm({
+    name: null,
+    password: null,
+    remember: false
+})
 
 const errorText = computed(() => {
     if (Object.keys(page.props.errors).length > 0 ) {
@@ -18,7 +22,7 @@ const errorText = computed(() => {
 })
 const login = async() => {
     loading.value = true
-    router.post(route('login'), user.value)
+    user.post(route('login'), user.value)
 }
 </script>
 
@@ -31,12 +35,12 @@ const login = async() => {
             <form ref="loginForm" @submit.prevent="login" class="text-white text-shadow">
                 <div class="row flex items-center justify-between gap-1 mb-2">
                     <label for="name">Username</label>
-                    <input id="name" type="text" placeholder="Username" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="loading" v-model="user.name">
+                    <input id="name" type="text" placeholder="Username" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="user.processing" v-model="user.name">
                 </div>
                 <div class="row flex items-center justify-between gap-1 mb-2">
                     <label for="password">Password</label>
                     <div class="input-group relative">
-                        <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="loading" v-model="user.password">
+                        <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="user.processing" v-model="user.password">
                         <button class="absolute z-20 right-2 py-1" @click="showPassword = !showPassword">
                             <SvgIcon type="mdi" :path="mdiEye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600" size="32" />
                         </button>
@@ -45,11 +49,11 @@ const login = async() => {
                 <div class="row flex items-center justify-center gap-1 mt-8 mb-2">
                     <button type="submit" class="bg-lime-600 hover:bg-lime-600 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
                         Login
-                        <SvgIcon type="mdi" :path="mdiRefresh" class="animate-spin" v-if="loading" />
+                        <SvgIcon type="mdi" :path="mdiRefresh" class="animate-spin" v-if="user.processing" />
                     </button>
                 </div>
             </form>
-            <div v-if="page.props.errors" class="text-red-400">{{ errorText }}</div>
+            <div v-if="page.props.errors && !user.processing" class="text-red-400">{{ errorText }}</div>
         </div>
     </div>
 </template>
