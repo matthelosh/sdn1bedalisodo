@@ -19,6 +19,8 @@ use Inertia\Inertia;
 |
 */
 
+
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),
@@ -28,20 +30,7 @@ use Inertia\Inertia;
 //     ]);
 // });
 
-Route::prefix("")->group(function() {
-    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
-    Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
-    Route::get('/about', [FrontPageController::class, 'index'])->name('About');
 
-    Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
-    Route::prefix("post")->group(function() {
-        Route::post('/upload-image', function(Request $request) {
-            dd($request->all());
-        })->name('post.upload.image');
-    });
-
-    Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
-});
 
 Route::prefix('post')->group(function() {
     Route::post('/upload-image', function(Request $request) {
@@ -60,9 +49,43 @@ Route::post('/list-image', function(Request $request) {
     ], 200);
 })->name('images.list');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('dashboard')->group(function() {
+    Route::get('/', function() {
+        return Inertia::render('Auth/Dashboard');
+    })->name('dashboard')->middleware('is_auth');
+    Route::prefix("post")->group(function() {
+        Route::get('/', function() {
+            return Inertia::render('Auth/Post');
+        })->name('dashboard.post');
+        Route::get('/write', function() {
+            return Inertia::render('Auth/Post');
+        })->name('post.write');
+    });
+    Route::prefix('profile')->group(function() {
+        Route::get('/', function() {
+            return 'Profil';
+        })->name('profile');
+    });
+})->middleware('is_auth');
 
+
+Route::get('/login', function() {
+    return Inertia::render('Auth/Login');
+})->name('login');
 
 require __DIR__.'/auth.php';
+
+Route::prefix("/")->group(function() {
+    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
+    Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
+    Route::get('/about', [FrontPageController::class, 'index'])->name('About');
+
+    Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
+    Route::prefix("post")->group(function() {
+        Route::post('/upload-image', function(Request $request) {
+            dd($request->all());
+        })->name('post.upload.image');
+    });
+
+    Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
+});

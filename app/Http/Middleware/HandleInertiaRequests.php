@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Menu;
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -41,11 +42,19 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'sekolah' => $this->sekolah(),
+            'menus' => $request->user() ? $this->menus($request->user()) : null
         ]);
     }
 
     protected function sekolah() {
         $sekolah = Sekolah::first();
         return $sekolah ?? null;
+    }
+
+    protected function menus($user) {
+        $all = Menu::whereDoesntHave('parent')->where('roles', 'all')->with('children')->get();
+        $roled = Menu::whereDoesntHave('parent')->where('roles', 'LIKE', '%'.$user->level.'%')->with('children')->get();
+        $menus = $all->merge($roled);
+        return $menus;
     }
 }
