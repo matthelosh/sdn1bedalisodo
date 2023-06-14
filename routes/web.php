@@ -55,6 +55,7 @@ Route::prefix('dashboard')->group(function() {
     })->name('dashboard')->middleware('is_auth');
     Route::prefix("post")->group(function() {
         Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
+        Route::post('/store', [PostController::class, 'store'])->name('post.store');
         // Route::get('/write', [PostController::class, 'write'])->name('post.write');
     });
     Route::prefix('category')->group(function() {

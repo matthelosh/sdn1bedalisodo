@@ -47,7 +47,7 @@ const login = async() => {
                     </div>
                 </div>
                 <div class="row flex items-center justify-center gap-1 mt-8 mb-2">
-                    <button type="submit" class="bg-lime-600 hover:bg-lime-600 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
+                    <button type="submit" @click="login" class="bg-lime-600 hover:bg-lime-600 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
                         Login
                         <SvgIcon type="mdi" :path="mdiRefresh" class="animate-spin" v-if="user.processing" />
                     </button>

@@ -12,7 +12,7 @@ const page = usePage();
 
 const current = ref(0)
 const search = ref(null)
-const mode = ref('write')
+const mode = ref('list')
 
 const posts = computed(() => {
     let items = []
@@ -37,6 +37,11 @@ const next = (e) => {
         current.value +=1
     }
         
+}
+const selectedPost = ref(null)
+const edit = async(post) => {
+    selectedPost.value = post
+    mode.value = 'write'
 }
 </script>
 
@@ -81,7 +86,9 @@ const next = (e) => {
                             class="even:bg-sky-100 hover:bg-sky-50"
                         >
                             <td class="py-1 px-2 text-center">{{  (p+1) + (10 * current)}}</td>
-                            <td class="py-1 px-2">{{ post.title }}</td>
+                            <td class="py-1 px-2">
+                                <span class="text-sky-600 cursor-pointer hover:underline" @click="edit(post)">{{ post.title }}</span>
+                            </td>
                             <td class="py-1 px-2">{{ post.author_id }}</td>
                             <td class="py-1 px-2">{{ post.created_at }}</td>
                             <td class="py-1 px-2">{{ post.status }}</td>
@@ -99,7 +106,7 @@ const next = (e) => {
                 </div>
             </div>
             <div v-else-if="mode == 'write'">
-                <WritePost  :key="'tr2'" @close="mode = 'list'" />
+                <WritePost  :key="'tr2'" @close="mode = 'list'" :selectedPost="selectedPost" />
             </div>
             </transition>
         </div>

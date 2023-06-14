@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -35,7 +36,34 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = json_decode($request->post);
+        try {
+            $slug = strtolower(str_replace(" ", "-",$post->title));
+            if($request->file('featured_image')) {
+                $store = Storage::putFileAs('public/images', $request->file("featured_image"), uniqid("img").".jpg");
+                $featured_image = Storage::url($store);
+            } else {
+                $featured_image = $post->featured_image ?? '0';
+            }
+            $post = Post::updateOrCreate(
+                [
+                    'id' => $post->id ?? null
+                ],
+                [
+                    'author_id' => $request->user()->name,
+                    'category_id' => $post->category_id,
+                    'slug' => $slug,
+                    'title' => $post->title,
+                    'featured_image' => $featured_image,
+                    'content' => $post->content,
+                    'status' => 'published',
+                    'starred' => true
+                ]
+                );
+            return redirect(route('dashboard.post'));
+        } catch(\Exception $e) {
+
+        }
     }
 
     /**
