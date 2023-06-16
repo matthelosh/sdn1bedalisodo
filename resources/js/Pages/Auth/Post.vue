@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue';
 
 import { paginate } from '@/Plugins/misc';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { formatDate } from '@vueuse/shared';
 
 const WritePost = defineAsyncComponent(() => import('@/Components/Dashboard/Post/WritePost.vue'))
 
@@ -43,6 +44,16 @@ const edit = async(post) => {
     selectedPost.value = post
     mode.value = 'write'
 }
+
+const close = () => {
+    selectedPost.value = null
+    mode.value = 'list'
+}
+
+const tanggal = (tanggal) => {
+    let date = new Date(tanggal)
+    return date.getDate()+'-'+date.getMonth()+'-'+date.getFullYear()+' : '+ date.getHours()+'.'+date.getMinutes()+'.'+date.getSeconds()
+}
 </script>
 
 <template>
@@ -73,6 +84,7 @@ const edit = async(post) => {
                         <tr class="bg-sky-200">
                             <th class="py-1 px-2">No</th>
                             <th class="py-1 px-2">Judul</th>
+                            <th class="py-1 px-2">Kategori</th>
                             <th class="py-1 px-2">Penulis</th>
                             <th class="py-1 px-2">Tanggal</th>
                             <th class="py-1 px-2">Status</th>
@@ -89,8 +101,9 @@ const edit = async(post) => {
                             <td class="py-1 px-2">
                                 <span class="text-sky-600 cursor-pointer hover:underline" @click="edit(post)">{{ post.title }}</span>
                             </td>
-                            <td class="py-1 px-2">{{ post.author_id }}</td>
-                            <td class="py-1 px-2">{{ post.created_at }}</td>
+                            <td class="py-1 px-2">{{ post.category.label }}</td>
+                            <td class="py-1 px-2">{{ post.author.userable.nama }}</td>
+                            <td class="py-1 px-2">{{ tanggal(post.created_at) }}</td>
                             <td class="py-1 px-2">{{ post.status }}</td>
                             <td class="py-1 px-2">Opsi</td>
                         </tr>
@@ -106,7 +119,7 @@ const edit = async(post) => {
                 </div>
             </div>
             <div v-else-if="mode == 'write'">
-                <WritePost  :key="'tr2'" @close="mode = 'list'" :selectedPost="selectedPost" />
+                <WritePost  :key="'tr2'" @close="close" :selectedPost="selectedPost" />
             </div>
             </transition>
         </div>

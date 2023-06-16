@@ -15,6 +15,7 @@ const description = computed(() => {
 
 const post = computed(() => page.props.post)
 
+
 </script>
 
 <template>

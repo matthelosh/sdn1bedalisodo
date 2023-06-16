@@ -16,7 +16,7 @@ class PostController extends Controller
     {
         if (auth()->check()) {
             return Inertia::render('Auth/Post', [
-                'posts' => Post::orderBy('created_at', 'DESC')->get(),
+                'posts' => Post::orderBy('updated_at', 'DESC')->with('category', 'author.userable')->get(),
             ], 200);
         } else {
 
@@ -47,10 +47,11 @@ class PostController extends Controller
             }
             $post = Post::updateOrCreate(
                 [
-                    'id' => $post->id ?? null
+                    'id' => $post->id ?? null,
+                    'author_id' => $post->author_id ?? $request->user()->name,
                 ],
                 [
-                    'author_id' => $request->user()->name,
+                    
                     'category_id' => $post->category_id,
                     'slug' => $slug,
                     'title' => $post->title,

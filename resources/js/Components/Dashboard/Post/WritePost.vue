@@ -72,9 +72,11 @@ const close = () => {
     emit('close')
 }
 
-const insertImg =(src) => {
-    jodit.value.editor.selection.insertHTML(`<img src="${src}" class="w-[100px]" />`)
-    // console.log(jodit.value)
+const insertImg =(img) => {
+    // let images = ''
+    // srcs.forEach(url => images += `<img src="${url}" width="200" />`)
+    // let div = `<div class="w-full flex flex-wrap gap-2">${images}</div>`
+    jodit.value.editor.selection.insertHTML(img)
 }
 
 const jodit = ref(null)
@@ -93,24 +95,20 @@ const simpan = async() => {
 <template>
     <div class="w-full bg-white rounded p-3" >
         <div class="w-full flex justify-between items-center">
-            <Icon icon="mdi:typewriter" class="hidden md:block" />
-            <div class="toolbar-items flex items-center justify-end gap-1 w-full">
+            <div class="toolbar-items flex items-center gap-1 w-full">
                 <select class="focus:ring-0 rounded" v-model="post.category_id" >
                 <option v-for="(category, c) in categories" :key="c" :value="category.kode">{{ category.label }}</option>
                 </select>
-                <button class="p-2 bg-sky-400 text-white rounded" @click="simpan">
+                <button class="p-2 bg-sky-400 text-white rounded hover:bg-sky-600 active:bg-orange-400" @click="simpan">
                     Simpan
                 </button>
-                <button class="bg-sky-600 text-white rounde py-2 px-4 rounded">
-                    Rilis
-                </button>
-                <button @click="setting">
-                    <Icon icon="mdi:cog-box" class="text-sky-800 text-4xl" />
-                </button>
-                <button @click="close">
-                    <Icon icon="mdi:close-circle" class="text-red-400 text-2xl" />
+                <button @click="setting" class="rounded-full p-1 bg-sky-600">
+                    <Icon icon="mdi:cog-box" class="text-white text-2xl" />
                 </button>
             </div>
+            <button @click="close">
+                <Icon icon="mdi:close-circle" class="text-red-400 text-2xl" />
+            </button>
         </div>
         <div class="w-full py-4 flex justify-between items-center gap-2">
             <textarea rows="1" v-model="post.title" placeholder="Tulis Judul" class="border-none focus:ring-0 font-bold text-lg text-sky-800 w-full" />

@@ -13,23 +13,30 @@ onMounted(() => {
 
 const navShow = ref(false)
 const toggleNav = () => {
-    // document.querySelector('.header-items--nav').classList.toggle('hidden')
     navShow.value = !navShow.value
 }
 
 const searchQuery = ref(null)
 const search = (e) => {
     if(searchQuery.value) {
-        // axios.get(route('search', {
-        //     _query: {q: searchQuery.value}
-        // }))
         window.location.href = `/search?q=${searchQuery.value}`
     }
 }
+
+const items = ref([
+    {
+        label: 'Beranda',
+        url: 'Welcome'
+    },
+    {
+        label: 'Profil',
+        url: 'About'
+    }
+])
 </script>
 
 <template>
-    <nav class="w-full h-14 md:h-16  rounded-b-2xl md:rounded-none shadow-lg bg-white text-dark flex items-center justify-between p-3 md:p-8 fixed md:sticky top-0 z-40">
+    <nav class="w-full h-14 md:h-16  rounded-b-2xl md:rounded-none shadow bg-white text-dark flex items-center justify-between p-3 md:p-8 fixed md:sticky top-0 z-40">
         <div class="header-logo ">
             <Link href="/" class="flex items-center gap-2">
             <img src="/img/logo.png" alt="Logo" class="w-8 mx-auto drop-shadow" />
@@ -46,16 +53,10 @@ const search = (e) => {
                 <Bars3CenterLeftIcon class="h-8 " v-else />
             </button>
             <transition name="expand">
-                <ul class="header-items--nav flex flex-col justify-start md:flex-row md:gap-3 w-screen absolute md:relative md:w-auto md:shadow-none left-0 bg-white rounded-b-xl shadow-lg top-12 md:top-0" v-show="navShow">
-                    <li>
-                        <a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">
-                            Home
-                        </a>
+                <ul class="header-items--nav flex items-center flex-col justify-start md:flex-row md:gap-3 w-screen absolute md:relative md:w-auto md:shadow-none left-0 bg-white rounded-b-xl shadow-lg top-12 md:top-0" v-show="navShow">
+                    <li v-for="(item, it) in items" :key="it">
+                        <Link :href="route(item.url)" class="block text-sky-800 tracking-wide p-3 hover:border-b-4 hover:bg-sky-50 hover:border-sky-800 box-border " :class="route().current() == item.url ? 'border-b-4 border-sky-800 bg-sky-50': ''">{{ item.label }}</Link>
                     </li>
-                    <li>
-                        <Link href="/about" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">Profil</Link>
-                    </li>
-                    <li><a href="#" class="block tracking-wide transition-all p-3 text-secondary hover:font-semibold">Students</a></li>
                     <li>
                         <form @submit.prevent="search">
                             <label for="search" class="flex items-center px-2 mb-4 md:mb-0 h-full">

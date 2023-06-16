@@ -18,7 +18,7 @@ class FrontPageController extends Controller
             'beritas' => Post::where('category_id','brt')->with('author')->take(5)->get(),
             'prestasis' => Prestasi::latest()->take(5)->get(),
             'starredPosts' => Post::where('starred','1')->with('category')->latest()->take(5)->get(),
-            'posts' => Post::orderBy('created_at', 'DESC')->with('category')->limit(6)->get(),
+            'posts' => Post::orderBy('updated_at', 'DESC')->with('category')->limit(6)->get(),
         ];
         return $this->view(Route::currentRouteName(), $datas);
     }

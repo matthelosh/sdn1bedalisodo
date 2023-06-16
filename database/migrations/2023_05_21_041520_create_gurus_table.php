@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tempat_lahir', 35);
             $table->date('tanggal_lahir');
             $table->string('alamat',191)->default('Malang');
+            $table->string('hp',15)->default('62000000');
             $table->string('foto', 191)->nullable();
             $table->enum('role', ['admin','ks','gpai','gor','geks','gkel'])->default('gkel');
             $table->string('facebook', 60)->nullable();

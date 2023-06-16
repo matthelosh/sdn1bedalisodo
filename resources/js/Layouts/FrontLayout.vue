@@ -51,7 +51,7 @@ const nextTrending = () => {
 
 <template>
 <div class="wrapper  text-dark w-full min-h-screen bg-gray-100">
-    <header class="w-full md:block after:to-sky-100 after:from-[#78976711] overflow-hidden relative bg-[url('/img/bg-header.svg')] bg-no-repeat bg-cover bg-center after:content='' after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:bg-gradient-to-br after:backdrop-blur after:bg-opacity-20">
+    <header class="w-full md:block after:to-[#aaaaff99] after:from-[#78976744] overflow-hidden relative bg-[url('/img/muharram-2022.jpg')] bg-no-repeat bg-cover bg-center after:content='' after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:bg-gradient-to-br after:backdrop-blur-sm after:bg-opacity-20">
         <div class="content h-[90vh]  pt-40 relative px-8 md:px-16 z-10">
             <transition name="fade">
                 <span v-if="pramuka">
