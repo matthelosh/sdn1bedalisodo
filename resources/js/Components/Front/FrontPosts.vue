@@ -25,7 +25,7 @@ const stripHTML = (html) => {
         </div>
         <div class="p-3 columns-1 md:columns-3 gap-3">
             <Link as="article" v-for="(post,p) in page.props.posts" :key="p" :href="`/${post.category.label.toLowerCase()}/${post.slug}`" class="bg-white shadow hover:shadow-xl rounded-xl break-inside-avoid mb-4 hover:cursor-pointer overflow-hidden" :class="p==0? 'md:row-span-2' : ''">
-                <img :src="post.featured_image ? post.featured_image:'/img/no-image.jpg'" alt="Feature Image" class="w-full h-64 object-cover rounded-t-xl bg-sky-300 hover:scale-110 transition-all duration-300 saturate-50 hover:saturate-100" >
+                <img :src="post.featured_image ? post.featured_image:'/img/no-image.jpg'" alt="Feature Image" class="w-full h-36 object-cover rounded-t-xl bg-sky-300 hover:scale-110 transition-all duration-300 saturate-50 hover:saturate-100" >
                 <div class="content p-3">
                     <Link :href="`/${post.category.label.toLowerCase()}/${post.slug}`">
                         <h1 class="text-xl font-bold text-gray-800 mb-2">{{ post.title }}</h1>

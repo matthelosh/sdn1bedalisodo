@@ -1,5 +1,5 @@
 <script setup>
-import { router, Head, usePage, useForm } from '@inertiajs/vue3';
+import { Head, usePage, useForm } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiEye, mdiRefresh } from '@mdi/js';

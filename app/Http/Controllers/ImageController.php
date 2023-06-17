@@ -10,13 +10,14 @@ class ImageController extends Controller
     
     function store(Request $request) {
         $images = $request->file("images");
-        $path = 'public/images';
+        $path = $request->query('disk') == 'local' ? 'public/images' : 'images';
         $urls = [];
         foreach($images as $image) {
             $name = $image->getClientOriginalName();
             $ext = $image->extension();
-            $store = Storage::putFileAs($path, $image, $name);
-            array_push($urls, Storage::url($store));
+            $store = $request->query('disk') == 'local' ? Storage::putFileAs($path, $image, $name) : Storage::disk('s3')->put($path, $image, $name);
+            $url = $request->query('disk') == 'local' ? Storage::url($store) : Storage::disk('s3')->url($store);
+            array_push($urls, $url);
         }
         return response()->json([
             'status' => 'ok',

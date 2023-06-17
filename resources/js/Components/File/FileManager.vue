@@ -93,7 +93,9 @@ const upload = async() => {
     fd.append("images[]", picked.value[i])
   }
   
-  await axios.post(route('image.upload'), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
+  await axios.post(route('image.upload', {
+    _query: { disk: disk.value}
+  }), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
             .then(res => {
               picked.value = null
               pickedImages.value = []

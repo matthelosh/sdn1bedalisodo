@@ -1,8 +1,10 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import SvgIcon from '@jamescoyle/vue-icon';
 import {mdiEmail, mdiHeart, mdiLaravel, mdiVuejs, mdiTailwind} from '@mdi/js';
 import {ChevronDoubleRightIcon} from '@heroicons/vue/24/outline';
+
+const page = usePage()
 </script>
 <template>
     <footer class="w-full min-h-[200px] bg-primary">
@@ -10,11 +12,15 @@ import {ChevronDoubleRightIcon} from '@heroicons/vue/24/outline';
             <div class="footer-identitas p-3 flex flex-col justify-center items-center md:flex-row gap-3 text-sm">
                 <img src="/img/logo.png" alt="Logo" class="h-20 drop-shadow" />
                 <div class="footer-identitas--alamat">
-                    <h1 class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-lg font-thin text-yellow-400">SD Negeri 1 Bedalisodo</h1>
-                    <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent">Jl. Raya Sengon No. 293, Dalisodo</p>
-                    <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent">Kec. Wagir, Kode Pos 65158</p>
+                    <h1 class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-lg font-thin text-yellow-400">{{ page.props.sekolah.nama }}</h1>
+                    <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent">NSS: {{page.props.sekolah.nss}}, NPSN:{{ page.props.sekolah.npsn }}</p>
+                    <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent">{{page.props.sekolah.alamat}}, {{ page.props.sekolah.desa }}</p>
+                    <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent">Kec. {{ page.props.sekolah.kecamatan }}, Kode Pos {{ page.props.sekolah.kode_pos }}</p>
                     <p  class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-accent flex items-center underline underline-offset-3 gap-1">
-                        <SvgIcon type="mdi" :path="mdiEmail" /> <a href="mailto:admin@sdn1-bedalisodo.sch.id">admin@sdn1-bedalisodo.sch.id</a>
+                        <SvgIcon type="mdi" :path="mdiEmail" /> <a :href="`mailto:${page.props.sekolah.email}`">{{ page.props.sekolah.email }}</a>
+                    </p>
+                    <p>
+                        <Link :href="route('login')" class="tetx-lime-400">Login</Link>
                     </p>
                 </div>
             </div>
@@ -51,7 +57,7 @@ import {ChevronDoubleRightIcon} from '@heroicons/vue/24/outline';
         </div>
         <div class="w-full h-12 flex flex-col md:flex-row justify-center md:justify-between items-center px-4 text-xs text-gray-100 bg-sky-800 bg-opacity-20">
             <div>
-                Copyright &copy; {{ new Date().getFullYear() }} <span class="text-yellow-400">SD Negeri 1 Bedalisodo</span>
+                Copyright &copy; {{ new Date().getFullYear() }} <span class="text-yellow-400">{{page.props.sekolah.nama}}</span>
             </div>
             <div class="flex items-center">
                 <p>
