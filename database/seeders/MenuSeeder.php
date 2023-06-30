@@ -30,6 +30,14 @@ class MenuSeeder extends Seeder
                 'status' => 1,
                 'parent_id' => '0'
             ],
+            [
+                'label' => 'Pengaturan',
+                'url' => 'dashboard.settings',
+                'icon' => 'cogs',
+                'roles' => 'admin',
+                'status' => 1,
+                'parent_id' => '0'
+            ],
         ];
         
         foreach($menus as $menu) {

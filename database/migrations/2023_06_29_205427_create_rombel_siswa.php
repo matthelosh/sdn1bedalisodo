@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configs', function (Blueprint $table) {
+        Schema::create('rombel_siswa', function (Blueprint $table) {
             $table->id();
-            $table->string('version', 30)->default('1');
-            $table->enum('status', ['preconfigured','configured'])->default('preconfigured');
-            $table->string('layout', 60)->default('Default');
+            $table->integer("rombel_id");
+            $table->integer("siswa_id");
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configs');
+        Schema::dropIfExists('rombel_siswa');
     }
 };

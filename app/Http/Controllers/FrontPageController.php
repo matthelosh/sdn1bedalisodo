@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Post;
 use Inertia\Inertia;
+use App\Models\Category;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +20,7 @@ class FrontPageController extends Controller
             'beritas' => Post::where('category_id','brt')->with('author')->take(5)->get(),
             'prestasis' => Prestasi::latest()->take(5)->get(),
             'starredPosts' => Post::where('starred','1')->with('category')->latest()->take(5)->get(),
+            'gurus' => Guru::whereNot('nama','Administrator')->get(),
             'posts' => Post::orderBy('updated_at', 'DESC')->with('category')->limit(6)->get(),
         ];
         return $this->view(Route::currentRouteName(), $datas);
@@ -39,11 +42,20 @@ class FrontPageController extends Controller
 
     public function readPost(Request $request, $kategori, $slug)
     {
-        $datas = [
-            'post' => $post = Post::where('slug', $slug)->with('category')->first(),
-            'posts' => Post::where('category_id', $post->category_id)->with('category')->orderBy('created_at','DESC')->limit(6)->get()
-        ];
-        return $this->view(Route::currentRouteName(), $datas);
+        $keys = [];
+        $categories = Category::select('label')->get();
+        foreach ($categories as $category) {
+            array_push($keys, strtolower($category->label));
+        }
+        if(in_array($kategori,$keys)) {
+            $datas = [
+                'post' => $post = Post::where('slug', $slug)->with('category')->first(),
+                'posts' => Post::where('category_id', $post->category_id)->with('category')->orderBy('created_at','DESC')->limit(6)->get()
+            ];
+            return $this->view(Route::currentRouteName(), $datas);
+        } else {
+            abort(404);
+        }
     }
 
     public function view($routeName, $datas)

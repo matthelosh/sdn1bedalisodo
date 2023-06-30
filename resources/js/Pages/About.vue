@@ -1,16 +1,23 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
-import Navbar from '@/Layouts/Front/Navbar.vue';
-import Footer from '@/Layouts/Front/Footer.vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { defineAsyncComponent } from 'vue';
+
+const page = usePage();
+// import Navbar from `@/Layouts/Front/${page.props.layout}/Navbar.vue`;
+// import Footer from `@/Layouts/Front/${page.props.layout}/Footer.vue`;
+const Navbar = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Navbar.vue`))
+const Footer = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Footer.vue`))
+
 </script>
 
 <template>
 <Head>
     <title>Tentang SD Negeri 1 Bedalisodo</title>
 </Head>
-<Navbar />
-<div class="wrapper w-full pt-12 md:p-8 bg-pink-100">
-    <div class="content w-full md:w-3/4 mx-auto bg-sky-50 bg-opacity-95 backdrop-blur md:rounded-xl shadow p-4">
+
+<div class="wrapper w-full pt-12 md:pt-0 pb-8 bg-pink-100">
+    <Navbar />
+    <div class="content w-full md:w-3/4 mx-auto bg-sky-50 bg-opacity-95 backdrop-blur md:rounded-xl shadow p-4 my-8">
         <h1 class="text-2xl font-bold text-gray-800 tracking-wider my-4">Tentang SD Negeri 1 Bedalisodo</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore laborum, molestiae, nisi in saepe mollitia, neque reprehenderit autem ipsa sed rerum animi. Accusamus et ipsa molestiae, facere voluptate dolores dicta. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi cum expedita molestias voluptatibus nihil quaerat enim hic ducimus natus ratione quasi pariatur, voluptas sed! Et ea excepturi aut soluta eaque! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus nihil harum autem, tempora magnam repellendus, alias, voluptates natus at voluptatibus architecto non ducimus! Unde iure architecto quisquam modi fuga deleniti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem fugiat inventore quae dicta autem facere ipsa enim recusandae perspiciatis doloremque beatae iure nisi laudantium praesentium, non commodi similique unde placeat! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, maiores deleniti! A, aut, obcaecati corporis odio tempora ipsum vitae reprehenderit temporibus atque magni pariatur enim provident maiores alias fugiat! Possimus.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, nisi laudantium laborum atque aliquam, magnam iusto aperiam distinctio est velit accusamus! Repudiandae deleniti inventore sed earum delectus provident quasi enim. Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita officiis molestias ut voluptates! Itaque quos asperiores, ipsam odio voluptates earum nemo vitae cumque molestias iure repellendus voluptatibus, modi, cupiditate magni. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi, at accusantium explicabo cumque impedit earum dolor sint velit, magni ipsum et quibusdam? Perferendis doloremque molestiae totam aperiam aut, repellendus quam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti dignissimos accusamus eos perspiciatis dicta inventore saepe atque quibusdam totam explicabo at assumenda voluptates, eum, deserunt, dolore reprehenderit magnam consectetur corporis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores odit voluptate nostrum cupiditate quisquam, cum harum provident doloremque eveniet ratione inventore sit quidem minima sapiente, deleniti accusantium obcaecati. Neque, aliquid.</p>

@@ -41,15 +41,6 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix("post")->group(function() {
         Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
         Route::post('/store', [PostController::class, 'store'])->name('post.store');
-        // Route::get('/write', [PostController::class, 'write'])->name('post.write');
-        // Route::post('/list-image', function(Request $request) {
-        //     $directory = 'images';
-        //     $files = Storage::allFiles('public/images');
-        //     return response()->json([
-        //         'status' => 'ok',
-        //         'images' => $files
-        //     ], 200);
-        // })->name('images.list');
     });
     Route::prefix('images')->group(function() {
         Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
@@ -57,6 +48,22 @@ Route::prefix('dashboard')->group(function() {
     });
     Route::prefix('category')->group(function() {
         Route::post('/', [CategoryController::class, 'index'])->name('category.index');
+    });
+
+    Route::prefix("guru")->group(function() {
+        Route::get("/", [GuruController::class, 'page'])->name('dashboard.guru.page');
+    });
+    Route::prefix("rombel")->group(function() {
+        Route::get("/", [RombelController::class, 'page'])->name('dashboard.rombel.page');
+        Route::post('/nonmember', [RombelController::class, 'nonMember'])->name('dashboard.rombel.nonmember');
+        Route::post('/{id}/masukkan', [RombelController::class, 'masukkan'])->name('dashboard.rombel.masukkan');
+    });
+    Route::prefix("siswa")->group(function() {
+        Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
+    });
+
+    Route::prefix('settings')->group(function() {
+        Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {
@@ -76,11 +83,15 @@ Route::prefix("/")->group(function() {
         return $files;
     });
 
+    Route::resource('video', 'VideoController');
+
+
     Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
     Route::get('/about', [FrontPageController::class, 'index'])->name('About');
 
-    Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
+
+    
     Route::prefix("post")->group(function() {
         Route::post('/upload-image', function(Request $request) {
             dd($request->all());
@@ -93,5 +104,9 @@ Route::prefix("/")->group(function() {
     Route::prefix('install')->group(function() {
         Route::inertia('/', 'Install')->name('site.install');
     });
+
+    Route::inertia('tes', 'Tes');
+
+    Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
 })->middleware(['guest','is_configured']);
 

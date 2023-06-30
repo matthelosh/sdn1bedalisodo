@@ -29,4 +29,8 @@ class Guru extends Model
     {
         return $this->hasOne(User::class, 'userable_id', 'id');
     }
+
+    function rombels() {
+        return $this->hasMany(Rombel::class,"guru_id", "nip");
+    }
 }

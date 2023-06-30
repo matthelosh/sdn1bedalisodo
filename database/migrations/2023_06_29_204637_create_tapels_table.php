@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configs', function (Blueprint $table) {
+        Schema::create('tapels', function (Blueprint $table) {
             $table->id();
-            $table->string('version', 30)->default('1');
-            $table->enum('status', ['preconfigured','configured'])->default('preconfigured');
-            $table->string('layout', 60)->default('Default');
+            $table->string("kode", 6);
+            $table->string("label", 40);
+            $table->boolean("status")->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configs');
+        Schema::dropIfExists('tapels');
     }
 };

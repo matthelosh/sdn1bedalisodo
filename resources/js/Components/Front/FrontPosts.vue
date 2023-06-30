@@ -23,14 +23,22 @@ const stripHTML = (html) => {
                 <span class=" font-extralight text-gray-600">Terbaru</span>
             </h1>
         </div>
-        <div class="p-3 columns-1 md:columns-3 gap-3">
-            <Link as="article" v-for="(post,p) in page.props.posts" :key="p" :href="`/${post.category.label.toLowerCase()}/${post.slug}`" class="bg-white shadow hover:shadow-xl rounded-xl break-inside-avoid mb-4 hover:cursor-pointer overflow-hidden" :class="p==0? 'md:row-span-2' : ''">
-                <img :src="post.featured_image ? post.featured_image:'/img/no-image.jpg'" alt="Feature Image" class="w-full h-36 object-cover rounded-t-xl bg-sky-300 hover:scale-110 transition-all duration-300 saturate-50 hover:saturate-100" >
-                <div class="content p-3">
-                    <Link :href="`/${post.category.label.toLowerCase()}/${post.slug}`">
-                        <h1 class="text-xl font-bold text-gray-800 mb-2">{{ post.title }}</h1>
-                    </Link>
-                    <p class="hidden md:block" v-html="stripHTML(post.content)[0]"></p>
+        <div class="post-holder grid grid-cols-1 md:grid-cols-3 gap-3 ">
+            <Link
+                as="article"
+                v-for="(post,p) in page.props.posts"
+                :key="p"
+                :href="`/${post.category.label.toLowerCase()}/${post.slug}`"
+                class="bg-white rounded p-2 shadow hover:shadow-lg hover:cursor-pointer"
+                v-motion
+                :initial="{ opacity: 0, x: 50 }"
+                :enter="{ opacity: 1, x: 0, scale: 1 }"
+                :delay="200 + (p * 100)"
+            >
+                <h1 class="text-gray-800 font-bold">{{ post.title }}</h1>
+                <div class="grid grid-cols-4 gap-2">
+                    <img :src="post.featured_image" alt="" class="w-full col-span-1 aspect-square object-cover">
+                    <span class="col-span-3" v-html="post.content.substring(0,100)"></span>
                 </div>
             </Link>
         </div>

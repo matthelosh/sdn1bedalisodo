@@ -1,8 +1,9 @@
 <script setup>
-import { Head, usePage, useForm } from '@inertiajs/vue3';
+import { Head, usePage, useForm, Link } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiEye, mdiRefresh } from '@mdi/js';
+import {Icon} from '@iconify/vue';
 
 const page = usePage()
 const loading = ref(false)
@@ -41,19 +42,24 @@ const login = async() => {
                     <label for="password">Password</label>
                     <div class="input-group relative">
                         <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="user.processing" v-model="user.password">
-                        <button class="absolute z-20 right-2 py-1" @click="showPassword = !showPassword">
-                            <SvgIcon type="mdi" :path="mdiEye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600" size="32" />
+                        <button class="absolute z-20 right-2 py-1 flex items-center top-1" @click="showPassword = !showPassword">
+                            <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-2xl" />
                         </button>
                     </div>
                 </div>
                 <div class="row flex items-center justify-center gap-1 mt-8 mb-2">
-                    <button type="submit" @click="login" class="bg-lime-600 hover:bg-lime-600 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
+                    <button type="submit" @click="login" class="bg-lime-600 hover:bg-lime-400 hover:text-gray-800 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
                         Login
-                        <SvgIcon type="mdi" :path="mdiRefresh" class="animate-spin" v-if="user.processing" />
+                        <Icon icon="mdi:refresh" class="animate-spin" v-if="user.processing" />
                     </button>
                 </div>
             </form>
             <div v-if="page.props.errors && !user.processing" class="text-red-400">{{ errorText }}</div>
+            <Link href="/" class="text-lime-400 flex items-center gap-1 hover:text-lime-600">
+                <Icon icon="mdi:arrow-left" />
+                Beranda
+            </Link>
         </div>
+        
     </div>
 </template>

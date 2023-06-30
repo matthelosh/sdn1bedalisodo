@@ -1,9 +1,12 @@
 <script setup>
+import { usePage } from '@inertiajs/vue3';
 import { Bars3CenterLeftIcon } from '@heroicons/vue/24/outline';
 import { ref, defineAsyncComponent } from 'vue';
+const page = usePage();
+const Layout = page.props.layout;
 
-const Navbar = defineAsyncComponent(() => import('./Front/Navbar.vue'))
-const Footer = defineAsyncComponent(() => import('./Front/Footer.vue'))
+const Navbar = defineAsyncComponent(() => import(`./Front/${Layout}/Navbar.vue`))
+const Footer = defineAsyncComponent(() => import(`./Front/${Layout}/Footer.vue`))
 const navShow = ref(false)
 const toggleNav = () => {
     // document.querySelector('.header-items--nav').classList.toggle('hidden')
