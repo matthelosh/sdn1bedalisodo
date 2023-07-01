@@ -7,6 +7,7 @@ import {Icon} from '@iconify/vue';
 const page = usePage()
 
 const ManageMember = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/ManageMember.vue'))
+const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
 const selectedRombel = ref(null);
 const mode = ref('list')
 
@@ -19,6 +20,20 @@ const closeMember = () => {
     mode.value = 'list'
     selectedRombel.value = null
     router.reload({only: ['rombels']})
+}
+
+const confirmDialog = ref(null)
+const hapus = async (rombel) => {
+    await confirmDialog.value.open("Anda akan menghapus rombel "+rombel.label+" beserta pesertanya.")
+        .then(ok => {
+            if (ok) {
+                axios.delete(route('dashboard.rombel.destroy', {id: rombel.id}))
+                    .then(res => {
+                        router.reload({only: ['rombels']})
+                    })
+           }
+        })
+    
 }
 </script>
 
@@ -70,7 +85,7 @@ const closeMember = () => {
                                     <button @click="manageMember(rombel)">
                                         <Icon icon="mdi:account-group" class="text-sky-600 hover:text-sky-800 text-2xl" />
                                     </button>
-                                    <button>
+                                    <button @click="hapus(rombel)">
                                         <Icon icon="mdi:delete-forever" class="text-red-300 hover:text-red-600 text-2xl" />
                                     </button>
                                 </div>
@@ -83,4 +98,5 @@ const closeMember = () => {
         </Transition>
     </div>
 </AdminLayout>
+<ConfirmDialog ref="confirmDialog" />
 </template>

@@ -1,9 +1,11 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
 import {paginate} from '@/Plugins/misc.js'
+
+
 
 const page = usePage();
 
@@ -41,12 +43,16 @@ const listNonmembers = async() => {
 
 const dragStarttoMember = (e, nonmem) => {
     // console.log(e.dataTransfer)
+    let dropzone = document.querySelector(".table-member.dropzone")
+    dropzone.style.background = "pink"
     e.dataTransfer.dropEffect = "move"
     e.dataTransfer.setData("item", JSON.stringify(nonmem))
     
 }
 const dragStarttoNonMember = (e, member) => {
     // console.log(e.dataTransfer)
+    let dropzone = document.querySelector(".table-nonmember.dropzone")
+    dropzone.style.background = "pink"
     e.dataTransfer.dropEffect = "move"
     e.dataTransfer.setData("item", JSON.stringify(member))
     
@@ -55,14 +61,14 @@ const dragStarttoNonMember = (e, member) => {
 
 const dragOverMember = (e) => {
     // e.dataTrasnfer.dropEffect = "move"
-    let dropzone = document.querySelector(".table-member.dropzone")
-    dropzone.style.background = "pink"
+    // let dropzone = document.querySelector(".table-member.dropzone")
+    // dropzone.style.background = "pink"
 }
 
 const dragOverNonmember = (e) => {
     // e.dataTrasnfer.dropEffect = "move"
-    let dropzone = document.querySelector(".table-nonmember.dropzone")
-    dropzone.style.background = "pink"
+    // let dropzone = document.querySelector(".table-nonmember.dropzone")
+    // dropzone.style.background = "pink"
 }
 
 const droppedOnMember = (e) => {
@@ -94,7 +100,11 @@ const droppedOnNonmember = (e) => {
 }
 
 const keluarkan = async(siswa) => {
-    await console.log(siswa)
+    await axios.post(route('dashboard.rombel.keluarkan', {
+        id: props.rombel.id,
+        masukkan: true
+
+    }), {siswa: siswa}).then(res => res).catch(err => err)
 }
 
 const masukkan = async(siswa) => {

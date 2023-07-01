@@ -41,6 +41,14 @@ class RombelController extends Controller
             'msg' => $attach
         ], 200);
     }
+    function keluarkan(Request $request, $id) {
+        $rombel = Rombel::find($id);
+        $detach = $rombel->siswas()->detach([$request->siswa['id']]);
+        return response()->json([
+            'status' => 'ok',
+            'msg' => $detach
+        ], 200);
+    }
 
 
     /**
@@ -78,8 +86,19 @@ class RombelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rombel $rombel)
+    public function destroy(Rombel $rombel, $id)
     {
-        //
+        try {
+            $rombel->find($id)->delete();
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'Rombel dihapus'
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e
+            ], 500);
+        }
     }
 }

@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { isClient } from '@vueuse/shared'
 import { useDraggable, useClipboard } from '@vueuse/core'
 import { UseDraggable as Draggable } from './component'
-import  SvgIcon from '@jamescoyle/vue-icon';
 import { mdiClose, mdiRefresh } from '@mdi/js';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
@@ -115,7 +114,7 @@ onMounted(() => {
       v-slot="{ x, y }"
       p="x-4 y-2"
       shadow="~ hover:lg" 
-      class="fixed bg-white z-40 rounded-xl shadow-xl overflow-hidden w-[400px] md:w-[600px]"
+      class="fixed bg-white z-40 rounded-xl shadow-xl overflow-hidden w-[400px] md:w-[600px] border"
       :initial-value="{ x: innerWidth / 3.6, y: 140 }"
       :handle="handle"
       
@@ -136,7 +135,7 @@ onMounted(() => {
             <Icon icon="mdi:import" class="block md:hidden" />
           </button>
           <button @click="closeMe">
-              <SvgIcon type="mdi" :path="mdiClose" class="text-red-400" />
+              <Icon icon="mdi:close" class="text-red-400 text-2xl" />
           </button>
         </div>
       </div>
@@ -145,7 +144,7 @@ onMounted(() => {
             <h1>Data Gambar</h1>
             <div>
               <div class="w-full h-full flex items-center justify-center" v-if="loading">
-                  <SvgIcon type="mdi" :path="mdiRefresh" size="64" class=" text-gray-600 animate-spin" />
+                  <Icon icon="mdi:refresh"  class=" text-gray-600 animate-spin text-8xl" />
               </div>
               <div class="w-full grid grid-cols-4 gap-4 h[350px] overflow-y-auto" v-else>
                 <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full object-cover cursor-pointer h-[100px]" @click="selectImage"/>

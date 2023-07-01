@@ -22,7 +22,8 @@ class Guru extends Model
         'facebook',
         'youtube',
         'instagram',
-        'status'
+        'status',
+        'nickname'
     ];
 
     public function user()

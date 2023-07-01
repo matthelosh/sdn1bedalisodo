@@ -28,4 +28,11 @@ class Rombel extends Model
     function siswas() {
         return $this->belongsToMany(Siswa::class);
     }
+
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($rombel) {
+            $rombel->siswas()->detach();
+        });
+    }
 }
