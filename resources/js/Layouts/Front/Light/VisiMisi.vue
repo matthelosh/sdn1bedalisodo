@@ -2,7 +2,7 @@
 
 </script>
 <template>
-    <div class="visi-misi w-full bg-[url('/img/gunung.svg')] bg-top bg-no-repeat py-6">
+    <div class="visi-misi w-full bg-[url('/img/gunung.svg')] bg-bottom bg-no-repeat py-6 0 bg-cover">
         <div class="visi-misi_content w-10/12 md:w-8/12 mx-auto  grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="visi md:flex w-full items-start gap-3 ">
                 <h1 class="bg-sky-600 text-white md:[writing-mode:vertical-lr] text-4xl md:text-8xl tracking-widest font-black md:py-4 text-center">VISI</h1>

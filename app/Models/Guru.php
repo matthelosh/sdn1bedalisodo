@@ -15,6 +15,7 @@ class Guru extends Model
         'jk',
         'tempat_lahir',
         'tanggal_lahir',
+        'agama',
         'hp',
         'alamat',
         'role',

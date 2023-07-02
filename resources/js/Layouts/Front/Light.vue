@@ -5,6 +5,7 @@ import { defineAsyncComponent, onMounted } from 'vue';
 const VisiMisi = defineAsyncComponent(() => import('./Light/VisiMisi.vue'));
 const DewanGuru = defineAsyncComponent(() => import('./Light/Guru.vue'));
 const Post = defineAsyncComponent(() => import('./Light/Post.vue'));
+const Agenda = defineAsyncComponent(() => import('./Light/Agenda.vue'));
 
 onMounted(() => {
     const nav = document.querySelector("nav")
@@ -15,7 +16,7 @@ onMounted(() => {
             console.log(entry.intersectionRatio);
             nav.classList.toggle("bg-transparent", entry.isIntersecting)
             nav.classList.toggle("shadow", !entry.isIntersecting)
-            nav.classList.toggle("bg-slate-100", !entry.isIntersecting)
+            nav.classList.toggle("bg-gray-50", !entry.isIntersecting)
             nav.classList.toggle("text-slate-800", !entry.isIntersecting)
             // nav.classList.toggle("instersected", !entry.isIntersecting)
         })
@@ -31,7 +32,7 @@ onMounted(() => {
 
 <template>
 
-<div class="wrapper bg-sky-100 relative">   
+<div class="wrapper bg-white relative">   
     <div class="sticky-observer h-2 md:h-4 bg-pink">&nbsp;</div>
 
     <nav class="w-full h-16  sticky top-0 bg-gray-50 z-20 transition-all">
@@ -75,12 +76,14 @@ onMounted(() => {
             </div>
             <figure class="relative h-[30vh] w-full md:h-auto ">
                 <!-- <img src="/img/gunung.svg" alt="" class="absolute"> -->
-                <Icon icon="mdi:cloud-outline" class="absolute text-[3rem] md:text-8xl text-white left-20 top-8 md:top-20" />
-                <Icon icon="mdi:cloud-outline" class="absolute text-[6rem] md:text-[8rem] text-white  right-6 md:right-16  top-0 md:top-20" />
-                <Icon icon="mdi:home-city-outline" class="absolute text-white text-[10rem] left-[50%] md:-translate-x-[100%] top-[35%] md:top-[50%]" />
-                <Icon icon="mdi:grass" class="absolute text-[3rem] text-green-600 right-4 md:left-20 bottom-4 md:bottom-14  " />
+                <Icon icon="mdi:cloud-outline" class="absolute text-[3rem] md:text-8xl text-gray-200 left-20 top-12 md:top-36" />
+                <Icon icon="mdi:weather-sunny" class="absolute text-[3rem] md:text-[4rem] text-gray-200 left-48 top-12 md:top-20 animate-spin" />
+                <Icon icon="mdi:cloud-outline" class="absolute text-[6rem] md:text-[8rem] text-gray-200  right-6 md:right-16  top-0 md:top-20" />
+                <Icon icon="mdi:weather-windy" class="absolute text-[6rem] md:text-[4rem] text-gray-200  right-6 md:right-36  top-0 md:top-48 animate-pulse" />
+                <Icon icon="mdi:home-city-outline" class="absolute text-slate-200 text-[10rem] left-[50%] md:-translate-x-[100%] top-[35%] md:top-[50%]" />
+                <Icon icon="mdi:grass" class="absolute text-[3rem] text-green-600 right-4 md:left-20 bottom-4 md:bottom-20  " />
                 <img src="/img/siswa.svg" alt="" class="absolute left-[50%] -translate-x-[70%] md:-translate-x-[50%] top-[15%] md:top-[50%] md:-translate-y-[25%]">
-                <Icon icon="mdi:grass" class="absolute text-[2rem] md:text-[4rem] text-green-600 left-12 md:right-36 bottom-10  " />
+                <Icon icon="mdi:grass" class="absolute text-[2rem] md:text-[4rem] text-green-600 left-12 md:left-[60%] bottom-10 md:bottom-20  " />
             </figure>
         </div>
     </header>
@@ -88,7 +91,7 @@ onMounted(() => {
         <VisiMisi />
         <Post />
         <DewanGuru />
-        
+        <Agenda />
     </main>
 </div>
 </template>

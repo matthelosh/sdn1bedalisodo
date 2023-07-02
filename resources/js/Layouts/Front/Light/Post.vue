@@ -1,20 +1,90 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
+import { Icon } from '@iconify/vue';
 
+const category = ref('all')
+const categories = ref([
+    {code: 'all', label: 'Semua'},
+    {code: 'inf', label: 'Pengumuman'},
+    {code: 'brt', label: 'Berita'},
+    {code: 'art', label: 'Artikel'},
+    {code: 'mtr', label: 'Materi'},
+    {code: 'crt', label: 'Cerita'},
+    {code: 'ase', label: 'Penilaian'}
+]);
 const page = usePage();
+
+const posts = computed(() => {
+    return category.value == 'all' ? page.props.posts.slice(0, 6) : page.props.posts.filter(item => item.category_id == category.value).slice(0,6)
+})
 </script>
 <template>
-<div class="w-full bg-white py-8">
-    <div class="container w-10/12 md:w-8/12 mx-auto grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="card bg-gray-50 hover:cursor-pointer shadow" v-for="(post,p) in page.props.posts" :key="p">
-            <div class="relative card-header h-[150px] w-full overflow-hidden bg-cover after:absolute after:bg-gray-400 after:top-0 after:right-0 after:bottom-0 after:left-0 after:bg-opacity-80 after:backdrop-blur after:hover:bg-transparent after:hover:backdrop-blur-0 hover:bg-[length_250px_300px] after:transition p-3 group" :style="`background-image: url('${post.featured_image}');`">
-                <!-- <img :src="post.featured_image" alt="" class="object-fill"> -->
-                <h1 class="absolute z-10 text-white text-xl group-hover:shadow group-hover:bg-gray-600 p-3">{{ post.title }}</h1>
+<div class="w-full bg-gray-200 py-8">
+    <div class="title w-10/12 md:w-8/12 bg-transparent mx-auto my-6 flex items-center justify-center">
+        <Icon icon="mdi:newspaper-variant" class="text-gray-800 text-2xl" />
+        <h1 class="text-center text-xl font-bold text-gray-800">Tulisan Baru</h1>
+    </div>
+    <div class="container w-10/12 md:w-8/12 mx-auto grid grid-cols-1 md:grid-cols-6 gap-2">
+        <div class="category col-span-1">
+            <label for="category" class="w-full flex items-center justify-between gap-2 md:hidden">
+                Kategori:
+                <select v-model="category" id="category" class="flex-grow rounded">
+                    <option 
+                        v-for="(cat, c) in categories" :key="c"
+                        :value="cat.code">{{ cat.label }}</option>
+                </select>
+            </label>
+            <ul class="hidden md:block">
+                <li>
+                    <h1 class="font-bold text-lg">Kategori:</h1>
+                </li>
+                <li
+                    v-for="(cat, c) in categories" :key="c"
+                    @click="category = cat.code"
+                    class="cursor-pointer my-2 flex justify-between items-center px-1" 
+                    :class="category == cat.code ? 'font-bold' : ''"
+                >
+                    {{ cat.label }}
+                    <Icon icon="mdi:chevron-right-circle" v-if="category == cat.code" class="text-xl text-gray-600" />
+                </li>
+            </ul>
+        </div>
+        <div class="container w-full mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-5">
+            <div class="card bg-white hover:cursor-pointer shadow hover:shadow-lg col-span-2 md:col-span-1"  v-for="(post,p) in posts" :key="p" >
+                <div class="relative card-header h-[150px] w-full overflow-hidden bg-cover group" :style="`background-image: url('${post.featured_image}');`">
+                    <div class="absolute z-10 text-white bg-gradient-to-tr hover:from-transparent hover:to-transparent transition from-[#89786799] to-[#8967fdaa] text-xl  top-0 right-0 bottom-0 left-0 p-1 group-hover:bg-gradient-1 flex items-end">
+                        <Link 
+                        :href="`/${post.category.label.toLowerCase()}/${post.slug}`"
+                        class="group-hover:shadow group-hover:bg-gray-600 p-2 leading-6 text-white tracking-wide truncate hover:text-ellipsis">{{ post.title }}</Link>
+                        
+                    </div>
+                </div>
+                <div class="card-content p-3">
+                    <p class="flex gap-2 items-center text-sm">
+                        <span class="flex gap-1 items-center">
+                            <Icon icon="mdi:account-tie" class="text-lg text-gray-600" />
+                            {{ post.author.name }}
+                        </span>
+
+                        <span class="flex gap-1 items-center">
+                            <Icon icon="mdi:account-calendar" class="text-lg text-gray-600" />
+                            {{ new Date(post.created_at).getDate()+' '+ new Date(post.created_at).getMonth()+' '+new Date(post.created_at).getFullYear() }}
+                        </span>
+                        <span class="flex gap-1 items-center">
+                            <Icon icon="mdi:eye" class="text-lg text-gray-600" />
+                            {{ post.views.length }}
+                        </span>
+                        <span>
+                            {{ post.category.label }}
+                        </span>
+                    </p>
+                    <p v-html="post.content.substr(0, 100)"></p>
+                </div>
             </div>
-            <div class="card-content p-3">
-                <!-- <h1 class="text-xl font-bold text-gray-900 leading-5">{{post.title}}</h1> -->
-                <p v-html="post.content.substr(0, 100)"></p>
+            <div class="col-span-2 md:col-span-3 text-center">
+                <h1 v-if="posts.length < 1" class="text-slate-600 font-bold tracking-wide bg-white p-3 rounded">Belum Ada Post pada Kategori ini</h1>
+                <button v-else class="mx-auto py-1 px-2 my-3 rounded-xl bg-sky-400 text-white font-bold">Lihat Semua</button>
             </div>
         </div>
     </div>

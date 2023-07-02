@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('category_id', 30);
             $table->string('slug', 191);
             $table->string('title', 191);
-            $table->string('featured_image', 100)->nullable();
+            $table->string('featured_image', 191)->nullable();
             $table->text('content');
             $table->enum('status', ['draft','published','edited'])->default('draft');
             $table->boolean('starred')->default(0);
