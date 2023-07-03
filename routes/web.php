@@ -100,6 +100,9 @@ Route::prefix("/")->group(function() {
         })->name('post.upload.image');
     });
 
+    Route::prefix("agenda")->group(function() {
+        Route::post("/", [AgendaController::class, "index"])->name("agenda.index");
+    });
    
     Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
 

@@ -15,8 +15,8 @@ class AgendaController extends Controller
     public function index()
     {
         try {
-            $agendas = Agenda::with('user')->get();
-            return response()->json(['status' => 'success', 'data' => $agendas], 200);
+            $agendas = Agenda::with('user.userable')->get();
+            return response()->json(['status' => 'success', 'agendas' => $agendas], 200);
         } catch (\Exception $e) {
              return response()->json(['status' => 'error','message' => $e->getMessage()], 500);
         }
