@@ -55,7 +55,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     protected function sekolah() {
-        $sekolah = Sekolah::first();
+        $sekolah = Sekolah::with('ks','bendahara','operator')->first();
         return $sekolah ?? null;
     }
 

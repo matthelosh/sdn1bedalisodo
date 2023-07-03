@@ -21,8 +21,14 @@ const errorText = computed(() => {
         return null
     }
 })
+
+const togglePassword = () => {
+    showPassword.value = !showPassword.value
+}
+
 const login = async() => {
     loading.value = true
+    showPassword.value = false
     user.post(route('login'), user.value)
 }
 </script>
@@ -42,7 +48,7 @@ const login = async() => {
                     <label for="password">Password</label>
                     <div class="input-group relative">
                         <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="user.processing" v-model="user.password">
-                        <button class="absolute z-20 right-2 py-1 flex items-center top-1" @click="showPassword = !showPassword">
+                        <button class="absolute z-20 right-2 py-1 flex items-center top-1" @click="togglePassword">
                             <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-2xl" />
                         </button>
                     </div>

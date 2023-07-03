@@ -99,7 +99,7 @@ const tanggal = (tanggal) => {
                         >
                             <td class="py-1 px-2 text-center">{{  (p+1) + (10 * current)}}</td>
                             <td class="py-1 px-2">
-                                <span class="text-sky-600 cursor-pointer hover:underline" @click="edit(post)">{{ post.title }}</span>
+                                <span class="text-sky-600 cursor-pointer hover:underline text-ellipsis" @click="edit(post)">{{ post.title }}</span>
                             </td>
                             <td class="py-1 px-2">{{ post.category.label }}</td>
                             <td class="py-1 px-2">{{ post.author.userable.nama }}</td>

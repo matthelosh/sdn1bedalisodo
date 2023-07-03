@@ -13,7 +13,6 @@ const huruf = [
     "Sebelas"
 ]
 
-
 export const terbilang = (number) => {
     const sign = Math.sign(number)
     number = Math.abs(number)
@@ -50,6 +49,7 @@ export const terbilang = (number) => {
 
     return  (sign == "-1" ? "Minus ": "") + temp;
 }
+
 
 
 export default { terbilang }

@@ -64,6 +64,15 @@ Route::prefix('dashboard')->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
     });
 
+    Route::prefix("bos")->group(function() {
+        Route::inertia("/", "Auth/Bos")->name('dashboard.bos.home');
+        Route::post("/bku", [BosController::class, 'getBku'])->name('dashboard.bos.bku.index');
+        Route::prefix("/transaksi")->group(function() {
+            Route::post("/", [BosController::class, 'transaksi'])->name('dashboard.bos.transaksi.index');
+            Route::post("/store", [BosController::class, 'storeTransaksi'])->name('dashboard.bos.transaksi.store');
+        });
+    });
+
     Route::prefix('settings')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
     });
