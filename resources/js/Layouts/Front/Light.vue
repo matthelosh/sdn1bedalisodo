@@ -6,6 +6,7 @@ const VisiMisi = defineAsyncComponent(() => import('./Light/VisiMisi.vue'));
 const DewanGuru = defineAsyncComponent(() => import('./Light/Guru.vue'));
 const Post = defineAsyncComponent(() => import('./Light/Post.vue'));
 const Agenda = defineAsyncComponent(() => import('./Light/Agenda.vue'));
+const Footer = defineAsyncComponent(() => import('./Light/Footer.vue'));
 
 onMounted(() => {
     const nav = document.querySelector("nav")
@@ -93,6 +94,9 @@ onMounted(() => {
         <DewanGuru />
         <Agenda />
     </main>
+    <footer>
+        <Footer />
+    </footer>
 </div>
 </template>
 
