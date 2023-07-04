@@ -2,15 +2,19 @@
 import { ref, onBeforeMount, computed } from 'vue';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
+import {read, utils} from 'xlsx'
 
 onBeforeMount(() => {
     list()
 })
 
+const loading = ref(false)
 const list = async() => {
+    loading.value = true
     await axios.post(route('dashboard.bos.transaksi.index'))
         .then(res => {
             transaksis.value = res.data.transaksis
+            loading.value = false
         }).catch(err => console.log(err))
 }
 
@@ -23,8 +27,10 @@ const transaksi = ref({
 const showForm = ref(false)
 
 const simpan = async() => {
+    loading.value = true
     await axios.post(route('dashboard.bos.transaksi.store'), {transaksi: JSON.stringify(transaksi.value)})
                 .then(res => {
+                    loading.value = false
                     list()
                 })
 }
@@ -33,15 +39,40 @@ const closeForm = () => {
     showForm.value = !showForm.value
 }
 
+const fileTransaksi = ref(null)
+const onFileTransaksiPicked = async(ev) => {
+    loading.value = true
+    let file = ev.target.files[0]
+
+    let reader = new FileReader();
+    reader.onload = async(e) => {
+        let wb = await read(e.target.result)
+        let datas = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+        await axios.post(route('dashboard.bos.transaksi.import'), {data: JSON.stringify(datas)})
+                    .then(res => {
+                        loading.value = true
+                        list()
+                    }).catch(err => {
+                        loading.value = false
+                        alert(err.response.data.msg)
+                    })
+    }
+    reader.readAsArrayBuffer(file)
+}
 const search = ref('');
 </script>
 
 <template>
 <div>
     <div class="bg-white p-3 w-full">
-        <div class="toolbar w-full flex items-center justify-between">
+        <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
             <h1>Data Transaksi</h1>
             <div class="toolbar-items flex gap-2 items-center justify-center print:hidden">
+                <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv">
+                <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
+                    <Icon icon="mdi:cart-arrow-up"  />
+                    Impor Transaksi
+                </button>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm = true">
                     <Icon icon="mdi:cart-plus"  />
                     Tambah Transaksi
@@ -60,6 +91,7 @@ const search = ref('');
                     <thead>
                         <tr class="bg-slate-200">
                             <th class="border py-1 border-slate-400">No</th>
+                            <th class="border py-1 border-slate-400">Tanggal</th>
                             <th class="border py-1 border-slate-400">Kode Kegiatan</th>
                             <th class="border py-1 border-slate-400">Kode Rekening</th>
                             <th class="border py-1 border-slate-400">No Bukti</th>
@@ -73,13 +105,14 @@ const search = ref('');
                         <tr 
                             v-for="(trans, tr) in transaksis" :key="tr"
                             class="even:bg-slate-50">
-                            <td class="border border-slate-400 px-2 text-center">{{ tr+1 }}</td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.kode_kegiatan }}</td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.kode_rekening }}</td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.no_bukti }}</td>
-                            <td class="border border-slate-400 px-2 ">{{ trans.uraian }}</td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.tipe }}</td>
-                            <td class="border border-slate-400 px-2 text-right">
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ tr+1 }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.tanggal }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.kode_kegiatan }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.kode_rekening }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.no_bukti }}</td>
+                            <td class="border border-slate-400 text-sm px-2 ">{{ trans.uraian }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.tipe }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-right">
                                 <span class="flex justify-between w-full">
                                     <span>Rp. </span>
                                     {{ trans.nilai.toLocaleString("id-ID") }}
@@ -146,6 +179,9 @@ const search = ref('');
                 </form>
             </div>
         </div>
+    </div>
+    <div class="fixed top-0 right-0 bottom-0 left-0 bg-slate-800 bg-opacity-60 flex items-center justify-center" v-if="loading">
+        <Icon icon="mdi:loading" class="animate-spin text-8xl text-white" />
     </div>
 </div>
 </template>

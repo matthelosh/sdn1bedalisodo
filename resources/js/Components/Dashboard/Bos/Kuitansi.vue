@@ -2,6 +2,7 @@
 import { ref, defineAsyncComponent, computed, onMounted } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
+import { Icon } from '@iconify/vue';
 
 import {terbilang} from '@/Plugins/terbilang.js'
 
@@ -35,8 +36,9 @@ const kuitansis = computed(() => {
 </script>
 
 <template>
-    <div class="w-full h-10 px-2 bg-white flex items-center justify-between mb-4 sticky top-0 print:hidden">
+    <div class="w-full h-10 px-2 bg-white flex items-center justify-between mb-4 print:mb-0 sticky top-10 print:hidden z-10">
         <div class="flex items-center h-full">
+            
             <select name="bulan" id="bulan" v-model="bulan" class="h-8 text-sm py-1" @change="listBkus">
                 <option value="all">Semua Bulan</option>
                 <option 
@@ -46,20 +48,27 @@ const kuitansis = computed(() => {
                 </option>
             </select>
         </div>
-        <div class="flex items-center h-full">
-            <select name="transaksi" id="transaksi" v-model="currentTransaction" class="h-8 text-sm py-1">
+        <div class="flex items-center justify-end gap-2 h-full">
+            <button @click="currentTransaction--" :disabled="currentTransaction == 0">
+                <Icon icon="mdi:chevron-double-left" class="hover:text-sky-600"  />
+            </button>
+            <button @click="currentTransaction++" :disabled="currentTransaction >= (bkus.length-1)">
+                <Icon icon="mdi:chevron-double-right" class="hover:text-sky-600" />
+            </button>
+            <select name="transaksi" id="transaksi" v-model="currentTransaction" class="h-8 text-sm py-1 w-[200px] overflow-hidden text-ellipsis truncate">
                 <option value="all">Semua Transaksi</option>
                 <option 
+                    class="w-[100px] overflow-hidden truncate text-ellipsis whitespace-break-spaces"
                     v-for="(bku,b) in bkus"
                     :value="b">
-                    {{b+1 +'. '+ bku.uraian }}
+                    {{b+1 +'. '+ bku.uraian.substr(0,100) }}
                 </option>
             </select>
         </div>
     </div>
     <div
         v-for="(bku, bk) in kuitansis" :key="bk" 
-        class=" w-3/4 mx-auto shadow-md p-4 print:p-0 print:shadow-none print:w-full bg-white break-inside-avoid-page break-after-all my-4 print-m-0">
+        class=" w-3/4 mx-auto shadow-md p-4 print:p-0 print:shadow-none print:w-full bg-white break-inside-avoid-page break-after-all my-4 print:m-0">
         <div class="header w-full">
             <Kop />
         </div>
@@ -119,7 +128,7 @@ const kuitansis = computed(() => {
                     <td class="border border-black py-1 px-3">:</td>
                     <td class="border border-black py-1 px-3">
                         <span class="font-bold italic font-serif text-gray-800">
-                            {{ terbilang(bku?.kredit) }} Rupiah
+                            {{ terbilang(bku?.nilai) }} Rupiah
                         </span>
                     </td>
                 </tr>
@@ -132,7 +141,7 @@ const kuitansis = computed(() => {
         </div>
         <div class="w-2/4 mx-auto my-4">
             <h1 class="border-dashed border-b-gray-400 border-b-2">Bukti / Berkas Terlampir</h1>
-            <h1 class="terbilang border-2 border-black my-4 p-2 text-center bg-gray-100 font-black text-2xl">Rp. {{ bku?.kredit.toLocaleString("id-ID") }},-</h1>
+            <h1 class="terbilang border-2 border-black my-4 p-2 text-center bg-gray-100 font-black text-2xl">Rp. {{ bku?.nilai.toLocaleString("id-ID") }},-</h1>
         </div>
         <div class="w-full my-2 grid grid-cols-3">
             <div class="ks">
@@ -157,5 +166,6 @@ const kuitansis = computed(() => {
                 <p class="text-center leading-3">NIP. <span class="text-white">{{ sekolah?.ks.nip }}</span></p>
             </div>
         </div>
+        <h1 class="text-2xl text-gray-200 mt-10 text-center">Tempelkan Bukti Di bawah atau di belakang</h1>
     </div>
 </template>

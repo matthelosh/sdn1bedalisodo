@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { ref, defineAsyncComponent } from 'vue';
+import { ref, defineAsyncComponent, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Dash from '@/Layouts/AdminLayout.vue'
 
@@ -9,17 +9,18 @@ const Transaksi = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/
 const Bku = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Bku.vue'));
 
 const mode = ref('transaksi')
-
+const title = computed(() => {
+    return mode.value[0].toUpperCase() + mode.value.slice(1)
+})
 const cetak = async() => {
     await window.print()
 }
 </script>
 
 <template>
-<Head title="BOS" />
-<Dash title="BOS">
-    <div class="w-full container p-3">
-        <div class="toolbar w-full h-10 p-3 bg-sky-200 flex items-center justify-between print:hidden">
+<Head :title="title" />
+<Dash :title="title">
+    <div class="sticky top-0 toolbar w-full h-10 p-3 bg-sky-200 flex items-center justify-between print:hidden z-10">
             <h1>Menu Pengelolaan BOS</h1>
             <div class="toolbar-items flex items-center gap-2 justify-end">
                 <button
@@ -42,6 +43,8 @@ const cetak = async() => {
                 </button>
             </div>
         </div>
+    <div class="w-full container p-3">
+        
         <div class="content relative">
             <Transition>
                 <Transaksi v-if="mode == 'transaksi'" />

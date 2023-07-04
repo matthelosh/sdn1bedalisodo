@@ -70,6 +70,7 @@ Route::prefix('dashboard')->group(function() {
         Route::prefix("/transaksi")->group(function() {
             Route::post("/", [BosController::class, 'transaksi'])->name('dashboard.bos.transaksi.index');
             Route::post("/store", [BosController::class, 'storeTransaksi'])->name('dashboard.bos.transaksi.store');
+            Route::post("/import", [BosController::class, 'importTransaksi'])->name('dashboard.bos.transaksi.import');
         });
     });
 

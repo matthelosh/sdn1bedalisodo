@@ -13,9 +13,9 @@ class BosController extends Controller
     function getBku(Request $request) {
         try {
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
-                $bkus = Bku::whereMonth('tanggal', $request->query('bulan'))->get();
+                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->get();
             } else {
-                $bkus = Bku::all();
+                $bkus = Transaksi::all();
             }
             return response()->json([
                 'status' => 'ok',
@@ -66,6 +66,34 @@ class BosController extends Controller
             return response()->json([
                 'status' => 'ok',
                 'transaksi' => $transaksi
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function importTransaksi(Request $request) {
+        try {
+            $datas = json_decode($request->data);
+            foreach($datas as $data) {
+                Transaksi::create([
+                    'tipe' => $data->tipe??'kredit',
+                    'jenis' => $data->jenis,
+                    'tanggal' => $data->tanggal,
+                    'uraian' => $data->uraian,
+                    'kode_kegiatan' => $data->kode_kegiatan,
+                    'kode_rekening' => $data->kode_rekening,
+                    'no_bukti' => $data->no_bukti,
+                    'merchant' => $data->merchant??null,
+                    'nilai' => $data->nilai??$data->kredit
+                ]);
+            }
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'Impor Transaksi Selesai'
             ], 200);
         } catch(\Exception $e) {
             return response()->json([
