@@ -40,7 +40,7 @@ const defaultAvatar = ($event, guru) => {
                 </h1>
             </div>
             <p class="text-center font-mono text-gray-800 md:w-2/4 mx-auto text-lg mt-4">
-                Berikut adalah guru-guru kami yang berdidasi tinggi dalam mengemban misi pendidikan di SD Negeri 1 Bedalisodo
+                Berikut adalah guru-guru kami yang berdedikasi tinggi dalam mengemban misi pendidikan di SD Negeri 1 Bedalisodo
             </p>
             <div class="staffs-container flex gap-2 md:gap-6 overflow-x-auto flex-wrap justify-center mt-4">
                 <figure
@@ -57,7 +57,7 @@ const defaultAvatar = ($event, guru) => {
                     <figcaption class="md:mt-4 leading-3">
                         <h1 class="text-center text-lg font-bold font-mono">
                             <span class="hidden md:block">{{ guru.nama }}</span>
-                            <span class="md:hidden">{{guru.jk == 'Laki-laki' ? 'Bapak ' : 'Ibu '}} {{ guru.nickname }}</span>
+                            <span class="md:hidden">{{guru.jk == 'Laki-laki' ? 'Bapak ' : 'Ibu '}} {{ guru.nickname[0].toUpperCase()+guru.nickname.slice(1) }}</span>
                         </h1>
                         <h1 class="text-center">{{ jabatan(guru.role) }}</h1>
                     </figcaption>
