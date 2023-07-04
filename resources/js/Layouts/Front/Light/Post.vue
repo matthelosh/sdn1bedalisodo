@@ -50,10 +50,10 @@ const posts = computed(() => {
                 </li>
             </ul>
         </div>
-        <div class="container w-full mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:col-span-5">
+        <div class="container w-full mx-auto grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 md:col-span-5">
             <div class="card bg-white hover:cursor-pointer shadow hover:shadow-lg col-span-2 md:col-span-1"  v-for="(post,p) in posts" :key="p" >
-                <div class="relative card-header h-[150px] w-full overflow-hidden bg-cover group" :style="`background-image: url('${post.featured_image}');`">
-                    <div class="absolute z-10 text-white bg-gradient-to-tr hover:from-transparent hover:to-transparent transition from-[#89786799] to-[#8967fdaa] text-xl  top-0 right-0 bottom-0 left-0 p-1 group-hover:bg-gradient-1 flex items-end">
+                <div class="relative card-header h-10 bg-transparent md:h-[150px] w-full overflow-hidden bg-cover group" :style="`background-image: url('${post.featured_image}');`">
+                    <div class="absolute z-10 text-white bg-gradient-to-tr hover:from-transparent hover:to-transparent transition from-[#89786799] to-sky-600 text-xl  top-0 right-0 bottom-0 left-0 p-1 group-hover:bg-gradient-1 flex items-end">
                         <Link 
                         :href="`/${post.category.label.toLowerCase()}/${post.slug}`"
                         class="group-hover:shadow group-hover:bg-gray-600 p-2 leading-6 text-white tracking-wide truncate hover:text-ellipsis">{{ post.title }}</Link>
