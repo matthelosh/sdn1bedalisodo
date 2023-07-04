@@ -29,6 +29,11 @@ onMounted(() => {
 
     observer.observe(document.querySelector(".sticky-observer"))
 })
+
+const toggleNav = () => {
+    const navLink = document.querySelector(".nav-link")
+    navLink.classList.toggle("hidden")
+}
 </script>
 
 <template>
@@ -39,21 +44,37 @@ onMounted(() => {
     <nav class="w-full h-16  sticky top-0 bg-gray-50 z-20 transition-all">
         <div class="md:w-8/12 h-full flex items-center justify-between mx-auto px-3 md:px-0">
             <div class="left flex items-center gap-8">
-                <Link class="logo w-32" :href="route('Welcome')">
-                    <h1 class="text-2xl font-bols tracking-wide">LOGO</h1>
+                <Link :href="route('Welcome')" class="flex items-center gap-2">
+                    <img src="/img/logo.png" alt="Logo" class="w-8 mx-auto drop-shadow" />
+            
+                    <h1 class="flex flex-col leading-3 justify-center pt-1">
+                            <span class="font-bold text-teal-800">SDN1</span>
+                            <small class=" tracking-tighter text-red-800">Bedalisodo</small>
+                    </h1>
                 </Link>
-                <ul class="nav-link flex gap-6">
-                    <li>
-                        <Link :href="route('About')">Profil</Link>
+                <ul class="nav-link bg-slate-900 p-3 md:p-0 md:bg-transparent fixed top-0 right-0 bottom-0 left-0 md:relative hidden md:flex gap-6">
+                    <li class="md:hidden text-slate-50 font-bold tracking-wider text-xl flex justify-between border-b-slate-300 border-b-2 py-4">
+                        <span>
+                            Menu
+                        </span>
+                        <button @click="toggleNav">
+                            <Icon icon="mdi:close" class="text-2xl text-red-400" />
+                        </button>
                     </li>
-                    <li>
-                        <Link href="#">Agenda</Link>
+                    <li class="my-1 md:my-0">
+                        <Link class="text-slate-100 md:text-slate-800 block py-3 md:py-0" :href="route('About')">Profil</Link>
+                    </li>
+                    <li class="my-1 md:my-0">
+                        <Link class="text-slate-100 md:text-slate-800 block py-3 md:py-0" href="#">Agenda</Link>
                     </li>
                 </ul>
             </div>
-            <div class="right flex-justify-end items-center gap-3">
+            <div class="right flex-justify-end items-center gap-4">
                 <button>
                     <Icon icon="mdi:magnify" class="text-2xl" />
+                </button>
+                <button @click="toggleNav" class="md:hidden">
+                    <Icon icon="mdi:menu" class="text-2xl text-slate-600" />
                 </button>
             </div>
         </div>
@@ -80,11 +101,15 @@ onMounted(() => {
                 <Icon icon="mdi:cloud-outline" class="absolute text-[3rem] md:text-8xl text-gray-200 left-20 top-12 md:top-36" />
                 <Icon icon="mdi:weather-sunny" class="absolute text-[3rem] md:text-[4rem] text-gray-200 left-48 top-12 md:top-20 animate-spin" />
                 <Icon icon="mdi:cloud-outline" class="absolute text-[6rem] md:text-[8rem] text-gray-200  right-6 md:right-16  top-0 md:top-20" />
-                <Icon icon="mdi:weather-windy" class="absolute text-[6rem] md:text-[4rem] text-gray-200  right-6 md:right-36  top-0 md:top-48 animate-pulse" />
+                <Icon icon="mdi:weather-windy" class="hidden md:block absolute text-[6rem] md:text-[4rem] text-gray-200  right-6 md:right-36  top-0 md:top-48 animate-pulse" />
                 <Icon icon="mdi:home-city-outline" class="absolute text-slate-200 text-[10rem] left-[50%] md:-translate-x-[100%] top-[35%] md:top-[50%]" />
                 <Icon icon="mdi:grass" class="absolute text-[3rem] text-green-600 right-4 md:left-20 bottom-4 md:bottom-20  " />
                 <img src="/img/siswa.svg" alt="" class="absolute left-[50%] -translate-x-[70%] md:-translate-x-[50%] top-[15%] md:top-[50%] md:-translate-y-[25%]">
                 <Icon icon="mdi:grass" class="absolute text-[2rem] md:text-[4rem] text-green-600 left-12 md:left-[60%] bottom-10 md:bottom-20  " />
+                <span class="absolute text-[2rem] md:text-[4rem] text-gray-50 left-[58%] md:left-[63%] bottom-[50%] -translate-y-[50%] md:bottom-60 animate-pulse" >
+                    <Icon icon="mdi:message"  class="text-[4rem] text-sky-400" />
+                    <span class="absolute text-gray-100 font-bold text-sm top-[40%] -translate-y-[50%] left-[50%] -translate-x-[50%]">Halo</span>
+                </span>
             </figure>
         </div>
     </header>

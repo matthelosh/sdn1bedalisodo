@@ -28,7 +28,7 @@ const page = usePage()
                 <h1 class="text-lg font-bold tracking-wide text-yellow-200">Tulisan terbaru:</h1>
                 <ul>
                     <li v-for="(post,p) in $page.props.posts" :key="p">
-                        <Link class="flex items-center gap-1 text-justify text-accent hover:text-yellow-400" :href="route('Post.read', {kategori:post.category.label.toLowerCase(), slug: post.slug})"> <ChevronDoubleRightIcon class="h-3 " /> {{ post.title }}</Link>
+                        <Link class="flex items-center gap-1 text-justify text-accent hover:text-yellow-400 truncate text-ellipsis"  :href="route('Post.read', {kategori:post.category.label.toLowerCase(), slug: post.slug})"> <ChevronDoubleRightIcon class="h-3 " /> {{ post.title }}</Link>
                     </li>
 
                 </ul>

@@ -11,11 +11,11 @@
             <div class="misi w-full gap-8 md:px-6 hidden md:block">
                 <h1 class="bg-sky-600 text-white text-center   text-4xl tracking-widest font-black">MISI</h1>
                 <ol class="text-lg md:text-xl mt-2 ">
-                    <li class="bg-white bg-opacity-90 backdrop-blur p-2 my-2">Menanamkan nilai keimanan dan ketakwaan melalui pengamalan keagamaan</li>
-                    <li class="bg-white bg-opacity-90 backdrop-blur p-2 my-2">Menumbuhkan spiritual dengan kegiatan keagamaan</li>
-                    <li class="bg-white bg-opacity-90 backdrop-blur p-2 my-2">Mengembangkan sikap cinta tanah air dengan kegiatan seni dan budaya</li>
-                    <li class="bg-white bg-opacity-90 backdrop-blur p-2 my-2">Menumbuhkan etika dengan penerapan tata krama</li>
-                    <li class="bg-white bg-opacity-90 backdrop-blur p-2 my-2">Mengembangkan kompetensi dengan penerapan teknologi informasi dalam pembelajaran</li>
+                    <li class="bg-white bg-opacity-90 backdrop-blur hover:shadow-lg hover:cursor-pointer hover:-translate-y-[3px] hover:translate-z-5 transition hover:backdrop-blur hover:bg-opacity-70 p-2 my-2">Menanamkan nilai keimanan dan ketakwaan melalui pengamalan keagamaan</li>
+                    <li class="bg-white bg-opacity-90 backdrop-blur hover:shadow-lg hover:cursor-pointer hover:-translate-y-[3px] hover:translate-z-5 transition hover:backdrop-blur hover:bg-opacity-70 p-2 my-2">Menumbuhkan spiritual dengan kegiatan keagamaan</li>
+                    <li class="bg-white bg-opacity-90 backdrop-blur hover:shadow-lg hover:cursor-pointer hover:-translate-y-[3px] hover:translate-z-5 transition hover:backdrop-blur hover:bg-opacity-70 p-2 my-2">Mengembangkan sikap cinta tanah air dengan kegiatan seni dan budaya</li>
+                    <li class="bg-white bg-opacity-90 backdrop-blur hover:shadow-lg hover:cursor-pointer hover:-translate-y-[3px] hover:translate-z-5 transition hover:backdrop-blur hover:bg-opacity-70 p-2 my-2">Menumbuhkan etika dengan penerapan tata krama</li>
+                    <li class="bg-white bg-opacity-90 backdrop-blur hover:shadow-lg hover:cursor-pointer hover:-translate-y-[3px] hover:translate-z-5 transition hover:backdrop-blur hover:bg-opacity-70 p-2 my-2">Mengembangkan kompetensi dengan penerapan teknologi informasi dalam pembelajaran</li>
                 </ol>
             </div>
         </div>
