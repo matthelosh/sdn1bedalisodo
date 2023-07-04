@@ -1,9 +1,11 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { Head, Link, usePage} from '@inertiajs/vue3';
-import PostLayout from '@/Layouts/PostLayout.vue';
+import { computed, defineAsyncComponent } from 'vue';
+import { Head, usePage} from '@inertiajs/vue3';
 
 const page = usePage()
+const Layout = page.props.layout;
+
+const Search = defineAsyncComponent(() => import(`./../Layouts/Front/${Layout}/Search.vue`))
 
 const meta = computed(() => {
     return {
@@ -19,16 +21,5 @@ const meta = computed(() => {
     <meta name="description" :content="meta.description" />
     
 </Head>
-<PostLayout>
-    <div class="w-full bg-white p-4 rounded-xl">
-        <h1 class="text-2xl font-bold my-2" v-html="meta.title" />
-        <div class="grid grid-cols-1 gap-3">
-            <div v-for="(post,p) in page.props.posts" :key="p" class="bg-lime-200 py-2 px-4 rounded-xl hover:bg-lime-400 hover:shadow">
-                <Link :href="`/${post.category.label.toLowerCase()}/${post.slug}`">
-                    <h1 class="text-2xl">{{ post.title }}</h1>
-                </Link>
-            </div>
-        </div>
-    </div>
-</PostLayout>
+<Search :results="page.props.posts" />
 </template>
