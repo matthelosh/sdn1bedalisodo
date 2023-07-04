@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use App\Models\Post;
 use Inertia\Inertia;
+use App\Models\Category;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Actions\RecordView;
 
 class FrontPageController extends Controller
 {
-    public function index(Request $request) // Welcome Page
+    public function index(Request $request, RecordView $recordView) // Welcome Page
     {
         $datas = [
             'tes' => 'Halo',
@@ -18,9 +21,15 @@ class FrontPageController extends Controller
             'beritas' => Post::where('category_id','brt')->with('author')->take(5)->get(),
             'prestasis' => Prestasi::latest()->take(5)->get(),
             'starredPosts' => Post::where('starred','1')->with('category')->latest()->take(5)->get(),
-            'posts' => Post::orderBy('created_at', 'DESC')->with('category')->limit(6)->get(),
+            'gurus' => Guru::whereNot('nama','Administrator')->get(),
+            'posts' => Post::orderBy('updated_at', 'DESC')->with('category', 'views', 'author.userable')->limit(16)->get(),
         ];
-        return $this->view(Route::currentRouteName(), $datas);
+        try {
+            $recordView->handle($request, null);
+            return $this->view(Route::currentRouteName(), $datas);
+        } catch(\Exception $e) {
+            dd($e);
+        }
     }
 
     public function post(Request $request)
@@ -37,13 +46,24 @@ class FrontPageController extends Controller
         return $this->view(Route::currentRouteName(), $datas);
     }
 
-    public function readPost(Request $request, $kategori, $slug)
+    public function readPost(Request $request, RecordView $recordView, $kategori, $slug)
     {
-        $datas = [
-            'post' => $post = Post::where('slug', $slug)->with('category')->first(),
-            'posts' => Post::where('category_id', $post->category_id)->with('category')->orderBy('created_at','DESC')->limit(6)->get()
-        ];
-        return $this->view(Route::currentRouteName(), $datas);
+        $keys = [];
+        $categories = Category::select('label')->get();
+        foreach ($categories as $category) {
+            array_push($keys, strtolower($category->label));
+        }
+        if(in_array($kategori,$keys)) {
+            $post = Post::where('slug', $slug)->with('category')->first();
+            $datas = [
+                'post' => $post,
+                'posts' => Post::where('category_id', $post->category_id)->with('category')->orderBy('created_at','DESC')->limit(6)->get()
+            ];
+            $recordView->handle($request, $post);
+            return $this->view(Route::currentRouteName(), $datas);
+        } else {
+            abort(404);
+        }
     }
 
     public function view($routeName, $datas)

@@ -26,6 +26,10 @@ class CategorySeeder extends Seeder
                 'kode' => 'brt',
                 'label' => 'Berita'
             ],
+            [
+                'kode' => 'crt',
+                'label' => 'Cerita'
+            ],
         ];
 
         foreach($categories as $category) {

@@ -33,4 +33,8 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    function views() {
+        return $this->hasMany(ViewCounter::class, 'post_id', 'id');
+    }
 }

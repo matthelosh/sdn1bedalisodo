@@ -17,7 +17,7 @@ const content = (html) => {
 const showCampaign = ref(false)
 onMounted(() => {
     setTimeout(() => {
-        showCampaign.value = true
+        // showCampaign.value = true
     }, 500);
 })
 

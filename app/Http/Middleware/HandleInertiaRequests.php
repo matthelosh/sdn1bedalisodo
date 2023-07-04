@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Menu;
 use App\Models\Sekolah;
+use App\Models\Tapel;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -41,11 +43,26 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
             'sekolah' => $this->sekolah(),
+            'menus' => $request->user() ? $this->menus($request->user()) : null,
+            'layout' => $this->frontLayout() ?? 'Default',
+            'tapel' => Tapel::where("status", "1")->first(),
         ]);
     }
 
+    protected function frontLayout() {
+        $site = \App\Models\Config::select('layout')->first();
+        return $site->layout;
+    }
+
     protected function sekolah() {
-        $sekolah = Sekolah::first();
+        $sekolah = Sekolah::with('ks','bendahara','operator')->first();
         return $sekolah ?? null;
+    }
+
+    protected function menus($user) {
+        $all = Menu::whereDoesntHave('parent')->where('roles', 'all')->with('children')->get();
+        $roled = Menu::whereDoesntHave('parent')->where('roles', 'LIKE', '%'.$user->level.'%')->with('children')->get();
+        $menus = $all->merge($roled);
+        return $menus;
     }
 }

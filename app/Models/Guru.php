@@ -15,6 +15,7 @@ class Guru extends Model
         'jk',
         'tempat_lahir',
         'tanggal_lahir',
+        'agama',
         'hp',
         'alamat',
         'role',
@@ -22,11 +23,16 @@ class Guru extends Model
         'facebook',
         'youtube',
         'instagram',
-        'status'
+        'status',
+        'nickname'
     ];
 
     public function user()
     {
         return $this->hasOne(User::class, 'userable_id', 'id');
+    }
+
+    function rombels() {
+        return $this->hasMany(Rombel::class,"guru_id", "nip");
     }
 }

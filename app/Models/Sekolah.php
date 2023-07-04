@@ -26,6 +26,20 @@ class Sekolah extends Model
         'website',
         'facebook',
         'youtube',
-        'instagram'
+        'instagram',
+        'motto',
+        'ks',
+        'bendahara',
+        'operator'
     ];
+
+    function ks() {
+        return $this->belongsTo(Guru::class, 'ks', 'nip');
+    }
+    function bendahara() {
+        return $this->belongsTo(Guru::class, 'bendahara', 'nip');
+    }
+    function operator() {
+        return $this->belongsTo(Guru::class, 'operator', 'nip');
+    }
 }
