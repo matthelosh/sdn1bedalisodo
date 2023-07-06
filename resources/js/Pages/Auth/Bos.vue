@@ -21,7 +21,7 @@ const cetak = async() => {
 <Head :title="title" />
 <Dash :title="title">
     <div class="sticky top-0 toolbar w-full h-10 p-3 bg-sky-200 flex items-center justify-between print:hidden z-10">
-            <h1>Menu Pengelolaan BOS</h1>
+            <h1><span class="hidden md:block">Menu Pengelolaan BOS</span></h1>
             <div class="toolbar-items flex items-center gap-2 justify-end">
                 <button
                     @click="mode = 'transaksi'" 

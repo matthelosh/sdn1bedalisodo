@@ -28,15 +28,110 @@ const showForm = ref(false)
 
 const simpan = async() => {
     loading.value = true
-    await axios.post(route('dashboard.bos.transaksi.store'), {transaksi: JSON.stringify(transaksi.value)})
+    let fd = new FormData()
+    fd.append("transaksi", JSON.stringify(transaksi.value))
+    // for (let i = 0; i < files.value.length; i++) {
+    //     fd.append("files[]", files.value[i])
+    // }
+    for(let file of files.value) {
+        // console.log(file)
+        // file = file.type == "application/pdf" ? file : compressImg(file, 50);
+        // console.log(file)
+        // if(file.type == 'application/pdf') {
+        //     fd.append("files[]", file)
+        // } else {
+        //     console.log(compressImg(file, 0.3, 0.3))
+        // }
+        fd.append("files[]", file)
+    }
+    await axios.post(route('dashboard.bos.transaksi.store'), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
                 .then(res => {
                     loading.value = false
                     list()
+                }).catch(err => {
+                    loading.value = false
+                    console.log(err)
                 })
+}
+
+const compressImg = async (imgToCompress,resizingFactor, quality) => {
+    const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  
+  const originalWidth = imgToCompress.width;
+  const originalHeight = imgToCompress.height;
+  
+  const canvasWidth = originalWidth * resizingFactor;
+  const canvasHeight = originalHeight * resizingFactor;
+  
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+  
+  context.drawImage(
+    imgToCompress,
+    0,
+    0,
+    originalWidth * resizingFactor,
+    originalHeight * resizingFactor
+  );
+  
+  // reducing the quality of the image
+  canvas.toBlob(
+    (blob) => {
+      if (blob) {
+        // showing the compressed image
+        // resizedImage.src = URL.createObjectURL(resizedImageBlob);
+        return blob
+      }
+    },
+    "image/jpeg",
+    quality
+  );
+    
 }
 
 const closeForm = () => {
     showForm.value = !showForm.value
+}
+
+const edit = async (trans) => {
+    transaksi.value = trans
+    showForm.value = true
+}
+
+const imageHolder = ref(false)
+
+const addPictures = () => {
+    imageHolder.value = !imageHolder.value
+}
+
+const files = ref([])
+
+const onPicturesPicked = (e) => {
+    let file = e.target.files[0]
+    console.log(file)
+    if (file.size > 1000000) {
+        alert('Ukuran FIle terlalu Besar')
+        return false
+    }
+    const imgNode = document.createElement("img")
+    const pdfNode = document.createElement("object")
+    const imageHolder = document.querySelector(".image-holder")
+    if(file.type.includes("image/")) {
+        imgNode.setAttribute("src", URL.createObjectURL(file))
+        files.value.push(file)
+        
+        imageHolder.appendChild(imgNode)
+    } else {
+        files.value.push(file)
+        pdfNode.setAttribute("type", "application/pdf")
+        pdfNode.setAttribute("width", "100%")
+        pdfNode.setAttribute("data", URL.createObjectURL(new Blob([file], {type: 'application/pdf'})))
+        imageHolder.appendChild(pdfNode)
+    }
+    // alert(file.type)
+    
+    
 }
 
 const fileTransaksi = ref(null)
@@ -66,16 +161,16 @@ const search = ref('');
 <div>
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <h1>Data Transaksi</h1>
-            <div class="toolbar-items flex gap-2 items-center justify-center print:hidden">
-                <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv">
+            <h1><span class="hidden">Data Transaksi</span></h1>
+            <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
+                <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
-                    <Icon icon="mdi:cart-arrow-up"  />
-                    Impor Transaksi
+                    <Icon icon="mdi:cart-arrow-up" class="text-2xl" />
+                    <span class="hidden md:block">Impor Transaksi</span>
                 </button>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm = true">
-                    <Icon icon="mdi:cart-plus"  />
-                    Tambah Transaksi
+                    <Icon icon="mdi:cart-plus" class="text-2xl" />
+                    <span class="hidden md:block">Tambah Transaksi</span>
                 </button>
                 <span class="relative">
                     <input type="text" placeholder="Cari Transaksi" v-model="search" class="py-1 rounded" />
@@ -85,18 +180,18 @@ const search = ref('');
             </div>
 
         </div>
-        <div class="content w-full overflow-x-hidden my-4">
-            <div class="table w-full">
-                <table class="w-full border border-slate-400">
+        <div class="content w-full overflow-x-auto my-4">
+            <div class="table w-full overflow-x-auto">
+                <table class="w-auto border border-slate-400">
                     <thead>
                         <tr class="bg-slate-200">
                             <th class="border py-1 border-slate-400">No</th>
                             <th class="border py-1 border-slate-400">Tanggal</th>
-                            <th class="border py-1 border-slate-400">Kode Kegiatan</th>
-                            <th class="border py-1 border-slate-400">Kode Rekening</th>
+                            <th class="border py-1 border-slate-400 hidden md:table-cell">Kode Kegiatan</th>
+                            <th class="border py-1 border-slate-400 hidden md:table-cell">Kode Rekening</th>
                             <th class="border py-1 border-slate-400">No Bukti</th>
                             <th class="border py-1 border-slate-400">Uraian</th>
-                            <th class="border py-1 border-slate-400">Tipe</th>
+                            <th class="border py-1 border-slate-400 hidden md:table-cell">Tipe</th>
                             <th class="border py-1 border-slate-400">Nilai</th>
                             <th class="border py-1 border-slate-400">Toko | Lembaga</th>
                         </tr>
@@ -107,11 +202,15 @@ const search = ref('');
                             class="even:bg-slate-50">
                             <td class="border border-slate-400 text-sm px-2 text-center">{{ tr+1 }}</td>
                             <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.tanggal }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.kode_kegiatan }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.kode_rekening }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.no_bukti }}</td>
+                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_kegiatan }}</td>
+                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_rekening }}</td>
+                            <td class="border border-slate-400 text-sm px-2 text-center">
+                                <button class="p-2 bg-sky-400 rounded hover:bg-sky-600 text-white" @click="edit(trans)">
+                                    {{ trans.no_bukti }}
+                                </button>
+                            </td>
                             <td class="border border-slate-400 text-sm px-2 ">{{ trans.uraian }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.tipe }}</td>
+                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.tipe }}</td>
                             <td class="border border-slate-400 text-sm px-2 text-right">
                                 <span class="flex justify-between w-full">
                                     <span>Rp. </span>
@@ -125,15 +224,30 @@ const search = ref('');
             </div>
         </div>
     </div>
-    <div class="fixed top-0 right-0 bottom-0 left-0 bg-slate-800 bg-opacity-60 flex items-center justify-center" v-if="showForm">
-        <div class="dialog bg-white max-w-[600px] min-w-[400px]">
-            <div class="dialog-title p-3 bg-slate-100 flex items-center justify-between">
+    <div class="fixed top-0 right-0 bottom-0 left-0 bg-slate-800 bg-opacity-60 flex items-center justify-center overflow-y-auto" v-if="showForm">
+        <div class="dialog bg-white w-11/12 md:max-w-[600px] md:min-w-[400px] overflow-y-auto mt-16">
+            <div class="toolbar p-3 bg-slate-100 flex items-center justify-between">
                 <h1>Tambah Transaksi</h1>
-                <button @click="closeForm">
-                    <Icon icon="mdi:close-box" class="text-red-400 hover:text-red-600 text-2xl" />
-                </button>
+                <div class="toolbar-items flex items-center gap-3 justify-end">
+                    <button @click="addPictures">
+                        <Icon icon="mdi:camera" class="text-sky-400 hove:text-sky-600 text-2xl" />
+                    </button>
+                    <button @click="closeForm">
+                        <Icon icon="mdi:close-box" class="text-red-400 hover:text-red-600 text-2xl" />
+                    </button>
+                </div>
             </div>
-            <div class="dialog-content">
+            <div class="dialog-content overflow-y-auto max-h-[80vh]">
+                <div class="pictures w-full min-h-32 bg-gray-800 transition mb-4" v-if="imageHolder">
+                    <div class="image-holder w-full  p-2 grid grid-cols-3 gap-2">
+                        
+                    </div>
+                    <input type="file" ref="fileImage" class="hidden" @change="onPicturesPicked" accept=".jpg, .png, .JPG, .jpeg, .JPEG, .bmp, .PNG, .pdf">
+                    <button class="w-full bg-sky-100 flex justify-center py-3 gap-2" @click="$refs.fileImage.click()">
+                        <Icon icon="mdi:camera" class="text-gray-400 hove:text-sky-600 text-2xl" />
+                        <span class="text-gray-400">Klik untuk mengambil gambar</span>
+                    </button>
+                </div>
                 <form ref="form-transaksi" class="form p-3" @submit.prevent="simpan">
                     <label for="kode_kegiatan" class="flex items-center justify-center gap-2 my-3">
                         Kode Kegiatan

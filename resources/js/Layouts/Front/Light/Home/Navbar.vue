@@ -45,7 +45,7 @@ const toggleNav = () => {
     <div class="sticky-observer h-2 md:h-4 bg-pink">&nbsp;</div>
     <nav class="w-full h-16  sticky top-0 bg-gray-50 z-20 transition-all">
         <div class="md:w-8/12 h-full flex items-center justify-between mx-auto px-3 md:px-0">
-            <div class="left flex items-center gap-8">
+            <div class="left flex items-center gap-20">
                 <Link :href="route('Welcome')" class="flex items-center gap-2">
                     <img src="/img/logo.png" alt="Logo" class="w-8 mx-auto drop-shadow" />
             

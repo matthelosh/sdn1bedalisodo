@@ -16,7 +16,8 @@ class Post extends Model
         'featured_image',
         'content',
         'status',
-        'starred'
+        'starred',
+        'abstract'
     ];
 
     public function author()

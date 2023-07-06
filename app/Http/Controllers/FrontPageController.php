@@ -54,13 +54,14 @@ class FrontPageController extends Controller
             array_push($keys, strtolower($category->label));
         }
         if(in_array($kategori,$keys)) {
-            $post = Post::where('slug', $slug)->with('category')->first();
+            $post = Post::where('slug', $slug)->with('category', 'author.userable','views')->first();
             $datas = [
                 'post' => $post,
-                'posts' => Post::where('category_id', $post->category_id)->with('category')->orderBy('created_at','DESC')->limit(6)->get()
+                'posts' => Post::where('category_id', $post->category_id)->with('category', 'author.userable', 'views')->orderBy('created_at','DESC')->limit(6)->get()
             ];
             $recordView->handle($request, $post);
-            return $this->view(Route::currentRouteName(), $datas);
+            // return $this->view(Route::currentRouteName(), $datas);
+            return Inertia::render('Post', $datas);
         } else {
             abort(404);
         }

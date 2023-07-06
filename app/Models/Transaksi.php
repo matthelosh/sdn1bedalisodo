@@ -23,4 +23,8 @@ class Transaksi extends Model
     function bku() {
         return $this->hasOne(Bku::class, 'kode_kegiatan', 'kode_kegiatan');
     }
+
+    function buktis() {
+        return $this->hasMany(Bukti::class, 'transaksi_id', 'no_bukti');
+    }
 }
