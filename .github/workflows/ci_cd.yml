@@ -19,6 +19,7 @@ jobs:
             cd /home/mandita/htdocs/mandita.sdn1-bedalisodo.sch.id
             git pull origin production
             git status
+            php artisan migrate
             yarn --only=prod
             yarn build
             

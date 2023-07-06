@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bku;
+use App\Models\Bukti;
 use App\Models\Transaksi;
+use Illuminate\Support\Facades\Storage;
 
 class BosController extends Controller
 {
@@ -45,6 +47,7 @@ class BosController extends Controller
     }
 
     function storeTransaksi(Request $request) {
+        // dd($request->file('files'));
         try {
             $data = json_decode($request->transaksi);
             $transaksi = Transaksi::updateOrCreate(
@@ -63,11 +66,23 @@ class BosController extends Controller
                     'nilai' => $data->nilai
                 ]
             );
+            
+            if($request->file('files')) {
+                foreach($request->file('files') as $file) {
+                    $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
+                    Bukti::create([
+                        'transaksi_id' => $transaksi->no_bukti,
+                        'label' => $file->getClientOriginalName(),
+                        'url' => Storage::url($store)
+                    ]);
+                }
+            }
             return response()->json([
                 'status' => 'ok',
                 'transaksi' => $transaksi
             ], 200);
         } catch(\Exception $e) {
+            dd($e);
             return response()->json([
                 'status' => 'fail',
                 'msg' => $e->getMessage()
