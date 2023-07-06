@@ -168,7 +168,7 @@ const search = ref('');
                     <Icon icon="mdi:cart-arrow-up" class="text-2xl" />
                     <span class="hidden md:block">Impor Transaksi</span>
                 </button>
-                <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm = true">
+                <button class="flex items-center gap-1 justify-center group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm = true">
                     <Icon icon="mdi:cart-plus" class="text-2xl" />
                     <span class="hidden md:block">Tambah Transaksi</span>
                 </button>
@@ -194,6 +194,7 @@ const search = ref('');
                             <th class="border py-1 border-slate-400 hidden md:table-cell">Tipe</th>
                             <th class="border py-1 border-slate-400">Nilai</th>
                             <th class="border py-1 border-slate-400">Toko | Lembaga</th>
+                            <th class="border py-1 border-slate-400">Bukti</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -217,7 +218,12 @@ const search = ref('');
                                     {{ trans.nilai.toLocaleString("id-ID") }}
                                 </span>
                             </td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.merchant }}</td>
+                            <td class="border border-slate-400 px-2 text-center">{{ trans.merchant }} </td>
+                            <td class="border border-slate-400 px-2 text-center">
+                                <a v-for="(bukti, bkt) in trans.buktis" :key="bkt" class="text-sm leading-3 text-teal-600 leading-3" :href="bukti.url" target="_blank">
+                                    {{ bukti.label }}
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

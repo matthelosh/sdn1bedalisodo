@@ -50,6 +50,7 @@
         "editorjs-html": "^3.4.2",
         "jodit-vue": "^3.0.0",
         "mammoth": "^1.6.0",
+        "qrcode.vue": "^3.4.0",
         "swiper": "^9.3.2",
         "three": "^0.153.0",
         "v-calendar": "^3.0.3",

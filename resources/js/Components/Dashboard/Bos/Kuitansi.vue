@@ -3,6 +3,7 @@ import { ref, defineAsyncComponent, computed, onMounted } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
+import QrcodeVue from 'qrcode.vue';
 
 import {terbilang} from '@/Plugins/terbilang.js'
 
@@ -33,9 +34,15 @@ const kuitansis = computed(() => {
     }
 })
 
+const check = (bukti) => {
+    const label = bukti.label.split(".")
+    return {type: label.slice(-1)[0] , url: window.location.origin+bukti.url}
+}
+
 </script>
 
 <template>
+<div>
     <div class="w-full h-10 px-2 bg-white flex items-center justify-between mb-4 print:mb-0 sticky top-10 print:hidden z-10">
         <div class="flex items-center h-full">
             
@@ -167,5 +174,23 @@ const kuitansis = computed(() => {
             </div>
         </div>
         <h1 class="text-2xl text-gray-200 mt-10 text-center">Tempelkan Bukti Di bawah atau di belakang</h1>
+        <div class="buktis w-full grid grid-cols-2 gap-2" v-if="bku" >
+            <div v-for="(bukti, bkt) in bku.buktis" :key="bkt">
+                <!-- <object v-if="check(bukti) == 'pdf'" :data="bukti.url" class="w-full" width="100%" height="100%"></object> -->
+                <figure v-if="check(bukti).type !== 'pdf'">
+                    <img :src="bukti.url"  />
+                </figure>
+                <div v-else>
+                    Bukti berjenis Dokumen. Link unduh: 
+                    <p class="flex gap-2">
+                        <qrcode-vue :value="check(bukti).url" :size="100" level="L" :foreground="'#363636'" />
+                        <a :href="check(bukti).url" target="_blank" class="text-sky-600">{{check(bukti).url}}</a>
+                    </p>
+                </div>
+                
+            </div>
+            
+        </div>
     </div>
+</div>
 </template>

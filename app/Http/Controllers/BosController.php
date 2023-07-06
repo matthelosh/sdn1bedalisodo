@@ -15,9 +15,9 @@ class BosController extends Controller
     function getBku(Request $request) {
         try {
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
-                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->get();
+                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->with('buktis')->get();
             } else {
-                $bkus = Transaksi::all();
+                $bkus = Transaksi::with('buktis')->get();
             }
             return response()->json([
                 'status' => 'ok',
@@ -36,7 +36,7 @@ class BosController extends Controller
         try {
             return response()->json([
                 'status' => 'ok',
-                'transaksis' => Transaksi::all()
+                'transaksis' => Transaksi::with('buktis')->get()
             ], 200);
         } catch(\Exception $e) {
             return response()->json([
