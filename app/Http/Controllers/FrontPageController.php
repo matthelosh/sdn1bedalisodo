@@ -10,6 +10,7 @@ use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Actions\RecordView;
+use App\Models\User;
 
 class FrontPageController extends Controller
 {
@@ -32,9 +33,17 @@ class FrontPageController extends Controller
         }
     }
 
-    public function post(Request $request)
+    public function author(Request $request, RecordView $recordView, $name)
     {
-        # code...
+        $datas = [
+            'author' => User::where('name', $name)->with('posts.category', 'userable')->first()
+        ];
+        try {
+            $recordView->handle($request, null);
+            return $this->view(Route::currentRouteName(), $datas);
+        } catch(\Exception $e) {
+            dd($e);
+        }
     }
 
     function search(Request $request) {

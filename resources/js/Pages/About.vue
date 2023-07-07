@@ -1,12 +1,23 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, computed } from 'vue';
 
 const page = usePage();
 // import Navbar from `@/Layouts/Front/${page.props.layout}/Navbar.vue`;
 // import Footer from `@/Layouts/Front/${page.props.layout}/Footer.vue`;
 const Navbar = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Home/Navbar.vue`))
 const Footer = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Home/Footer.vue`))
+
+const insertBetween = (items, insertion) => {
+            return items.flatMap(
+                (value, index, array) =>
+                    array.length - 1 !== index
+                        ? [value, insertion]
+                        : value,
+            )
+        }
+
+const breadcrumbs = computed(() => insertBetween(page.props.breadcrumbs || [], '/'))
 
 </script>
 
@@ -18,13 +29,22 @@ const Footer = defineAsyncComponent(() => import(`./../Layouts/Front/${page.prop
 
 <div class="wrapper w-full  pt-12 md:pt-0 pb-8 bg-white bg-opacity-100 ">
     <Navbar />
+    <nav v-if="breadcrumbs">
+        <ol>
+            <li v-for="page in breadcrumbs">
+                <div>
+                    <span v-if="page ==='/'">/</span>
+                    <a
+                        v-else
+                        :href="page.url"
+                        :class="{ 'border-b border-blue-400': page.current }"
+                    >{{ page.title }}</a>
+                </div>
+            </li>
+        </ol>
+    </nav>
     <div class="content w-full md:w-8/12 mx-auto  bg-opacity-95 backdrop-blur p-4 my-8">
         <h1 class="text-xl md:text-6xl font-light text-slate-800 font-serif py-4 px-4 md:px-0 tracking-wider w-full">Profil SD Negeri 1 Bedalisodo</h1>
-        <p>SD Negeri 1 Bedalisodo menjalankan misi pendidikan untuk mencerdaskan putra-putri bangsa, khususnya di lingkungan desa Dalisodo Kecamatan Wagir. Menyediakan program pendidikan intrakurikuler formal dan ekstra kurikuler yang mendukung bakat dan minat peserta didik serta memberdayakan kearifan lokal dengan menerapkan bertutur bahasa jawa di hari tertentu dan membekali peserta didik dengan keterampilan teknologi informasi yang dibutuhkan dalam kehidupan di era globalisasi.</p>
-        <div class="feature-image w-full mx-auto relative h-[200px] md:h-[500px]  border-b-2 border-gray-50 shadow-inner rounded transition-all my-4 md:my-8" :style="`background: url('/img/halaman.jpg'); background-repeat:no-repeat; background-size: cover; background-attachment: fixed;`">
-          <div class="img-mask z-5 absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-white bg-opacity-10  hover:bg-opacity-0  transition-all">
-          </div>
-        </div>
         <p>
             <figure class="w-[20%] float-left mr-4 shadow border-1 border-gray-200">
                 <img src="/img/ks.jpg" alt="" class="w-full">
@@ -33,8 +53,13 @@ const Footer = defineAsyncComponent(() => import(`./../Layouts/Front/${page.prop
                     <h3 class="text-center  leading-3">Kepala Sekolah</h3>
                 </figcaption>
             </figure>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, nisi laudantium laborum atque aliquam, magnam iusto aperiam distinctio est velit accusamus! Repudiandae deleniti inventore sed earum delectus provident quasi enim. Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita officiis molestias ut voluptates! Itaque quos asperiores, ipsam odio voluptates earum nemo vitae cumque molestias iure repellendus voluptatibus, modi, cupiditate magni. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi, at accusantium explicabo cumque impedit earum dolor sint velit, magni ipsum et quibusdam? Perferendis doloremque molestiae totam aperiam aut, repellendus quam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti dignissimos accusamus eos perspiciatis dicta inventore saepe atque quibusdam totam explicabo at assumenda voluptates, eum, deserunt, dolore reprehenderit magnam consectetur corporis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores odit voluptate nostrum cupiditate quisquam, cum harum provident doloremque eveniet ratione inventore sit quidem minima sapiente, deleniti accusantium obcaecati. Neque, aliquid.</p>
+            SD Negeri 1 Bedalisodo menjalankan misi pendidikan untuk mencerdaskan putra-putri bangsa, khususnya di lingkungan desa Dalisodo Kecamatan Wagir. Menyediakan program pendidikan intrakurikuler formal dan ekstra kurikuler yang mendukung bakat dan minat peserta didik serta memberdayakan kearifan lokal dengan menerapkan bertutur bahasa jawa di hari tertentu dan membekali peserta didik dengan keterampilan teknologi informasi yang dibutuhkan dalam kehidupan di era globalisasi.</p>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit mollitia eum magnam accusantium architecto sit, alias temporibus aspernatur repellendus! Omnis velit facilis pariatur illo fugit magnam quam voluptatum, sint beatae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum possimus dolor sed a eligendi amet, magnam ad architecto nobis, recusandae velit alias deleniti enim. Iure dolor sapiente rerum ad voluptatibus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias quam mollitia consequatur perferendis earum voluptatibus non sunt debitis delectus dolores dicta nulla, tenetur similique quia ipsam reprehenderit explicabo. Quam, necessitatibus.</p>
+        <div class="w-full grid grid-cols-3 gap-3 my-12 float-none">
+            <div v-for="im in 12" :key="im" class="w-full overflow-hidden h-40">
+                <img :src="`/storage/images/kegiatan/${im}.jpg`" alt="" class="object-cover">
+            </div>
+        </div>
     </div>
 </div>
 <Footer />
