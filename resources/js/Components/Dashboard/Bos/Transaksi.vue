@@ -185,42 +185,42 @@ const search = ref('');
                 <table class="w-auto border border-slate-400">
                     <thead>
                         <tr class="bg-slate-200">
-                            <th class="border py-1 border-slate-400">No</th>
-                            <th class="border py-1 border-slate-400">Tanggal</th>
-                            <th class="border py-1 border-slate-400 hidden md:table-cell">Kode Kegiatan</th>
-                            <th class="border py-1 border-slate-400 hidden md:table-cell">Kode Rekening</th>
-                            <th class="border py-1 border-slate-400">No Bukti</th>
-                            <th class="border py-1 border-slate-400">Uraian</th>
-                            <th class="border py-1 border-slate-400 hidden md:table-cell">Tipe</th>
-                            <th class="border py-1 border-slate-400">Nilai</th>
-                            <th class="border py-1 border-slate-400">Toko | Lembaga</th>
-                            <th class="border py-1 border-slate-400">Bukti</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">No</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">Tanggal</th>
+                            <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Kode Kegiatan</th>
+                            <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Kode Rekening</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">No Bukti</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">Uraian</th>
+                            <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Tipe</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">Nilai</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">Toko | Lembaga</th>
+                            <th class="border py-1 border-slate-300 text-slate-800">Bukti</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr 
                             v-for="(trans, tr) in transaksis" :key="tr"
                             class="even:bg-slate-50">
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ tr+1 }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">{{ trans.tanggal }}</td>
-                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_kegiatan }}</td>
-                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_rekening }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-center">
+                            <td class="border text-sm px-2 text-center">{{ tr+1 }}</td>
+                            <td class="border text-sm px-2 text-center">{{ trans.tanggal }}</td>
+                            <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_kegiatan }}</td>
+                            <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_rekening }}</td>
+                            <td class="border text-sm px-2 text-center">
                                 <button class="p-2 bg-sky-400 rounded hover:bg-sky-600 text-white" @click="edit(trans)">
                                     {{ trans.no_bukti }}
                                 </button>
                             </td>
-                            <td class="border border-slate-400 text-sm px-2 ">{{ trans.uraian }}</td>
-                            <td class="border border-slate-400 text-sm px-2 hidden md:table-cell text-center">{{ trans.tipe }}</td>
-                            <td class="border border-slate-400 text-sm px-2 text-right">
+                            <td class="border text-sm px-2 ">{{ trans.uraian }}</td>
+                            <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.tipe }}</td>
+                            <td class="border text-sm px-2 text-right">
                                 <span class="flex justify-between w-full">
                                     <span>Rp. </span>
                                     {{ trans.nilai.toLocaleString("id-ID") }}
                                 </span>
                             </td>
-                            <td class="border border-slate-400 px-2 text-center">{{ trans.merchant }} </td>
-                            <td class="border border-slate-400 px-2 text-center">
-                                <a v-for="(bukti, bkt) in trans.buktis" :key="bkt" class="text-sm leading-3 text-teal-600 leading-3" :href="bukti.url" target="_blank">
+                            <td class="border px-2 text-center">{{ trans.merchant }} </td>
+                            <td class="border px-2 text-center">
+                                <a v-for="(bukti, bkt) in trans.buktis" :key="bkt" class="text-sm leading-3 text-teal-600" :href="bukti.url" target="_blank">
                                     {{ bukti.label }}
                                 </a>
                             </td>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "212e52fd618bb3270e0433e1faa1ce76",
+    "content-hash": "45a2fc76eafc5fa592e8733adb89aab0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3936,6 +3936,151 @@
             "time": "2023-04-15T23:01:58+00:00"
         },
         {
+            "name": "robertboes/inertia-breadcrumbs",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobertBoes/inertia-breadcrumbs.git",
+                "reference": "0334a935edc80517fc4e7ffaae658572e39675b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobertBoes/inertia-breadcrumbs/zipball/0334a935edc80517fc4e7ffaae658572e39675b6",
+                "reference": "0334a935edc80517fc4e7ffaae658572e39675b6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0",
+                "inertiajs/inertia-laravel": "^0.6.2",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.11.0"
+            },
+            "require-dev": {
+                "composer/composer": "^2.1",
+                "diglactic/laravel-breadcrumbs": "^8.0",
+                "glhd/gretel": "^1.7",
+                "nunomaduro/collision": "^7.0",
+                "nunomaduro/larastan": "^2.0",
+                "orchestra/testbench": "^8.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^10.0",
+                "spatie/laravel-ray": "^1.28",
+                "spatie/ray": "^1.33",
+                "tabuna/breadcrumbs": "^4.0"
+            },
+            "suggest": {
+                "diglactic/laravel-breadcrumbs": "Manage and configure breadcrumbs with diglactic/laravel-breadcrumbs",
+                "glhd/gretel": "Manage and configure breadcrumbs with glhd/gretel",
+                "tabuna/breadcrumbs": "Manage and configure breadcrumbs with tabuna/breadcrumbs"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "RobertBoes\\InertiaBreadcrumbs\\InertiaBreadcrumbsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "RobertBoes\\InertiaBreadcrumbs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Boes",
+                    "email": "github@robertboes.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package to automatically share breadcrumbs to Inertia",
+            "homepage": "https://github.com/robertboes/inertia-breadcrumbs",
+            "keywords": [
+                "breadcrumbs",
+                "inertia-breadcrumbs",
+                "inertiajs",
+                "laravel",
+                "robertboes"
+            ],
+            "support": {
+                "issues": "https://github.com/RobertBoes/inertia-breadcrumbs/issues",
+                "source": "https://github.com/RobertBoes/inertia-breadcrumbs/tree/0.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/RobertBoes",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-19T00:50:09+00:00"
+        },
+        {
+            "name": "spatie/laravel-package-tools",
+            "version": "1.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-package-tools.git",
+                "reference": "efab1844b8826443135201c4443690f032c3d533"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-package-tools/zipball/efab1844b8826443135201c4443690f032c3d533",
+                "reference": "efab1844b8826443135201c4443690f032c3d533",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^9.28|^10.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "orchestra/testbench": "^7.7|^8.0",
+                "pestphp/pest": "^1.22",
+                "phpunit/phpunit": "^9.5.24",
+                "spatie/pest-plugin-test-time": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\LaravelPackageTools\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tools for creating Laravel packages",
+            "homepage": "https://github.com/spatie/laravel-package-tools",
+            "keywords": [
+                "laravel-package-tools",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-package-tools/issues",
+                "source": "https://github.com/spatie/laravel-package-tools/tree/1.15.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-27T08:09:01+00:00"
+        },
+        {
             "name": "stevebauman/location",
             "version": "v6.6.2",
             "source": {
@@ -6197,6 +6342,71 @@
                 }
             ],
             "time": "2023-04-18T13:46:08+00:00"
+        },
+        {
+            "name": "tabuna/breadcrumbs",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tabuna/breadcrumbs.git",
+                "reference": "ca48c28f85ece717ba47caa83c5b8bb8168eee51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tabuna/breadcrumbs/zipball/ca48c28f85ece717ba47caa83c5b8bb8168eee51",
+                "reference": "ca48c28f85ece717ba47caa83c5b8bb8168eee51",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^10.0",
+                "laravel/serializable-closure": "^1.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpunit/php-code-coverage": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tabuna\\Breadcrumbs\\BreadcrumbsServiceProvider"
+                    ],
+                    "aliases": {
+                        "Breadcrumbs": "Tabuna\\Breadcrumbs\\Breadcrumbs"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tabuna\\Breadcrumbs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandr Chernyaev",
+                    "email": "bliz48rus@gmail.com"
+                },
+                {
+                    "name": "Dwight Watson",
+                    "email": "dwight@studentservices.com.au"
+                },
+                {
+                    "name": "Dave James Miller",
+                    "email": "dave@davejamesmiller.com"
+                }
+            ],
+            "description": "An easy way to add breadcrumbs to your Laravel app.",
+            "support": {
+                "issues": "https://github.com/tabuna/breadcrumbs/issues",
+                "source": "https://github.com/tabuna/breadcrumbs/tree/4.0.0"
+            },
+            "time": "2023-02-17T12:47:20+00:00"
         },
         {
             "name": "tightenco/ziggy",

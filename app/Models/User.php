@@ -50,4 +50,8 @@ class User extends Authenticatable
     {
         return $this->morphTo();
     }
+
+    function posts() {
+        return $this->hasMany(Post::class, 'author_id', 'name');
+    }
 }

@@ -7,6 +7,7 @@ const Agenda = defineAsyncComponent(() => import('./Light/Home/Agenda.vue'));
 const Footer = defineAsyncComponent(() => import('./Light/Home/Footer.vue'));
 const Navbar = defineAsyncComponent(() => import('./Light/Home/Navbar.vue'));
 const Header = defineAsyncComponent(() => import('./Light/Home/Header.vue'));
+const Galeri = defineAsyncComponent(() => import('./Light/Home/Galeri.vue'));
 
 </script>
 
@@ -20,6 +21,7 @@ const Header = defineAsyncComponent(() => import('./Light/Home/Header.vue'));
         <Post />
         <DewanGuru />
         <Agenda />
+        <Galeri />
     </main>
     <footer>
         <Footer />

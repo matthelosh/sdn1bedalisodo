@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Tabuna\Breadcrumbs\Trail;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,11 +99,11 @@ Route::prefix("/")->group(function() {
     Route::resource('video', 'VideoController');
 
 
-    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
+    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome')->breadcrumbs(fn(Trail $trail) => $trail->push('Home', route('Welcome')));
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
-    Route::get('/about', [FrontPageController::class, 'index'])->name('About');
+    Route::get('/about', [FrontPageController::class, 'index'])->name('About')->breadcrumbs(fn(Trail $trail) => $trail->parent('Welcome')->push('Profil', route('About')));
 
-
+    Route::get('/guru/{name}', [FrontPageController::class, 'author'])->name('Author');
     
     Route::prefix("post")->group(function() {
         Route::post('/upload-image', function(Request $request) {

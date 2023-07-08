@@ -65,7 +65,7 @@ const posts = computed(() => {
                         <p class="flex items-center gap-2 text-sm text-orange-400 mb-2">
                             <span class="flex gap-1 items-center">
                                 <Icon icon="mdi:account-tie" class="text-lg text-gray-600" />
-                                {{ post.author.name }}
+                                <Link :href="`/guru/${post.author.name}`">{{ post.author.name }}</Link>
                             </span>
 
                             <span class="flex items-center">
