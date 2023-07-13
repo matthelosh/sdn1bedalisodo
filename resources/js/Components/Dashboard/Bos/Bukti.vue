@@ -22,8 +22,6 @@ const listBkus = async() => {
     }).catch(err => console.log(err));
 }
 
-const mode = ref('kuitansi');
-
 // const bulans = ref(['Januari', ''])
 const bulan = ref('all');
 const bkus = ref([]);
@@ -58,12 +56,6 @@ const check = (bukti) => {
             </select>
         </div>
         <div class="flex items-center justify-end gap-2 h-full">
-            <label class="flex items-center gap-2">
-              <select v-model="mode" class="h-8 py-1 text-sm">
-                <option value="kuitansi">Kuitansi</option>
-                <option value="bukti">Bukti</option>
-              </select>
-            </label>
             <button @click="currentTransaction--" :disabled="currentTransaction == 0">
                 <Icon icon="mdi:chevron-double-left" class="hover:text-sky-600"  />
             </button>
@@ -113,7 +105,7 @@ const check = (bukti) => {
                     <tr>
                         <td class="leading-4">No Bukti</td>
                         <td class="leading-4">:</td>
-                        <td class="leading-4 font-bold">{{ bku?.no_bukti }}</td>
+                        <td class="leading-4">{{ bku?.no_bukti }}</td>
                     </tr>
                     <tr>
                         <td class="leading-4">Tanggal</td>
@@ -124,7 +116,7 @@ const check = (bukti) => {
             </div>
 
         </div>
-        <div class="content w-full py-2 border-b-2 border-b-gray-600 border-b-dashed" v-if="mode=='kuitansi'">
+        <div class="content w-full py-2 border-b-2 border-b-gray-600 border-b-dashed">
             <h1 class="text-center font-black text-2xl underline">KUITANSI</h1>
             <table class="mx-auto">
                 <tr>
@@ -154,11 +146,11 @@ const check = (bukti) => {
                 </tr>
             </table>
         </div>
-        <div class="w-2/4 mx-auto my-4" v-if="mode=='kuitansi'">
+        <div class="w-2/4 mx-auto my-4">
             <h1 class="border-dashed border-b-gray-400 border-b-2">Bukti / Berkas Terlampir</h1>
             <h1 class="terbilang border-2 border-black my-4 p-2 text-center bg-gray-100 font-black text-2xl">Rp. {{ bku?.nilai.toLocaleString("id-ID") }},-</h1>
         </div>
-        <div class="w-full my-2 grid grid-cols-3" v-if="mode=='kuitansi'">
+        <div class="w-full my-2 grid grid-cols-3">
             <div class="ks">
                 <p class="text-center">Menyetujui,</p>
                 <p class="text-center">Kepala Sekolah</p>
@@ -181,37 +173,24 @@ const check = (bukti) => {
                 <p class="text-center leading-3">NIP. <span class="text-white">{{ sekolah?.ks.nip }}</span></p>
             </div>
         </div>
-        <h1 class="text-2xl text-gray-200 mt-10 text-center" v-if="mode=='kuitansi'">Tempelkan Bukti Di bawah atau di belakang</h1>
+        <h1 class="text-2xl text-gray-200 mt-10 text-center">Tempelkan Bukti Di bawah atau di belakang</h1>
         <!-- <div class="buktis w-full grid grid-cols-2 gap-2" v-if="bku" > -->
             <!-- <div v-for="(bukti, bkt) in bku.buktis" :key="bkt"> -->
                 <!-- <object v-if="check(bukti) == 'pdf'" :data="bukti.url" class="w-full" width="100%" height="100%"></object> -->
                 <!-- <figure v-if="check(bukti).type !== 'pdf'"> -->
                     <!-- <img :src="bukti.url"  /> -->
                 <!-- </figure> -->
+                <!-- <div v-else> -->
+                    <!-- Bukti berjenis Dokumen. Link unduh:  -->
+                    <!-- <p class="flex gap-2"> -->
+                        <!-- <qrcode-vue :value="check(bukti).url" :size="100" level="L" :foreground="'#363636'" /> -->
+                        <!-- <a :href="check(bukti).url" target="_blank" class="text-sky-600">{{check(bukti).url}}</a> -->
+                    <!-- </p> -->
+                <!-- </div> -->
                 
             <!-- </div> -->
             
         <!-- </div> -->
-        <div class="bukti mt-6" v-if="mode == 'bukti'">
-          <h1 class="text-center">Bukti Transaksi {{bku.uraian}}</h1>
-          <div v-if="bku.buktis.length > 0" class="grid grid-cols-3 gap-2">
-             <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full" :class="bukti.tipe == 'dokumen' ? 'col-span-3':''">
-                  <figure v-if="bukti.tipe == 'foto'" class="w-full border border-2 p-2">
-                    <img :src="bukti.url" />
-                    <figcaption class="text-center">{{bukti.label}}</figcaption>
-                  </figure>
-
-                <div v-else class="bg-gray-50 p-2 border border-2">
-                    Bukti berjenis Dokumen. Link unduh: 
-                    <p class="flex gap-2">
-                        <qrcode-vue :value="check(bukti).url" :size="100" level="L" :foreground="'#363636'" />
-                        <a :href="check(bukti).url" target="_blank" class="text-sky-600">{{check(bukti).url}}</a>
-                    </p>
-                </div>
-             </div>
-          </div>
-
-        </div>
     </div>
 </div>
 </template>

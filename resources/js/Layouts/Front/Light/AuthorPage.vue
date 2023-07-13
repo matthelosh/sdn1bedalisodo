@@ -35,9 +35,12 @@ const capitalize = (text) => {
                     alt="Guru">
             </figure>
             <div class="bio md:col-span-2">
-                <h1 class="text-4xl md:text-[4rem] font-serif capitalize">Tentang {{ capitalize(props.author.userable.nama )}}</h1>
-                <p class="mb-3 text-justify font-serif">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora accusantium cumque reiciendis libero odit, saepe veritatis? Nam eos magnam architecto adipisci harum ipsa at molestias necessitatibus aperiam! Quasi, voluptatem aperiam?</p>
-                <p class="mb-3 text-justify font-serif">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque reiciendis facilis quidem praesentium dolore sed aut sequi cum similique, minima quaerat suscipit at. Vitae nihil autem illo non! Suscipit, obcaecati.</p>
+                <h1 class="text-2xl md:text-[4rem] font-serif text-gray-800" style="line-height: 3rem;"><span class="text-xl md:text-4xl text-gray-600">
+                    Tentang</span> <br/> 
+                    {{ capitalize(props.author.userable.nama ).trim()}},<small class="text-gray-600 text-xl">{{ props.author.userable.gelar_belakang }}</small>
+                </h1>
+                <p class="my-2 text-justify font-serif">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora accusantium cumque reiciendis libero odit, saepe veritatis? Nam eos magnam architecto adipisci harum ipsa at molestias necessitatibus aperiam! Quasi, voluptatem aperiam?</p>
+                <p class="my-2 text-justify font-serif">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque reiciendis facilis quidem praesentium dolore sed aut sequi cum similique, minima quaerat suscipit at. Vitae nihil autem illo non! Suscipit, obcaecati.</p>
                 <div class="sosmed flex flex-wrap justify-end gap-4 my-2">
                     <Icon icon="mdi:facebook" class="text-sky-800 text-4xl" />
                     <Icon icon="mdi:twitter" class="text-sky-600 text-4xl" />

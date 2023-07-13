@@ -12,7 +12,8 @@ class Bukti extends Model
     protected $fillable = [
         'transaksi_id',
         'label',
-        'url'
+        'url',
+        'tipe'
     ];
 
     function transaksi() {

@@ -1,6 +1,6 @@
 <script setup>
 import {ref, computed} from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, Link } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 
 const page = usePage();
@@ -43,10 +43,13 @@ const defaultAvatar = ($event, guru) => {
                 Berikut adalah guru-guru kami yang berdedikasi tinggi dalam mengemban misi pendidikan di SD Negeri 1 Bedalisodo
             </p>
             <div class="staffs-container flex gap-2 md:gap-6 overflow-x-auto flex-wrap justify-center mt-4">
-                <figure
+                <Link as="figure"
+                    class="hover:cursor-pointer"
                     v-for="(guru, g) in gurus"
                     :class="g === 0 ? 'w-full mb-6' : 'w-[40%] md:w-[20%] mb-4'"
-                    :key="g" >
+                    :key="g" 
+                    :href="route('Author', {name: guru.nickname})"
+                    >
                     <img
                     
                         :src="`/storage/images/guru/${guru.nip}.jpg`"
@@ -61,7 +64,7 @@ const defaultAvatar = ($event, guru) => {
                         </h1>
                         <h1 class="text-center">{{ jabatan(guru.role) }}</h1>
                     </figcaption>
-                </figure>
+                </Link>
                 
             </div>
             <button class="mx-auto py-1 px-2 my-3 rounded-xl bg-sky-400 text-white font-bold" @click="showAll = !showAll">{{showAll ? 'Sembunyikan':'Lihat Semua'}}</button>

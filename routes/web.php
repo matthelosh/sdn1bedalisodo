@@ -59,7 +59,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/nonmember', [RombelController::class, 'nonMember'])->name('dashboard.rombel.nonmember');
         Route::delete('/{id}', [RombelController::class, 'destroy'])->name('dashboard.rombel.destroy');
         Route::post('/{id}/masukkan', [RombelController::class, 'masukkan'])->name('dashboard.rombel.masukkan');
-        Route::post('/{id}/keluarkan', [RombelController::class, 'keluarkan'])->name('dashboard.rombel.keluarkan');
+        Route::post('/{id}/keluarkan/{siswa_id}', [RombelController::class, 'keluarkan'])->name('dashboard.rombel.keluarkan');
     });
     Route::prefix("siswa")->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
