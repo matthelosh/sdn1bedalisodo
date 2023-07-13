@@ -7,6 +7,7 @@ use App\Models\Rombel;
 use App\Models\Siswa;
 use App\Models\Tapel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RombelController extends Controller
 {
@@ -25,7 +26,7 @@ class RombelController extends Controller
     }
 
     function nonMember(Request $request) {
-        $nonmembers = Siswa::where('is_active','1')->whereDoesntHave('rombel')->get();
+        $nonmembers = Siswa::where('is_active','0')->whereDoesntHave('rombel')->get();
         // dd($nonmembers);
         return response()->json([
             'status' => 'ok',
@@ -41,13 +42,19 @@ class RombelController extends Controller
             'msg' => $attach
         ], 200);
     }
-    function keluarkan(Request $request, $id) {
-        $rombel = Rombel::find($id);
-        $detach = $rombel->siswas()->detach([$request->siswa['id']]);
+    function keluarkan(Request $request, $id, $siswa_id) {
+      
+      try {
+      $rombel = Rombel::find($id);
+        $detach = DB::table('rombel_siswa')->where('siswa_id', $siswa_id)->delete();
+        //$detach = $rombel->siswas()->detach([$siswa_id]);
         return response()->json([
             'status' => 'ok',
             'msg' => $detach
         ], 200);
+      } catch(\Exception $e) {
+        dd($e);
+      }
     }
 
 

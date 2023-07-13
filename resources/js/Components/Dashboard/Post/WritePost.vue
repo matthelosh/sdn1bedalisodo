@@ -111,10 +111,10 @@ const simpan = async() => {
             </button>
         </div>
         <div class="w-full py-4 flex justify-between items-center gap-2">
-            <textarea rows="1" v-model="post.title" placeholder="Tulis Judul" class="border-none focus:ring-0 font-bold text-lg text-sky-800 w-full" />
+            <textarea rows="1" v-model="post.title" placeholder="Tulis Judul" class="px-0 text-2xl border-none focus:ring-0 font-bold text-lg text-sky-800 w-full" />
             
         </div>
-        <div class="w-full gap-2 content-box" :class="postSettings ? 'flex' : ''">
+        <div class="w-full gap-2 content-box sticky top-20" :class="postSettings ? 'flex' : ''">
             <JoditEditor v-model="post.content" :extra-buttons="customButtons" ref="jodit" />
             <div class="w-1/4 bg-sky-100" v-if="postSettings">
                 <input type="file" ref="featuredImg" class="hidden" @change="onFeaturedImgPicked">

@@ -46,15 +46,13 @@ const login = async() => {
                 </div>
                 <div class="row flex items-center justify-between gap-1 mb-2">
                     <label for="password">Password</label>
-                    <div class="input-group relative">
+                    <div class="input-group relative ">
                         <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded-xl bg-opacity-70 bg-gray-50 text-gray-900" :readonly="user.processing" v-model="user.password">
-                        <button class="absolute z-20 right-2 py-1 flex items-center top-1" @click="togglePassword">
-                            <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-2xl" />
-                        </button>
+                        <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-4xl absolute z-20 right-2 py-1 cursor-pointer top-[50%] -translate-y-[50%]" @click.self="togglePassword" />
                     </div>
                 </div>
                 <div class="row flex items-center justify-center gap-1 mt-8 mb-2">
-                    <button type="submit" @click="login" class="bg-lime-600 hover:bg-lime-400 hover:text-gray-800 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
+                    <button class="bg-lime-600 hover:bg-lime-400 hover:text-gray-800 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
                         Login
                         <Icon icon="mdi:refresh" class="animate-spin" v-if="user.processing" />
                     </button>

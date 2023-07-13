@@ -26,10 +26,15 @@ class Siswa extends Model
         'hp',
         'email',
         'nik',
-        'is_active'
+        'is_active',
+        'status'
     ];
 
     function rombel()  {
         return $this->belongsToMany(Rombel::class, "rombel_siswa");
+    }
+
+    function alumni() {
+        return $this->hasOne(Alumni::class, 'nisn','nisn');
     }
 }

@@ -1,25 +1,16 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, defineAsyncComponent, ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import DashLayout from '@/Layouts/AdminLayout.vue'
 
-import {terbilang} from '@/Plugins/terbilang'
-
-const number = ref(null)
-
-const counted = computed(() => {
-    return terbilang(number.value)
-})
+const Agenda = defineAsyncComponent(() => import('@/Components/Dashboard/Settings/Agenda.vue'))
 </script>
 
 <template>
 <Head title="Pengaturan" />
 <DashLayout title="Pengaturan">
-    <div class="w-full h-[90vh] bg-white flex items-center justify-center">
-        <div class="text-center">
-            <h1 class="text-2xl text-slate-800 font-bold">{{ counted }}</h1>
-            <input type="number" v-model="number">
-        </div>
+    <div class="wrapper w-full p-3 grid grid-cols-1 md:grid-cols-4 gap-3">
+        <Agenda />
     </div>
 </DashLayout>
 </template>

@@ -24,7 +24,10 @@ class Guru extends Model
         'youtube',
         'instagram',
         'status',
-        'nickname'
+        'nickname',
+        'gelar_depan',
+        'gelar_belakang',
+        'bio'
     ];
 
     public function user()

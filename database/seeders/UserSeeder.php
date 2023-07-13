@@ -18,8 +18,7 @@ class UserSeeder extends Seeder
     {
         $gurus = Guru::all();
         foreach($gurus as $guru) {
-            $namas = explode(",", $guru->nama);
-            $username = strtolower(str_replace(" ","",$namas[0]));
+            $username = strtolower($guru->nickname);
             User::create([
                 'name' => $username,
                 'email' => $username.'@sdn1-bedalisodo.sch.id',

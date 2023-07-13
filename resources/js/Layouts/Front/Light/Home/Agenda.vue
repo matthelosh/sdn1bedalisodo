@@ -20,7 +20,15 @@ const agendas = ref([])
 const attributes = computed(() => {
     let attrs = []
     agendas.value.forEach((item, index) => {
-        attrs.push({key: item.id, highlight: item.color, dates: {start: new Date(item.start), end: new Date(item.end)}})
+        attrs.push({
+            key: item.id, 
+            highlight: item.color, 
+            dates: {start: new Date(item.start), end: new Date(item.end)},
+            popover: {
+                label: item.description,
+                visibility: 'hover'
+            }
+        })
     })
 
     return attrs

@@ -102,7 +102,7 @@ const droppedOnNonmember = (e) => {
 const keluarkan = async(siswa) => {
     await axios.post(route('dashboard.rombel.keluarkan', {
         id: props.rombel.id,
-        masukkan: true
+        siswa_id: siswa.id
 
     }), {siswa: siswa}).then(res => res).catch(err => err)
 }

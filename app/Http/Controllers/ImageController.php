@@ -15,7 +15,10 @@ class ImageController extends Controller
         foreach($images as $image) {
             $name = $image->getClientOriginalName();
             $ext = $image->extension();
-            $store = $request->query('disk') == 'local' ? Storage::putFileAs($path, $image, $name) : Storage::disk('s3')->put($path, $image, $name);
+            $store = $request->query('disk') == 'local' 
+                    ? Storage::putFileAs($path, $image, $name) 
+                    // : Storage::disk('s3')->put($path, $image, $name, 'public');
+                    : $image->storePubliclyAs($path, $name, 's3');
             $url = $request->query('disk') == 'local' ? Storage::url($store) : Storage::disk('s3')->url($store);
             array_push($urls, $url);
         }
