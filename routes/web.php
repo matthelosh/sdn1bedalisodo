@@ -73,6 +73,7 @@ Route::prefix('dashboard')->group(function() {
             Route::post("/store", [BosController::class, 'storeTransaksi'])->name('dashboard.bos.transaksi.store');
             Route::post("/import", [BosController::class, 'importTransaksi'])->name('dashboard.bos.transaksi.import');
         });
+        Route::post('/kegiatan', [BosController::class, 'listKegiatan'])->name('dashboard.bos.kegiatan.index');
     });
 
     Route::prefix('settings')->group(function() {
@@ -95,6 +96,8 @@ Route::prefix("/")->group(function() {
         $files = Storage::disk('s3')->files('images');
         return $files;
     });
+
+    Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
     Route::resource('video', 'VideoController');
 
