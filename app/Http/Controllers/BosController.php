@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bku;
 use App\Models\Bukti;
+use App\Models\KegiatanBos;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,10 +15,11 @@ class BosController extends Controller
 
     function getBku(Request $request) {
         try {
+            $year = date('Y');
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
-                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->with('buktis')->get();
+                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->with('buktis')->get();
             } else {
-                $bkus = Transaksi::with('buktis')->get();
+                $bkus = Transaksi::whereYear('tanggal', $year)->with('buktis')->get();
             }
             return response()->json([
                 'status' => 'ok',
@@ -69,11 +71,13 @@ class BosController extends Controller
             
             if($request->file('files')) {
                 foreach($request->file('files') as $file) {
+                    $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
                     $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
                     Bukti::create([
                         'transaksi_id' => $transaksi->no_bukti,
                         'label' => $file->getClientOriginalName(),
-                        'url' => Storage::url($store)
+                        'url' => Storage::url($store),
+                        'tipe' => $tipe,
                     ]);
                 }
             }
@@ -111,6 +115,21 @@ class BosController extends Controller
                 'msg' => 'Impor Transaksi Selesai'
             ], 200);
         } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function listKegiatan(Request $request) {
+        try {
+            $kegiatans = KegiatanBos::all();
+            return response()->json([
+                'status' => 'ok',
+                'kegiatans' => $kegiatans
+            ], 200);
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'fail',
                 'msg' => $e->getMessage()
