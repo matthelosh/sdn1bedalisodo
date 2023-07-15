@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Icon } from '@iconify/vue';
 import {read, utils} from 'xlsx'
 
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+
 onBeforeMount(() => {
     list()
 })
@@ -21,7 +23,12 @@ const list = async() => {
 }
 const rawItems = ref([])
 const transaksis = computed(() => {
-    return search.value !== '' ? rawItems.value.filter(item => item.uraian.toLowerCase().includes(search.value.toLowerCase())) : rawItems.value
+    // return search.value !== '' ? rawItems.value.filter(item => item.uraian.toLowerCase().includes(search.value.toLowerCase())) : rawItems.value
+    let word = search.value.replace(" ", "|")
+    let query = new RegExp(word, "gi")
+    return search.value !== '' 
+            ? rawItems.value.filter(item => item.uraian.toLowerCase().match(query)) 
+            : rawItems.value
 })
 
 const transaksi = ref({
@@ -103,6 +110,7 @@ const search = ref('');
 </script>
 
 <template>
+<Loading v-if="loading" />
 <div>
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
@@ -181,8 +189,6 @@ const search = ref('');
         </div>
     </div>
     <FormTransaksi :transaksi="transaksi" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
-    <div class="fixed top-0 right-0 bottom-0 left-0 bg-slate-800 bg-opacity-60 flex items-center justify-center z-50" v-if="loading">
-        <Icon icon="mdi:loading" class="animate-spin text-8xl text-white" />
-    </div>
+    
 </div>
 </template>

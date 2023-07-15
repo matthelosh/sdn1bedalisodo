@@ -1,11 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue';
-import {usePage, Head} from '@inertiajs/vue3';
+import { computed, ref, defineAsyncComponent } from 'vue';
+import {usePage, Head, router} from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { read, utils } from 'xlsx';
 
 const page = usePage()
 import { paginate } from '@/Plugins/misc';
 import { Icon } from '@iconify/vue';
+
+const loading = ref(false)
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
 const search = ref('')
 const currentPage = ref(0)
@@ -14,6 +18,24 @@ const siswas = computed(() => {
     let items = page.props.siswas.filter((siswa) => siswa.nama.toLowerCase().includes(search.value.toLowerCase()))
     return paginate(items, itemsPerPage.value, currentPage.value)
 })
+
+const onFileSiswaPicked = (e) => {
+    let file = e.target.files[0]
+
+    let reader = new FileReader();
+
+    reader.onload = async(ev) => {
+        let wb = await read(ev.target.result)
+        let datas = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+        loading.value = true
+        await axios.post(route('dashboard.siswa.impor'), {siswas: JSON.stringify(datas)}).then(res => {
+            loading.value = false
+            router.reload({only: ['siswas']})
+        })
+    }
+
+    reader.readAsArrayBuffer(file)
+}
 </script>
 
 <template>
@@ -21,13 +43,17 @@ const siswas = computed(() => {
 <AdminLayout title="Data Siswa">
     <div class="wrapper w-full oveflow-x-hidden p-3">
         <div class="table w-full p-3 bg-white">
-            <div class="table-header grid grid-cols-3 justify-between items-center w-full mb-3" >
+            <div class="table-header grid grid-cols-2 justify-between items-center w-full mb-3" >
                 <div class="hidden md:block ">
                     <h1 class="text-lg font-bold">Data Siswa</h1>
                 </div>
-                <div class="hidden md:block "></div>
-                <div>
-                    <input type="text" v-model="search" class="w-full rounded-lg" placeholder="Cari Nama" />
+                <div class="flex items-center justify-end gap-2">
+                    <input type="file" ref="fileInput" @change="onFileSiswaPicked" class="hidden" accept=".xls, .xlsx, .ods">
+                    <button class="flex items-center gap-1 hover:text-gray-600 border px-3 py-1 rounded border-transparent hover:border-gray-600" @click="$refs.fileInput.click()">
+                        <span class="hidden md:block">Impor Siswa</span>
+                        <Icon icon="mdi:import" class="text-xl" />
+                    </button>
+                    <input type="text" v-model="search" class="w-[50%] rounded-lg py-1" placeholder="Cari Nama" />
                 </div>
             </div>
             <table class="table-border border-collapse w-full">
@@ -63,7 +89,7 @@ const siswas = computed(() => {
                         </select>
                     </label>
                 </div>
-                <div class="page-nav flex flex-wrap">
+                <div class="page-nav flex flex-wrap col-span-3">
                     <button class="flex items-center justify-center p-2 border" :disabled="currentPage == 0" @click="currentPage--">
                         <Icon icon="mdi:chevron-double-left" />
                     </button>
@@ -80,4 +106,5 @@ const siswas = computed(() => {
         </div>
     </div>
 </AdminLayout>
+<Loading v-if="loading" />
 </template>

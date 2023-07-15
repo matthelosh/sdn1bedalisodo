@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
-    function page() {
+    function page(Request $request) {
+        // return $request->user();
         return Inertia::render('Auth/Siswa', [
             'siswas' => Siswa::with('rombel')->get(),
         ]);
@@ -35,6 +36,50 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function impor(Request $request) {
+        try {
+            $siswas = json_decode($request->siswas);
+            foreach($siswas as $siswa) {
+                Siswa::updateOrCreate(
+                    [
+                        'id' => $siswa->id ?? null,
+                        'nisn' => $siswa->nisn ?? null
+                    ],
+                    [
+                        'nis'  => $siswa->nis?? 'null',
+                        'nama' => $siswa->nama,
+                        'jk' => $siswa->jk,
+                        'tempat_lahir'=> $siswa->tempat_lahir,
+                        'tanggal_lahir' => $siswa->tanggal_lahir,
+                        'agama' => $siswa->agama?? 'Islam',
+                        'alamat' => $siswa->alamat,
+                        'rt' => $siswa->rt,
+                        'rw' => $siswa->rw,
+                        'desa' => $siswa->desa?? 'Dalisodo',
+                        'kecamatan' => $siswa->kecamatan?? 'Wagir',
+                        'kode_pos' => $siswa->kode_pos?? '65158',
+                        'kabupaten' => $siswa->kabupaten?? 'Malang',
+                        'hp' => $siswa->hp?? null,
+                        'email' => $siswa->email?? null,
+                        'nik' => $siswa->nik?? null,
+                        'is_active'=> $siswa->is_active?? '0',
+                        'status' => $siswa->status?? 'aktif'
+                    ]
+                    );
+            }
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'Impor Selesai'
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

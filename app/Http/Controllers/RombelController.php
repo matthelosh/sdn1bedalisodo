@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Guru;
 use Inertia\Inertia;
 use App\Models\Rombel;
 use App\Models\Siswa;
@@ -11,10 +12,15 @@ use Illuminate\Support\Facades\DB;
 
 class RombelController extends Controller
 {
-    function page() {
+    function page(Request $request) {
         $tapel = Tapel::where("status","1")->first();
+        $guru = Guru::where('id', $request->user()->userable_id)->first();
+        $rombels = $request->user()->level == 'admin' 
+                    ? Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas')->get() 
+                    :  Rombel::where("tapel", $tapel->kode)->where('guru_id', $guru->nip)->with('guru', 'tapel', 'siswas')->get();
+
         return Inertia::render('Auth/Rombel', [
-            'rombels' => Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas')->get(),
+            'rombels' => $rombels,
         ]);
     }
     /**

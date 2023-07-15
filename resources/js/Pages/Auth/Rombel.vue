@@ -45,7 +45,7 @@ const hapus = async (rombel) => {
             <div class="table w-full p-3 bg-white" v-if="mode=='list'">
                 <table class="table-border border-collapse w-full">
                     <thead>
-                        <tr>
+                        <tr class="bg-gray-100">
                             <th class="py-1 px-2 border">No</th>
                             <th class="py-1 px-2 border">Tapel</th>
                             <th class="py-1 px-2 border">Kode</th>
@@ -57,7 +57,7 @@ const hapus = async (rombel) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(rombel,g) in $page.props.rombels" :key="g" class="odd:bg-slate-200" >
+                        <tr v-for="(rombel,g) in $page.props.rombels" :key="g" class="odd:bg-gray-50" >
                             <td class="py-1 px-2 border text-center">{{ g+1 }}</td>
                             <td class="py-1 px-2 border">{{ rombel.tapel.label }}</td>
                             <td class="py-1 px-2 border">{{ rombel.kode }}</td>
@@ -85,7 +85,7 @@ const hapus = async (rombel) => {
                                     <button @click="manageMember(rombel)">
                                         <Icon icon="mdi:account-group" class="text-sky-600 hover:text-sky-800 text-2xl" />
                                     </button>
-                                    <button @click="hapus(rombel)">
+                                    <button @click="hapus(rombel)" v-if="page.props.auth.user.level == 'admin'">
                                         <Icon icon="mdi:delete-forever" class="text-red-300 hover:text-red-600 text-2xl" />
                                     </button>
                                 </div>

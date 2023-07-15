@@ -3,8 +3,11 @@ import { Link, usePage, router } from '@inertiajs/vue3';
 import {Icon} from '@iconify/vue';
 
 const page = usePage();
+const user = page.props.auth.user
 
-
+const role = (menu) => {
+    return menu.roles == user.level || menu.roles == 'all'
+}
 </script>
 
 <template>
@@ -16,9 +19,9 @@ const page = usePage();
             </Link>
             <ul class="children hidden group-hover:block transition-all duration-300">
                 <li v-for="(child, c) in menu.children" :key="c" >
-                    <Link :href="route().has(child.url) ? route(child.url) : '#'"  class=" hover:bg-white py-2 px-6 flex items-center gap-2">
+                    <Link :href="route().has(child.url) ? route(child.url) : '#'"  class=" hover:bg-white py-2 px-6 flex items-center gap-2" v-if="role(child)">
                         <Icon :icon="'mdi:'+child.icon" />
-                        {{ child.label }}
+                        {{ child.label }} 
                     </Link>
                 </li>
             </ul>
