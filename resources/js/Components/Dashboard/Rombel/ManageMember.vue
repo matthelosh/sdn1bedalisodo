@@ -147,7 +147,7 @@ const cetak = async() => {
                 </div>
             </div>
             <div class="content p-3 w-full overflow-x-hidden" :class="nonmemberBox ? 'grid grid-cols-6 gap-3': ''">
-                <div class="table w-full overflow-scroll" :class="nonmemberBox ? 'col-span-4': ''">
+                <div class="table w-full overflow-scroll print:col-span-6" :class="nonmemberBox ? 'col-span-4': ''">
                     <caption class="text-center text-xl hidden print:block font-bold mb-4">Data Peserta Didik Kelas {{ props.rombel.label }}</caption>
                     <table class="w-full border border-collapse dropzone table-member" @dragover.prevent="dragOverMember" @drop.prevent="droppedOnMember" dropzone>
                         
@@ -192,7 +192,7 @@ const cetak = async() => {
                         </div>
                     </div>
                 </div>
-                <div class="non-member col-span-2 h-screen overflow-y-scroll bg-gray-100 p-2" v-if="nonmemberBox">
+                <div class="non-member col-span-2 h-screen overflow-y-scroll bg-gray-100 p-2 print:hidden" v-if="nonmemberBox">
                     <table class="w-full border border-collapse table-nonmember bg-white dropzone" dropzone @dragover.prevent="dragOverNonmember" @drop.prevent="droppedOnNonmember" >
                         <thead class="bg-white">
                             <tr>
