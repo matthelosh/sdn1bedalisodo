@@ -25,7 +25,7 @@ const simpan = (content) => {
             </h1>
         </div>
     </div>
-    <FileBrowser />
+    <!-- <FileBrowser /> -->
 </template>
 
 <style scoped>

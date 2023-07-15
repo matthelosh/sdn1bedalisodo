@@ -15,6 +15,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
                             .catch(err => {
+                                console.log(err)
                                 return resolvePageComponent(`./Pages/Error.vue`,import.meta.glob('./Pages/**/*.vue'))
                             }),
     // resolve: async (name) => {
