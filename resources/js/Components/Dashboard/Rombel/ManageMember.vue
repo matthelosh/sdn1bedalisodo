@@ -22,8 +22,10 @@ const emit = defineEmits(['close'])
 const nonmemberBox = ref(false)
 
 const searchNonmember = ref('')
+
+const chunk = ref('10')
 const members = ref([])
-const pagedMembers = computed(() =>  paginate(members.value, 10, memberPage.value))
+const pagedMembers = computed(() =>  paginate(members.value, chunk.value, memberPage.value))
 const nonmembers = ref([])
 
 const selectedMembers = ref([])
@@ -114,33 +116,48 @@ const masukkan = async(siswa) => {
 
     }), {siswa: siswa}).then(res => res).catch(err => err)
 }
+
+const cetak = async() => {
+    chunk.value = 'all'
+    setTimeout(() => {
+        window.print()
+        chunk.value = 10
+    }, 500)
+    
+    
+}
 </script>
 
 <template>
     
-        <div class="w-full bg-white shadow">
-            <div class="toolbar h-12 flex items-center justify-between p-3 bg-slate-50">
+        <div class="w-full bg-white shadow print:shadow-none">
+            <div class="toolbar h-12 flex items-center justify-between p-3 bg-slate-50 print:hidden">
                 <h1>Manajemen Peserta Didik Kelas {{ props.rombel.label }} | Wali Kelas {{ props.rombel.guru.nama }}</h1>
                 <div class="toolbar-items flex items-center justify-end gap-2">
-                    <button class="flex items-center hover:border border-sky-400 hover:border-sky-600 rounded-full p-1" @click="toggleNonmember">
+                    <button class="flex items-center p-1" @click="toggleNonmember">
                         <Icon icon="mdi:account-school" class="text-2xl text-sky-400 hover:text-sky-600" />
                     </button>
                     <input type="text" v-model="searchNonmember" placeholder="Cari" class="rounded-lg h-8" v-if="nonmemberBox" />
+                    <button @click="cetak">
+                        <Icon icon="mdi:printer" class="text-2xl text-gray-600 hover:text-gray-400" />
+                    </button>
                     <button @click="emit('close')">
                         <Icon icon="mdi:close-box" class="text-red-400 hover:text-red-600 text-4xl" />
                     </button>
                 </div>
             </div>
-            <div class="content p-3 w-full overflow-x-hidden" :class="nonmemberBox ? 'grid grid-cols-4 gap-3': ''">
-                <div class="table w-full overflow-scroll" :class="nonmemberBox ? 'col-span-2': ''">
+            <div class="content p-3 w-full overflow-x-hidden" :class="nonmemberBox ? 'grid grid-cols-6 gap-3': ''">
+                <div class="table w-full overflow-scroll" :class="nonmemberBox ? 'col-span-4': ''">
+                    <caption class="text-center text-xl hidden print:block font-bold mb-4">Data Peserta Didik Kelas {{ props.rombel.label }}</caption>
                     <table class="w-full border border-collapse dropzone table-member" @dragover.prevent="dragOverMember" @drop.prevent="droppedOnMember" dropzone>
+                        
                         <thead>
                             <tr class="bg-slate-200">
                                 <th class="border p-2 border-slate-300">No</th>
                                 <th class="border p-2 border-slate-300">NISN</th>
                                 <th class="border p-2 border-slate-300">Nama</th>
                                 <th class="border p-2 border-slate-300">JK</th>
-                                <th class="border p-2 border-slate-300">Opsi</th>
+                                <th class="border p-2 border-slate-300 print:hidden">Opsi</th>
                             </tr>
                         </thead>
                         <tbody >
@@ -149,16 +166,16 @@ const masukkan = async(siswa) => {
                                     <h1 class="text-2xl font-bold text-sky-800">Belum Ada data Peserta di Kelas {{ props.rombel.label }}</h1>
                                 </td>
                             </tr>
-                            <tr v-for="(siswa,s) in pagedMembers.current" :key="s" class="odd:bg-sky-100" draggable="true" @dragstart="dragStarttoNonMember($event,siswa)">
-                                <td class="py-1 px-2  border text-center">{{ s+1 }}</td>
+                            <tr v-for="(siswa,s) in pagedMembers.current" :key="s" class="odd:bg-gray-50" draggable="true" @dragstart="dragStarttoNonMember($event,siswa)">
+                                <td class="py-1 px-2  border text-center">{{ siswa.no }}</td>
                                 <td class="py-1 px-2  border text-center">{{ siswa.nisn }}</td>
                                 <td class="py-1 px-2  border ">{{ siswa.nama }}</td>
                                 <td class="py-1 px-2  border text-center">{{ siswa.jk }}</td>
-                                <td class="py-1 px-2  border text-center"></td>
+                                <td class="py-1 px-2  border text-center print:hidden"></td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="pagination w-full flex justify-between my-2">
+                    <div class="pagination w-full flex justify-between my-2 print:hidden">
                         Jumlah: {{pagedMembers.total}}
                         <div class="page-nav flex flex-wrap">
                             <button class="flex items-center justify-center p-2 border" :disabled="memberPage == 0" @click="memberPage--">
@@ -175,16 +192,16 @@ const masukkan = async(siswa) => {
                         </div>
                     </div>
                 </div>
-                <div class="non-member col-span-2 h-screen overflow-y-scroll" v-if="nonmemberBox">
-                    <table class="w-full border border-collapse table-nonmember dropzone" dropzone @dragover.prevent="dragOverNonmember" @drop.prevent="droppedOnNonmember" >
-                        <thead>
+                <div class="non-member col-span-2 h-screen overflow-y-scroll bg-gray-100 p-2" v-if="nonmemberBox">
+                    <table class="w-full border border-collapse table-nonmember bg-white dropzone" dropzone @dragover.prevent="dragOverNonmember" @drop.prevent="droppedOnNonmember" >
+                        <thead class="bg-white">
                             <tr>
                                 <th class="border">NISN</th>
                                 <th class="border">Nama</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="(nonmem, nm) in nonmembers.filter(item => item.nama.toLowerCase().includes(searchNonmember.toLowerCase()))" :key="nm" draggable="true" @dragstart="dragStarttoMember($event, nonmem)">
+                        <tbody class="bg-white">
+                            <tr class="cursor-grab" v-for="(nonmem, nm) in nonmembers.filter(item => item.nama.toLowerCase().includes(searchNonmember.toLowerCase()))" :key="nm" draggable="true" @dragstart="dragStarttoMember($event, nonmem)">
                                 <td class="border">{{ nonmem.nisn }}</td>
                                 <td class="border">{{ nonmem.nama }}</td>
                             </tr>

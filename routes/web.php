@@ -63,6 +63,7 @@ Route::prefix('dashboard')->group(function() {
     });
     Route::prefix("siswa")->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
+        Route::post("/impor", [SiswaController::class, 'impor'])->name('dashboard.siswa.impor');
     });
 
     Route::prefix("bos")->group(function() {
