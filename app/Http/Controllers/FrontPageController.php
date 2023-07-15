@@ -25,6 +25,7 @@ class FrontPageController extends Controller
             'gurus' => Guru::whereNot('nama','Administrator')->get(),
             'posts' => Post::orderBy('updated_at', 'DESC')->with('category', 'views', 'author.userable')->limit(16)->get(),
         ];
+        // dd($datas);
         try {
             $recordView->handle($request, null);
             return $this->view(Route::currentRouteName(), $datas);

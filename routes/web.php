@@ -90,7 +90,7 @@ Route::prefix('dashboard')->group(function() {
 
 require __DIR__.'/auth.php';
 
-Route::prefix("/")->group(function() {
+Route::prefix("")->group(function() {
 
     // Tes IDC Storage
     Route::get('/s3', function() {
@@ -102,8 +102,7 @@ Route::prefix("/")->group(function() {
 
     Route::resource('video', 'VideoController');
 
-
-    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome')->breadcrumbs(fn(Trail $trail) => $trail->push('Home', route('Welcome')));
+    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
     Route::get('/about', [FrontPageController::class, 'index'])->name('About')->breadcrumbs(fn(Trail $trail) => $trail->parent('Welcome')->push('Profil', route('About')));
 
