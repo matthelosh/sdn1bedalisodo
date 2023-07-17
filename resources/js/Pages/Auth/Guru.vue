@@ -1,8 +1,14 @@
 <script setup>
-import {usePage, Head} from '@inertiajs/vue3';
+import {usePage, Head, router} from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { defineAsyncComponent, ref } from 'vue';
 
 const page = usePage()
+const loading = ref(false)
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+
+router.on('start', () => loading.value = true)
+router.on('finish', () => loading.value = false)
 </script>
 
 <template>
@@ -33,4 +39,5 @@ const page = usePage()
         </div>
     </div>
 </AdminLayout>
+<Loading v-if="loading" />
 </template>

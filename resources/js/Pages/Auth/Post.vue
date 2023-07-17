@@ -1,11 +1,17 @@
 <script setup>
 import { ref, computed, defineAsyncComponent } from 'vue';
-import { Head, usePage, Link } from '@inertiajs/vue3';
+import { Head, usePage, Link, router } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 
 import { paginate } from '@/Plugins/misc';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { formatDate } from '@vueuse/shared';
+
+const loading = ref(false)
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+
+router.on('start', () => loading.value = true)
+router.on('finish', () => loading.value = false)
 
 const WritePost = defineAsyncComponent(() => import('@/Components/Dashboard/Post/WritePost.vue'))
 
@@ -59,7 +65,7 @@ const tanggal = (tanggal) => {
 <template>
 <Head title="Post" />   
 <AdminLayout title="Postingan">
-    
+    <Loading v-if="loading" />
         <div class="p-4">
             <transition name="slide">
             <div class="w-full bg-white overflow-auto" v-if="mode == 'list'" :key="'tr1'">

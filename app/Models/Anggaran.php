@@ -19,7 +19,11 @@ class Anggaran extends Model
         'uraian',
         'volume',
         'satuan',
-        'tarif',
+        'nilai',
         'keterangan'
     ];
+
+    function sumber() {
+        return $this->belongsTo(SumberDana::class, 'sumber_dana', 'kode');
+    }
 }

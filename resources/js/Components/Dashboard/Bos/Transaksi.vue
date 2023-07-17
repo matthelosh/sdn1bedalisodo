@@ -37,42 +37,6 @@ const transaksi = ref({
 
 const showForm = ref(false)
 
-const compressImg = async (imgToCompress,resizingFactor, quality) => {
-    const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  
-  const originalWidth = imgToCompress.width;
-  const originalHeight = imgToCompress.height;
-  
-  const canvasWidth = originalWidth * resizingFactor;
-  const canvasHeight = originalHeight * resizingFactor;
-  
-  canvas.width = canvasWidth;
-  canvas.height = canvasHeight;
-  
-  context.drawImage(
-    imgToCompress,
-    0,
-    0,
-    originalWidth * resizingFactor,
-    originalHeight * resizingFactor
-  );
-  
-  // reducing the quality of the image
-  canvas.toBlob(
-    (blob) => {
-      if (blob) {
-        // showing the compressed image
-        // resizedImage.src = URL.createObjectURL(resizedImageBlob);
-        return blob
-      }
-    },
-    "image/jpeg",
-    quality
-  );
-    
-}
-
 const closeForm = () => {
     showForm.value = !showForm.value
 }
@@ -110,8 +74,9 @@ const search = ref('');
 </script>
 
 <template>
-<Loading v-if="loading" />
+
 <div>
+    <Loading v-if="loading" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
             <h1><span class="hidden">Data Transaksi</span></h1>

@@ -77,6 +77,17 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/kegiatan', [BosController::class, 'listKegiatan'])->name('dashboard.bos.kegiatan.index');
     });
 
+    Route::prefix('inventaris')->group(function() {
+        Route::inertia("/", "Auth/Inventaris")->name('dashboard.inventaris.home');
+    });
+    Route::prefix('tu')->group(function() {
+        Route::inertia("/", "Auth/Tu")->name('dashboard.tu.home');
+        Route::post("/klasifikasi_surat", [SuratController::class, 'imporKlasifikasiSurat'])->name('dashboard.tu.klasifikasi_surat.impor');
+        // Route::get("/", function() {
+        //     return 'Halo';
+        // });
+    });
+
     Route::prefix('settings')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
     });

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('kode_kegiatan', 100);
             $table->text('uraian');
             $table->integer('volume');
-            $table->string('stauan', 60);
-            $table->float('tarif', 12,2);
+            $table->string('satuan', 60);
+            $table->float('nilai', 12,2);
             $table->string('keterangan', 191)->nullable();
             $table->timestamps();
         });
