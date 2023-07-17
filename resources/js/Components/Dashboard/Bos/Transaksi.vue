@@ -39,6 +39,7 @@ const showForm = ref(false)
 
 const closeForm = () => {
     showForm.value = !showForm.value
+    list()
 }
 
 const edit = async (trans) => {

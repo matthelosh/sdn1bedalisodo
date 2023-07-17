@@ -11,6 +11,7 @@ onBeforeMount(() => {
     showForm.value = props.show
 })
 
+
 const transaksi = ref({})
 
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
@@ -56,7 +57,7 @@ const simpan = async() => {
     await axios.post(route('dashboard.bos.transaksi.store'), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
                 .then(res => {
                     loading.value = false
-                    list()
+                    emit('close')
                 }).catch(err => {
                     loading.value = false
                     console.log(err)
