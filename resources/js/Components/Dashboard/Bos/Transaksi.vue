@@ -23,7 +23,6 @@ const list = async() => {
 }
 const rawItems = ref([])
 const transaksis = computed(() => {
-    // return search.value !== '' ? rawItems.value.filter(item => item.uraian.toLowerCase().includes(search.value.toLowerCase())) : rawItems.value
     let word = search.value.replace(" ", "|")
     let query = new RegExp(word, "gi")
     return search.value !== '' 
