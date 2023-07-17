@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('anggarans', function (Blueprint $table) {
-            $table->renameColumn('stauan', 'satuan');
+        Schema::create('klasifikasi_surats', function (Blueprint $table) {
+            $table->id();
+            $table->string('kode', 20);
+            $table->string('uraian', 191);
+
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('anggarans', function (Blueprint $table) {
-            $table->renameColumn('satuan', 'stauan');
-        });
+        Schema::dropIfExists('klasifikasi_surats');
     }
 };

@@ -4,6 +4,8 @@ import {usePage, Head, router} from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { read, utils } from 'xlsx';
 
+router.on('start', () => loading.value = true)
+router.on('finish', () => loading.value = false)
 const page = usePage()
 import { paginate } from '@/Plugins/misc';
 import { Icon } from '@iconify/vue';

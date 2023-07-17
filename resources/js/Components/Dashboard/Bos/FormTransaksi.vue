@@ -63,8 +63,8 @@ const simpan = async() => {
 </script>
 
 <template>
-    <div class="fixed top-0 right-0 bottom-0 left-0 bg-slate-800 bg-opacity-60 flex items-center justify-center overflow-y-auto z-50" v-if="props.show">
-        <div class="dialog bg-white w-11/12 md:max-w-full mx-auto md:min-w-[400px] overflow-y-auto">
+    <div class="fixed top-0 right-0 bottom-0 left-0 bg-white backdrop-blur-sm bg-opacity-60 flex items-center justify-center overflow-y-auto z-50" v-if="props.show">
+        <div class="dialog bg-white w-11/12 md:max-w-full mx-auto md:min-w-[400px] overflow-y-auto shadow-lg border border-gray-200">
             <div class="toolbar p-3 bg-slate-100 flex items-center justify-between">
                 <h1>{{props.title}}</h1>
                 <div class="toolbar-items flex items-center gap-3 justify-end">
