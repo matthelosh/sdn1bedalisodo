@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from  'vue';
+import { ref, onBeforeMount, defineAsyncComponent } from  'vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
 
@@ -13,6 +13,8 @@ onBeforeMount(() => {
 
 const transaksi = ref({})
 
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+const loading = ref(false)
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
     console.log(file)
@@ -63,6 +65,7 @@ const simpan = async() => {
 </script>
 
 <template>
+    <Loading v-if="loading" />
     <div class="fixed top-0 right-0 bottom-0 left-0 bg-white backdrop-blur-sm bg-opacity-60 flex items-center justify-center overflow-y-auto z-50" v-if="props.show">
         <div class="dialog bg-white w-11/12 md:max-w-full mx-auto md:min-w-[400px] overflow-y-auto shadow-lg border border-gray-200">
             <div class="toolbar p-3 bg-slate-100 flex items-center justify-between">
