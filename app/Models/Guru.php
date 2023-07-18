@@ -12,6 +12,8 @@ class Guru extends Model
     protected $fillable = [
         'nip',
         'nama',
+        'gelar_depan',
+        'gelar-belakang',
         'jk',
         'tempat_lahir',
         'tanggal_lahir',

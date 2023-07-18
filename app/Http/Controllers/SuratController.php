@@ -35,4 +35,28 @@ class SuratController extends Controller
             ], 500);
         }
     }
+
+
+    function indexKlasifikasiSurat(Request $request) {
+        $q = $request->query('q');
+        try {
+            if($q == null) {
+                $klasifikasis = KlasifikasiSurat::all();
+            } 
+            else {
+                $klasifikasis = KlasifikasiSurat::where('uraian', 'LIKE', '%'.$q.'%')->get();
+            }
+
+            // dd($klasifikasis);
+            return response()->json([
+                'status' => 'ok',
+                'klasifikasis' => $klasifikasis
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
