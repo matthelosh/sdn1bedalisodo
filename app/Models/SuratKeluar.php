@@ -12,7 +12,6 @@ class SuratKeluar extends Model
         'no_surat',
         'klasifikasi_id',
         'tanggal_surat',
-        'jenis',
         'perihal',
         'tipe',
         'sifat',

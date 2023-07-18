@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('no_surat', 100)->unique();
             $table->string('klasifikasi_id', 10);
             $table->date('tanggal_surat');
-            $table->string('jenis', 50);
+            $table->string('sifat', 50); //[Sangat Rahasia, Rahasia, Terbatas, Biasa]
             $table->string('perihal', 100);
-            $table->string('tipe', 50);
-            $table->string('sifat', 50);
+            $table->string('tipe', 50); //[Keputusan, Perintah, Perjalanan Dinas, Undangan, Pemberitahuan]
             $table->enum('lingkup', ['Internal','Eksternal']);
             $table->string('pengirim', 100);
             $table->string('penerima', 100);

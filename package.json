@@ -42,6 +42,7 @@
         "@gabojkz/vue_moveable_v3": "^0.0.3-semantically-released",
         "@heroicons/vue": "^2.0.18",
         "@popperjs/core": "^2.11.8",
+        "@vueuse/components": "^10.2.1",
         "@vueuse/core": "^10.1.2",
         "@vueuse/motion": "^2.0.0",
         "@vueuse/shared": "^10.1.2",

@@ -82,7 +82,8 @@ Route::prefix('dashboard')->group(function() {
     });
     Route::prefix('tu')->group(function() {
         Route::inertia("/", "Auth/Tu")->name('dashboard.tu.home');
-        Route::post("/klasifikasi_surat", [SuratController::class, 'imporKlasifikasiSurat'])->name('dashboard.tu.klasifikasi_surat.impor');
+        Route::post("/klasifikasi_surat", [SuratController::class, 'indexKlasifikasiSurat'])->name('dashboard.tu.klasifikasi_surat.index');
+        Route::post("/klasifikasi_surat/impor", [SuratController::class, 'imporKlasifikasiSurat'])->name('dashboard.tu.klasifikasi_surat.impor');
         // Route::get("/", function() {
         //     return 'Halo';
         // });
