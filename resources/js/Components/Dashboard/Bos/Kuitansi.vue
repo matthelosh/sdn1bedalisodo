@@ -41,6 +41,8 @@ const check = (bukti) => {
     return {type: label.slice(-1)[0] , url: window.location.origin+bukti.url}
 }
 
+const colsBukti = ref('3')
+
 </script>
 
 <template>
@@ -195,13 +197,21 @@ const check = (bukti) => {
         <div class="bukti mt-6" v-if="mode == 'bukti'">
           <h1 class="text-center">Bukti Transaksi {{bku.uraian}}</h1>
           <div v-if="bku.buktis.length > 0" class="grid grid-cols-3 gap-2">
-             <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full" :class="bukti.tipe == 'dokumen' ? 'col-span-3':''">
-                  <figure v-if="bukti.tipe == 'foto'" class="w-full border border-2 p-2">
-                    <img :src="bukti.url" />
+             <div v-for="(bukti, b) in bku.buktis" :key="b" :class="bukti.tipe == 'dokumen' ? ('col-span-3'): ('col-span-'+colsBukti)" class="w-full">
+                <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
+                    <img :src="bukti.url" class="w-full" />
                     <figcaption class="text-center">{{bukti.label}}</figcaption>
-                  </figure>
+                    <label class="print:hidden">
+                        Lebar:
+                        <select v-model="colsBukti">
+                            <option value="3">Penuh</option>
+                            <option value="2">Setengah</option>
+                            <option value="1">Sepertiga</option>
+                        </select>
+                    </label>
+                </figure>
 
-                <div v-else class="bg-gray-50 p-2 border border-2">
+                <div v-else class="bg-gray-50 p-2 border-2">
                     Bukti berjenis Dokumen. Link unduh: 
                     <p class="flex gap-2">
                         <qrcode-vue :value="check(bukti).url" :size="100" level="L" :foreground="'#363636'" />
