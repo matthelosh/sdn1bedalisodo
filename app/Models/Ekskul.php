@@ -16,11 +16,15 @@ class Ekskul extends Model
         'keterangan'
     ];
 
-    private function tapel() {
+    public function tapel() {
         return $this->belongsTo(Tapel::class, 'tapel_id', 'kode');
     }
 
-    private function guru() {
+    public function guru() {
         return $this->belongsTo(Guru::class, 'guru_id', 'nip');
+    }
+
+    public function pesertas() {
+        return $this->belongsToMany(Siswa::class, 'ekskul_siswa');
     }
 }

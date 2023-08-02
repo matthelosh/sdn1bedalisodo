@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ekskul;
+use App\Models\Siswa;
 use App\Models\Tapel;
 use Illuminate\Http\Request;
 
@@ -13,10 +14,14 @@ class EkskulController extends Controller
      */
     public function index()
     {
+        try {
         return response()->json([
             'status' => 'ok',
-            'ekskuls' => Ekskul::all()
+            'ekskuls' => Ekskul::with('guru', 'pesertas')->get()
         ], 200);
+        } catch(\Exception $e) {
+            dd($e);
+        }
     }
 
 
@@ -46,6 +51,25 @@ class EkskulController extends Controller
         ]);
     }
 
+
+    function peserta(Request $request, $id) {
+        try {
+            $ekskul = Ekskul::find($id);
+            $siswas = Siswa::whereDoesntHave('ekskuls', function($q) use($id) {
+                $q->where('ekskuls.id', $id);
+            })->with('rombel')->get();
+            $pesertas = $ekskul->pesertas();
+
+            return response()->json([
+                'status' => 'ok',
+                'siswas' => $siswas,
+                'pesertas' => $pesertas
+            ], 200);
+        } catch(\Exception $e) {
+            dd($e);
+        }
+    }
+
     /**
      * Display the specified resource.
      */
@@ -73,9 +97,13 @@ class EkskulController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ekskul $ekskul)
+    public function destroy(Ekskul $ekskul, $id)
     {
-        //
+        $ekskul->destroy($id);
+        return response()->json([
+            'status' => 'ok',
+            'msg' => 'Ekskul dihapus'
+        ], 200);
     }
 
 

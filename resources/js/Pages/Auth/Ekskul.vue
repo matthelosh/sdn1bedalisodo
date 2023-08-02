@@ -5,6 +5,9 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
+const AturPeserta = defineAsyncComponent(() => import('@/Components/Dashboard/Ekskul/AturPeserta.vue'))
+
 
 const pageTitle = ref("Manajemen Ekstrakurikuler")
 const loading = ref(false)
@@ -13,6 +16,7 @@ const gurus = ref([])
 const ekskul = ref({
     guru_id: '0'
 })
+const selectedEkskul  = ref(null)
 const items = ref([])
 const ekskuls = computed(() => {
     let datas = []
@@ -22,6 +26,8 @@ const ekskuls = computed(() => {
     })
     return datas
 })
+
+const confirmDialog = ref(null)
 
 const getGurus = async() => {
     await axios.post(route('dashboard.guru.index'))
@@ -47,6 +53,8 @@ const simpan = async() => {
     await axios.post(route('dashboard.ekskul.store'), {ekskul: JSON.stringify(ekskul.value)})
                 .then(res => {
                     loading.value = false
+                    showForm.value = false
+                    ekskul.value = {}
                     list()
                 }).catch(err => {
                     loading.value = false
@@ -62,6 +70,46 @@ const closeForm = () => {
     ekskul.value = {}
 }
 
+const yakinHapus = async(item) => {
+    if( await confirmDialog.value.open(`Yakin Menghapus Data Ekskul ${item.label}`)) {
+        hapus(item)
+    } else {
+        return false
+    }
+}
+
+const hapus = async(item) => {
+    loading.value = true
+    await axios.delete(route('dashboard.ekskul.destroy', {id: item.id}))
+                .then(res => {
+                    list()
+                    loading.value = false
+                })
+                .catch( err => {
+                    console.log(err)
+                    loading.value = false
+                })
+}
+
+const setAvatar = (guru) => {
+    let url = ''
+    if (guru.jk == 'Laki-laki') {
+        url = `/img/guru-l.png`
+    } else {
+        if(guru.agama == 'Islam') {
+            url = `/img/guru-p-jilbab.png`
+        } else {
+            url = `/img/guru-p.png`
+        }
+    }
+
+    return url
+}
+
+const aturPeserta = ( item ) => {
+    selectedEkskul.value = item
+}
+
 onMounted(() => {
     list();
     getGurus();
@@ -70,9 +118,10 @@ onMounted(() => {
 
 <template>
     <Head :title="pageTitle" />
+    <ConfirmDialog ref="confirmDialog" />
     <Loading v-if="loading" />
     <AdminLayout :title="pageTitle">
-        <div class="toolbar sticky top-0 h-10 flex items-center justify-between p-3 bg-white">
+        <div class="toolbar sticky z-50 top-0 h-10 flex items-center justify-between p-3 bg-white">
             <h1 class="flex items-center">
                 <Icon icon="mdi:basketball" class="text-red-600" />
                 Data Ekstrakurikuler
@@ -87,7 +136,8 @@ onMounted(() => {
             </div>
         </div>
         <div class="content py-3">
-            <div class="table w-full overflow-auto bg-white">
+            <AturPeserta :ekskul="selectedEkskul" v-if="selectedEkskul !== null" />
+            <div class="table w-full overflow-auto bg-white" v-else>
                 <table class="w-full border">
                     <thead>
                         <tr>
@@ -114,14 +164,35 @@ onMounted(() => {
                             <td class="text-center border py-2">{{ item.no }}</td>
                             <td class="text-center border py-2">{{ item.kode }}</td>
                             <td class="text-center border py-2">{{ item.label }}</td>
-                            <td class="text-center border py-2">{{ item.guru_id }}</td>
+                            <td class="text-left border py-2 px-2">
+                                <div class="w-full flex items-center gap-2">
+                                    <img :src="setAvatar(item.guru)" :alt="item.guru.nama" class="w-[100px] aspect-square rounded-full shadow">
+                                    <div>
+                                        <p class="font-bold text-slate-600">{{ item.guru.nama }}</p>
+                                        <p>{{ item.guru.alamat }}</p>
+                                        <p>
+                                            <Icon icon="mdi:cellphone-android" class="inline-block" />
+                                            {{ item.guru.hp }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="text-center border py-2">{{ item.keterangan }}</td>
-                            <td class="text-center border py-2">Opsi</td>
+                            <td class="text-center border py-2">
+
+                                <button @click="aturPeserta(item)">
+                                    <Icon icon="mdi:account-multiple" class="text-sky-400 hover:text-sky-600" />
+                                </button>
+                                <button @click="yakinHapus(item)">
+                                    <Icon icon="mdi:trash-can-outline" class="text-red-400 hover:text-red-600" />
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+       
     </AdminLayout>
     <div 
         v-if="showForm"

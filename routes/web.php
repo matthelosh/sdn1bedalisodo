@@ -73,6 +73,8 @@ Route::prefix('dashboard')->group(function() {
         Route::inertia("/", "Auth/Ekskul")->name('dashboard.ekskul.home');
         Route::post('/', [EkskulController::class, 'index'])->name('dashboard.ekskul.index');
         Route::post('/store', [EkskulController::class, 'store'])->name('dashboard.ekskul.store');
+        Route::post('/peserta/{id}', [EkskulController::class, 'peserta'])->name('dashboard.ekskul.peserta');
+        Route::delete('/{id}', [EkskulController::class, 'destroy'])->name('dashboard.ekskul.destroy');
     });
 
     Route::prefix("bos")->group(function() {
@@ -101,6 +103,7 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix('settings')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
         Route::post('/tapel', [SettingController::class, 'tapel'])->name('dashboard.tapel.index');
+        Route::post('/tapel/toggle', [SettingController::class, 'toggleTapel'])->name('dashboard.tapel.toggle');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {

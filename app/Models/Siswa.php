@@ -38,4 +38,8 @@ class Siswa extends Model
     function alumni() {
         return $this->hasOne(Alumni::class, 'nisn','nisn');
     }
+
+    function ekskuls() {
+        return $this->belongsToMany(Ekskul::class, 'ekskul_siswa');
+    }
 }

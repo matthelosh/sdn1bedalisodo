@@ -41,7 +41,15 @@ const hapus = async (rombel) => {
 <Head title="Data Rombel" />   
 <AdminLayout title="Data Rombel">
     <div class="wrapper w-full oveflow-x-hidden p-3">
-        <div class="table w-full p-3 bg-white" v-if="mode=='list'">
+        <div class="toolbar w-full">
+            <div class="toolbar-items">
+                <button class="flex items-center gap-1 py-1 px-2 bg-sky-200 rounded hover:bg-sky-600 hover:text-white group">
+                    <Icon icon="mdi:plus-circle" class="text-sky-400 group-hover:text-orange-100" />
+                    Baru
+                </button>
+            </div>
+        </div>
+        <div class="table w-full p-3 bg-white my-4" v-if="mode=='list'">
             <table class="table-border border-collapse w-full">
                 <thead>
                     <tr class="bg-gray-100">
