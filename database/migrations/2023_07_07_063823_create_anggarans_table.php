@@ -14,16 +14,13 @@ return new class extends Migration
         Schema::create('anggarans', function (Blueprint $table) {
             $table->id();
             $table->string('tahun_anggaran',4);
-            $table->string('sumber_dana', 60);
+            $table->string('kode',30)->unique();
+            $table->string('sumber_dana', 60)->default('BOS REGULER');
             $table->string('tahap', 30);
-            $table->string('bulan_anggaran', 30);
-            $table->string('kode_rekening', 100);
-            $table->string('kode_kegiatan', 100);
             $table->text('uraian');
-            $table->integer('volume');
-            $table->string('satuan', 60);
             $table->float('nilai', 12,2);
             $table->string('keterangan', 191)->nullable();
+            $table->enum('status', ['aktif','nonaktif'])->default('nonaktif');
             $table->timestamps();
         });
     }

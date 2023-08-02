@@ -1,0 +1,175 @@
+<script setup>
+import { defineAsyncComponent, ref, computed, onMounted } from 'vue';
+import { Head, router } from '@inertiajs/vue3';
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { Icon } from '@iconify/vue';
+import axios from 'axios';
+const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+
+const pageTitle = ref("Manajemen Ekstrakurikuler")
+const loading = ref(false)
+const showForm = ref(false)
+const gurus = ref([])
+const ekskul = ref({
+    guru_id: '0'
+})
+const items = ref([])
+const ekskuls = computed(() => {
+    let datas = []
+    items.value.forEach((item,index) => {
+        item.no = index+1
+        datas.push(item)
+    })
+    return datas
+})
+
+const getGurus = async() => {
+    await axios.post(route('dashboard.guru.index'))
+                .then(res => {
+                    gurus.value = res.data.gurus
+                }).catch(err => {
+                    console.log(err)
+                })
+}
+const list = async() => {
+    loading.value = true
+    await axios.post(route('dashboard.ekskul.index'))
+                .then(res => {
+                    loading.value = false
+                    items.value = res.data.ekskuls
+                }).catch(err => {
+                    loading.value = false
+                })
+}
+
+const simpan = async() => {
+    loading.value = true
+    await axios.post(route('dashboard.ekskul.store'), {ekskul: JSON.stringify(ekskul.value)})
+                .then(res => {
+                    loading.value = false
+                    list()
+                }).catch(err => {
+                    loading.value = false
+                })
+}
+
+const openForm = () => {
+    showForm.value = true
+}
+
+const closeForm = () => {
+    showForm.value = false
+    ekskul.value = {}
+}
+
+onMounted(() => {
+    list();
+    getGurus();
+})
+</script>
+
+<template>
+    <Head :title="pageTitle" />
+    <Loading v-if="loading" />
+    <AdminLayout :title="pageTitle">
+        <div class="toolbar sticky top-0 h-10 flex items-center justify-between p-3 bg-white">
+            <h1 class="flex items-center">
+                <Icon icon="mdi:basketball" class="text-red-600" />
+                Data Ekstrakurikuler
+            </h1>
+            <div class="toolbar-items flex items-center justify-end gap-2">
+                <button
+                    @click="openForm"
+                    class="flex items-center justify-center gap-1 text-sky-600 rounded border py-1 px-2 hover:bg-slate-200 active:bg-slate-400">
+                        <Icon icon="mdi:plus-circle" class="text-sky-400" />
+                        <span class="text-sm">Baru</span>
+                </button>
+            </div>
+        </div>
+        <div class="content py-3">
+            <div class="table w-full overflow-auto bg-white">
+                <table class="w-full border">
+                    <thead>
+                        <tr>
+                            <th class="py-3 border bg-slate-400 text-slate-800">No</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Kode</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Label</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Pembina</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Keterangan</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="ekskuls.length < 1">
+                            <td colspan="6" class="p-3 bg-slate-200 text-center">
+                                <h1 class="text-lg font-bold text-slate-600">
+                                    Belum ada data Ekstrakurikuler
+                                </h1>
+                            </td>
+                        </tr>
+                        <tr
+                            v-for="item in items" :key="item.id"
+                            class="odd:bg-slate-100"
+                        >
+                            <td class="text-center border py-2">{{ item.no }}</td>
+                            <td class="text-center border py-2">{{ item.kode }}</td>
+                            <td class="text-center border py-2">{{ item.label }}</td>
+                            <td class="text-center border py-2">{{ item.guru_id }}</td>
+                            <td class="text-center border py-2">{{ item.keterangan }}</td>
+                            <td class="text-center border py-2">Opsi</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </AdminLayout>
+    <div 
+        v-if="showForm"
+        class="dialog fixed z-50 bg-slate-200 top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-opacity-60 backdrop-blur-sm">
+            <div class="dialog-form w-11/12 md:w-[500px] bg-white rounded shadow">
+                <div class="form-toolbar w-full py-1 px-2 flex items-center justify-between">
+                    Isi Data Ekskul
+                    <button @click="closeForm">
+                        <Icon icon="mdi:close-circle" class="text-red-600 text-2xl hover:text-red-400" />
+                    </button>
+                </div>
+                <div class="form-content p-3 bg-slate-100">
+                    <form @submit.prevent="simpan">
+                        <label for="Kode" class="w-full flex justify-between my-2">
+                            Kode
+                            <input type="text" placeholder="Kode Ekskul" class="py-1 border-none bg-slate-200 w-[60%] rounded" v-model="ekskul.kode" required>
+                        </label>
+                        <label for="label" class="w-full flex justify-between my-2">
+                            Label
+                            <input type="text" placeholder="Label Ekskul" class="py-1 border-none bg-slate-200 w-[60%] rounded" v-model="ekskul.label" required>
+                        </label>
+                        <label for="guru" class="w-full flex justify-between my-2">
+                            Guru Pembina
+                            <select class="py-1 border-none bg-slate-200 w-[60%] rounded" v-model="ekskul.guru_id" required>
+                                <option value="0">Pilih Guru Pembina</option>
+                                <option
+                                    v-for="(guru,g) in gurus"
+                                    :key="g" 
+                                    :value="guru.nip">
+                                    {{ guru.nama }}
+                                </option>
+                            </select>
+                        </label>
+                        <label for="keterangan" class="w-full flex justify-between my-2">
+                            Keterangan
+                            <textarea class="py-1 border-none bg-slate-200 w-[60%] rounded" placeholder="Keterangan" v-model="ekskul.keterangan" required>
+                            </textarea>
+                        </label>
+                        <label for="submit" class="flex justify-center mt-4">
+                            <button type="submit" 
+                                class="bg-sky-600 text-slate-50 py-1 px-2 rounded hover:bg-sky-400 flex items-center gap-1" 
+                                :disabled="loading">
+                                <Icon icon="mdi:progress-clock" class="animate-spin" v-if="loading" />
+                                Simpan
+                            </button>
+                        </label>
+                    </form>
+                </div>
+            </div>
+    </div>
+</template>

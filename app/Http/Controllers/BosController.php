@@ -74,7 +74,7 @@ class BosController extends Controller
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
                     $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
                     Bukti::create([
-                        'transaksi_id' => $transaksi->no_bukti,
+                        'transaksi_id' => $transaksi->kode,
                         'label' => $file->getClientOriginalName(),
                         'url' => Storage::url($store),
                         'tipe' => $tipe,

@@ -18,9 +18,18 @@ class GuruController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+        if(!$request->query('q')) {
+            $gurus = Guru::whereNot('role', 'admin')->get();
+        } else {
+            $gurus = Guru::whereNot('role', 'admin')->where('nama','LIKE','%'.$request->query('q').'%')->get();
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'gurus' => $gurus
+        ], 200);
     }
 
     /**

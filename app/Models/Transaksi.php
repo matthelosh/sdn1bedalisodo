@@ -9,6 +9,8 @@ class Transaksi extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'anggaran_id',
+        'kode',
         'tipe',
         'jenis',
         'tanggal',
@@ -25,6 +27,6 @@ class Transaksi extends Model
     }
 
     function buktis() {
-        return $this->hasMany(Bukti::class, 'transaksi_id', 'no_bukti');
+        return $this->hasMany(Bukti::class, 'transaksi_id', 'kode');
     }
 }

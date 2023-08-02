@@ -17,6 +17,6 @@ class Bukti extends Model
     ];
 
     function transaksi() {
-        return $this->belongsTo(Transaksi::class, 'transaksi_id', 'no_bukti');
+        return $this->belongsTo(Transaksi::class, 'transaksi_id', 'kode');
     }
 }

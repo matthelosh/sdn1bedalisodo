@@ -14,6 +14,10 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
+                            // .then(res => {
+                            //     console.log(res)
+                            //     return resolvePageComponent(`./Pages/Welcome.vue`, import.meta.glob('/Pages/Welcome.vue'))
+                            // })
                             .catch(err => {
                                 console.log(err)
                                 return resolvePageComponent(`./Pages/Error.vue`,import.meta.glob('./Pages/**/*.vue'))

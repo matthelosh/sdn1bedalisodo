@@ -45,14 +45,14 @@ class HandleInertiaRequests extends Middleware
             },
             'sekolah' => $this->sekolah(),
             'menus' => $request->user() ? $this->menus($request->user()) : null,
-            'layout' => $this->frontLayout() ?? 'Default',
-            'tapel' => Tapel::where("status", "1")->first(),
+            'layout' => $this->frontLayout(),
+            'tapel' => $this->tapel(),
         ]);
     }
 
     protected function frontLayout() {
         $site = \App\Models\Config::select('layout')->first();
-        return $site->layout;
+        return $site ? $site->layout : 'Default';
     }
 
     protected function sekolah() {
@@ -65,5 +65,10 @@ class HandleInertiaRequests extends Middleware
         $roled = Menu::whereDoesntHave('parent')->where('roles', 'LIKE', '%'.$user->level.'%')->with('children')->get();
         $menus = $all->merge($roled);
         return $menus;
+    }
+
+    protected function tapel() {
+        $tapel = Tapel::where("status", "1")->first();
+        return $tapel ?? null;
     }
 }

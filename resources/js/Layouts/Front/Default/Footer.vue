@@ -9,7 +9,7 @@ const page = usePage()
 <template>
     <footer class="w-full min-h-[200px] bg-primary">
         <div class="grid grid-cols-1 md:grid-cols-3 m-4 my-0">
-            <div class="footer-identitas p-3 flex flex-col justify-center items-center md:flex-row gap-3 text-sm">
+            <div class="footer-identitas p-3 flex flex-col justify-center items-center md:flex-row gap-3 text-sm" v-if="page.props.sekolah !== null">
                 <img src="/img/logo.png" alt="Logo" class="h-20 drop-shadow" />
                 <div class="footer-identitas--alamat">
                     <h1 class="leading-4 md:leading-5 tracking-wide text-center md:text-left text-lg font-thin text-yellow-400">{{ page.props.sekolah.nama }}</h1>
@@ -57,7 +57,7 @@ const page = usePage()
         </div>
         <div class="w-full h-12 flex flex-col md:flex-row justify-center md:justify-between items-center px-4 text-xs text-gray-100 bg-sky-800 bg-opacity-20">
             <div>
-                Copyright &copy; {{ new Date().getFullYear() }} <span class="text-yellow-400">{{page.props.sekolah.nama}}</span>
+                Copyright &copy; {{ new Date().getFullYear() }} <span class="text-yellow-400" v-if="page.props.sekolah">{{page.props.sekolah.nama}}</span>
             </div>
             <div class="flex items-center">
                 <p>

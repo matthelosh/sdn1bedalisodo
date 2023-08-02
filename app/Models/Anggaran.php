@@ -10,20 +10,19 @@ class Anggaran extends Model
     use HasFactory;
 
     protected $fillable = [
+        'kode',
         'tahun_anggaran',
         'sumber_dana',
-        'bulan_anggaran',
         'tahap',
-        'kode_rekening',
-        'kode_kegiatan',
         'uraian',
-        'volume',
         'satuan',
         'nilai',
-        'keterangan'
+        'keterangan',
+        'status'
     ];
 
-    function sumber() {
-        return $this->belongsTo(SumberDana::class, 'sumber_dana', 'kode');
+    function transaksis() {
+        return $this->hasMany(Transaksi::class, 'anggaran_id', 'kode');
     }
+
 }

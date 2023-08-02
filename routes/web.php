@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ use Tabuna\Breadcrumbs\Trail;
 Route::prefix('dashboard')->group(function() {
     Route::get('/', function() {
         return Inertia::render('Auth/Dashboard');
+        // return User::with('userable')->first();
     })->name('dashboard')->middleware('is_auth');
     Route::prefix("post")->group(function() {
         Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
@@ -53,6 +55,7 @@ Route::prefix('dashboard')->group(function() {
 
     Route::prefix("guru")->group(function() {
         Route::get("/", [GuruController::class, 'page'])->name('dashboard.guru.page');
+        Route::post("/", [GuruController::class, 'index'])->name('dashboard.guru.index');
     });
     Route::prefix("rombel")->group(function() {
         Route::get("/", [RombelController::class, 'page'])->name('dashboard.rombel.page');
@@ -64,6 +67,12 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix("siswa")->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
         Route::post("/impor", [SiswaController::class, 'impor'])->name('dashboard.siswa.impor');
+    });
+
+    Route::prefix("ekskul")->group(function() {
+        Route::inertia("/", "Auth/Ekskul")->name('dashboard.ekskul.home');
+        Route::post('/', [EkskulController::class, 'index'])->name('dashboard.ekskul.index');
+        Route::post('/store', [EkskulController::class, 'store'])->name('dashboard.ekskul.store');
     });
 
     Route::prefix("bos")->group(function() {
@@ -91,6 +100,7 @@ Route::prefix('dashboard')->group(function() {
 
     Route::prefix('settings')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
+        Route::post('/tapel', [SettingController::class, 'tapel'])->name('dashboard.tapel.index');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {
