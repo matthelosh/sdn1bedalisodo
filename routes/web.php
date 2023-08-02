@@ -74,7 +74,10 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/', [EkskulController::class, 'index'])->name('dashboard.ekskul.index');
         Route::post('/store', [EkskulController::class, 'store'])->name('dashboard.ekskul.store');
         Route::post('/peserta/{id}', [EkskulController::class, 'peserta'])->name('dashboard.ekskul.peserta');
+        Route::post('/peserta/masukkan/{id_ekskul}/{id_siswa}',[EkskulController::class, 'masukkan'])->name('dashboard.ekskul.peserta.masukkan');
+        Route::post('/peserta/keluarkan/{id_ekskul}/{id_siswa}',[EkskulController::class, 'keluarkan'])->name('dashboard.ekskul.peserta.keluarkan');
         Route::delete('/{id}', [EkskulController::class, 'destroy'])->name('dashboard.ekskul.destroy');
+       
     });
 
     Route::prefix("bos")->group(function() {

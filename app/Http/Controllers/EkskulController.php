@@ -70,6 +70,39 @@ class EkskulController extends Controller
         }
     }
 
+    function masukkan(Request $request, $id_ekskul, $id_siswa) {
+        try {
+            $ekskul = Ekskul::where('id', $id_ekskul)->first();
+            $attach = $ekskul->pesertas()->attach([$id_siswa]);
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $attach
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $th
+            ], 500);
+        }
+    }
+    function keluarkan(Request $request, $id_ekskul, $id_siswa) {
+        try {
+            $ekskul = Ekskul::where('id', $id_ekskul)->first();
+            $attach = $ekskul->pesertas()->detach([$id_siswa]);
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $attach
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $th
+            ], 500);
+        }
+    }
+
     /**
      * Display the specified resource.
      */
