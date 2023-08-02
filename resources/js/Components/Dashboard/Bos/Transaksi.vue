@@ -44,7 +44,7 @@ const closeForm = () => {
 const edit = async (trans) => {
     formTitle.value = `Edit Transaksi ${trans.no_bukti}`
     transaksi.value = trans
-    console.log(transaksi.value)
+    // console.log(transaksi.value)
     // imageHolder.value = true
     showForm.value = true
 }

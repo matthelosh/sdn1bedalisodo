@@ -18,7 +18,7 @@ const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.
 const loading = ref(false)
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
-    console.log(file)
+    // console.log(file)
     if (file.size > 2000000) {
         alert('Ukuran FIle terlalu Besar')
         return false

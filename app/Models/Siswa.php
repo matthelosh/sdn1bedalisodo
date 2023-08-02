@@ -23,6 +23,7 @@ class Siswa extends Model
         'kecamatan',
         'kode_pos',
         'kabupaten',
+        'angkatan',
         'hp',
         'email',
         'nik',
