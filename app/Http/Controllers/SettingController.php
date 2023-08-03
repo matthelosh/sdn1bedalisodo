@@ -25,4 +25,29 @@ class SettingController extends Controller
             'tapels' => $toggle
         ], 200);
     }
+
+    public function storeTapel(Request $request) {
+        try {
+            $data = json_decode($request->tapel);
+            $tapel = Tapel::updateOrCreate(
+                [
+                    'id' => $data->id ?? null,
+                ],
+                [
+                    'kode' => $data->kode,
+                    'label' => $data->label,
+                    'status' => '0'
+                ]
+            );
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $tapel
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

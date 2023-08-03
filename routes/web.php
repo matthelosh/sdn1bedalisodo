@@ -108,6 +108,7 @@ Route::prefix('dashboard')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
         Route::post('/tapel', [SettingController::class, 'tapel'])->name('dashboard.tapel.index');
         Route::post('/tapel/toggle', [SettingController::class, 'toggleTapel'])->name('dashboard.tapel.toggle');
+        Route::post('/tapel/store', [SettingController::class, 'storeTapel'])->name('dashboard.setting.tapel.store');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {

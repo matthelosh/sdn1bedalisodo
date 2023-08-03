@@ -1,6 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
 
 const tapels = ref([])
 
@@ -17,6 +18,22 @@ const toggleStatus = async(tapel) => {
         .catch(cerr => console.log(err))
 }
 
+const showForm = ref(false)
+const newTapel = () => {
+    showForm.value = !showForm.value
+}
+
+const tapel = ref({})
+
+const simpan = async() => {
+    await axios.post(route('dashboard.setting.tapel.store'), {tapel: JSON.stringify(tapel.value)})
+                .then(res => {
+                    showForm.value = false
+                    tapel.value = {}
+                    list()
+                }).catch(err => console.log(err))
+}
+
 onMounted(() => {
     list()
 })
@@ -25,6 +42,29 @@ onMounted(() => {
 
 <template>
 <div class="wrapper w-full bg-white p-2 rounded shadow">
+    <div class="toolbar h-10 bg-slate-200 flex items-center justify-between p-3">
+        <h1>Tahun Pelajaran</h1>
+        <button class="shadow rounded-full" @click="newTapel">
+            <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="showForm ? 'rotate-45 text-red-400 hover:text-red-600' : 'rotate-0 text-sky-400 hover:text-sky-600'" />
+        </button>
+    </div>
+    <div class="form my-2 bg-slate-300 p-2 transition" v-if="showForm">
+        <form class="form-tapel" @submit.prevent="simpan">
+            <label for="kode" class="my-2 w-full flex items-center justify-between">
+                Kode
+                <input type="text" placeholder="Kode Tapel" class="py-0 rounded-sm border-none bg-slate-100 shadow-inner" v-model="tapel.kode" required />
+            </label>
+            <label for="label" class="my-2 w-full flex items-center justify-between">
+                Label
+                <input type="text" placeholder="Label Tapel" class="py-0 rounded-sm border-none bg-slate-100 shadow-inner" v-model="tapel.label" required />
+            </label>
+            <label for="submit" class="my-2 w-full flex items-center justify-center">
+                <button class="bg-sky-400 px-2 rounded-sm text-white shadow hover:bg-sky-500">
+                    Simpan
+                </button>
+            </label>
+        </form>
+    </div>
     <table class="border w-full">
         <thead>
             <tr>
