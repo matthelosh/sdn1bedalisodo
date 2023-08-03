@@ -44,6 +44,7 @@ const openForm = () => {
 
 const closeForm = () => {
     mode.value = 'list'
+    router.reload({only: ['rombels']})
 }
 </script>
 

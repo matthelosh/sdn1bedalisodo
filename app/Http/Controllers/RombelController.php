@@ -69,7 +69,32 @@ class RombelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = json_decode($request->rombel);
+            $rombel = Rombel::updateOrCreate(
+                [
+                    'id' => $data->id ?? null
+                ],
+                [
+                    'tapel' => $data->tapel,
+                    "kode"  => $data->kode,
+                    "label"  => $data->label,
+                    "kurikulum"  => $data->kurikulum,
+                    "tingkat" => $data->tingkat,
+                    "guru_id"  => $data->guru_id
+                ]
+            );
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $rombel
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
