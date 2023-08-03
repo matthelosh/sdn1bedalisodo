@@ -133,6 +133,13 @@ onMounted(() => {
                         <Icon icon="mdi:plus-circle" class="text-sky-400" />
                         <span class="text-sm">Baru</span>
                 </button>
+                <button
+                    v-if="selectedEkskul"
+                    @click="selectedEkskul = null"
+                    class="flex items-center justify-center gap-1 text-orange-600 rounded border border-orange py-1 px-2 hover:bg-orange-200 active:bg-orange-400">
+                        <Icon icon="mdi:arrow-left" class="text-orange-400" />
+                        <span class="text-sm">Kembali</span>
+                </button>
             </div>
         </div>
         <div class="content py-3">

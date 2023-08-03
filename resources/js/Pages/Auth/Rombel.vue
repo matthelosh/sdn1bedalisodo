@@ -8,6 +8,8 @@ const page = usePage()
 
 const ManageMember = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/ManageMember.vue'))
 const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
+const FormRombel = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/FormRombel.vue'))
+
 const selectedRombel = ref(null);
 const mode = ref('list')
 
@@ -35,6 +37,14 @@ const hapus = async (rombel) => {
         })
     
 }
+
+const openForm = () => {
+    mode.value = 'form'
+}
+
+const closeForm = () => {
+    mode.value = 'list'
+}
 </script>
 
 <template>
@@ -43,7 +53,7 @@ const hapus = async (rombel) => {
     <div class="wrapper w-full oveflow-x-hidden p-3">
         <div class="toolbar w-full">
             <div class="toolbar-items">
-                <button class="flex items-center gap-1 py-1 px-2 bg-sky-200 rounded hover:bg-sky-600 hover:text-white group">
+                <button class="flex items-center gap-1 py-1 px-2 bg-sky-200 rounded hover:bg-sky-600 hover:text-white group" @click="openForm">
                     <Icon icon="mdi:plus-circle" class="text-sky-400 group-hover:text-orange-100" />
                     Baru
                 </button>
@@ -102,6 +112,7 @@ const hapus = async (rombel) => {
             </table>
         </div>
         <ManageMember v-else-if="mode == 'member'" :rombel="selectedRombel" @close="closeMember" />
+        <FormRombel v-else-if="mode == 'form'" @close="closeForm" />
     </div>
 </AdminLayout>
 <ConfirmDialog ref="confirmDialog" />
