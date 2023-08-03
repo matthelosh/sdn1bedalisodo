@@ -1,6 +1,6 @@
 <script setup>
 import { defineAsyncComponent, ref, computed, onMounted } from 'vue';
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
@@ -8,7 +8,7 @@ const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.
 const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
 const AturPeserta = defineAsyncComponent(() => import('@/Components/Dashboard/Ekskul/AturPeserta.vue'))
 
-
+const page = usePage()
 const pageTitle = ref("Manajemen Ekstrakurikuler")
 const loading = ref(false)
 const showForm = ref(false)
@@ -110,6 +110,113 @@ const aturPeserta = ( item ) => {
     selectedEkskul.value = item
 }
 
+const cetakPresensi = (item) => {
+    let win = window.open("", "_blank", "width=600,height=800")
+    let trs = ''
+    item.pesertas.forEach((siswa,index) => {
+        trs += `<tr>
+                <td>${index+1}</td>
+                <td>${siswa.nisn}</td>
+                <td>${siswa.nama}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>`
+    })
+
+    let html = `
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Presensi Ekstrakurikuler</title>
+                    <style>
+                        *, html, body {
+                            margin:0;
+                            padding:0;
+                        }
+                        h1,h2,h3,h4,h5,h6 {margin:0;padding:0;}
+                        table.daftar-hadir tbody tr:nth-child(odd) {background: #eee;}
+                        table.daftar-hadir tbody tr td {padding: 8px 2px}
+                        .w-24 {width: 70px}
+                        .text-center {text-align:center}
+                        .uppercase {text-transform: uppercase}
+                    </style>
+                </head>
+                <body>
+                    <table style="border-bottom: 3px double black; width:100%;">
+                        <tr >
+                            <td>
+                                <img src="/img/malangkab.png" alt="" class="w-24">
+                            </td>
+                            <td>
+                                <h4 class="text-center leading-4 font-bold">PEMERINTAH KABUPATEN <span class="uppercase">${page.props.sekolah.kabupaten}</span></h4>
+                                <h4 class="text-center leading-4 font-bold">DINAS PENDIDIKAN</h4>
+                                <h4 class="text-center leading-4 font-bold">KOORDINATOR WILAYAH KECAMATAN WAGIR</h4>
+                                <h4 class="text-center  font-black text-xl"><span class="uppercase">${page.props.sekolah.nama}</span></h4>
+                                <h4 class="text-center leading-4 font-bold"><span class="uppercase">NPSN: ${page.props.sekolah.npsn} NSS:${page.props.sekolah.nss}</span></h4>
+                                <h5 class="text-center leading-4"><small>${page.props.sekolah.alamat}, ${page.props.sekolah.desa}, ${page.props.sekolah.kecamatan}, Kode Pos ${page.props.sekolah.kode_pos}</small></h5>
+                                <h5 class="text-center leading-4"><small>Telp.: ${page.props.sekolah.telp}, Email: ${page.props.sekolah.email}, Website:${page.props.sekolah.website}</small></h5>    
+                            </td>
+                            <td>
+                                <img src="/img/logo.png" class="aspect-square w-24" >
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h3 style="text-align:center">Presensi Ekstrakurikuluer</h3>
+                    <h2 style="text-align:center">${item.label}</h2>
+                    <p style="margin-top:20px;">Bulan: ..................................</p>
+                    <table class="daftar-hadir" border="1" style="border-collapse:collapse;width:100%;">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">No</th>
+                                <th rowspan="2">NISN</th>
+                                <th rowspan="2">Nama</th>
+                                <th colspan=4>Tanggal / Tanda Tangan</th>
+                            </tr>
+                            <tr>
+                                <th>........</th>
+                                <th>........</th>
+                                <th>........</th>
+                                <th>........</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${trs}
+                        </tbody>
+                    </table>
+                    <br />
+
+                    <table style="width:100%; margin-top: 20px;">
+                        <tr>
+                            <td>
+                                <p>&nbsp;</p>
+                                <p>Kepala Sekolah,</p>
+                                <br />
+                                <br />
+                                <br />
+                                <p style="text-decoration:underline; font-weight: bold;">${page.props.sekolah.ks.nama}, ${page.props.sekolah.ks.gelar_belakang}</p>
+                                <p>NIP. ${page.props.sekolah.ks.nip}</p>    
+                            </td>
+                            <td style="width:30%;"></td>
+                            <td>
+                                <p>Wagir, ........................</p>
+                                <p>Pembina,</p>
+                                <br />
+                                <br />
+                                <br />
+                                <p style="text-decoration:underline; font-weight: bold;">${item.guru.nama}, ${item.guru.gelar_belakang}</p>
+                                <p>NIP. ${item.guru.nip}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+            </html>
+    `
+    win.document.write(html)
+}
+
 onMounted(() => {
     list();
     getGurus();
@@ -153,6 +260,8 @@ onMounted(() => {
                             <th class="py-3 border bg-slate-400 text-slate-800">Label</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Pembina</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Keterangan</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Peserta</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800">Adminsitrasi</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Opsi</th>
                         </tr>
                     </thead>
@@ -185,6 +294,14 @@ onMounted(() => {
                                 </div>
                             </td>
                             <td class="text-center border py-2">{{ item.keterangan }}</td>
+                            <td class="text-center border py-2">{{ item.pesertas.length }}</td>
+                            <td class="text-center border py-2">
+                                <ul>
+                                    <li>
+                                        <button class="bg-sky-400 py-1 px-2 rounded text-sm text-white hover:bg-sky-600" @click="cetakPresensi(item)">Presensi</button>
+                                    </li>
+                                </ul>
+                            </td>
                             <td class="text-center border py-2">
 
                                 <button @click="aturPeserta(item)">
