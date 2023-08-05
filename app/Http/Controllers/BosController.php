@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggaran;
 use Illuminate\Http\Request;
 use App\Models\Bku;
 use App\Models\Bukti;
 use App\Models\KegiatanBos;
+use App\Models\Rkas;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,13 +15,17 @@ class BosController extends Controller
 {
     // Kuitansi Methods
 
+    function anggaran() {
+        return Anggaran::where('status', 'aktif')->first();
+    }
+
     function getBku(Request $request) {
         try {
             $year = date('Y');
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
-                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->with('buktis')->get();
+                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get();
             } else {
-                $bkus = Transaksi::whereYear('tanggal', $year)->with('buktis')->get();
+                $bkus = Transaksi::whereYear('tanggal', $year)->where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get();
             }
             return response()->json([
                 'status' => 'ok',
@@ -38,7 +44,7 @@ class BosController extends Controller
         try {
             return response()->json([
                 'status' => 'ok',
-                'transaksis' => Transaksi::with('buktis')->get()
+                'transaksis' => Transaksi::where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get()
             ], 200);
         } catch(\Exception $e) {
             return response()->json([
@@ -128,6 +134,120 @@ class BosController extends Controller
             return response()->json([
                 'status' => 'ok',
                 'kegiatans' => $kegiatans
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function indexAnggaran(Request $request) {
+        try {
+            return response()->json([
+                'status' => 'ok',
+                'anggarans' => Anggaran::all()
+            ], 200);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function storeAnggaran(Request $request) {
+        try {
+            $data = json_decode($request->anggaran);
+
+            $anggaran = Anggaran::updateOrCreate(
+                [
+                    'id' => $data->id?? null,
+                ],
+                [
+                    'kode' =>$data->kode,
+                    'tahun_anggaran' =>$data->tahun_anggaran,
+                    'sumber_dana' =>$data->sumber_dana,
+                    'tahap' =>$data->tahap,
+                    'uraian' =>$data->uraian,
+                    'nilai' =>$data->nilai,
+                    'keterangan' =>$data->keterangan,
+                    'mulai' =>$data->mulai,
+                    'selesai' =>$data->selesai,
+                    'status' =>$data->status
+                ]
+            );
+            return response()->json([
+                'status' => 'ok',
+                'anggaran' => $anggaran
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function indexRkas(Request $request) {
+        try {
+            $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->get();
+
+            return response()->json([
+                'status' => 'ok',
+                'rkas' => $rkas,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function imporRkas(Request $request) {
+        try {
+            $datas = json_decode($request->datas);
+
+            foreach($datas as $data) {
+                Rkas::updateOrCreate(
+                    [
+                        'id' => $data->id?? null,
+                    ],
+                    [
+                        'anggaran_id' => $this->anggaran()->kode,
+                        'bulan' => $request->bulan,
+                        'tahun' => $request->tahun,
+                        'status' => $data->status ?? 'antri',
+                        'kode_rekening'  => $data->kode_rekening,
+                        'kode_kegiatan' => $data->kode_kegiatan,
+                        'uraian' => $data->uraian,
+                        'volume' => $data->volume,
+                        'satuan' => $data->satuan,
+                        'tarif' => $data->tarif,
+                        'jumlah' => $data->jumlah
+                    ]
+                );
+            }
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'RKAS diimpor'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    function changeStatus(Request $request, $id) {
+        try {
+            $rkas = Rkas::where('id', $id)->update(['status' => $request->status]);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'Status RKAS: '.$rkas.' diperbarui',
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

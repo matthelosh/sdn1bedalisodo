@@ -15,9 +15,10 @@ class Anggaran extends Model
         'sumber_dana',
         'tahap',
         'uraian',
-        'satuan',
         'nilai',
         'keterangan',
+        'mulai',
+        'selesai',
         'status'
     ];
 

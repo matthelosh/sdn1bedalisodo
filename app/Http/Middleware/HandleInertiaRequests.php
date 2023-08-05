@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Anggaran;
 use App\Models\Menu;
 use App\Models\Sekolah;
 use App\Models\Tapel;
@@ -47,6 +48,7 @@ class HandleInertiaRequests extends Middleware
             'menus' => $request->user() ? $this->menus($request->user()) : null,
             'layout' => $this->frontLayout(),
             'tapel' => $this->tapel(),
+            'anggaran' => $this->anggaran()
         ]);
     }
 
@@ -70,5 +72,9 @@ class HandleInertiaRequests extends Middleware
     protected function tapel() {
         $tapel = Tapel::where("status", "1")->first();
         return $tapel ?? null;
+    }
+
+    protected function anggaran() {
+        return Anggaran::where('status', 'aktif')->first();
     }
 }

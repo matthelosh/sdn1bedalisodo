@@ -1,8 +1,11 @@
 <script setup>
 import { ref, onBeforeMount, computed, defineAsyncComponent } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
 import {read, utils} from 'xlsx'
+
+const page = usePage();
 
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
@@ -79,7 +82,7 @@ const search = ref('');
     <Loading v-if="loading" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <h1><span class="hidden">Data Transaksi</span></h1>
+            <h1>{{ page.props.anggaran.uraian }}</h1>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
@@ -100,7 +103,7 @@ const search = ref('');
         </div>
         <div class="content w-full overflow-x-auto my-4">
             <div class="table w-full overflow-x-auto">
-                <table class="w-auto border border-slate-400">
+                <table class="w-full border border-slate-400 text-sm">
                     <thead>
                         <tr class="bg-slate-200">
                             <th class="border py-1 border-slate-300 text-slate-800">No</th>

@@ -7,8 +7,9 @@ import Dash from '@/Layouts/AdminLayout.vue'
 const Kuitansi = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Kuitansi.vue'));
 const Transaksi = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Transaksi.vue'));
 const Rkas = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Rkas.vue'));
+const Anggaran = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Anggaran.vue'));
 
-const mode = ref('transaksi')
+const mode = ref('Mata Anggaran')
 const title = computed(() => {
     return mode.value[0].toUpperCase() + mode.value.slice(1)
 })
@@ -24,20 +25,26 @@ const cetak = async() => {
         <h1><span class="hidden md:block">Menu Pengelolaan BOS</span></h1>
         <div class="toolbar-items flex items-center gap-2 justify-end">
             <button
+                @click="mode = 'Mata Anggaran'" 
+                class="flex items-center gap-1 py-1 px-2 rounded hover:bg-gray-100 hover:text-gray-600 active:bg-gray-50" :class="mode == 'Mata Anggaran' ? 'bg-sky-400 text-white': 'bg-white'">
+                Mata Anggaran
+                <Icon icon="mdi:wallet" />
+            </button>
+            <button
                 @click="mode = 'Rencana Anggaran'" 
-                class="flex items-center gap-1 bg-white py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50">
+                class="flex items-center gap-1  py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hover:text-gray-600" :class="mode == 'Rencana Anggaran' ? 'bg-sky-400 text-white': 'bg-white'">
                 RKAS
                 <Icon icon="mdi:list-box-outline" />
             </button>
             <button
                 @click="mode = 'transaksi'" 
-                class="flex items-center gap-1 bg-white py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50">
+                class="flex items-center gap-1  py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hover:text-gray-600" :class="mode == 'transaksi' ? 'bg-sky-400 text-white': 'bg-white'">
                 Transaksi
                 <Icon icon="mdi:credit-card-edit-outline" />
             </button>
             <button 
                 @click="mode = 'kuitansi'"
-                class="flex items-center gap-1 bg-white py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50">
+                class="flex items-center gap-1  py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hover:text-gray-600" :class="mode == 'kuitansi' ? 'bg-sky-400 text-white': 'bg-white'">
                 Kuitansi
                 <Icon icon="mdi:checkbook" />
             </button>
@@ -49,12 +56,13 @@ const cetak = async() => {
             </button>
         </div>
     </div>
-    <div class="w-full container p-3">
-        <div class="content relative">
+    <div class="w-full p-3">
+        <div class="content relative w-full">
             <Transition>
                 <Transaksi v-if="mode == 'transaksi'" />
                 <Kuitansi v-else-if="mode == 'kuitansi'" />
                 <Rkas v-else-if="mode == 'Rencana Anggaran'" />
+                <Anggaran v-else-if="mode == 'Mata Anggaran'" />
             </Transition>
         </div>
     </div>

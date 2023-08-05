@@ -10,6 +10,7 @@ class Transaksi extends Model
     use HasFactory;
     protected $fillable = [
         'anggaran_id',
+        'rkas_id',
         'kode',
         'tipe',
         'jenis',
@@ -28,5 +29,9 @@ class Transaksi extends Model
 
     function buktis() {
         return $this->hasMany(Bukti::class, 'transaksi_id', 'kode');
+    }
+
+    function anggaran() {
+        return $this->belongsTo(Anggaran::class, 'anggaran_id', 'kode');
     }
 }
