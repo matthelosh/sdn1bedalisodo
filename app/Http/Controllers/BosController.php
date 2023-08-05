@@ -10,6 +10,7 @@ use App\Models\KegiatanBos;
 use App\Models\Rkas;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Matcher\Any;
 
 class BosController extends Controller
 {
@@ -175,7 +176,7 @@ class BosController extends Controller
                     'keterangan' =>$data->keterangan,
                     'mulai' =>$data->mulai,
                     'selesai' =>$data->selesai,
-                    'status' =>$data->status
+                    'status' =>$data->status ?? 'nonaktif'
                 ]
             );
             return response()->json([
@@ -188,6 +189,32 @@ class BosController extends Controller
                 'msg' => $e->getMessage()
             ], 500);
         }
+    }
+
+    function changeStatusAnggaran(Request $request, $id) {
+        try {
+            Anggaran::where('status', 'aktif')->update(['status' => 'nonaktif']);
+            $anggaran = Anggaran::where('id', $id)->update(['status' =>  $request->status]);
+            return response()->json([
+                'status' => 'ok',
+                'anggaran' => $anggaran
+            ], 200);
+        } catch(\Exception $e) {
+            dd($e);
+        }
+    }
+
+    function deleteAnggaran(Request $request, $id) {
+        try {
+            $anggaran = Anggaran::where('id', $id)->delete();
+            return response()->json([
+                'status' => 'ok',
+                'anggaran' => $anggaran
+            ], 200);
+        } catch(\Exception $e) {
+            dd($e);
+        }
+
     }
 
     function indexRkas(Request $request) {
@@ -242,7 +269,7 @@ class BosController extends Controller
         }
     }
 
-    function changeStatus(Request $request, $id) {
+    function changeStatusRkas(Request $request, $id) {
         try {
             $rkas = Rkas::where('id', $id)->update(['status' => $request->status]);
             return response()->json([

@@ -86,6 +86,8 @@ Route::prefix('dashboard')->group(function() {
         Route::prefix('anggaran')->group(function() {
             Route::post('/', [BosController::class, 'indexAnggaran'])->name('dashboard.bos.anggaran.mata');
             Route::post('/store', [BosController::class, 'storeAnggaran'])->name('dashboard.bos.anggaran.store');
+            Route::delete('/{id}', [BosController::class, 'deleteAnggaran'])->name('dashboard.bos.anggaran.hapus');
+            Route::put('/{id}/status/change', [BosController::class, 'changeStatusAnggaran'])->name('dashbaord.bos.anggaran.status.change');
         });
         Route::post("/bku", [BosController::class, 'getBku'])->name('dashboard.bos.bku.index');
         Route::prefix("/transaksi")->group(function() {
@@ -97,7 +99,7 @@ Route::prefix('dashboard')->group(function() {
             Route::post('/', [BosController::class, 'indexRkas'])->name('dashboard.bos.rkas.index');
             Route::post('/store', [BosController::class, 'storeRkas'])->name('dashboard.bos.rkas.store');
             Route::post('/impor', [BosController::class, 'imporRkas'])->name('dashboard.bos.rkas.impor');
-            Route::put('/{id}/status/change', [BosController::class, 'changeStatus'])->name('dashbaord.bos.rkas.status.change');
+            Route::put('/{id}/status/change', [BosController::class, 'changeStatusRkas'])->name('dashbaord.bos.rkas.status.change');
         });
         Route::post('/kegiatan', [BosController::class, 'listKegiatan'])->name('dashboard.bos.kegiatan.index');
     });
