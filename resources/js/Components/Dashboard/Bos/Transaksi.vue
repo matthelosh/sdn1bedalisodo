@@ -16,14 +16,24 @@ onBeforeMount(() => {
 const FormTransaksi = defineAsyncComponent(() => import('./FormTransaksi.vue'))
 
 const loading = ref(false)
+
+
 const list = async() => {
     loading.value = true
     await axios.post(route('dashboard.bos.transaksi.index'))
         .then(res => {
             rawItems.value = res.data.transaksis
+            silpa.value = res.data.silpa
+            antris.value = res.data.antris
             loading.value = false
         }).catch(err => console.log(err))
 }
+
+const antris = ref([])
+const silpa = ref(0)
+const terpakai = computed(() => {
+    return rawItems.value.reduce((t,item) => t+item.nilai, 0)
+})
 const rawItems = ref([])
 const transaksis = computed(() => {
     let word = search.value.replace(" ", "|")
@@ -74,6 +84,10 @@ const onFileTransaksiPicked = async(ev) => {
     reader.readAsArrayBuffer(file)
 }
 const search = ref('');
+
+const newTransaksi = () => {
+    showForm.value = true
+}
 </script>
 
 <template>
@@ -82,14 +96,14 @@ const search = ref('');
     <Loading v-if="loading" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <h1>{{ page.props.anggaran.uraian }}</h1>
+            <h1>{{ page.props.anggaran.uraian }} Dana: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}} | Silpa: Rp. {{ silpa.silpa.toLocaleString("id-ID") }} | Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }} | Terpakai: Rp. {{ terpakai }}</h1>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
                     <Icon icon="mdi:cart-arrow-up" class="text-2xl" />
                     <span class="hidden md:block">Impor Transaksi</span>
                 </button>
-                <button class="flex items-center gap-1 justify-center group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm = true">
+                <button class="flex items-center gap-1 justify-center group text-gray-600 hover:font-bold hover:text-gray-800" @click="newTransaksi">
                     <Icon icon="mdi:cart-plus" class="text-2xl" />
                     <span class="hidden md:block">Tambah Transaksi</span>
                 </button>
@@ -156,7 +170,7 @@ const search = ref('');
             </div>
         </div>
     </div>
-    <FormTransaksi :transaksi="transaksi" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
+    <FormTransaksi :transaksi="transaksi" :antris="antris" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
     
 </div>
 </template>

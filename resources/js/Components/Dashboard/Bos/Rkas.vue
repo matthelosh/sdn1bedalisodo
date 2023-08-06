@@ -17,6 +17,17 @@ const fileRkas = ref(null);
 const search = ref(null);
 const rkas = ref([]);
 
+const total = computed(() => {
+    return rkas.value.reduce((t, item) => t+item.jumlah, 0)
+})
+
+const selesai = computed(() => {
+    return rkas.value.filter(item => item.status == 'selesai').reduce((s, item) =>  s+item.jumlah,0)
+})
+const saldo = computed(() => {
+    return parseInt(total.value) - parseInt(selesai.value)
+})
+
 const datas = computed(() => {
     // return search.value == null ? rkas.value : rkas.value.filter(data => data.uraian.toLowerCase().includes(search.value.toLowerCase()))
     let datas = bulan.value == 'all' ? rkas.value : rkas.value.filter(rka => rka.bulan == bulan.value)
@@ -95,7 +106,7 @@ onMounted(() => {
 <template>
 <div class="w-full p-3">
     <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1 px-2">
-        <h1>{{ page.props.anggaran.uraian }}</h1>
+        <h1>Total 1 Tahun Anggaran: [Rp. {{ total.toLocaleString("id-ID") }}] | Selesai: [Rp. {{ selesai.toLocaleString("id-ID") }}] | Sisa: [Rp. {{ saldo.toLocaleString("id-ID") }}]</h1>
         <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
             <input type="file" ref="fileRkas" @change="onFileRkasPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
             <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileRkas.click()">
@@ -145,6 +156,7 @@ onMounted(() => {
                     <tr
                         v-for="(rka, i) in datas"
                         :key="rka.id"
+                        :class="rka.status == 'selesai' ? 'bg-sky-100': (rka.status == 'gagal' ? 'bg-red-100':'')"
                     >
                         <td class="border pl-1 text-center">{{ rka.bulan }}/{{ rka.tahun }}</td>
                         <td class="border pl-1">{{ rka.kode_kegiatan }}</td>
@@ -156,9 +168,9 @@ onMounted(() => {
                         <td class="border pl-1 text-right">{{ rka.jumlah.toLocaleString("id-ID") }}</td>
                         <td class="border pl-1" >
                             <select 
-                                class="py-0 border-none " v-model="rkas[i].status"
+                                class="py-0 border-none " v-model="rka.status"
                                 @change="updateStatus($event,rka)"
-                                :class="rka.status == 'selesai' ? 'bg-sky-100': (rka.status == 'gagal' ? 'bg-red-100':'')"
+                                
                             >
                                 <option
                                     v-for="status in ['antri','progres','selesai', 'gagal']"

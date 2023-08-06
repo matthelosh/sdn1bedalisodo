@@ -3,7 +3,7 @@ import { ref, onBeforeMount, defineAsyncComponent } from  'vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
 
-const props = defineProps({show: Boolean, transaksi: Object, title: String})
+const props = defineProps({show: Boolean, transaksi: Object, title: String, antris: Array})
 const emit = defineEmits(['close'])
 
 onBeforeMount(() => {
@@ -16,6 +16,23 @@ const transaksi = ref({})
 
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 const loading = ref(false)
+
+const setTransaksi = async(rka) => {
+  transaksi.value = {
+    rkas_id: rka.id,
+    kode_kegiatan: rka.kode_kegiatan,
+    kode_rekening: rka.kode_rekening,
+    merchant: 'BOS Reguler',
+    jenis: 'tunai',
+    uraian: rka.uraian,
+    nilai: rka.jumlah
+  }
+
+  const ul = document.querySelector(".rkas")
+  selectedRkas.value = rka.uraian
+  ul.classList.add("hidden")
+}
+
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
     // console.log(file)
@@ -40,11 +57,14 @@ const onBuktiPicked = (e) => {
     }
 }
 
-
+const onRkasFocus = (e) => {
+  let ul = document.querySelector(".rkas")
+  ul.classList.remove("hidden")
+}
 
 const files = ref([])
 
-
+const selectedRkas = ref('')
 const showForm = ref(false)
 
 const simpan = async() => {
@@ -79,6 +99,23 @@ const simpan = async() => {
             </div>
             <div class="dialog-content overflow-y-auto max-h-[80vh] grid grid-cols-2">
                 <form ref="form-transaksi" class="form p-3" @submit.prevent="simpan">
+                    <label for="kode_kegiatan" class="flex items-center justify-between gap-2 my-3">
+                      <span class="font-bold">
+                        Pilih RKAS
+                      </span>
+                      <span class="w-[60%] relative">
+                        <input type="text" class="py-1 w-full bg-gray-100 border-0" v-model="selectedRkas" @focus="onRkasFocus" required />
+                        <ul class="rkas absolute w-full bg-white shadow max-h-[300px] overflow-y-auto mt-1 z-20 cursor-pointer hidden">
+                          <li
+                            v-for="rka in props.antris" :key="rka.id"
+                            class="hover:bg-slate-200 my-1 p-1"
+                            @click="setTransaksi(rka)"
+                          >
+                            {{ rka.uraian }}
+                          </li>
+                        </ul>
+                    </span>
+                    </label>
                     <label for="kode_kegiatan" class="flex items-center justify-between gap-2 my-3">
                       <span class="font-bold">
                         Kode Kegiatan

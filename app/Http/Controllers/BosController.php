@@ -43,9 +43,13 @@ class BosController extends Controller
 
     function transaksi(Request $request) {
         try {
+            $prevAnggaranId = Anggaran::where('id', '<', $this->anggaran()->id)->max('id');
             return response()->json([
                 'status' => 'ok',
-                'transaksis' => Transaksi::where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get()
+                'antris' => Rkas::where('status', 'antri')->get(),
+                'transaksis' => Transaksi::where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get(),
+
+                'silpa' => Anggaran::where('id', $prevAnggaranId)->select('silpa')->first()
             ], 200);
         } catch(\Exception $e) {
             return response()->json([
@@ -61,7 +65,8 @@ class BosController extends Controller
             $data = json_decode($request->transaksi);
             $transaksi = Transaksi::updateOrCreate(
                 [
-                    'id' => $data->id?? null
+                    'id' => $data->id?? null,
+                    'kode' => $data->kode ?? Str::random(16),
                 ],
                 [
                     'tipe' => $data->tipe??'kredit',
@@ -93,7 +98,7 @@ class BosController extends Controller
                 'transaksi' => $transaksi
             ], 200);
         } catch(\Exception $e) {
-            dd($e);
+            // dd($e);
             return response()->json([
                 'status' => 'fail',
                 'msg' => $e->getMessage()
@@ -173,6 +178,7 @@ class BosController extends Controller
                     'tahap' =>$data->tahap,
                     'uraian' =>$data->uraian,
                     'nilai' =>$data->nilai,
+                    'silpa' => $data->silpa,
                     'keterangan' =>$data->keterangan,
                     'mulai' =>$data->mulai,
                     'selesai' =>$data->selesai,

@@ -19,7 +19,8 @@ class Anggaran extends Model
         'keterangan',
         'mulai',
         'selesai',
-        'status'
+        'status',
+        'silpa'
     ];
 
     function transaksis() {

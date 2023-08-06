@@ -99,6 +99,7 @@ onMounted(() => {
                         <th class="border">Selesai</th>
                         <th class="border">Uraian</th>
                         <th class="border">Nilai</th>
+                        <th class="border">Silpa</th>
                         <th class="border">Keterangan</th>
                         <th class="border">Status</th>
                         <th class="border">Opsi</th>
@@ -165,6 +166,13 @@ onMounted(() => {
                                 Rp. {{ parseInt(item.nilai).toLocaleString("id-ID") }}
                             </span>
                             <input type="number" placeholder="Nilai" v-model="anggarans[i].nilai" v-else class="w-full border-none bg-slate-100">
+                        </td>
+                        <td class="p-2 text-center border">
+                            
+                            <span v-if="item.state == 'fix'">
+                                Rp. {{ parseInt(item.silpa).toLocaleString("id-ID") }}
+                            </span>
+                            <input type="number" placeholder="Silpa" v-model="anggarans[i].silpa" v-else class="w-full border-none bg-slate-100">
                         </td>
                         <td class="p-2 text-center border">
                             <!-- {{ item.keterangan }} -->
