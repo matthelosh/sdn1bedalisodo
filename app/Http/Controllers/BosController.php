@@ -11,6 +11,7 @@ use App\Models\Rkas;
 use App\Models\Transaksi;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Matcher\Any;
+use Illuminate\Support\Str;
 
 class BosController extends Controller
 {
@@ -69,6 +70,8 @@ class BosController extends Controller
                     'kode' => $data->kode ?? Str::random(16),
                 ],
                 [
+                    'rkas_id' => $data->rkas_id,
+                    'anggaran_id' => $this->anggaran()->kode,
                     'tipe' => $data->tipe??'kredit',
                     'jenis' => $data->jenis,
                     'tanggal' => $data->tanggal,
@@ -93,6 +96,11 @@ class BosController extends Controller
                     ]);
                 }
             }
+
+            if($transaksi) {
+                Rkas::where('id', $data->rkas_id)->update(['status' => 'selesai']);
+            }
+
             return response()->json([
                 'status' => 'ok',
                 'transaksi' => $transaksi

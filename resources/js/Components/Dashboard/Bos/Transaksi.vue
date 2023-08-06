@@ -95,8 +95,15 @@ const newTransaksi = () => {
 <div>
     <Loading v-if="loading" />
     <div class="bg-white p-3 w-full">
-        <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <h1>{{ page.props.anggaran.uraian }} Dana: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}} | Silpa: Rp. {{ silpa.silpa.toLocaleString("id-ID") }} | Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }} | Terpakai: Rp. {{ terpakai }}</h1>
+        <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
+            <h1 class="flex flex-wrap">
+                <span class="">{{ page.props.anggaran.uraian }}</span> |
+                <span class="">Dana: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}}</span> |
+                <span class="">Silpa: Rp. {{ silpa.silpa.toLocaleString("id-ID") }}</span> |
+                <span class="">Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</span> |
+                <span class="">Terpakai: Rp. {{ terpakai }}</span> |
+                <span>Saldo: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</span>
+            </h1>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">

@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onBeforeMount, defineAsyncComponent } from  'vue';
+import { ref, onBeforeMount, defineAsyncComponent, watch, onMounted } from  'vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
+import { computed } from 'vue';
 
 const props = defineProps({show: Boolean, transaksi: Object, title: String, antris: Array})
 const emit = defineEmits(['close'])
@@ -9,8 +10,11 @@ const emit = defineEmits(['close'])
 onBeforeMount(() => {
     transaksi.value = props.transaksi;
     showForm.value = props.show
+    rkas.value = props.antris
 })
-
+// onMounted(() => {
+//   
+// })
 
 const transaksi = ref({})
 
@@ -62,6 +66,14 @@ const onRkasFocus = (e) => {
   ul.classList.remove("hidden")
 }
 
+const rkas = computed(() => {
+  return props.antris.filter(item => item.uraian.toLowerCase().includes(selectedRkas.value.toLowerCase()))
+})
+
+// watch(selectedRkas, (newValue, oldValue) => {
+
+// })
+
 const files = ref([])
 
 const selectedRkas = ref('')
@@ -107,11 +119,11 @@ const simpan = async() => {
                         <input type="text" class="py-1 w-full bg-gray-100 border-0" v-model="selectedRkas" @focus="onRkasFocus" required />
                         <ul class="rkas absolute w-full bg-white shadow max-h-[300px] overflow-y-auto mt-1 z-20 cursor-pointer hidden">
                           <li
-                            v-for="rka in props.antris" :key="rka.id"
+                            v-for="rka in rkas" :key="rka.id"
                             class="hover:bg-slate-200 my-1 p-1"
                             @click="setTransaksi(rka)"
                           >
-                            {{ rka.uraian }}
+                            {{ rka.uraian }} - Bulan {{ rka.bulan }}
                           </li>
                         </ul>
                     </span>

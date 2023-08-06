@@ -27,7 +27,7 @@ const cetak = async() => {
             <button
                 @click="mode = 'Mata Anggaran'" 
                 class="flex items-center gap-1 py-1 px-2 rounded hover:bg-gray-100 hover:text-gray-600 active:bg-gray-50" :class="mode == 'Mata Anggaran' ? 'bg-sky-400 text-white': 'bg-white'">
-                Mata Anggaran
+                Anggaran
                 <Icon icon="mdi:wallet" />
             </button>
             <button
@@ -44,13 +44,13 @@ const cetak = async() => {
             </button>
             <button 
                 @click="mode = 'kuitansi'"
-                class="flex items-center gap-1  py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hover:text-gray-600" :class="mode == 'kuitansi' ? 'bg-sky-400 text-white': 'bg-white'">
+                class="hidden md:flex items-center gap-1  py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hover:text-gray-600" :class="mode == 'kuitansi' ? 'bg-sky-400 text-white': 'bg-white'">
                 Kuitansi
                 <Icon icon="mdi:checkbook" />
             </button>
             <button 
                 @click="cetak"
-                class="flex items-center gap-1 bg-white py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50">
+                class="items-center gap-1 bg-white py-1 px-2 rounded hover:bg-gray-100 active:bg-gray-50 hidden md:flex">
                 Cetak
                 <Icon icon="mdi:printer" />
             </button>

@@ -105,9 +105,9 @@ onMounted(() => {
 
 <template>
 <div class="w-full p-3">
-    <div class="toolbar w-full flex items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1 px-2">
+    <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1 px-2">
         <h1>Total 1 Tahun Anggaran: [Rp. {{ total.toLocaleString("id-ID") }}] | Selesai: [Rp. {{ selesai.toLocaleString("id-ID") }}] | Sisa: [Rp. {{ saldo.toLocaleString("id-ID") }}]</h1>
-        <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
+        <div class="toolbar-items flex flex-wrap gap-4 items-center justify-between print:hidden">
             <input type="file" ref="fileRkas" @change="onFileRkasPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
             <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileRkas.click()">
                 <Icon icon="mdi:table-arrow-up" class="text-2xl" />
@@ -128,8 +128,8 @@ onMounted(() => {
                         :value="b">{{ b }}</option>
                 </select>
             </label>
-            <span class="relative">
-                <input type="text" placeholder="Cari Anggaran" v-model="search" class="py-1 rounded" />
+            <span class="relative w-full">
+                <input type="text" placeholder="Cari Anggaran" v-model="search" class="py-1 rounded w-full" />
                 <Icon icon="mdi:magnify" class="text-2xl text-gray-400 absolute top-[50%] -translate-y-[50%] right-2" />
             </span>
             
@@ -145,10 +145,10 @@ onMounted(() => {
                         <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Kode Kegiatan</th>
                         <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Kode Rekening</th>
                         <th class="border py-1 border-slate-300 text-slate-800">Uraian</th>
-                        <th class="border py-1 border-slate-300 text-slate-800">Volume</th>
-                        <th class="border py-1 border-slate-300 text-slate-800">Satuan</th>
-                        <th class="border py-1 border-slate-300 text-slate-800">Tarif</th>
-                        <th class="border py-1 border-slate-300 text-slate-800">Jumlah</th>
+                        <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Volume</th>
+                        <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Satuan</th>
+                        <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Tarif</th>
+                        <th class="border py-1 border-slate-300 text-slate-800 hidden md:table-cell">Jumlah</th>
                         <th class="border py-1 border-slate-300 text-slate-800">Status</th>
                     </tr>
                 </thead>
@@ -159,13 +159,13 @@ onMounted(() => {
                         :class="rka.status == 'selesai' ? 'bg-sky-100': (rka.status == 'gagal' ? 'bg-red-100':'')"
                     >
                         <td class="border pl-1 text-center">{{ rka.bulan }}/{{ rka.tahun }}</td>
-                        <td class="border pl-1">{{ rka.kode_kegiatan }}</td>
-                        <td class="border pl-1">{{ rka.kode_rekening }}</td>
+                        <td class="border pl-1 hidden md:table-cell">{{ rka.kode_kegiatan }}</td>
+                        <td class="border pl-1 hidden md:table-cell">{{ rka.kode_rekening }}</td>
                         <td class="border pl-1">{{ rka.uraian }}</td>
-                        <td class="border pl-1 text-center">{{ rka.volume }}</td>
-                        <td class="border pl-1 text-center">{{ rka.satuan }}</td>
-                        <td class="border pl-1 text-right">{{ rka.tarif.toLocaleString("id-ID") }}</td>
-                        <td class="border pl-1 text-right">{{ rka.jumlah.toLocaleString("id-ID") }}</td>
+                        <td class="border pl-1 text-center hidden md:table-cell">{{ rka.volume }}</td>
+                        <td class="border pl-1 hidden md:table-cell text-center">{{ rka.satuan }}</td>
+                        <td class="border pl-1 hidden md:table-cell text-right">{{ rka.tarif.toLocaleString("id-ID") }}</td>
+                        <td class="border pl-1 text-right hidden md:table-cell">{{ rka.jumlah.toLocaleString("id-ID") }}</td>
                         <td class="border pl-1" >
                             <select 
                                 class="py-0 border-none " v-model="rka.status"
