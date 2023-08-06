@@ -31,26 +31,30 @@ class AgendaController extends Controller
      */
     public function store(Request $request)
     {
+        $agenda  = json_decode($request->agenda);
+        // dd($agenda);
+        // return $agenda;
         try {
             $simpan = Agenda::updateOrCreate(
                 [
-                    'id' => $request->id ?? null,
+                    'id' => $agenda->id ?? null,
 
                 ],
                 [
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'start' => $request->start,
-                    'end' => $request->end,
-                    'location' => $request->location ?? null,
-                    'color' => $request->color ?? null,
-                    'user_id' => $request->user()->name,
-                    'is_done' => 0,
-                    'is_active' => 1
+                    'name' => $agenda->name,
+                    'description' => $agenda->description,
+                    'start' => $agenda->start,
+                    'end' => $agenda->end,
+                    'location' => $agenda->location ?? null,
+                    'color' => $agenda->color ?? null,
+                    'user_id' => $agenda->user_id ?? $request->user()->name,
+                    'is_done' => "0",
+                    'is_active' => "1"
                 ]
             );
             return response()->json(['status' => 'success', 'data' => $simpan], 200);
         } catch (\Exception $e) {
+            dd($e);
             return response()->json(['status' => 'error','message' => $e->getMessage()], 500);
         }
     }

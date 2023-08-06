@@ -109,7 +109,7 @@ onMounted(() => {
                                 {{ siswa.nisn }}
                             </div>
                         <td class="border px-2">{{ siswa.nama }}</td>
-                        <td class="border px-2">{{ siswa.rombel_id }}</td>
+                        <td class="border px-2">{{ siswa.rombel }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -141,7 +141,7 @@ onMounted(() => {
                             </div>
                         </td>
                         <td class="border px-2">{{ siswa.nama }}</td>
-                        <td class="border px-2">{{ siswa.rombel }}</td>
+                        <td class="border px-2">{{ siswa.rombel.length > 0 ? siswa.rombel[0].label : '-' }}</td>
                     </tr>
                 </tbody>
             </table>

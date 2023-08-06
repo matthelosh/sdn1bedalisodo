@@ -60,25 +60,25 @@ const closeForm = () => {
                 </button>
             </div>
         </div>
-        <div class="table w-full p-3 bg-white my-4" v-if="mode=='list'">
+        <div class="w-full overflow-x-auto bg-white my-4" v-if="mode=='list'">
             <table class="table-border border-collapse w-full">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="py-1 px-2 border">No</th>
-                        <th class="py-1 px-2 border">Tapel</th>
-                        <th class="py-1 px-2 border">Kode</th>
+                        <th class="py-1 px-2 border hidden md:table-cell">No</th>
+                        <th class="py-1 px-2 border hidden md:table-cell">Tapel</th>
+                        <th class="py-1 px-2 border hidden md:table-cell">Kode</th>
                         <th class="py-1 px-2 border">Label</th>
                         <th class="py-1 px-2 border">Peserta</th>
-                        <th class="py-1 px-2 border">Kurikulum</th>
+                        <th class="py-1 px-2 border hidden md:table-cell">Kurikulum</th>
                         <th class="py-1 px-2 border">Wali Kelas</th>
                         <th class="py-1 px-2 border">Opsi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(rombel,g) in $page.props.rombels" :key="g" class="odd:bg-gray-50" >
-                        <td class="py-1 px-2 border text-center">{{ g+1 }}</td>
-                        <td class="py-1 px-2 border">{{ rombel.tapel.label }}</td>
-                        <td class="py-1 px-2 border">{{ rombel.kode }}</td>
+                        <td class="py-1 px-2 border text-center hidden md:table-cell">{{ g+1 }}</td>
+                        <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.tapel.label }}</td>
+                        <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.kode }}</td>
                         <td class="py-1 px-2 border">{{ rombel.label }}</td>
                         <td class="py-1 px-2 border text-center">
                             <span class="flex items-center justify-center gap-2">
@@ -96,7 +96,7 @@ const closeForm = () => {
                                 </div>
                             </span>
                         </td>
-                        <td class="py-1 px-2 border">{{ rombel.kurikulum }}</td>
+                        <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.kurikulum }}</td>
                         <td class="py-1 px-2 border">{{ rombel.guru.nama }}</td>
                         <td class="py-1 px-2 border">
                             <div class="w-full flex items-center justify-center gap-2">

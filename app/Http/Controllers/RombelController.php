@@ -40,6 +40,28 @@ class RombelController extends Controller
         ], 200);
     } 
 
+    public function imporMember(Request $request, $id) {
+        try {
+            $rombel = Rombel::find($id);
+            $datas = json_decode($request->siswas);
+
+            foreach($datas as $data) {
+                $siswa = Siswa::where('nisn', $data->nisn)->first();
+                $rombel->siswas()->attach([$siswa->id]);
+            }
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => 'Siswa dimasukkan ke dalam rombel'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     function masukkan(Request $request, $id) {
         $rombel = Rombel::find($id);
         $attach = $rombel->siswas()->attach([$request->siswa['id']]);
@@ -48,6 +70,7 @@ class RombelController extends Controller
             'msg' => $attach
         ], 200);
     }
+
     function keluarkan(Request $request, $id, $siswa_id) {
       
       try {
@@ -96,6 +119,8 @@ class RombelController extends Controller
             ], 500);
         }
     }
+
+   
 
     /**
      * Display the specified resource.

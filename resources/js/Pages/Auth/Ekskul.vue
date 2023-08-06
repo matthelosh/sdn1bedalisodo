@@ -305,10 +305,10 @@ onMounted(() => {
                             <td class="text-center border py-2">
 
                                 <button @click="aturPeserta(item)">
-                                    <Icon icon="mdi:account-multiple" class="text-sky-400 hover:text-sky-600" />
+                                    <Icon icon="mdi:account-multiple" class="text-sky-400 hover:text-sky-600 text-2xl" />
                                 </button>
                                 <button @click="yakinHapus(item)">
-                                    <Icon icon="mdi:trash-can-outline" class="text-red-400 hover:text-red-600" />
+                                    <Icon icon="mdi:trash-can-outline" class="text-red-400 hover:text-red-600 text-2xl" />
                                 </button>
                             </td>
                         </tr>

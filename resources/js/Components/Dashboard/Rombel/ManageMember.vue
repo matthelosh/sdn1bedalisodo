@@ -3,7 +3,8 @@ import { ref, computed, onMounted, defineAsyncComponent } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
-import {paginate} from '@/Plugins/misc.js'
+import {paginate} from '@/Plugins/misc.js';
+import { read, utils } from 'xlsx';
 
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
@@ -68,18 +69,6 @@ const dragStarttoNonMember = (e, member) => {
 }
 
 
-const dragOverMember = (e) => {
-    // e.dataTrasnfer.dropEffect = "move"
-    // let dropzone = document.querySelector(".table-member.dropzone")
-    // dropzone.style.background = "pink"
-}
-
-const dragOverNonmember = (e) => {
-    // e.dataTrasnfer.dropEffect = "move"
-    // let dropzone = document.querySelector(".table-nonmember.dropzone")
-    // dropzone.style.background = "pink"
-}
-
 const droppedOnMember = (e) => {
     let dropzone = document.querySelector(".table-member.dropzone")
     dropzone.style.background = "transparent"
@@ -130,25 +119,60 @@ const cetak = async() => {
         window.print()
         chunk.value = 10
     }, 500)
-    
-    
 }
+
+// const fileMember = ref(null)
+const calons = ref([])
+const onFileMemberPicked = async(e) => {
+    let file = e.target.files[0]
+    let reader = new FileReader();
+
+    reader.onload = async(ev) => {
+        let wb = await read(ev.target.result)
+        calons.value = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+        // calons.value = datas
+    }
+    reader.readAsArrayBuffer(file)
+}
+const imporMember = async() => {
+    loading.value = true
+    await axios.post(route('dashboard.rombel.member.impor', {id: props.rombel.id}), {siswas: JSON.stringify(calons.value)})
+                .then(res => {
+                    members.value = [...calons.value]
+                    loading.value = false
+                    calons.value = []
+                })
+                .catch(err => {
+                    console.log(err)
+                    loading.value = false
+                })
+}
+
+
 </script>
 
 <template>
     <Loading v-if="loading" />
     <div class="w-full bg-white shadow print:shadow-none">
-        <div class="toolbar h-12 flex items-center justify-between p-3 bg-slate-50 print:hidden">
-            <h1>Manajemen Peserta Didik Kelas {{ props.rombel.label }} | Wali Kelas {{ props.rombel.guru.nama }}</h1>
-            <div class="toolbar-items flex items-center justify-end gap-2">
+        <div class="toolbar min-h-12 flex items-center justify-between p-3 bg-slate-50 print:hidden flex-wrap">
+            <h1>
+                Manajemen Peserta Didik Kelas {{ props.rombel.label }} 
+                <span class="hidden md:inline">| Wali Kelas {{ props.rombel.guru.nama }}</span></h1>
+            <div class="toolbar-items flex items-center justify-end gap-2 relative">
+                <input type="file" ref="fileMember" class="hidden" accept=".xls,.xlsx,.ods" @change="onFileMemberPicked" />
+                <button class="flex items-center p-1" @click="$refs.fileMember.click()">
+                    Impor
+                    <Icon icon="mdi:upload" class="text-2xl text-sky-400 hover:text-sky-600" />
+                </button>
                 <button class="flex items-center p-1" @click="toggleNonmember">
+                    Lihat Siswa
                     <Icon icon="mdi:account-school" class="text-2xl text-sky-400 hover:text-sky-600" />
                 </button>
                 <input type="text" v-model="searchNonmember" placeholder="Cari" class="rounded-lg h-8" v-if="nonmemberBox" />
                 <button @click="cetak">
                     <Icon icon="mdi:printer" class="text-2xl text-gray-600 hover:text-gray-400" />
                 </button>
-                <button @click="emit('close')">
+                <button @click="emit('close')" class="absolute -top-8 -right-24 md:relative md:top-0 md:right-0">
                     <Icon icon="mdi:close-box" class="text-red-400 hover:text-red-600 text-4xl" />
                 </button>
             </div>
@@ -211,6 +235,42 @@ const cetak = async() => {
                         <tr class="cursor-grab" v-for="(nonmem, nm) in nonmembers.filter(item => item.nama.toLowerCase().includes(searchNonmember.toLowerCase()))" :key="nm" draggable="true" @dragstart="dragStarttoMember($event, nonmem)">
                             <td class="border">{{ nonmem.nisn }}</td>
                             <td class="border">{{ nonmem.nama }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-overlay impor fixed top-0 right-0 bottom-0 left-0 bg-white bg-opacity-60 backdrop-blur flex p-2 md:p-10 z-40" v-if="calons.length > 0">
+        <div class="dialog bg-white w-full shadow-lg">
+            <div class="toolbar h-10 w-full bg-slate-300 flex items-center justify-between p-3">
+                <h1 class="font-bold text-slate-800">Data Calon Peserta Rombel {{ props.rombel.label }}</h1>
+                <div class="toolbar-items flex items-center gap-2">
+                    <button class="py-1 px-3 bg-sky-400 hover:bg-sky-600 text-white rounded shadow" @click="imporMember">
+                        Impor
+                    </button>
+                    <button @click="calons = []">
+                        <Icon icon="mdi:close-circle" class="text-2xl hover:text-red-600" />
+                    </button>
+                </div>
+            </div>
+            <div class="content overflow-y-scroll max-h-[90vh] md:max-h-[95%]">
+                <table class="w-full border  ">
+                    <thead>
+                        <tr class="bg-slate-200">
+                            <th class="py-2 ">No</th>
+                            <th class="py-2 border-s border-slate-300">NISN</th>
+                            <th class="py-2 border-s border-slate-300">Nama Siswa</th>
+                        </tr>
+                    </thead>
+                    <tbody class="h-max-[300px] overflow-y-auto">
+                        <tr
+                            class="odd:bg-slate-100"
+                            v-for="(calon,c) in calons" :key="calon.id"
+                        >
+                            <td class="py-1 px-2 text-center">{{ c+1 }}</td>
+                            <td class="py-1 px-2 text-center border-s">{{ calon.nisn }}</td>
+                            <td class="py-1 px-2 border-s">{{ calon.nama }}</td>
                         </tr>
                     </tbody>
                 </table>

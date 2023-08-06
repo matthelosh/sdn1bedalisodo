@@ -99,6 +99,7 @@ class BosController extends Controller
 
             if($transaksi) {
                 Rkas::where('id', $data->rkas_id)->update(['status' => 'selesai']);
+                $anggaran = Anggaran::where('id', $this->anggaran()->id)->update(['silpa' => ($this->anggaran()->silpa - $transaksi->nilai)]);
             }
 
             return response()->json([

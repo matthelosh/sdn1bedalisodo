@@ -18,6 +18,7 @@
         <style>
             ::-webkit-scrollbar {
                 width: .5rem;
+                height: .3rem;
                 background: transparent;
             }
             ::-webkit-scrollbar-track {
@@ -26,10 +27,11 @@
                 padding: 0 1px;
             }
             ::-webkit-scrollbar-thumb {
-                background: #ffaa33;
+                background: #5687ff;
                 border-radius: 1.5rem;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.5);
                 width: .5rem;
+                height: .3rem;
                 margin: 0 1px;
             }
         </style>
