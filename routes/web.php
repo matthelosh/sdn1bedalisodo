@@ -122,6 +122,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/tapel', [SettingController::class, 'tapel'])->name('dashboard.tapel.index');
         Route::post('/tapel/toggle', [SettingController::class, 'toggleTapel'])->name('dashboard.tapel.toggle');
         Route::post('/tapel/store', [SettingController::class, 'storeTapel'])->name('dashboard.setting.tapel.store');
+        Route::put('/sekolah', [SekolahController::class, 'update'])->name('dashboard.sekolah.update');
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {

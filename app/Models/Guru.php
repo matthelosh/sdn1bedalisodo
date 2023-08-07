@@ -29,7 +29,8 @@ class Guru extends Model
         'nickname',
         'gelar_depan',
         'gelar_belakang',
-        'bio'
+        'bio',
+        'pangkat'
     ];
 
     public function user()

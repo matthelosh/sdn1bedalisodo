@@ -41,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-<div class="wrapper w-full bg-white p-2 rounded shadow">
+<div class="wrapper w-full bg-white rounded shadow">
     <div class="toolbar h-10 bg-slate-200 flex items-center justify-between p-3">
         <h1>Tahun Pelajaran</h1>
         <button class="shadow rounded-full" @click="newTapel">

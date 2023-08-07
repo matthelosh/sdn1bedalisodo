@@ -6,18 +6,27 @@ import 'jodit/build/jodit.min.css'
 import { vOnClickOutside } from '@vueuse/components'
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
+import { watch } from 'vue';
 
 onBeforeMount(() => {
     listKlasifikasis()
 })
 
-const templateSurat = computed(
-    () => {
-        if(surat.value.tipe !== '0') {
-            defineAsyncComponent(() => import('./templates/Sppd.vue'))
-        }
-    }
-    )
+const Sppd = defineAsyncComponent(() => import('./templates/Sppd.vue'))
+// const templateSurat = computed(
+//     () => {
+//         if(surat.value.tipe !== '0') {
+//             defineAsyncComponent(() => import('./templates/Sppd.vue'))
+//         }
+//     }
+//     )
+
+const template = ref('0')
+
+// const is = defineAsyncComponent(() => import(`./templates/${surat.value.tipe}.vue`))
+const is = computed(() => {
+    return defineAsyncComponent(() => import(`./templates/${template.value}.vue`))
+})
 
 const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
 
@@ -60,11 +69,14 @@ const surat = ref({
     tipe: '0'
 })
 
+const tes = () => {
+    // alert(surat.value.tipe)
+}
+
 const close = () => emit('close')
 
 const pickTemplate = (e) => {
-    let template = e.target.value
-    surat.value.tipe = template
+    template.value = e.target.value
 }
 
 const setKlasifikasi = (e) => {
@@ -91,7 +103,7 @@ const setKlasifikasi = (e) => {
             <select v-model="surat.sifat" class="py-1 bg-slate-50 border-0 rounded">
                 <option v-for="(sifat, s) in sifats" :key="s" :value="sifat">{{ sifat }}</option>
             </select>
-            <select class="py-1 bg-slate-50 border-0 rounded" @change="pickTemplate" v-model="surat.tipe">
+            <select class="py-1 bg-slate-50 border-0 rounded" v-model="surat.tipe" @change="pickTemplate">
                 <option v-for="(tipe, t) in tipes" :key="t" :value="tipe.value">{{ tipe.label }}</option>
             </select>
             <button @click="close">
@@ -99,9 +111,9 @@ const setKlasifikasi = (e) => {
             </button>
         </div>
     </div>
-    <div class="sheet w-10/12 mx-auto my-4 p-4 print:p-0 print:mt-0 print:w-full bg-white shadow print:shadow-none" v-if="surat.tipe !== 'Pilih template'">
-        <component :is="templateSurat">
-            <slot />
+    <div class="sheet w-10/12 mx-auto my-4 p-4 print:p-0 print:mt-0 print:w-full  print:shadow-none" v-if="surat.tipe !== 'Pilih template'">
+        <component :is="is">
+            Tes Komponen
         </component>
     </div>
     <div v-else-if="surat.tipe == '0'" class="w-full h-[50vh] flex items-center justify-center">

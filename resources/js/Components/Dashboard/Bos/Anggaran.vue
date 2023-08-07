@@ -28,8 +28,9 @@ const list = async() => {
 const anggaran = ref({})
 
 const newAnggaran = () => {
+    let last = anggarans.value.slice(-1)
     anggarans.value.push({
-
+        silpa: last.silpa
     })
 }
 
