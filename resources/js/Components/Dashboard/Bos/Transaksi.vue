@@ -96,26 +96,22 @@ const newTransaksi = () => {
     <Loading v-if="loading" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <h1 class="flex flex-wrap">
-                <span class="">{{ page.props.anggaran.uraian }}</span> |
-                <span class="">Dana: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}}</span> |
-                <span class="">Silpa: Rp. {{ silpa.silpa.toLocaleString("id-ID") }}</span> |
-                <span class="">Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</span> |
-                <span class="">Terpakai: Rp. {{ terpakai }}</span> |
-                <span>Saldo: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</span>
-            </h1>
+            <div class="text-sm">
+                <p class="leading-4">Dana Tahap {{ page.props.anggaran.tahap }}: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}} Silpa: Rp. {{ silpa.silpa?.toLocaleString("id-ID") }} Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</p>
+                <p class="leading-4">Terpakai: Rp. {{ terpakai.toLocaleString("id-ID") }} Saldo: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</p>
+            </div>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
-                    <Icon icon="mdi:cart-arrow-up" class="text-2xl" />
-                    <span class="hidden md:block">Impor Transaksi</span>
+                    <Icon icon="mdi:cart-arrow-up" class="text" />
+                    <span class="hidden md:block text-sm">Impor Transaksi</span>
                 </button>
                 <button class="flex items-center gap-1 justify-center group text-gray-600 hover:font-bold hover:text-gray-800" @click="newTransaksi">
-                    <Icon icon="mdi:cart-plus" class="text-2xl" />
-                    <span class="hidden md:block">Tambah Transaksi</span>
+                    <Icon icon="mdi:cart-plus" class="text" />
+                    <span class="hidden md:block text-sm">Tambah Transaksi</span>
                 </button>
                 <span class="relative">
-                    <input type="text" placeholder="Cari Transaksi" v-model="search" class="py-1 rounded" />
+                    <input type="text" placeholder="Cari Transaksi" v-model="search" class="py-1 rounded border-none bg-slate-200 focus:bg-slate-100 focus:shadow" />
                     <Icon icon="mdi:magnify" class="text-2xl text-gray-400 absolute top-[50%] -translate-y-[50%] right-2" />
                 </span>
                 

@@ -147,7 +147,8 @@ onMounted(() => {
                   <Icon icon="mdi:refresh"  class=" text-gray-600 animate-spin text-8xl" />
               </div>
               <div class="w-full grid grid-cols-4 gap-4 h[350px] overflow-y-auto" v-else>
-                <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '')}`" class="w-full object-cover cursor-pointer h-[100px]" @click="selectImage"/>
+                <img v-for="(image, im) in images" :key="im" :src="`${image.replace('public', '/storage')}`" class="w-full object-cover cursor-pointer h-[100px]" @click="selectImage"/>
+                <!-- <p v-for="image in images" :key="image">{{ image }}</p> -->
               </div>
             </div>
         </div>

@@ -106,22 +106,26 @@ onMounted(() => {
 <template>
 <div class="w-full p-3">
     <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1 px-2">
-        <h1>Total 1 Tahun Anggaran: [Rp. {{ total.toLocaleString("id-ID") }}] | Selesai: [Rp. {{ selesai.toLocaleString("id-ID") }}] | Sisa: [Rp. {{ saldo.toLocaleString("id-ID") }}]</h1>
-        <div class="toolbar-items flex flex-wrap gap-4 items-center justify-between print:hidden">
+        <div>
+            <p class="text-sm leading-4">Total 1 Tahun Anggaran: [Rp. {{ total.toLocaleString("id-ID") }}]</p>
+            <p class="text-sm leading-4">Selesai: [Rp. {{ selesai.toLocaleString("id-ID") }}] | Sisa: [Rp. {{ saldo.toLocaleString("id-ID") }}]</p>
+        </div>
+        <div class="toolbar-items flex flex-wrap gap-1 items-center justify-between print:hidden">
             <input type="file" ref="fileRkas" @change="onFileRkasPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
             <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileRkas.click()">
-                <Icon icon="mdi:table-arrow-up" class="text-2xl" />
-                <span class="hidden md:block">Impor RKAS</span>
+                <Icon icon="mdi:table-arrow-up" class="text-xl" />
+                <span class="hidden md:block text-sm">Impor RKAS</span>
             </button>
             <button class="flex items-center gap-1 justify-center group text-gray-600 hover:font-bold hover:text-gray-800" @click="showForm">
-                <Icon icon="mdi:table-plus" class="text-2xl" />
-                <span class="hidden md:block">Tambah RKAS</span>
+                <Icon icon="mdi:table-plus" class="text-xl" />
+                <span class="hidden md:block text-sm">Tambah RKAS</span>
             </button>
-            <label for="filter">
+            <label for="filter" class="text-sm">
                 Pilih Bulan:
                 <select
-                    class="rounded py-1"
+                    class="rounded py-1 border-none bg-slate-200"
                     v-model="bulan"
+
                     >
                     <option 
                         v-for="b in ['all', 1,2,3,4,5,6,7,8,9,10,11,12]" :key="b"
@@ -129,7 +133,7 @@ onMounted(() => {
                 </select>
             </label>
             <span class="relative w-full">
-                <input type="text" placeholder="Cari Anggaran" v-model="search" class="py-1 rounded w-full" />
+                <input type="text" placeholder="Cari Anggaran" v-model="search" class="py-1 rounded w-full border-none bg-slate-200" />
                 <Icon icon="mdi:magnify" class="text-2xl text-gray-400 absolute top-[50%] -translate-y-[50%] right-2" />
             </span>
             
