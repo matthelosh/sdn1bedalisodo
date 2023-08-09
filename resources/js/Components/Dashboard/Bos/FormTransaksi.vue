@@ -109,7 +109,7 @@ const simpan = async() => {
                     </button>
                 </div>
             </div>
-            <div class="dialog-content overflow-y-auto max-h-[80vh] grid grid-cols-2">
+            <div class="dialog-content overflow-y-auto max-h-[80vh] grid grid-cols-1 md:grid-cols-2">
                 <form ref="form-transaksi" class="form p-3" @submit.prevent="simpan">
                     <label for="kode_kegiatan" class="flex items-center justify-between gap-2 my-3">
                       <span class="font-bold">
@@ -184,7 +184,7 @@ const simpan = async() => {
                         <button class="mx-auto bg-sky-600 py-1 px-3 text-white rounded hover:bg-sky-400">Simpan</button>
                     </div>
                 </form>
-                <div class="buktis w-full min-h-32 bg-gray-50 transition mb-4">
+                <div class="buktis w-full min-h-32 bg-gray-50 transition mb-4 order-1 md:order-2">
                     <button class="w-full bg-sky-100 flex justify-center py-3 gap-2" @click="$refs.fileImage.click()">
                         <Icon icon="mdi:attachment" class="text-slate-800 font-bold hover:text-sky-600 text-2xl" />
                         <span class="text-gray-400">Klik untuk melampirkan bukti</span>
