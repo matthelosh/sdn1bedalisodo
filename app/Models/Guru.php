@@ -27,8 +27,6 @@ class Guru extends Model
         'instagram',
         'status',
         'nickname',
-        'gelar_depan',
-        'gelar_belakang',
         'bio',
         'pangkat'
     ];

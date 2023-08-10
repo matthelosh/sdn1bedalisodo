@@ -12,10 +12,11 @@ class AgendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $agendas = Agenda::with('user.userable')->get();
+                $month = $request->query('month') ?? date('m');
+            $agendas = Agenda::whereMonth('start', $month)->with('user.userable')->get();
             return response()->json(['status' => 'success', 'agendas' => $agendas], 200);
         } catch (\Exception $e) {
              return response()->json(['status' => 'error','message' => $e->getMessage()], 500);

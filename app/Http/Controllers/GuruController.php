@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Guru;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
 {
 
     function page() {
         return Inertia::render('Auth/Guru', [
-            'gurus' => Guru::whereNot("nama", "Administrator")->get(),
+            'gurus' => Guru::whereNot("nama", "Administrator")->with('user')->get(),
         ]);
     }
 
@@ -45,7 +46,90 @@ class GuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = json_decode($request->guru);
+            $guru = Guru::updateOrCreate(
+                [
+                    'id' => $data->id ?? null,
+                ],
+                [
+                    'nip' => $data->nip,
+                    'nama' => $data->nama,
+                    'gelar_depan' => $data->gelar_depan ?? null,
+                    'gelar_belakang' => $data->gelar_belakang ?? null,
+                    'jk' => $data->jk,
+                    'tempat_lahir' => $data->tempat_lahir,
+                    'tanggal_lahir' => $data->tanggal_lahir,
+                    'agama' => $data->agama,
+                    'hp' => $data->hp,
+                    'alamat' => $data->alamat,
+                    'role' => $data->role ?? 'gkel',
+                    'foto' => $data->foto ?? null,
+                    'facebook' => $data->facebook?? null,
+                    'youtube' => $data->youtube?? null,
+                    'instagram' => $data->instagram?? null,
+                    'status' => $data->status?? 'active',
+                    'nickname' => $data->nickname,
+                    'bio' => $data->bio ?? null,
+                    'pangkat' => $data->pangkat ?? null
+                ]
+            );
+
+            return response()->json([
+                'status' => 'ok',
+                'guru' => $guru
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function addAccount(Request $request) {
+        try {
+            $guru = Guru::where('id', $request->query('id'))->first();
+            // dd($guru);
+            $username = strtolower($guru->nickname);
+            $user = User::create([
+                'name' => $username,
+                'email' => $username.'@sdn1-bedalisodo.sch.id',
+                'email_verified_at' => date('y-m-d H:i:a'),
+                'password' => Hash::make('12345'), // password
+                'level' => $guru->role == 'admin' ? 'admin' : 'guru',
+                'userable_id' => $request->query('id'),
+                'userable_type' => 'App\Models\Guru'
+            ]);
+            // dd($user);
+            return response()->json([
+                'status' => 'ok',
+                'guru' => $guru
+            ], 200);
+        } catch (\Exception $e) {
+            // return response()->json([
+            //     'status' => 'fail',
+            //     'msg' => $e->getMessage()
+            // ], 500);
+            dd($e);
+        }
+    }
+
+    function removeAccount(Request $request) {
+        try {
+            $delete = User::where('userable_id',$request->query('id' ))->delete();
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $delete
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

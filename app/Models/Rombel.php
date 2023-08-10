@@ -17,6 +17,9 @@ class Rombel extends Model
         "guru_id" 
     ];
 
+    function mapels() {
+        return $this->belongsToMany(Mapel::class, 'mapel_rombel');
+    }
     function guru() {
         return $this->belongsTo(Guru::class, "guru_id", "nip");
     }

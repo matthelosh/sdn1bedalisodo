@@ -23,10 +23,9 @@ const Sppd = defineAsyncComponent(() => import('./templates/Sppd.vue'))
 
 const template = ref('0')
 
+const temp = computed(() => surat.value.tipe)
 // const is = defineAsyncComponent(() => import(`./templates/${surat.value.tipe}.vue`))
-const is = computed(() => {
-    return defineAsyncComponent(() => import(`./templates/${template.value}.vue`))
-})
+const is = computed(() => import(`./templates/${template.value}.vue`))
 
 const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
 
@@ -76,6 +75,7 @@ const tes = () => {
 const close = () => emit('close')
 
 const pickTemplate = (e) => {
+    // alert(e.target.value)
     template.value = e.target.value
 }
 

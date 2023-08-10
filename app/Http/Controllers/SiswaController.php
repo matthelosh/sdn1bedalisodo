@@ -35,7 +35,47 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = json_decode($request->siswa);
+
+            $siswa = Siswa::updateOrCreate(
+                [
+                    'id' => $data->id ?? null,
+                ],
+                [
+                    'nisn' => $data->nisn,
+                    'nis' => $data->nis ?? null,
+                    'nama' => $data->nama,
+                    'jk' => $data->jk,
+                    'tempat_lahir' => $data->tempat_lahir,
+                    'tanggal_lahir' => $data->tanggal_lahir,
+                    'agama' => $data->agama,
+                    'alamat' => $data->alamat,
+                    'rt' => $data->rt ?? null,
+                    'rw' => $data->rw ?? null,
+                    'desa' => $data->desa,
+                    'kecamatan' => $data->kecamatan,
+                    'kode_pos' => $data->kode_pos,
+                    'kabupaten' => $data->kabupaten,
+                    'angkatan' => $data->angkatan,
+                    'hp' => $data->hp ?? null,
+                    'email' => $data->email ?? null,
+                    'nik' => $data->nik ?? null,
+                    'is_active' => $data->is_active ?? '1',
+                    'status' => $data->status ?? 'aktif'
+                ]
+            );
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $siswa
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function impor(Request $request) {
@@ -109,8 +149,15 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Siswa $siswa)
+    public function destroy(Request $request, $id)
     {
-        //
+        $siswa = Siswa::findOrFail($id);
+        $siswa->rombel()->detach();
+        $siswa->delete();
+
+        return response()->json([
+            'status' => 'ok',
+            'msg' => 'Siswa dihapus'
+        ], 200);
     }
 }

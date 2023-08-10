@@ -9,9 +9,23 @@ router.on('finish', () => loading.value = false)
 const page = usePage()
 import { paginate } from '@/Plugins/misc';
 import { Icon } from '@iconify/vue';
+import axios from 'axios';
+
+const confirmDialog = ref(null)
+const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
 
 const loading = ref(false)
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
+const openForm = (item) => {
+    selectedSiswa.value = item
+}
+const FormSiswa = defineAsyncComponent(() => import('@/Components/Dashboard/Siswa/FormSiswa.vue'))
+const selectedSiswa = ref(null)
+
+const closeForm = () => {
+    selectedSiswa.value = null
+    router.reload({only: ['siswas']})
+}
 
 const search = ref('')
 const currentPage = ref(0)
@@ -38,6 +52,21 @@ const onFileSiswaPicked = (e) => {
 
     reader.readAsArrayBuffer(file)
 }
+
+
+const hapus = async(item) => {
+    if (confirmDialog.value.open(`Yakin menghapus data siswa ${item.nama}?`)) {
+        loading.value = true
+        await axios.delete(route('dashboard.siswa.destroy', {id: item.id}))
+                    .then(res => {
+                        loading.value = false
+                        router.reload({only: ['siswas']})
+                    }).catch(err => {
+                        loading.value = false
+                        console.log(err)
+                    })
+    }
+}
 </script>
 
 <template>
@@ -51,9 +80,13 @@ const onFileSiswaPicked = (e) => {
                 </div>
                 <div class="flex items-center justify-end gap-2">
                     <input type="file" ref="fileInput" @change="onFileSiswaPicked" class="hidden" accept=".xls, .xlsx, .ods">
-                    <button class="flex items-center gap-1 hover:text-gray-600 border px-3 py-1 rounded border-transparent hover:border-gray-600" @click="$refs.fileInput.click()">
+                    <button class="flex items-center gap-1 text-teal-600 hover:text-teal-800 hover:font-bold px-3 py-1 rounded hover:shadow" @click="$refs.fileInput.click()">
                         <span class="hidden md:block">Impor Siswa</span>
                         <Icon icon="mdi:import" class="text-xl" />
+                    </button>
+                    <button class="flex items-center gap-1 text-teal-600 hover:text-teal-800 hover:font-bold hover:shadow px-3 py-1" @click="openForm({mode: 'create'})">
+                        <span class="hidden md:block">Entri Siswa</span>
+                        <Icon icon="mdi:human-child" class="text-xl" />
                     </button>
                     <input type="text" v-model="search" class="w-[50%] rounded-lg py-1" placeholder="Cari Nama" />
                 </div>
@@ -65,20 +98,38 @@ const onFileSiswaPicked = (e) => {
                         <th class="py-1 px-2 border">NISN</th>
                         <th class="py-1 px-2 border">Nama</th>
                         <th class="py-1 px-2 border">JK</th>
+                        <th class="py-1 px-2 border">Tempat, Tanggal Lahir</th>
+                        <th class="py-1 px-2 border">Alamat</th>
+                        <th class="py-1 px-2 border">No. HP</th>
+                        <th class="py-1 px-2 border">Opsi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(siswa,s) in siswas.current" :key="s" class="odd:bg-slate-200" >
                         <td class="py-1 px-2 border text-center">{{ siswa.no }}</td>
                         <td class="py-1 px-2 border">{{ siswa.nisn }}</td>
-                        <td class="py-1 px-2 border">{{ siswa.nama }}</td>
+                        <td class="py-1 px-2 border">
+                            <button class="text-teal-800 hover:font-bold hover:text-teal-600" @click="openForm(siswa)">
+                                {{ siswa.nama }}
+                            </button>
+                        </td>
                         <td class="py-1 px-2 border">{{ siswa.jk }}</td>
+                        <td class="py-1 px-2 border">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
+                        <td class="py-1 px-2 border">{{ siswa.alamat }}, RT.{{ siswa.rt }} RW.{{ siswa.rw }}</td>
+                        <td class="py-1 px-2 border">{{ siswa.hp }}</td>
+                        <td class="py-1 px-2 border">
+                            <div class="flex items-center justify-center gap-1">
+                                <button @click="hapus(siswa)">
+                                    <Icon icon="mdi:delete" class="text-red-600 hover:text-red-400 text-lg" />
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <div class="table-footer w-full grid grid-cols-3">
-                <div class="pagination-info">
-                   Jumlah Data: {{ siswas.total }}
+            <div class="table-footer w-full grid grid-cols-3 gap-2 p-2">
+                <div class="pagination-info my-2">
+                   Jumlah Data: {{ siswas.total }} |
                    Jumlah Halaman: {{ siswas.page_length }}
                 </div>
                 <div class="page-option">
@@ -109,4 +160,6 @@ const onFileSiswaPicked = (e) => {
     </div>
 </AdminLayout>
 <Loading v-if="loading" />
+<FormSiswa :selectedSiswa="selectedSiswa" @close="closeForm" v-if="selectedSiswa !== null" />
+<ConfirmDialog ref="confirmDialog" />
 </template>

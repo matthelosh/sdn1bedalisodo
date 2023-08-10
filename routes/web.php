@@ -56,6 +56,9 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix("guru")->group(function() {
         Route::get("/", [GuruController::class, 'page'])->name('dashboard.guru.page');
         Route::post("/", [GuruController::class, 'index'])->name('dashboard.guru.index');
+        Route::post('/store', [GuruController::class, 'store'])->name('dashboard.guru.store');
+        Route::post('/account/add', [GuruController::class, 'addAccount'])->name('dashboard.guru.account.add');
+        Route::post('/account/remove', [GuruController::class, 'removeAccount'])->name('dashboard.guru.account.remove');
     });
     Route::prefix("rombel")->group(function() {
         Route::get("/", [RombelController::class, 'page'])->name('dashboard.rombel.page');
@@ -68,7 +71,9 @@ Route::prefix('dashboard')->group(function() {
     });
     Route::prefix("siswa")->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
+        Route::post("/store", [SiswaController::class, 'store'])->name('dashboard.siswa.store');
         Route::post("/impor", [SiswaController::class, 'impor'])->name('dashboard.siswa.impor');
+        Route::delete("/{id}", [SiswaController::class, 'destroy'])->name('dashboard.siswa.destroy');
     });
 
     Route::prefix("ekskul")->group(function() {
@@ -80,6 +85,16 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/peserta/keluarkan/{id_ekskul}/{id_siswa}',[EkskulController::class, 'keluarkan'])->name('dashboard.ekskul.peserta.keluarkan');
         Route::delete('/{id}', [EkskulController::class, 'destroy'])->name('dashboard.ekskul.destroy');
        
+    });
+
+    Route::prefix('intra')->group(function() {
+        Route::inertia("/", "Auth/Intra")->name('dashboard.intra.home');
+    });
+
+    Route::prefix('mapel')->group(function() {
+        Route::post('/', [MapelController::class, 'index'])->name('dashboard.mapel.index');
+        Route::post('/store', [MapelController::class, 'store'])->name('dashboard.mapel.store');
+        Route::delete('/{id}', [MapelController::class, 'destroy'])->name('dashboard.mapel.destroy');
     });
 
     Route::prefix("bos")->group(function() {

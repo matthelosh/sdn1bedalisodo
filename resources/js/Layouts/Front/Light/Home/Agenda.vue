@@ -9,14 +9,24 @@ onMounted(() => {
     listAgendas()
 })
 
-const listAgendas = async() => {
-    await axios.post(route('agenda.index')).then(res => {
+// const month = ref('')
+// const year = ref('')
+const listAgendas = async(month = null, year = null) => {
+    await axios.post(route('agenda.index', {
+        _query: {month: month}
+    })).then(res => {
         agendas.value = res.data.agendas.slice(-4)
     }).catch(err => console.log(err))
 }
 
 const agendas = ref([])
 
+const onPageChanged = (e) => {
+    let item = e[0]
+    listAgendas(item.month, item.year)
+}
+
+const calendar = ref(null)
 const attributes = computed(() => {
     let attrs = []
     agendas.value.forEach((item, index) => {
@@ -47,9 +57,18 @@ const date = ref(new Date())
                 </h1>
             </div>
             <div class="content grid grid-cols-4 md:flex justify-center  gap-2 md:gap-4 mt-6 mx-auto">
-                <Calendar class="cols-span-4" :attributes="attributes" />
+                <Calendar ref="calendar" class="cols-span-4" :attributes="attributes" @did-move="onPageChanged" />
                 <!-- <DatePicker v-model="date" /> -->
-                <ol class="relative border-l border-gray-200 dark:border-gray-700 col-span-4 ">                  
+                <ol class="relative border-l border-gray-200 dark:border-gray-700 col-span-4 transition" v-if="agendas.length < 1">
+                    <li class="ml-4 mb-8">
+                        <div 
+                            class="absolute w-3 h-3 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+                            ></div>
+                        <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"></time>
+                        <h3 class="text-lg font-semibold text-gray-100 dark:text-white">Tidak ada agenda di Bulan ini</h3>
+                    </li>
+                </ol>
+                <ol class="relative border-l border-gray-200 dark:border-gray-700 col-span-4 transition" v-else>                  
                     <li class="ml-4 mb-8" v-for="(agenda, a) in agendas" :key="a">
                         <div 
                             class="absolute w-3 h-3 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
