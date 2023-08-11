@@ -15,8 +15,14 @@ class AgendaController extends Controller
     public function index(Request $request)
     {
         try {
-                $month = $request->query('month') ?? date('m');
-            $agendas = Agenda::whereMonth('start', $month)->with('user.userable')->get();
+            // dd($request->user()->name);
+            // if($request->user() === 'admin') {
+            //     $agendas = Agenda::all();
+            // } else {
+            //     $month = $request->query('month') ?? date('m');
+            //     $agendas = Agenda::whereMonth('start', $month)->with('user.userable')->get();
+            // }
+            $agendas = Agenda::with('user.userable')->get();
             return response()->json(['status' => 'success', 'agendas' => $agendas], 200);
         } catch (\Exception $e) {
              return response()->json(['status' => 'error','message' => $e->getMessage()], 500);
@@ -48,9 +54,10 @@ class AgendaController extends Controller
                     'end' => $agenda->end,
                     'location' => $agenda->location ?? null,
                     'color' => $agenda->color ?? null,
-                    'user_id' => $agenda->user_id ?? $request->user()->name,
+                    'user_id' => $request->user()->name,
                     'is_done' => "0",
-                    'is_active' => "1"
+                    'is_active' => "1",
+                    'status' => $agenda->status
                 ]
             );
             return response()->json(['status' => 'success', 'data' => $simpan], 200);

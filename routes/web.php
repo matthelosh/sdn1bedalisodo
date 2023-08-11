@@ -138,6 +138,15 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/tapel/toggle', [SettingController::class, 'toggleTapel'])->name('dashboard.tapel.toggle');
         Route::post('/tapel/store', [SettingController::class, 'storeTapel'])->name('dashboard.setting.tapel.store');
         Route::put('/sekolah', [SekolahController::class, 'update'])->name('dashboard.sekolah.update');
+        Route::prefix('menu')->group(function() {
+            Route::post("/", [SettingController::class, 'menuIndex'])->name('dashboard.menu.index');
+            Route::post("/store", [SettingController::class, 'menuStore'])->name('dashboard.menu.store');
+            Route::delete("/{id}", [SettingController::class, 'menuDestroy'])->name('dashboard.menu.destroy');
+        });
+        Route::prefix('agenda')->group(function() {
+            Route::post("/", [AgendaController::class, "index"])->name("dashboard.agenda.index");
+            Route::post("/store", [AgendaController::class, "store"])->name("dashboard.agenda.store");
+        });
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {
@@ -175,7 +184,7 @@ Route::prefix("")->group(function() {
 
     Route::prefix("agenda")->group(function() {
         Route::post("/", [AgendaController::class, "index"])->name("agenda.index");
-        Route::post("/store", [AgendaController::class, "store"])->name("dashboard.agenda.store");
+        
     });
    
     Route::get('/search', [FrontPageController::class, 'search'])->name('Search');

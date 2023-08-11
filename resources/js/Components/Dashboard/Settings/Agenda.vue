@@ -10,8 +10,8 @@ onMounted(() => {
 })
 
 const listAgendas = async() => {
-    await axios.post(route('agenda.index')).then(res => {
-        agendas.value = res.data.agendas.slice(-4)
+    await axios.post(route('dashboard.agenda.index')).then(res => {
+        agendas.value = res.data.agendas
     }).catch(err => console.log(err))
 }
 
@@ -49,8 +49,9 @@ const agenda = ref({
     location: '',
     color: '',
     user_id: '',
-    is_done: '',
-    is_active: ''
+    is_done: '0',
+    is_active: '1',
+    status: 'libur'
 })
 const selectedAgendas = ref('Baru')
 
@@ -154,6 +155,17 @@ const simpan = async() => {
                                 <input type="radio" name="color" v-model="agenda.color" :value="'green'" placeholder="Lokasi" class="py-1 rounded  border-[#00ff00] shadow shadow-[#00ff00] ring-[#00ff00] border-2 hover:ring-[#00ff00] active:ring-[#00ff00] focus:ring-[#00ff00] accent-[#00ff00] checked:accent-[#00ff00] checked:bg-[#00ff00] hover:bg-[#00ff00]" />
                                 <input type="radio" name="color" v-model="agenda.color" :value="'blue'" placeholder="Lokasi" class="py-1 rounded border-[#0000ff] shadow shadow-[#0000ff] ring-[#0000ff] border-2 hover:ring-[#0000ff] active:ring-[#0000ff] focus:ring-[#0000ff] accent-[#0000ff] checked:accent-[#0000ff] checked:bg-[#0000ff] hover:bg-[#0000ff]" />
                             </span>
+                        </label>
+                        <label for="status" class="w-full flex justify-between py-1">
+                            Status
+                            <select  name="location" v-model="agenda.status"  class="py-1 rounded bg-gray-100 shadow">
+                                <option
+                                    v-for="status in ['libur', 'fakultatif']"
+                                    :key="status"
+                                    :value="status">
+                                    {{ status }}
+                                </option>
+                            </select>
                         </label>
                         <div class="flex items-center justify-between w-full mt-3">
                             <div></div>

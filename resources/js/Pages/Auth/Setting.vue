@@ -6,6 +6,7 @@ import DashLayout from '@/Layouts/AdminLayout.vue'
 const Agenda = defineAsyncComponent(() => import('@/Components/Dashboard/Settings/Agenda.vue'))
 const Tapel = defineAsyncComponent(() => import('@/Components/Dashboard/Settings/Tapel.vue'))
 const Sekolah = defineAsyncComponent(() => import('@/Components/Dashboard/Settings/Sekolah.vue'))
+const Menu = defineAsyncComponent(() => import('@/Components/Dashboard/Settings/Menu.vue'))
 </script>
 
 <template>
@@ -15,6 +16,7 @@ const Sekolah = defineAsyncComponent(() => import('@/Components/Dashboard/Settin
         <Agenda />
         <Tapel />
         <Sekolah class="col-span-2" />
+        <Menu class="col-span-2" />
     </div>
 </DashLayout>
 </template>

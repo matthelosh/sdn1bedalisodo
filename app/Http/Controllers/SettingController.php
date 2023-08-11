@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tapel;
 use Illuminate\Http\Request;
+use App\Models\Menu;
 
 class SettingController extends Controller
 {
@@ -49,5 +50,56 @@ class SettingController extends Controller
                 'msg' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function menuIndex(Request $request) {
+        try {
+            $menus = Menu::all();
+            return response()->json([
+                'status' => 'ok',
+                'menus' => $menus
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function menuStore(Request $request) {
+        try {
+            $data = json_decode($request->menu);
+            $menu = Menu::updateOrCreate(
+                [
+                    'id' => $data->id ?? null
+                ],
+                [
+                    'label' => $data->label,
+                    'url' => $data->url,
+                    'icon' => $data->icon,
+                    'roles' => $data->roles,
+                    'status' => $data->status ?? "1",
+                    'parent_id' => $data->parent_id
+                ]
+            );
+            return response()->json([
+                'status' => 'ok',
+                'menus' => $menu
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function menuDestroy(Request $request, $id) {
+        $destroy = Menu::findOrFail($id)->delete();
+        return response()->json([
+            'status' => 'ok',
+            'msg' => 'Menu dihapus'
+        ], 200);
     }
 }
