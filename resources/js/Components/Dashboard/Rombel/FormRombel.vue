@@ -1,10 +1,14 @@
 <script setup>
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 
 const page = usePage()
+const props = defineProps({selectedRombel: Object})
+onMounted(() => {
+    if(props.selectedRombel) rombel.value = props.selectedRombel
+})
 
 const emit = defineEmits(['close'])
 
@@ -116,8 +120,9 @@ const romawi = (num) => {
                         <label for="kurikulum" class="w-full flex items-center  justify-between ">
                             Kurikulum
                             <select class="bg-slate-200 border-0 rounded py-1 w-[60%]" v-model="rombel.kurikulum"> 
-                                <option value="Merdeka">Merdeka</option>    
-                                <option value="K-13">K-13</option>    
+                                <option
+                                    v-for="kurikulum in ['Merdeka', 'K-13']" :key="kurikulum"
+                                :value="kurikulum" :selected="kurikulum == rombel.kurikulum">{{ kurikulum }}</option>    
                             </select>
                         </label>
                         <label for="guru_id" class="w-full flex items-center  justify-between" >
@@ -137,6 +142,7 @@ const romawi = (num) => {
                     </fieldset>
                 </form>
             </div>
+            <!-- {{ props.selectedRombel }} -->
         </div>
     </div>
 </template>

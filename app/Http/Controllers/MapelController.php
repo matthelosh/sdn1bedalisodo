@@ -21,9 +21,18 @@ class MapelController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function rombelExcluded(Request $request)
     {
-        //
+        // $kurikulum = strtolower(str_replace("-","",$request->kurikulum));
+        $rombel_id = $request->rombel_id;
+        $excluded = Mapel::whereDoesntHave('rombel', function($q) use ($rombel_id) {
+            $q->where('rombels.id', $rombel_id);
+        })->get();
+        // dd($nonmembers);
+        return response()->json([
+            'status' => 'ok',
+            'mapels' => $excluded
+        ], 200);
     }
 
     /**
@@ -41,7 +50,9 @@ class MapelController extends Controller
                     'kode' => $data->kode,
                     'label' => $data->label,
                     'tingkat' => $data->tingkat,
-                    'kurikulum' => $data->kurikulum
+                    'kurikulum' => $data->kurikulum,
+                    'kelompok' => $data->kelompok,
+                    'kategori' => $data->kategori
                 ]
             );
             return response()->json([

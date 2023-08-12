@@ -6,6 +6,7 @@ import {Icon} from '@iconify/vue';
 
 const page = usePage()
 
+const ManageMapel = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/ManageMapel.vue'))
 const ManageMember = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/ManageMember.vue'))
 const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
 const FormRombel = defineAsyncComponent(() => import('@/Components/Dashboard/Rombel/FormRombel.vue'))
@@ -42,16 +43,32 @@ const openForm = () => {
     mode.value = 'form'
 }
 
+const edit = (item) => {
+    mode.value = 'form'
+    selectedRombel.value = item
+}
+
 const closeForm = () => {
     mode.value = 'list'
     router.reload({only: ['rombels']})
+}
+
+const manageMapel = (item) => {
+    mode.value = 'manage-mapel'
+    selectedRombel.value = item
+}
+
+const closeMapel = () => {
+    mode.value = 'list'
+    selectedRombel.value = null
+    router.reload({only:['rombels']})
 }
 </script>
 
 <template>
 <Head title="Data Rombel" />   
 <AdminLayout title="Data Rombel">
-    <div class="wrapper w-full oveflow-x-hidden p-3">
+    <div class="wrapper w-full oveflow-x-hidden p-3" v-if="mode=='list'">
         <div class="toolbar w-full">
             <div class="toolbar-items">
                 <button class="flex items-center gap-1 py-1 px-2 bg-sky-200 rounded hover:bg-sky-600 hover:text-white group" @click="openForm">
@@ -60,7 +77,7 @@ const closeForm = () => {
                 </button>
             </div>
         </div>
-        <div class="w-full overflow-x-auto bg-white my-4" v-if="mode=='list'">
+        <div class="w-full overflow-x-auto bg-white my-4" >
             <table class="table-border border-collapse w-full">
                 <thead>
                     <tr class="bg-gray-100">
@@ -70,6 +87,7 @@ const closeForm = () => {
                         <th class="py-1 px-2 border">Label</th>
                         <th class="py-1 px-2 border">Peserta</th>
                         <th class="py-1 px-2 border hidden md:table-cell">Kurikulum</th>
+                        <th class="py-1 px-2 border hidden md:table-cell">Mapel</th>
                         <th class="py-1 px-2 border">Wali Kelas</th>
                         <th class="py-1 px-2 border">Opsi</th>
                     </tr>
@@ -79,7 +97,11 @@ const closeForm = () => {
                         <td class="py-1 px-2 border text-center hidden md:table-cell">{{ g+1 }}</td>
                         <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.tapel.label }}</td>
                         <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.kode }}</td>
-                        <td class="py-1 px-2 border">{{ rombel.label }}</td>
+                        <td class="py-1 px-2 border text-center">
+                            <button class="group py-1 px-2 bg-sky-400 text-white rounded hover:bg-sky-600" @click="edit(rombel)">
+                                {{ rombel.label }}
+                            </button>
+                        </td>
                         <td class="py-1 px-2 border text-center">
                             <span class="flex items-center justify-center gap-2">
                                 <div class="bg-sky-300 px-1 flex flex-col justify-center items-center h-full">
@@ -97,9 +119,17 @@ const closeForm = () => {
                             </span>
                         </td>
                         <td class="py-1 px-2 border hidden md:table-cell">{{ rombel.kurikulum }}</td>
+                        <td class="py-1 px-2 border hidden md:table-cell text-center">
+                            <button @click="manageMapel(rombel)" class="text-sky-600 font-bold">
+                                {{ rombel.mapels?.length }}
+                            </button>
+                        </td>
                         <td class="py-1 px-2 border">{{ rombel.guru.nama }}</td>
                         <td class="py-1 px-2 border">
                             <div class="w-full flex items-center justify-center gap-2">
+                                <button @click="manageMapel(rombel)">
+                                    <Icon icon="mdi:bookshelf" class="text-sky-600 hover:text-sky-800 text-2xl" />
+                                </button>
                                 <button @click="manageMember(rombel)">
                                     <Icon icon="mdi:account-group" class="text-sky-600 hover:text-sky-800 text-2xl" />
                                 </button>
@@ -112,9 +142,11 @@ const closeForm = () => {
                 </tbody>
             </table>
         </div>
-        <ManageMember v-else-if="mode == 'member'" :rombel="selectedRombel" @close="closeMember" />
-        <FormRombel v-else-if="mode == 'form'" @close="closeForm" />
+        
     </div>
+    <ManageMapel v-else-if="mode == 'manage-mapel'" :rombel="selectedRombel" @close="closeMapel" />
+    <ManageMember v-else-if="mode == 'member'" :rombel="selectedRombel" @close="closeMember" />
+    <FormRombel v-else-if="mode == 'form'" :selectedRombel="selectedRombel" @close="closeForm" />
 </AdminLayout>
 <ConfirmDialog ref="confirmDialog" />
 </template>

@@ -97,6 +97,8 @@ onMounted(() => {
                             <th class="border p-2">Label</th>
                             <th class="border p-2">Tingkat</th>
                             <th class="border p-2">Kurikulum</th>
+                            <th class="border p-2">Kelompok</th>
+                            <th class="border p-2">Kategori</th>
                             <th class="border p-2">Opsi</th>
                         </tr>
                     </thead>
@@ -114,6 +116,8 @@ onMounted(() => {
                             </td>
                             <td class="py-1 px-3 border text-center">{{ mapel.tingkat }}</td>
                             <td class="py-1 px-3 border text-center">{{ mapel.kurikulum }}</td>
+                            <td class="py-1 px-3 border text-center">{{ mapel.kelompok }}</td>
+                            <td class="py-1 px-3 border text-center">{{ mapel.kategori }}</td>
                             <td class="py-1 px-3 border text-center">
                                 <div class="flex items-center gap-1 justify-center">
                                     <button @click="hapus(mapel)">
@@ -153,7 +157,7 @@ onMounted(() => {
                         <span>Tingkat/Kelas</span>
                         <select class="border-none bg-slate-200 py-1" v-model="mapel.tingkat">
                             <option 
-                                v-for="i in ['all', '1','2','3','4','5','6']" :key="i"
+                                v-for="i in ['all', 'besar']" :key="i"
                                 :value="i">
                                 {{ i == 'all' ? 'Semua kelas' : ('Kelas '+i) }}
                             </option>
@@ -165,6 +169,22 @@ onMounted(() => {
                             <option 
                                 v-for="k in ['all', 'merdeka', 'k13']" :key="k"
                                 :value="k"> {{ k == 'all' ? 'Semua Kurikulum' : k }}</option>
+                        </select>
+                    </label>
+                    <label for="kelompok" class="w-full flex items-center justify-between my-2">
+                        <span>Kelompok</span>
+                        <select class="border-none bg-slate-200 py-1" v-model="mapel.kelompok">
+                            <option 
+                                v-for="group in ['Kelompok A', 'Kelompok B']" :key="group"
+                                :value="group"> {{ group }}</option>
+                        </select>
+                    </label>
+                    <label for="kategori" class="w-full flex items-center justify-between my-2">
+                        <span>Kategori</span>
+                        <select class="border-none bg-slate-200 py-1" v-model="mapel.kategori">
+                            <option 
+                                v-for="kategori in ['Wajib', 'Mulok', 'Pilihan']" :key="group"
+                                :value="kategori"> {{ kategori }}</option>
                         </select>
                     </label>
                     <label for="submit" class="w-full flex items-center justify-center mt-4 mb-1">

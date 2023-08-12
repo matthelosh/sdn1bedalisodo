@@ -67,6 +67,8 @@ Route::prefix('dashboard')->group(function() {
         Route::delete('/{id}', [RombelController::class, 'destroy'])->name('dashboard.rombel.destroy');
         Route::post('/{id}/masukkan', [RombelController::class, 'masukkan'])->name('dashboard.rombel.masukkan');
         Route::post('/{id}/member/impor', [RombelController::class, 'imporMember'])->name('dashboard.rombel.member.impor');
+        Route::post('/{id}/mapel/masukkan', [RombelController::class, 'attachMapel'])->name('dashboard.rombel.mapel.masukkan');
+        Route::post('/{id}/mapel/keluarkan', [RombelController::class, 'detachMapel'])->name('dashboard.rombel.mapel.keluarkan');
         Route::post('/{id}/keluarkan/{siswa_id}', [RombelController::class, 'keluarkan'])->name('dashboard.rombel.keluarkan');
     });
     Route::prefix("siswa")->group(function() {
@@ -93,6 +95,7 @@ Route::prefix('dashboard')->group(function() {
 
     Route::prefix('mapel')->group(function() {
         Route::post('/', [MapelController::class, 'index'])->name('dashboard.mapel.index');
+        Route::post('/excluded-from-rombel', [MapelController::class, 'rombelExcluded'])->name('dashboard.mapel.excluded');
         Route::post('/store', [MapelController::class, 'store'])->name('dashboard.mapel.store');
         Route::delete('/{id}', [MapelController::class, 'destroy'])->name('dashboard.mapel.destroy');
     });

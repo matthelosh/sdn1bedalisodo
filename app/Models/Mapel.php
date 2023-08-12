@@ -13,7 +13,9 @@ class Mapel extends Model
         'kode',
         'label',
         'tingkat',
-        'kurikulum'
+        'kurikulum',
+        'kelompok',
+        'kategori'
     ];
 
     function rombel() {

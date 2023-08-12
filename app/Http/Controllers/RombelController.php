@@ -16,7 +16,7 @@ class RombelController extends Controller
         $tapel = Tapel::where("status","1")->first();
         $guru = Guru::where('id', $request->user()->userable_id)->first();
         $rombels = $request->user()->level == 'admin' 
-                    ? Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas')->get() 
+                    ? Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas', 'mapels')->get() 
                     :  Rombel::where("tapel", $tapel->kode)->where('guru_id', $guru->nip)->with('guru', 'tapel', 'siswas')->get();
 
         return Inertia::render('Auth/Rombel', [
@@ -120,31 +120,40 @@ class RombelController extends Controller
         }
     }
 
-   
+    public function detachMapel(Request $request, $id) {
+        try {
+            $rombel = Rombel::find($id);
+            $detach = $rombel->mapels()->detach([$request->mapel_id]);
+            // $detach = DB::table('mapel_rombel')->where('mapel_id', $request->mapel_id)->where('rombel_id', $id)->delete();
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $detach
+            ], 200);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Rombel $rombel)
-    {
-        //
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }    
+    }
+    public function attachMapel(Request $request, $id) {
+        try {
+            $rombel = Rombel::find($id);
+            $rombel->mapels()->attach($request->mapel_id);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $rombel
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }    
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Rombel $rombel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Rombel $rombel)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
