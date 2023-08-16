@@ -41,6 +41,13 @@ Route::prefix('dashboard')->group(function() {
         return Inertia::render('Auth/Dashboard');
         // return User::with('userable')->first();
     })->name('dashboard')->middleware('is_auth');
+
+    Route::prefix('wa')->group(function() {
+        Route::post("/send", [WaController::class, 'send'])->name('dashboard.wa.send');
+        Route::post("/send-many", [WaController::class, 'sendToUsers'])->name('dashboard.wa.users.send');
+        Route::post("/group/list", [WaController::class, 'listGroup'])->name('dashboard.wa.group.index');
+    });
+
     Route::prefix("post")->group(function() {
         Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
         Route::post('/store', [PostController::class, 'store'])->name('post.store');
@@ -168,6 +175,8 @@ Route::prefix("")->group(function() {
         $files = Storage::disk('s3')->files('images');
         return $files;
     });
+
+
 
     Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

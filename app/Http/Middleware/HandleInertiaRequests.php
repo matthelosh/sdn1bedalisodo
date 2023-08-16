@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use App\Models\Anggaran;
+use App\Models\Guru;
 use App\Models\Menu;
+use App\Models\Rombel;
 use App\Models\Sekolah;
 use App\Models\Tapel;
 use Illuminate\Http\Request;
@@ -48,9 +50,22 @@ class HandleInertiaRequests extends Middleware
             'menus' => $request->user() ? $this->menus($request->user()) : null,
             'layout' => $this->frontLayout(),
             'tapel' => $this->tapel(),
-            'anggaran' => $this->anggaran()
+            'anggaran' => $this->anggaran(),
+            'rombels' => $request->user() ? $this->rombels($request->user()) : null,
         ]);
     }
+
+    protected function rombels($user) {
+        $user = User::where('id', $user->id)->with('userable')->first();
+        if ($user->userable->role == 'gkel') {
+            $rombels = Rombel::where('tapel', $this->tapel()->kode)->where('guru_id', $user->userable->nip)->with('siswas','mapels')->get();
+        } else {
+            $rombels = Rombel::where('tapel', $this->tapel()->kode)->with('siswas','guru')->get();
+        }
+
+        return $rombels;
+    }
+
 
     protected function frontLayout() {
         $site = \App\Models\Config::select('layout')->first();
@@ -63,6 +78,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     protected function menus($user) {
+        $guru = Guru::where('id', $user->userable_id)->first();
         $all = Menu::whereDoesntHave('parent')->where('roles', 'all')->with('children')->get();
         $roled = Menu::whereDoesntHave('parent')->where('roles', 'LIKE', '%'.$user->level.'%')->with('children')->get();
         $menus = $all->merge($roled);

@@ -38,8 +38,8 @@ const logout = async() => {
 <template>
 <div class="wrapper grid grid-cols-12 h-screen w-auto bg-gray-400">
     <Transition name="slide">
-        <aside :class="!showSide ? 'hidden md:block' : 'md:block'" class=" absolute md:relative md:top-0 overflow-x-hidden md:w-full z-10 w-[60vw]  md:col-span-2 bg-sky-200 h-screen transition-transform duration-150 print:hidden col-span-4">
-            <div class="avatar p-4 bg-sky-800 w-full relative">
+        <aside :class="!showSide ? 'hidden md:block' : 'md:block'" class=" absolute md:relative md:top-0 overflow-x-hidden md:w-full z-10 w-[60vw]  md:col-span-2 bg-teal-50 shadow-lg hover:shadow-xl h-screen transition-transform duration-150 print:hidden col-span-4">
+            <div class="avatar p-4 bg-teal-600 w-full relative">
                 <img src="/img/logo.png" alt="Avatar" class="w-[100px] aspect-square object-contain mx-auto">
                 <Link as="h1" class="text-center text-lime-200 mt-3 mx-auto cursor-pointer" :href="`/guru/${page.props.auth.user.name}`">
                     @{{ page.props.auth.user.name }}
