@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
+use App\Services\PostService;
+
 class PostController extends Controller
 {
     /**
@@ -34,36 +36,26 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, PostService $post)
     {
-        $post = json_decode($request->post);
+        $data = $request->post;
+        // dd(json_decode($data));
+        
         try {
-            $slug = strtolower(str_replace(" ", "-",$post->title));
-            if($request->file('featured_image')) {
-                $store = Storage::putFileAs('public/images', $request->file("featured_image"), uniqid("img").".jpg");
-                $featured_image = Storage::url($store);
-            } else {
-                $featured_image = $post->featured_image ?? '0';
-            }
-            $post = Post::updateOrCreate(
-                [
-                    'id' => $post->id ?? null,
-                    'author_id' => $post->author_id ?? $request->user()->name,
-                ],
-                [
-                    
-                    'category_id' => $post->category_id,
-                    'slug' => $slug,
-                    'title' => $post->title,
-                    'featured_image' => $featured_image,
-                    'content' => $post->content,
-                    'status' => 'published',
-                    'starred' => true
-                ]
-                );
-            return redirect(route('dashboard.post'));
-        } catch(\Exception $e) {
 
+            if($request->file('featured_image')) {
+                $featured_image = $post->storeFeatureImage($request->file("featured_image"));
+            } else {
+                $featured_image = $data->featured_image ?? '0';
+            }
+            // dd($featured_image);
+            $store = $post->write($data, $featured_image);
+
+
+            
+            return redirect(route('dashboard.post.home'))->with('status', $store);
+        } catch(\Exception $e) {
+            return back()->with(['error' => $e->getMessage()], 500);
         }
     }
 

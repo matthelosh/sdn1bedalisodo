@@ -68,13 +68,13 @@ const tanggal = (tanggal) => {
     <Loading v-if="loading" />
         <div class="p-4">
             <transition name="slide">
-            <div class="w-full bg-white overflow-auto" v-if="mode == 'list'" :key="'tr1'">
+            <div class="w-full bg-white overflow-auto shadow-lg" v-if="mode == 'list'" :key="'tr1'">
                 <div class="w-full h-12 bg-white flex items-center justify-between p-2">
                     <div class="flex gap-2">
                         <h1 class="text-sky-800 text-lg font-bold">Tulisan</h1>
                     </div>
                     <div class="toolbar-items flex gap-1">
-                        <button class="text-sky-400 hover:bg-sky-400 hover:text-white flex items-center border border-sky-400 px-2 text-sm rounded" @click="mode='write'">
+                        <button class="text-teal-400 hover:bg-teal-400 hover:text-white flex items-center border border-teal-400 px-2 text-sm rounded" @click="mode='write'">
                             <Icon icon="mdi:typewriter" />
                             Baru
                         </button>
@@ -87,39 +87,39 @@ const tanggal = (tanggal) => {
                 </div>
                 <table class="table borrder border-collapse w-full">
                     <thead>
-                        <tr class="bg-sky-200">
-                            <th class="py-1 px-2">No</th>
-                            <th class="py-1 px-2">Judul</th>
-                            <th class="py-1 px-2">Kategori</th>
-                            <th class="py-1 px-2">Penulis</th>
-                            <th class="py-1 px-2">Tanggal</th>
-                            <th class="py-1 px-2">Status</th>
-                            <th class="py-1 px-2">Opsi</th>
+                        <tr class="bg-teal-200">
+                            <th class="py-2 border-e border-white px-2">No</th>
+                            <th class="py-2 border-e border-white px-2">Judul</th>
+                            <th class="py-2 border-e border-white px-2">Kategori</th>
+                            <th class="py-2 border-e border-white px-2">Penulis</th>
+                            <th class="py-2 border-e border-white px-2">Tanggal</th>
+                            <th class="py-2 border-e border-white px-2">Status</th>
+                            <th class="py-2  px-2">Opsi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr
                             v-for="(post, p) in posts.current"
                             :key="p"
-                            class="even:bg-sky-100 hover:bg-sky-50"
+                            class="even:bg-teal-100 "
                         >
-                            <td class="py-1 px-2 text-center">{{  (p+1) + (10 * current)}}</td>
-                            <td class="py-1 px-2">
-                                <span class="text-sky-600 cursor-pointer hover:underline text-ellipsis" @click="edit(post)">{{ post.title }}</span>
+                            <td class="py-1 border-e border-slate-200 px-2 text-center">{{  (p+1) + (10 * current)}}</td>
+                            <td class="py-1 border-e border-slate-200 px-2">
+                                <span class="text-teal-800 cursor-pointer hover:underline text-ellipsis" @click="edit(post)">{{ post.title }}</span>
                             </td>
-                            <td class="py-1 px-2">{{ post.category.label }}</td>
-                            <td class="py-1 px-2">{{ post.author.userable.nama }}</td>
-                            <td class="py-1 px-2">{{ tanggal(post.created_at) }}</td>
-                            <td class="py-1 px-2">{{ post.status }}</td>
+                            <td class="py-1 border-e border-slate-200 px-2">{{ post.category.label }}</td>
+                            <td class="py-1 border-e border-slate-200 px-2">{{ post.author.userable.nama }}</td>
+                            <td class="py-1 border-e border-slate-200 px-2">{{ tanggal(post.created_at) }}</td>
+                            <td class="py-1 border-e border-slate-200 px-2">{{ post.status }}</td>
                             <td class="py-1 px-2">Opsi</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="bg-sky-200 flex items-center justify-between pl-3 flex-wrap w-full">
+                <div class="bg-slate-50 flex items-center justify-between p-3 flex-wrap w-full">
                     Jml Halaman: {{ posts.page_length }} - {{ current }}
                     <div class="flex items-center h-full flex-wrap">
                         <button @click="prev" class="flex justify-center w-8 border border-gray-500  py-1"><Icon icon="mdi:chevron-double-left" /></button>
-                        <button v-for="b in posts.page_length" :key="b" class="flex justify-center w-8 border border-gray-500" :class="(b-1) == current ? 'bg-sky-600 text-white': ''" @click="current=(b-1)">{{ b }}</button>
+                        <button v-for="b in posts.page_length" :key="b" class="flex justify-center w-8 border border-gray-500" :class="(b-1) == current ? 'bg-teal-800 text-white': ''" @click="current=(b-1)">{{ b }}</button>
                         <button @click="next" class="flex justify-center w-8 border border-gray-500 py-1"><Icon icon="mdi:chevron-double-right" /></button>
                     </div>
                 </div>

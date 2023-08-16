@@ -49,8 +49,8 @@ Route::prefix('dashboard')->group(function() {
     });
 
     Route::prefix("post")->group(function() {
-        Route::get('/', [PostController::class, 'index'])->name('dashboard.post');
-        Route::post('/store', [PostController::class, 'store'])->name('post.store');
+        Route::get('/', [PostController::class, 'index'])->name('dashboard.post.home');
+        Route::post('/store', [PostController::class, 'store'])->name('dashboard.post.store');
     });
     Route::prefix('images')->group(function() {
         Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');

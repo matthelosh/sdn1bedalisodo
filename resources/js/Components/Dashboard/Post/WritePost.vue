@@ -87,7 +87,7 @@ const simpan = async() => {
     if(featuredImage.value !== null) {
         fd.append("featured_image", featuredImage.value)
     }
-    router.post(route('post.store'), fd)
+    router.post(route('dashboard.post.store'), fd)
 }
 
 </script>

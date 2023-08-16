@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Http;
 class Waapi 
 {
     protected string $url;
-    protected $client;
+    // protected $client;
     protected array $headers;
 
-    public function __construct(Client $client)
+    public function __construct()
     {
         $this->url = env('WAAPI_URL');
         $this->headers =[
@@ -20,7 +20,7 @@ class Waapi
                     'key' => env('WAAPI_KEY')
                 ];
 
-        $this->client = $client;
+        // $this->client = $client;
 
     }
 

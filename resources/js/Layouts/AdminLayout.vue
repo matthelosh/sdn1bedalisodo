@@ -1,9 +1,13 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeMount } from 'vue';
+import { ref, defineAsyncComponent, onMounted, onBeforeMount } from 'vue';
 import { usePage, Link, router } from '@inertiajs/vue3';
 import SvgIcon from '@jamescoyle/vue-icon';
+import { Icon } from '@iconify/vue';
 import { mdiExitToApp, mdiClose, mdiMenu, mdiViewDashboardOutline } from '@mdi/js';
 import SidebarItem from '@/Layouts/Admin/SidebarItem.vue'
+
+const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
+const confirmDialog = ref(null)
 
 onMounted(() => {
     const aside = document.querySelector("aside")
@@ -32,7 +36,10 @@ const showSide = ref(false)
 // })
 
 const logout = async() => {
-    router.post(route('logout'))
+    if ( await confirmDialog.value.open("Mau Logout?", "orange")) {
+        router.post(route('logout'))
+    }
+    
 }
 </script>
 <template>
@@ -50,13 +57,16 @@ const logout = async() => {
                 <SidebarItem />
                 <ul>
                     <li >
-                        <a href="#" @click.prevent="logout" class="block hover:bg-white p-2">Keluar</a>
+                        <a href="#" @click.prevent="logout" class="flex items-center gap-2 hover:bg-red-400 hover:text-white transition p-2">
+                            <Icon icon="mdi:exit-to-app" />
+                            Keluar
+                        </a>
                     </li>
                 </ul>
             </div>
         </aside>
     </Transition>
-    <main class="col-span-12  md:col-span-10 bg-sky-50 print:bg-white w-full max-h-screen print:h-full print:overflow-y-visible overflow-y-auto">
+    <main class="col-span-12  md:col-span-10 bg-slate-200 print:bg-white w-full max-h-screen print:h-full print:overflow-y-visible overflow-y-auto">
         <header class="w-full h-10 bg-sky-100 shadow sticky top-0 print:hidden z-10">
             <nav class="w-full h-full flex items-center justify-between px-3">
                 <h1>{{ props.title ? props.title : 'Dashboard' }}</h1>
@@ -75,6 +85,7 @@ const logout = async() => {
         </section>
     </main>
 </div>
+<ConfirmDialog ref="confirmDialog" />
 </template>
 <style>
 
