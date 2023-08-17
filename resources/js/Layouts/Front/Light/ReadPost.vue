@@ -25,7 +25,7 @@ const post = computed(() => props.post)
     <meta name="description" :content="description" />
 </Head>
 <PostLayout>
-    <div class="container w-full my-6">
+    <div class="w-full my-6 ">
         <h1 class="text-xl md:text-6xl font-light text-slate-800 font-serif py-4 px-4 md:px-0 tracking-wider w-full md:w-8/12 mx-auto">{{ post.title }}</h1>
         <p class="w-full md:w-8/12 mx-auto px-4 md:px-0">Ditulis Oleh <span class="text-orange-600 font-bold">{{ post.author.userable.nama }}</span>, Ditulis pada <span class="text-orange-600 font-bold">{{ new Date(post.created_at).toLocaleDateString("id-ID") }}</span>, Dilihat <span class="bg-orange-600 font-bold px-2 rounded text-white">{{ post.views.length }}</span> kali</p>
         <div class="feature-image w-full mx-auto relative h-[200px] md:h-[500px]  border-b-2 border-gray-50 shadow-inner rounded transition-all my-4 md:my-8" :style="`background: url('${post.featured_image}'); background-repeat:no-repeat; background-size: cover; background-attachment: fixed;`">

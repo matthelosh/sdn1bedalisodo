@@ -67,7 +67,7 @@ const logout = async() => {
         </aside>
     </Transition>
     <main class="col-span-12  md:col-span-10 bg-slate-200 print:bg-white w-full max-h-screen print:h-full print:overflow-y-visible overflow-y-auto">
-        <header class="w-full h-10 bg-sky-100 shadow sticky top-0 print:hidden z-10">
+        <header class="w-full h-10 bg-teal-50 shadow sticky top-0 print:hidden z-10">
             <nav class="w-full h-full flex items-center justify-between px-3">
                 <h1>{{ props.title ? props.title : 'Dashboard' }}</h1>
                 <div class="nav-items flex items-center justify-end gap-2">
