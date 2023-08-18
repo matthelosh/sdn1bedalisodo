@@ -25,8 +25,8 @@ const kirim = async() => {
                     loading.value = false
                     let color = res.data.status == 'ok' ? 'green' : 'red'
                     alertBox.value.open(`${res.data.msg}`, color)
-                    message.value = {isGroup: false}
-                    attachment.value = false
+                    // message.value = {isGroup: false}
+                    // attachment.value = null
                 }).catch(err => {
                     console.log(err)
                     loading.value = false
@@ -60,11 +60,12 @@ const attachment = ref(null)
 
 const onFilePicked = async(e) => {
     let file = e.target.files[0]
+    // alert(file.name)
     let reader = new FileReader();
     reader.onload = () => {
         let base64 = reader.result.replace("data:", "").replace(/^.+,/, "");
         // console.log(base64)
-        message.value.media = base64
+        message.value.media = {file: base64, type: file.type, name: file.name}
     }
     reader.readAsDataURL(file)
     attachment.value = URL.createObjectURL(file)

@@ -49,7 +49,7 @@ class WaController extends Controller
                     'isGroup' => $message->isGroup,
                     'chatId' => $message->chatId,
                     'pesan' => $message->text,
-                    'media' => $message->media
+                    'media' => $message->media ?? null
                 ];
             $result = $waapi->send($params);
             return response()->json(
