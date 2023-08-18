@@ -64,6 +64,7 @@ Lk:  $lk, Pr: $pr, Jml: $jml\n";
             // ->whereHas('rombel', function($q) use($kode_tapel) {
             //     $q->where('tapel', $kode_tapel);
             // })
+            ->with('rombel')
             ->get();
             if(count($siswas) < 1) {
                 $res = "Maaf, saya tidak menemukan siswa dengan nama:". $request->query('nama')."\n\nSilahkan menanyakan kepada operator Sekolah apakah sudah dimasukkan." ;
