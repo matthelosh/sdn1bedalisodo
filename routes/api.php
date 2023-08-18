@@ -71,6 +71,7 @@ Lk:  $lk, Pr: $pr, Jml: $jml\n";
             }
             // $res .= count($siswas)."\n";
             foreach($siswas as $siswa) {
+                $rombel = count($siswa->rombel) > 0 ? $siswa->rombel[0]->label : '-';
                 $res .= "
 Nama: $siswa->nama,
 NISN: $siswa->nisn,
@@ -79,6 +80,7 @@ JK: $siswa->jk,
 TTL: $siswa->tempat_lahir , $siswa->tanggal_lahir,
 Alamat: $siswa->alamat,
 No HP: $siswa->hp,
+Kelas: $rombel,
 Status: $siswa->status
                 ";
             }
