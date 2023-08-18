@@ -79,7 +79,6 @@ JK: $siswa->jk,
 TTL: $siswa->tempat_lahir , $siswa->tanggal_lahir,
 Alamat: $siswa->alamat,
 No HP: $siswa->hp,
-Kelas:". count($siswa->rombel) > 0 ? $siswa->rombel[0]->label : 'Belum masuk rombel' ."
 Status: $siswa->status
                 ";
             }
