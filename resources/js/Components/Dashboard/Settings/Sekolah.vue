@@ -53,9 +53,9 @@ const simpan = async() => {
 </script>
 
 <template>
-<div class="wrapper bg-white rounded shadow">
-    <div class="toolbar h-10 bg-slate-200 p-2 flex items-center justify-between">
-        <h1>Data Sekolah</h1>
+<div class="wrapper bg-white rounded shadow hover:shadow-lg">
+    <div class="toolbar h-10 bg-slate-400 p-2 flex items-center justify-between">
+        <h1 class="text-white font-bold">Data Sekolah</h1>
         <button class="rounded-full bg-sky-400 hover:bg-sky-600 border border-white p-1" @click="edit" v-if="mode=='list'">
             <Icon icon="mdi:pencil" class="text-white text-xs" />
         </button>

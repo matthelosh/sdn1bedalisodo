@@ -95,7 +95,7 @@ const simpan = async() => {
 
 <template>
     <div class="w-full">
-        <div class="container mx-auto bg-gray-400 p-3 rounded-lg shadow">
+        <div class="container mx-auto bg-gray-400 p-3 rounded-lg shadow hover:shadow-lg">
             <div class="header w-full">
                 <h1 class="flex justify-center items-center gap-1 text-lg font-bold text-sky-800 tracking-wide">
                     <Icon icon="mdi:calendar-badge-outline" class="text-xl text-sky-800" />

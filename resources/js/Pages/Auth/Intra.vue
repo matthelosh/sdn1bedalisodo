@@ -15,8 +15,10 @@ const loading = ref(false)
 <template>
 <Head title="Pembelajaran" />
 <AdminLayout title="Pembelajaran">
-    <component :is="is">
-        <slot />
-    </component>
+    <div class="py-3 px-4">
+        <component :is="is">
+            <slot />
+        </component>
+    </div>
 </AdminLayout>
 </template>

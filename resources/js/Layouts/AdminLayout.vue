@@ -83,7 +83,11 @@ const logout = async() => {
         <section>
             <slot />
         </section>
+        <footer class="col-span-12 absolute bottom-0 text-slate-800 p-3 left-[50%]">
+            <p>Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
+        </footer>
     </main>
+    
 </div>
 <ConfirmDialog ref="confirmDialog" />
 </template>

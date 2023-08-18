@@ -84,11 +84,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="w-full relative shadow">
-        <div class="toolbar h-10 bg-slate-200 flex items-center justify-between p-3">
-            <h1>Daftar Menu</h1>
+    <div class="w-full relative shadow hover:shadow-lg">
+        <div class="toolbar h-10 bg-slate-400 flex items-center justify-between p-3">
+            <h1 class="text-white font-bold">Daftar Menu</h1>
             <button class="shadow rounded-full" @click="newMenu">
-                <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="mode == 'form' ? 'rotate-45 text-red-400 hover:text-red-600' : 'rotate-0 text-sky-400 hover:text-sky-600'" />
+                <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="mode == 'form' ? 'rotate-45 text-red-100 hover:text-red-600' : 'rotate-0 text-sky-100 hover:text-sky-600'" />
             </button>
         </div>
         <div class="content w-full p-3 bg-white">

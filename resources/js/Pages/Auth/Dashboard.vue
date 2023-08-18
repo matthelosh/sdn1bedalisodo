@@ -19,11 +19,14 @@ const loading = ref(false)
 
 const kirim = async() => {
     loading.value = true
+    // message.text = attachment.value !== null ? attachment.value+message.value.text : message.value.text;
     await axios.post(route('dashboard.wa.send'), {data: JSON.stringify(message.value)})
                 .then(res =>  {
                     loading.value = false
                     let color = res.data.status == 'ok' ? 'green' : 'red'
                     alertBox.value.open(`${res.data.msg}`, color)
+                    message.value = {isGroup: false}
+                    attachment.value = false
                 }).catch(err => {
                     console.log(err)
                     loading.value = false
@@ -51,6 +54,20 @@ const onChatChanged = async(e) => {
     if(e.target.value == true) {
         // listGroup()
     }
+}
+
+const attachment = ref(null)
+
+const onFilePicked = async(e) => {
+    let file = e.target.files[0]
+    let reader = new FileReader();
+    reader.onload = () => {
+        let base64 = reader.result.replace("data:", "").replace(/^.+,/, "");
+        // console.log(base64)
+        message.value.media = base64
+    }
+    reader.readAsDataURL(file)
+    attachment.value = URL.createObjectURL(file)
 }
 
 </script>
@@ -91,6 +108,16 @@ const onChatChanged = async(e) => {
                     <label for="text" class="w-full flex justify-between my-2">
                         Isi Pesan
                         <textarea v-model="message.text" placeholder="Isi Pesan" class="w-[60%] py-1 border-none bg-slate-100 resize-y" required />
+                    </label>
+                    <label for="text" class="w-full flex justify-between my-2">
+                        Lampirkan file
+                        <span class="w-[60%]">
+                            <input type="file" ref="fileAttachment" class="bg-pink-400 w-full hidden" @change="onFilePicked">
+                            <button @click.prevent="$refs.fileAttachment.click()">
+                                <Icon icon="mdi:attachment" class="text-xl text-slate-600" />
+                            </button>
+                            <img :src="attachment" alt="Lampiran" class="w-full" v-if="attachment !== null">
+                        </span>
                     </label>
                     <label for="text" class="w-full flex justify-between my-2">
                         <p>&nbsp</p>

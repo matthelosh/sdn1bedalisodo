@@ -41,11 +41,11 @@ onMounted(() => {
 </script>
 
 <template>
-<div class="wrapper w-full bg-white rounded shadow">
-    <div class="toolbar h-10 bg-slate-200 flex items-center justify-between p-3">
-        <h1>Tahun Pelajaran</h1>
+<div class="wrapper w-full bg-white rounded shadow hover:shadow-lg">
+    <div class="toolbar h-10 bg-slate-400 flex items-center justify-between p-3">
+        <h1 class="text-white font-bold">Tahun Pelajaran</h1>
         <button class="shadow rounded-full" @click="newTapel">
-            <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="showForm ? 'rotate-45 text-red-400 hover:text-red-600' : 'rotate-0 text-sky-400 hover:text-sky-600'" />
+            <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="showForm ? 'rotate-45 text-red-100 hover:text-red-300' : 'rotate-0 text-white hover:text-sky-400'" />
         </button>
     </div>
     <div class="form my-2 bg-slate-300 p-2 transition" v-if="showForm">

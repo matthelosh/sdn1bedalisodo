@@ -20,7 +20,7 @@ const role = page.props.auth.user.userable.role
 
 <template>
     <div class="wrapper w-full max-w-screen">
-        <div class="toolbar bg-slate-200 sticky top-0 z-40 p-3 h-10 flex items-center justify-between">
+        <div class="toolbar bg-slate-300 sticky top-0 z-40 p-3 h-10 flex items-center justify-between">
             <h1>Perangkat Guru</h1>
         </div>
         <div class="content w-full bg-white p-3">
@@ -98,6 +98,8 @@ const role = page.props.auth.user.userable.role
                             <th class="border hidden md:table-cell">No</th>
                             <th class="border">Mapel</th>
                             <th class="border hidden md:table-cell">Kurikulum</th>
+                            <th class="border hidden md:table-cell">Wali Kelas</th>
+                            <th class="border hidden md:table-cell">Jumlah Peserta</th>
                             <th class="border">Perangkat</th>
                         </tr>
                     </thead>
@@ -106,7 +108,7 @@ const role = page.props.auth.user.userable.role
                             v-for="(rombel, index) in items" :key="index"
                             class="odd:bg-slate-100"
                         >
-                            <td class="border hidden md:table-cell px-2">{{ index+1 }}</td>
+                            <td class="border hidden md:table-cell text-center px-2">{{ index+1 }}</td>
                             <td class="border px-2 text-center">{{ rombel.label }}</td>
                             <td class="border hidden md:table-cell px-2">{{ rombel.kurikulum }}</td>
                             <td class="border hidden md:table-cell px-2">{{ rombel.guru?.nama }}</td>

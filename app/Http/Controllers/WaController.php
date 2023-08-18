@@ -40,12 +40,14 @@ class WaController extends Controller
 
     public function send(Request $request, Waapi $waapi)
     {
+        // dd(json_decode($request->data));
         try {
             $message = json_decode($request->data);
                 $params = [
                     'isGroup' => $message->isGroup,
                     'chatId' => $message->chatId,
-                    'pesan' => $message->text
+                    'pesan' => $message->text,
+                    'media' => $message->media
                 ];
             $result = $waapi->send($params);
             return response()->json(

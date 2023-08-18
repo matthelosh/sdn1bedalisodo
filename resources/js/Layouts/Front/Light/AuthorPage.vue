@@ -24,7 +24,7 @@ const capitalize = (text) => {
 <template>
 <div class="wrapper w-full bg-sky-50">
     <Navbar />
-    <main class="w-full md:w-8/12 mx-auto p-4 md:p-0">
+    <main class="w-full md:w-8/12 mx-auto p-4 md:p-4 shadow bg-white mb-8 mt-4 print:w-full">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
             <figure>
                 <img

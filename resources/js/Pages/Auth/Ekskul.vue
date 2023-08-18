@@ -249,9 +249,9 @@ onMounted(() => {
                 </button>
             </div>
         </div>
-        <div class="content py-3">
+        <div class="content py-3 px-4">
             <AturPeserta :ekskul="selectedEkskul" v-if="selectedEkskul !== null" />
-            <div class="table w-full overflow-auto bg-white" v-else>
+            <div class="table w-full overflow-auto bg-white shadow hover:shadow-lg" v-else>
                 <table class="w-full border">
                     <thead>
                         <tr>

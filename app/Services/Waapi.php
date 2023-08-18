@@ -13,7 +13,7 @@ class Waapi
 
     public function __construct()
     {
-        $this->url = env('WAAPI_URL');
+        $this->url = env('APP_ENV') == 'local' ? 'http://localhost:3000/api/wa' : env('WAAPI_URL');
         $this->headers =[
                     'Content-Type' => 'application/json',
                     'secret' => env('WAAPI_SECRET'),
@@ -32,7 +32,8 @@ class Waapi
             )->asForm()->post($this->url.'/send', [
                         'isGroup' => $params['isGroup'],
                         'chatId' => $params['chatId'],
-                        'pesan' => $params['pesan']
+                        'pesan' => $params['pesan'],
+                        'media' => $params['media']
                     ],
             );
             $result = $sent->json();
