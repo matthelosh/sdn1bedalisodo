@@ -60,9 +60,11 @@ Lk:  $lk, Pr: $pr, Jml: $jml\n";
         }
 
         if ($request->query('nama') && !$request->query('kelas')) {
-            $siswas = Siswa::where('nama','LIKE', '%'.$request->query('nama').'%')->whereHas('rombel', function($q) use($kode_tapel) {
-                $q->where('tapel', $kode_tapel);
-            })->get();
+            $siswas = Siswa::where('nama','LIKE', '%'.$request->query('nama').'%')
+            // ->whereHas('rombel', function($q) use($kode_tapel) {
+            //     $q->where('tapel', $kode_tapel);
+            // })
+            ->get();
             if(count($siswas) < 1) {
                 $res = "Maaf, saya tidak menemukan siswa dengan nama:". $request->query('nama')."\n\nSilahkan menanyakan kepada operator Sekolah apakah sudah dimasukkan." ;
             }
