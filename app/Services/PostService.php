@@ -23,7 +23,6 @@ class PostService
                     'author_id' => $data->author_id ?? auth()->user()->name,
                 ],
                 [
-                    
                     'category_id' => $data->category_id,
                     'slug' => $slug,
                     'title' => $data->title,

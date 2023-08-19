@@ -72,7 +72,7 @@ const hapus = async(item) => {
 <template>
 <Head title="Data Siswa" />   
 <AdminLayout title="Data Siswa">
-    <div class="wrapper w-full oveflow-x-hidden p-3">
+    <div class="wrapper w-[95vw] md:w-full overflow-x-auto oveflow-x-hidden p-3 mb-20">
         <div class="table w-full p-3 bg-white">
             <div class="table-header grid grid-cols-2 justify-between items-center w-full mb-3" >
                 <div class="hidden md:block ">
@@ -91,36 +91,38 @@ const hapus = async(item) => {
                     <input type="text" v-model="search" class="w-[50%] rounded-lg py-1" placeholder="Cari Nama" />
                 </div>
             </div>
-            <table class="table-border border-collapse w-full">
+            <table class="table border border-collapse w-full">
                 <thead>
-                    <tr>
-                        <th class="py-1 px-2 border">No</th>
-                        <th class="py-1 px-2 border">NISN</th>
-                        <th class="py-1 px-2 border">Nama</th>
-                        <th class="py-1 px-2 border">JK</th>
-                        <th class="py-1 px-2 border">Tempat, Tanggal Lahir</th>
-                        <th class="py-1 px-2 border">Alamat</th>
-                        <th class="py-1 px-2 border">No. HP</th>
-                        <th class="py-1 px-2 border">Opsi</th>
+                    <tr class="bg-slate-300 shadow">
+                        <th class="py-2 px-2">No</th>
+                        <th class="py-2 px-2">NISN</th>
+                        <th class="py-2 px-2">Nama</th>
+                        <th class="py-2 px-2">Foto</th>
+                        <th class="py-2 px-2">JK</th>
+                        <th class="py-2 px-2">Tempat, Tanggal Lahir</th>
+                        <th class="py-2 px-2">Alamat</th>
+                        <th class="py-2 px-2">No. HP</th>
+                        <th class="py-2 px-2">Opsi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(siswa,s) in siswas.current" :key="s" class="odd:bg-slate-200" >
-                        <td class="py-1 px-2 border text-center">{{ siswa.no }}</td>
-                        <td class="py-1 px-2 border">{{ siswa.nisn }}</td>
-                        <td class="py-1 px-2 border">
+                    <tr v-for="(siswa,s) in siswas.current" :key="s" class="even:bg-slate-200" >
+                        <td class="py-1 px-2 text-center">{{ siswa.no }}</td>
+                        <td class="py-1 px-2">{{ siswa.nisn }}</td>
+                        <td class="py-1 px-2">
                             <button class="text-teal-800 hover:font-bold hover:text-teal-600" @click="openForm(siswa)">
                                 {{ siswa.nama }}
                             </button>
                         </td>
-                        <td class="py-1 px-2 border">{{ siswa.jk }}</td>
-                        <td class="py-1 px-2 border">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
-                        <td class="py-1 px-2 border">{{ siswa.alamat }}, RT.{{ siswa.rt }} RW.{{ siswa.rw }}</td>
-                        <td class="py-1 px-2 border">{{ siswa.hp }}</td>
-                        <td class="py-1 px-2 border">
+                        <td class="py-1 px-2"><img :src="siswa.foto_url ? siswa.foto_url : (siswa.jk && siswa.jk == 'Laki-laki') ? '/img/siswa.png' : '/img/siswi.png'" alt="Siswa" class="rounded-full aspect-square bg-slate-400 border border-slate-400 hover:bg-slate-100 shadow hover:shadow-lg w-3/4 mx-auto mt-4 cursor-pointer object-cover w-20" /> </td>
+                        <td class="py-1 px-2">{{ siswa.jk }}</td>
+                        <td class="py-1 px-2">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
+                        <td class="py-1 px-2">{{ siswa.alamat }}, RT.{{ siswa.rt }} RW.{{ siswa.rw }}</td>
+                        <td class="py-1 px-2">{{ siswa.hp }}</td>
+                        <td class="py-1 px-2">
                             <div class="flex items-center justify-center gap-1">
                                 <button @click="hapus(siswa)">
-                                    <Icon icon="mdi:delete" class="text-red-600 hover:text-red-400 text-lg" />
+                                    <Icon icon="mdi:delete" class="text-red-600 hover:text-red-400 text-2xl" />
                                 </button>
                             </div>
                         </td>

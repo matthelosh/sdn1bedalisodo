@@ -28,7 +28,8 @@ class Siswa extends Model
         'email',
         'nik',
         'is_active',
-        'status'
+        'status',
+        'foto_url'
     ];
 
     function rombel()  {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use App\Services\SiswaService;
 
 class SiswaController extends Controller
 {
@@ -33,42 +34,17 @@ class SiswaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, SiswaService $siswa)
     {
         try {
             $data = json_decode($request->siswa);
+            $foto = $request->file('foto') ?? null;
 
-            $siswa = Siswa::updateOrCreate(
-                [
-                    'id' => $data->id ?? null,
-                ],
-                [
-                    'nisn' => $data->nisn,
-                    'nis' => $data->nis ?? null,
-                    'nama' => $data->nama,
-                    'jk' => $data->jk,
-                    'tempat_lahir' => $data->tempat_lahir,
-                    'tanggal_lahir' => $data->tanggal_lahir,
-                    'agama' => $data->agama,
-                    'alamat' => $data->alamat,
-                    'rt' => $data->rt ?? null,
-                    'rw' => $data->rw ?? null,
-                    'desa' => $data->desa,
-                    'kecamatan' => $data->kecamatan,
-                    'kode_pos' => $data->kode_pos,
-                    'kabupaten' => $data->kabupaten,
-                    'angkatan' => $data->angkatan,
-                    'hp' => $data->hp ?? null,
-                    'email' => $data->email ?? null,
-                    'nik' => $data->nik ?? null,
-                    'is_active' => $data->is_active ?? '1',
-                    'status' => $data->status ?? 'aktif'
-                ]
-            );
+            $store = $siswa->store($data, $foto);
 
             return response()->json([
                 'status' => 'ok',
-                'msg' => $siswa
+                'msg' => $store
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

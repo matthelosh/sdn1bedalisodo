@@ -83,8 +83,8 @@ const logout = async() => {
         <section>
             <slot />
         </section>
-        <footer class="col-span-12 absolute bottom-0 text-slate-800 p-3 left-[50%]">
-            <p>Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
+        <footer class="absolute bottom-0 bg-slate-300 p-3 w-full md:w-10/12">
+            <p class="text-center">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
         </footer>
     </main>
     
