@@ -16,7 +16,7 @@ class PostService
         // dd($args);
         try {
             $slug = strtolower(str_replace(" ", "-",$data->title));
-            $chatId = env('APP_URL') == 'http://sdn1-bedalisodo.sch.id' ? '628563580593-1487811497@g.us' : '120363149742466007@g.us';
+            $chatId = env('APP_ENV') == 'production' ? '628563580593-1487811497@g.us' : '120363149742466007@g.us';
             $store = Post::updateOrCreate(
                 [
                     'id' => $data->id ?? null,
