@@ -47,9 +47,11 @@ class PostService
 
     public function storeFeatureImage($image = null) 
     {
+        $name = $image->getClientOriginalName();
         // dd($image);
-        $store = Storage::putFileAs('public/images', $image, uniqid("featured_image-").".jpg");
+        // $store = Storage::putFileAs('public/images', $image, uniqid("featured_image-").".jpg");
+        $store = $image->storePubliclyAs('images', $name, 's3');
         // dd(Storage::url($store));
-        return Storage::url($store);
+        return Storage::diks('s3')->url($store);
     }
 }
