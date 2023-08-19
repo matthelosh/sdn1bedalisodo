@@ -33,7 +33,7 @@ class Waapi
                         'isGroup' => $params['isGroup'],
                         'chatId' => $params['chatId'],
                         'pesan' => $params['pesan'],
-                        'media' => $params['media']
+                        'media' => $params['media'] ?? null
                     ],
             );
             $result = $sent->json();
