@@ -16,14 +16,57 @@ const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/Co
 
 const loading = ref(false)
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
-const openForm = (item) => {
+
+
+
+const selectedSiswa = ref(null)
+
+
+const pickFoto = (item) => {
+    let input = document.querySelector('#fotoSiswaInput')
+    input.click()
     selectedSiswa.value = item
 }
+
+const onFotoClicked = (e) => {
+    window.addEventListener('focus', handleWindowFocus(e))
+}
+
+const handleWindowFocus = (e) => {
+    if(e.target.value.length == 0) {
+        console.log('Batal')
+    }
+    window.removeEventListener('focus', onFotoClicked)
+}
+
+const onFotoPicked = (e) => {
+    selectedSiswa.value.fileFoto = e.target.files[0]
+    formFoto.value = true
+}
+const FormFoto = defineAsyncComponent(() => import('@/Components/Dashboard/Siswa/FormFoto.vue'))
+const formFoto = ref(false)
+const openFoto = (item) => {
+    selectedSiswa.value = item
+    formFoto.value = true
+}
+
+const closeFoto = () => {
+    selectedSiswa.value = null
+    formFoto.value = false
+    router.reload({only: ['siswas']})
+}
+
+
 const FormSiswa = defineAsyncComponent(() => import('@/Components/Dashboard/Siswa/FormSiswa.vue'))
-const selectedSiswa = ref(null)
+const formSiswa = ref(false)
+const openForm = (item) => {
+    selectedSiswa.value = item
+    formSiswa.value = true
+}
 
 const closeForm = () => {
     selectedSiswa.value = null
+    formSiswa.value = false
     router.reload({only: ['siswas']})
 }
 
@@ -79,6 +122,7 @@ const hapus = async(item) => {
                     <h1 class="text-lg font-bold">Data Siswa</h1>
                 </div>
                 <div class="flex items-center justify-end gap-2">
+                    <input type="file" ref="foto" @change="onFotoPicked($event)" @click="onFotoClicked" class="hidden" id="fotoSiswaInput" accept=".jpg, .JPG, .JPEG, .jpeg, .png, .PNG" />
                     <input type="file" ref="fileInput" @change="onFileSiswaPicked" class="hidden" accept=".xls, .xlsx, .ods">
                     <button class="flex items-center gap-1 text-teal-600 hover:text-teal-800 hover:font-bold px-3 py-1 rounded hover:shadow" @click="$refs.fileInput.click()">
                         <span class="hidden md:block">Impor Siswa</span>
@@ -106,19 +150,22 @@ const hapus = async(item) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(siswa,s) in siswas.current" :key="s" class="even:bg-slate-200" >
+                    <tr v-for="(siswa,s) in siswas.current" :key="s"  >
                         <td class="py-1 px-2 text-center">{{ siswa.no }}</td>
-                        <td class="py-1 px-2">{{ siswa.nisn }}</td>
+                        <td class="py-1 px-2 bg-slate-100 text-center">{{ siswa.nisn }}</td>
                         <td class="py-1 px-2">
                             <button class="text-teal-800 hover:font-bold hover:text-teal-600" @click="openForm(siswa)">
                                 {{ siswa.nama }}
                             </button>
                         </td>
-                        <td class="py-1 px-2"><img :src="siswa.foto_url ? siswa.foto_url : (siswa.jk && siswa.jk == 'Laki-laki') ? '/img/siswa.png' : '/img/siswi.png'" alt="Siswa" class="rounded-full aspect-square bg-slate-400 border border-slate-400 hover:bg-slate-100 shadow hover:shadow-lg w-3/4 mx-auto mt-4 cursor-pointer object-cover w-20" /> </td>
-                        <td class="py-1 px-2">{{ siswa.jk }}</td>
-                        <td class="py-1 px-2">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
+                        <td class="py-1 px-2 bg-slate-100 text-center">
+                            
+                            <img :src="siswa.foto_url ? siswa.foto_url : (siswa.jk && siswa.jk == 'Laki-laki') ? '/img/siswa.png' : '/img/siswi.png'" alt="Siswa" class="rounded-full aspect-square bg-slate-400 border border-slate-400 hover:bg-slate-100 shadow hover:shadow-lg mx-auto  mt-4 cursor-pointer object-cover w-20" @click="pickFoto(siswa)" title="Klik untuk membuka/mengganti foto" /> 
+                        </td>
+                        <td class="py-1 px-2 text-center">{{ siswa.jk }}</td>
+                        <td class="py-1 px-2 text-center bg-slate-100">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
                         <td class="py-1 px-2">{{ siswa.alamat }}, RT.{{ siswa.rt }} RW.{{ siswa.rw }}</td>
-                        <td class="py-1 px-2">{{ siswa.hp }}</td>
+                        <td class="py-1 px-2 bg-slate-100 text-center">{{ siswa.hp }}</td>
                         <td class="py-1 px-2">
                             <div class="flex items-center justify-center gap-1">
                                 <button @click="hapus(siswa)">
@@ -162,6 +209,7 @@ const hapus = async(item) => {
     </div>
 </AdminLayout>
 <Loading v-if="loading" />
-<FormSiswa :selectedSiswa="selectedSiswa" @close="closeForm" v-if="selectedSiswa !== null" />
+<FormSiswa :selectedSiswa="selectedSiswa" @close="closeForm" v-if="formSiswa" />
 <ConfirmDialog ref="confirmDialog" />
+<FormFoto :selectedSiswa="selectedSiswa" @close="closeFoto" v-if="formFoto" />
 </template>

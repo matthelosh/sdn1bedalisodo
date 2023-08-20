@@ -98,6 +98,24 @@ class SiswaController extends Controller
         }
     }
 
+    public function updateFoto(Request $request, SiswaService $siswaService)
+    {
+        try {
+            $siswa = Siswa::where('nisn', $request['nisn'])->first();
+            // dd($siswa);
+            $update = $siswa->update(['foto_url' => $siswaService->storeFoto($request->file('foto'), $request['nisn'])]);
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $update
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     /**
      * Display the specified resource.
      */

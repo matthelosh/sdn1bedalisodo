@@ -82,7 +82,9 @@ Route::prefix('dashboard')->group(function() {
         Route::get("/", [SiswaController::class, 'page'])->name('dashboard.siswa.page');
         Route::post("/store", [SiswaController::class, 'store'])->name('dashboard.siswa.store');
         Route::post("/impor", [SiswaController::class, 'impor'])->name('dashboard.siswa.impor');
+        Route::put("/foto/update", [SiswaController::class, 'updateFoto'])->name('dashboard.siswa.foto.update');
         Route::delete("/{id}", [SiswaController::class, 'destroy'])->name('dashboard.siswa.destroy');
+
     });
 
     Route::prefix("ekskul")->group(function() {
