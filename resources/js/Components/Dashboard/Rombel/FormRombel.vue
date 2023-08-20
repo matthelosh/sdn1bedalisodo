@@ -1,30 +1,50 @@
 <script setup>
-import { reactive, ref, watch, onMounted } from 'vue';
+import { reactive, ref, watch, onBeforeMount } from 'vue';
 import { Icon } from '@iconify/vue';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 
 const page = usePage()
 const props = defineProps({selectedRombel: Object})
-onMounted(() => {
-    if(props.selectedRombel) rombel.value = props.selectedRombel
+onBeforeMount(() => {
+    if(props.selectedRombel) {
+        rombel.value = props.selectedRombel
+        getGurus()
+    }
+    // console.log(props.selectedRombel)
+    listgrupWa()
 })
+
+
 
 const emit = defineEmits(['close'])
 
 const loading = ref(false)
 
-const rombel = reactive({
+const grupWas = ref([])
+const listgrupWa = async() => {
+    await axios.post(route('dashboard.wa.grup.list'))
+                .then(res => {
+                    grupWas.value = res.data.grups
+                })
+}
+
+const rombel = ref({
     tingkat: '0',
     pararel: '0'
 })
 
-watch(rombel, (newV, oldV) => {
-    rombel.kode = page.props.tapel.kode+'-'+newV.tingkat+(newV.pararel !== '0' ? newV.pararel.toLocaleLowerCase() : '')
-    rombel.label = 'Kelas '+ romawi(newV.tingkat) + (newV.pararel !== '0' ? newV.pararel: '')
-    rombel.tapel = page.props.tapel.kode
-    if(newV.kurikulum && gurus.value.length < 1) { getGurus() }
-})
+watch(
+    () => rombel, 
+    (newV, oldV) => {
+        rombel.value.pararel = newV.value.pararel ? newV.value.pararel : (/[a-zA-Z]/gi.test(newV.value.kode.substr(-1)) ? newV.value.kode.substr(-1) : '0')
+        rombel.value.kode = page.props.tapel.kode+'-'+ newV.value.tingkat+((newV.value.pararel == '0' || !newV.value.pararel) ? '' : newV.value.pararel.toLocaleLowerCase())
+        rombel.value.label = 'Kelas '+ romawi(newV.value.tingkat) + ((rombel.value.pararel == '0') ? '' : rombel.value.pararel)
+        rombel.value.tapel = page.props.tapel.kode
+        if(newV.value.kurikulum && gurus.value.length < 1) { getGurus() }
+    },
+    { deep: true }
+)
 
 
 const gurus = ref([])
@@ -81,7 +101,7 @@ const romawi = (num) => {
     <div class="w-full bg-slate-100 bg-opacity-20 backdrop-blur-sm fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center z-40" @click.self="close">
         <div class="dialog bg-white rounded shadow w-[500px] max-w-[800px]">
             <div class="toolbar h-10 flex items-center justify-between w-full p-2 bg-slate-200">
-                <h1>Data Rombongan Belajar</h1>
+                <h1>Data Rombel {{ rombel?.label }}</h1>
                 <div class="toolbar-items flex items-center gap-2 justify-end">
                     <button @click="emit('close')">
                         <Icon icon="mdi:close-box" class="text-2xl text-red-600 hover:text-red-400 active:text-red-800" />
@@ -133,6 +153,14 @@ const romawi = (num) => {
                                     :value="guru.nip">{{ guru.nama }}</option>    
                             </select>
                         </label>
+                        <label for="grup" class="w-full flex items-center  justify-between" >
+                            Grup WA
+                            <select class="bg-slate-200 border-0 rounded py-1 w-[60%]" v-model="rombel.grupWa" :disabled="grupWas.length < 1">
+                                <option 
+                                    v-for="grup in grupWas" :key="grup.id"
+                                    :value="grup.chat_id">{{ grup.label }}</option>    
+                            </select>
+                        </label>
                         <div class="flex items-center justify-center py-2">
                             <button class="py-1 px-3 rounded bg-slate-800 text-white hover:bg-slate-400 flex items-center" type="submit">
                                 <Icon icon="mdi:refresh" class="animate-spin text-xl text-sky-400" v-if="loading" />
@@ -142,7 +170,7 @@ const romawi = (num) => {
                     </fieldset>
                 </form>
             </div>
-            <!-- {{ props.selectedRombel }} -->
+            <!-- {{ rombel }} -->
         </div>
     </div>
 </template>

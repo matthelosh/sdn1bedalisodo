@@ -32,10 +32,15 @@ class Rombel extends Model
         return $this->belongsToMany(Siswa::class);
     }
 
+    function grupwa() {
+        return $this->hasOne(GrupWa::class, 'rombel_id','id');
+    }
+
     public static function boot() {
         parent::boot();
         self::deleting(function($rombel) {
             $rombel->siswas()->detach();
         });
     }
+
 }

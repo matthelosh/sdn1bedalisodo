@@ -50,6 +50,7 @@ const edit = (item) => {
 
 const closeForm = () => {
     mode.value = 'list'
+    selectedRombel.value = null
     router.reload({only: ['rombels']})
 }
 

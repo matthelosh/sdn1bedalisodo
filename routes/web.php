@@ -46,6 +46,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post("/send", [WaController::class, 'send'])->name('dashboard.wa.send');
         Route::post("/send-many", [WaController::class, 'sendToUsers'])->name('dashboard.wa.users.send');
         Route::post("/group/list", [WaController::class, 'listGroup'])->name('dashboard.wa.group.index');
+        Route::post("/group/list/local", [WaController::class, 'listGroupLocal'])->name('dashboard.wa.grup.list');
     });
 
     Route::prefix("post")->group(function() {

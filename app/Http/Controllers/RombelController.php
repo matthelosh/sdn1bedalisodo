@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GrupWa;
 use App\Models\Guru;
 use Inertia\Inertia;
 use App\Models\Rombel;
@@ -13,15 +14,20 @@ use Illuminate\Support\Facades\DB;
 class RombelController extends Controller
 {
     function page(Request $request) {
+        try {
         $tapel = Tapel::where("status","1")->first();
         $guru = Guru::where('id', $request->user()->userable_id)->first();
         $rombels = $request->user()->level == 'admin' 
-                    ? Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas', 'mapels')->get() 
+                    ? Rombel::where("tapel", $tapel->kode)->with('guru', 'tapel', 'siswas', 'mapels', 'grupwa')->get() 
                     :  Rombel::where("tapel", $tapel->kode)->where('guru_id', $guru->nip)->with('guru', 'tapel', 'siswas')->get();
 
+        
         return Inertia::render('Auth/Rombel', [
             'rombels' => $rombels,
         ]);
+        } catch(\Exception $e) {
+            dd($e);
+        }
     }
     /**
      * Display a listing of the resource.
@@ -94,6 +100,7 @@ class RombelController extends Controller
     {
         try {
             $data = json_decode($request->rombel);
+            
             $rombel = Rombel::updateOrCreate(
                 [
                     'id' => $data->id ?? null
@@ -107,6 +114,10 @@ class RombelController extends Controller
                     "guru_id"  => $data->guru_id
                 ]
             );
+
+            if($data->grupWa) {
+                $grup = GrupWa::where('chat_id', $data->grupWa)->update(['rombel' => $rombel->id]);
+            }
 
             return response()->json([
                 'status' => 'ok',

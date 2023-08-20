@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GrupWa;
 use App\Models\Guru;
 use App\Models\Siswa;
 use App\Models\Tapel;
@@ -70,6 +71,11 @@ class WaController extends Controller
         } catch(\Exception $e) {
             dd($e);
         }
+    }
+
+    public function listGroupLocal(Request $request)
+    {
+        return response()->json(['status' => 'ok', 'grups' => GrupWa::all()], 200);
     }
     
     public function replyDataSekolah(Request $request) {
