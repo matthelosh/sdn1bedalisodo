@@ -9,7 +9,7 @@ class SiswaService
     public function store($siswa, $foto=null)
     {
         try {
-
+            // dd($foto);
             if ($foto !== null) {
                 $foto_url = $this->storeFoto($foto, $siswa->nisn);
             }
@@ -39,14 +39,14 @@ class SiswaService
                     'nik' => $siswa->nik ?? null,
                     'is_active' => $siswa->is_active ?? '1',
                     'status' => $siswa->status ?? 'aktif',
-                    'foto_url' => $foto !== null ? $foto_url : $siswa->foto_url
+                    'foto_url' => $foto !== null ? $foto_url : ($siswa->foto_url ?? null)
                 ]
             );
 
             return $store;
         } catch(\Exception $e)
         {
-
+            dd($e);
         }
     }
 

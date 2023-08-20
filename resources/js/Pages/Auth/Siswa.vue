@@ -11,13 +11,27 @@ import { paginate } from '@/Plugins/misc';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
 
+
+
 const confirmDialog = ref(null)
 const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
 
 const loading = ref(false)
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
+const FormWa = defineAsyncComponent(() => import('@/Components/General/FormWa.vue'))
+const formWa = ref(false)
 
+const openFormWa = (item) => {
+    // alert('hi')
+    selectedSiswa.value = item
+    formWa.value = true
+}
+
+const closeFormWa = () => {
+    selectedSiswa.value = null
+    formWa.value = false
+}
 
 const selectedSiswa = ref(null)
 
@@ -165,7 +179,12 @@ const hapus = async(item) => {
                         <td class="py-1 px-2 text-center">{{ siswa.jk }}</td>
                         <td class="py-1 px-2 text-center bg-slate-100">{{ siswa.tempat_lahir }}, {{ siswa.tanggal_lahir }}</td>
                         <td class="py-1 px-2">{{ siswa.alamat }}, RT.{{ siswa.rt }} RW.{{ siswa.rw }}</td>
-                        <td class="py-1 px-2 bg-slate-100 text-center">{{ siswa.hp }}</td>
+                        <td class="py-1 px-2 bg-slate-100 text-center">
+                            <button class="bg-green-600 hover:bg-green-500 active:bg-green-400 flex items-center justify-center gap-1 text-white py-1 px-2 mx-auto rounded" @click="openFormWa(siswa)">
+                                <Icon icon="mdi:whatsapp" />
+                                {{ siswa.hp }}
+                            </button> 
+                        </td>
                         <td class="py-1 px-2">
                             <div class="flex items-center justify-center gap-1">
                                 <button @click="hapus(siswa)">
@@ -212,4 +231,5 @@ const hapus = async(item) => {
 <FormSiswa :selectedSiswa="selectedSiswa" @close="closeForm" v-if="formSiswa" />
 <ConfirmDialog ref="confirmDialog" />
 <FormFoto :selectedSiswa="selectedSiswa" @close="closeFoto" v-if="formFoto" />
+<FormWa :hp="selectedSiswa.hp" @close="closeFormWa" v-if="formWa" />
 </template>

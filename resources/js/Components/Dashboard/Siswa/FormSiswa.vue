@@ -28,12 +28,14 @@ const close = () => {
 const simpan = async() => {
     loading.value = true
     let fd = new FormData()
-    fd.append("foto", fotoSiswa.value)
+    if(fotoSiswa.value !== null) {
+        fd.append("foto", fotoSiswa.value)
+    }
     fd.append("siswa", JSON.stringify(siswa.value))
     await axios.post(route('dashboard.siswa.store'), fd)
                 .then(res => {
                     loading.value = false
-                    emit('close')
+                    // emit('close')
                 }).catch(err=> {
                     loading.value = false
                     console.log(err)

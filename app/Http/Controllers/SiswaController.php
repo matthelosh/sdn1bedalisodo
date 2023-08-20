@@ -39,7 +39,7 @@ class SiswaController extends Controller
         try {
             $data = json_decode($request->siswa);
             $foto = $request->file('foto') ?? null;
-
+            // dd($foto);
             $store = $siswa->store($data, $foto);
 
             return response()->json([
