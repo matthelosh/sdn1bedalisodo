@@ -18,6 +18,7 @@ onMounted(() => {
         } else {
             chatId = hp
         }
+        listGroup()
         message.value.isGroup = props.isGroup
         message.value.chatId = chatId
     }
