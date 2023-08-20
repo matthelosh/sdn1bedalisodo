@@ -115,8 +115,8 @@ class RombelController extends Controller
                 ]
             );
 
-            if($data->grupWa) {
-                $grup = GrupWa::where('chat_id', $data->grupWa)->update(['rombel' => $rombel->id]);
+            if(isset($data->grupWa)) {
+                $grup = GrupWa::where('chat_id', $data->grupWa)->update(['rombel_id' => $rombel->id]);
             }
 
             return response()->json([
@@ -172,6 +172,8 @@ class RombelController extends Controller
     public function destroy(Rombel $rombel, $id)
     {
         try {
+            $grupwa = GrupWa::where('rombel_id', $id)->first();
+            $grupwa->update(['rombel_id' => null]);
             $rombel->find($id)->delete();
             return response()->json([
                 'status' => 'ok',

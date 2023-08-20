@@ -231,5 +231,5 @@ const hapus = async(item) => {
 <FormSiswa :selectedSiswa="selectedSiswa" @close="closeForm" v-if="formSiswa" />
 <ConfirmDialog ref="confirmDialog" />
 <FormFoto :selectedSiswa="selectedSiswa" @close="closeFoto" v-if="formFoto" />
-<FormWa :hp="selectedSiswa.hp" @close="closeFormWa" v-if="formWa" />
+<FormWa :hp="selectedSiswa.hp" :isGroup="false" @close="closeFormWa" v-if="formWa" />
 </template>

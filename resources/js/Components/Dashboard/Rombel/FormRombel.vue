@@ -9,6 +9,9 @@ const props = defineProps({selectedRombel: Object})
 onBeforeMount(() => {
     if(props.selectedRombel) {
         rombel.value = props.selectedRombel
+        rombel.value.pararel = rombel.value.pararel ? rombel.value.pararel : (/[a-zA-Z]/gi.test(rombel.value.kode.substr(-1)) ? rombel.value.kode.substr(-1).toUpperCase() : '0')
+        rombel.value.grupWa = rombel.value.grupwa?.chat_id
+        console.log(rombel.value.pararel)
         getGurus()
     }
     // console.log(props.selectedRombel)
@@ -59,7 +62,7 @@ const getGurus = async() => {
 
 const simpan = async() => {
     loading.value = true
-    await axios.post(route('dashboard.rombel.store'), {rombel: JSON.stringify(rombel)})
+    await axios.post(route('dashboard.rombel.store'), {rombel: JSON.stringify(rombel.value)})
                 .then(res => {
                     loading.value = false
                     emit('close')

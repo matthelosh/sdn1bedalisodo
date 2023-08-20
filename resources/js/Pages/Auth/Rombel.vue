@@ -64,6 +64,21 @@ const closeMapel = () => {
     selectedRombel.value = null
     router.reload({only:['rombels']})
 }
+
+
+const FormWa = defineAsyncComponent(() => import('@/Components/General/FormWa.vue'))
+const formWa = ref(false)
+
+const openFormWa = (item) => {
+    // alert('hi')
+    selectedSiswa.value = item
+    formWa.value = true
+}
+
+const closeFormWa = () => {
+    selectedSiswa.value = null
+    formWa.value = false
+}
 </script>
 
 <template>
@@ -128,6 +143,9 @@ const closeMapel = () => {
                         <td class="py-1 px-2 border">{{ rombel.guru.nama }}</td>
                         <td class="py-1 px-2 border">
                             <div class="w-full flex items-center justify-center gap-2">
+                                <button :title="`Kirim Wa ke Grup Kelas ${rombel.label}`" v-if="rombel.grupwa">
+                                    <Icon icon="mdi:whatsapp" class="text-green-600 text-2xl hover:text-green-500 active:text-green-400" />
+                                </button>
                                 <button @click="manageMapel(rombel)">
                                     <Icon icon="mdi:bookshelf" class="text-sky-600 hover:text-sky-800 text-2xl" />
                                 </button>
@@ -150,4 +168,5 @@ const closeMapel = () => {
     <FormRombel v-else-if="mode == 'form'" :selectedRombel="selectedRombel" @close="closeForm" />
 </AdminLayout>
 <ConfirmDialog ref="confirmDialog" />
+<FormWa :hp="selectedRombel.grupwa.chat_id" :isGroup="true" @close="closeFormWa" v-if="formWa" />
 </template>

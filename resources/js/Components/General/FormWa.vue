@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 const loading = ref(false)
-const props = defineProps({hp: String})
+const props = defineProps({hp: String, isGroup: Boolean})
 
 const emit = defineEmits(['close'])
 
@@ -18,7 +18,7 @@ onMounted(() => {
         } else {
             chatId = hp
         }
-        message.value.isGroup = false
+        message.value.isGroup = props.isGroup
         message.value.chatId = chatId
     }
 })
