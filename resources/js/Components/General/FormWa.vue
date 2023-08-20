@@ -35,6 +35,7 @@ const kirim = async() => {
     // message.text = attachment.value !== null ? attachment.value+message.value.text : message.value.text;
     await axios.post(route('dashboard.wa.send'), {data: JSON.stringify(message.value)})
                 .then(res =>  {
+                    console.log(res)
                     loading.value = false
                     let color = res.data.status == 'ok' ? 'green' : 'red'
                     alertBox.value.open(`${res.data.msg}`, color)
@@ -44,12 +45,6 @@ const kirim = async() => {
                     console.log(err)
                     loading.value = false
                 })
-}
-const kirimKeUsers = async() => {
-    await axios.post(route('dashboard.wa.users.send'), {data: JSON.stringify(message.value)})
-                .then(res =>  {
-                    console.log(res)
-                }).catch(err => console.log(err))
 }
 
 const groups = ref([])
@@ -150,4 +145,5 @@ const onFilePicked = async(e) => {
             <!-- {{ groups }} -->
         </div>
     </div>
+    <AlertBox ref="alertBox" />
 </template>

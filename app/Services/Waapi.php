@@ -39,7 +39,8 @@ class Waapi
             $result = $sent->json();
             return $result;
         } catch(\Exception $e) {
-            dd($e);
+            // dd($e);
+            return ['status' => 'fail', 'msg' => 'Maaf! Gagal mengirim pesan'];
         }
     }
 

@@ -57,7 +57,7 @@ class WaController extends Controller
             , 200);
         } catch(\Exception $e) {
             return response()->json([
-                'result' => $e->getMessage()
+                'result' => $e
             ], 500);
         }
     }  
