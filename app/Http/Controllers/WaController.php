@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agenda;
 use App\Models\GrupWa;
 use App\Models\Guru;
 use App\Models\Siswa;
@@ -22,8 +23,6 @@ class WaController extends Controller
         $datas = [];
         foreach($gurus as $guru)
         {
-           
-            
             $data['phone'] = $guru->hp;
             $data['message'] = $message->text;
             $data['secret'] = false;
@@ -37,7 +36,7 @@ class WaController extends Controller
         $this->kirim($datas);
 
         return response()->json([
-            'result' => 'PEsan berhasil dikirim'
+            'result' => 'Pesan berhasil dikirim'
         ], 200);
     }
 
@@ -191,6 +190,32 @@ HP: $guru->hp,
             return response()->json(['status' => 'ok', 'gurus' => $res], 200);
         } catch (\Exception $e) {
             dd($e->getMessage());
+        }
+    }
+
+    public function replyDataAgenda(Request $request)
+    {
+        try {
+            $bulans = [];
+            $res = "Berikut agenda yang saya temukan:\n";
+
+            $agendas = $request->query('bulan') == 'all' ? Agenda::all() : Agenda::whereMonth('start', $request->query('bulan'))->get();
+            foreach($agendas as $agenda)
+            {
+                $res .= "
+Judul: $agenda->name,
+Deskripsi: $agenda->description,
+Mulai: $agenda->start,
+Selesai: $agenda->end,
+Lokasi: $agenda->location,
+Status: $agenda->status,
+==============================
+                ";
+            }
+            return response()->json(['status' => 'ok', 'agendas' => $res], 200);
+        } catch(\Exception $e)
+        {
+            dd($e);
         }
     }
     

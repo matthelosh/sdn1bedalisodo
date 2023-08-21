@@ -28,3 +28,4 @@ Route::get("/sekolah", [WaController::class, 'replyDataSekolah'])->middleware('i
 
 Route::get('/siswa', [WaController::class, 'replyDataSiswa'])->middleware('isLegal');
 Route::get('/guru', [WaController::class, 'replyDataGuru'])->middleware('isLegal');
+Route::get('/agenda', [WaController::class, 'replyDataAgenda'])->middleware('isLegal');
