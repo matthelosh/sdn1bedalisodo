@@ -88,7 +88,7 @@ const search = ref('')
 const currentPage = ref(0)
 const itemsPerPage = ref(10)
 const siswas = computed(() => {
-    let items = page.props.siswas.filter((siswa) => siswa.nama.toLowerCase().includes(search.value.toLowerCase()))
+    let items = page.props.siswas.filter((siswa) => siswa.nama.toLowerCase().includes(search.value.toLowerCase()) || siswa.nisn.includes(search.value))
     return paginate(items, itemsPerPage.value, currentPage.value)
 })
 
@@ -101,9 +101,13 @@ const onFileSiswaPicked = (e) => {
         let wb = await read(ev.target.result)
         let datas = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
         loading.value = true
-        await axios.post(route('dashboard.siswa.impor'), {siswas: JSON.stringify(datas)}).then(res => {
+        await axios.post(route('dashboard.siswa.impor'), {siswas: JSON.stringify(datas)})
+        .then(res => {
             loading.value = false
             router.reload({only: ['siswas']})
+        }).catch(err => {
+            loading.value = false
+            alert(err.response.dat.msg)
         })
     }
 

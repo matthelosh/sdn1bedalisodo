@@ -54,42 +54,12 @@ class SiswaController extends Controller
         }
     }
 
-    public function impor(Request $request) {
+    public function impor(Request $request, SiswaService $siswaService) {
         try {
             $siswas = json_decode($request->siswas);
-            foreach($siswas as $siswa) {
-                Siswa::updateOrCreate(
-                    [
-                        'id' => $siswa->id ?? null,
-                        'nisn' => $siswa->nisn ?? null
-                    ],
-                    [
-                        'nis'  => $siswa->nis?? 'null',
-                        'nama' => $siswa->nama,
-                        'jk' => $siswa->jk,
-                        'tempat_lahir'=> $siswa->tempat_lahir,
-                        'tanggal_lahir' => $siswa->tanggal_lahir,
-                        'agama' => $siswa->agama?? 'Islam',
-                        'alamat' => $siswa->alamat,
-                        'rt' => $siswa->rt,
-                        'rw' => $siswa->rw,
-                        'desa' => $siswa->desa?? 'Dalisodo',
-                        'kecamatan' => $siswa->kecamatan?? 'Wagir',
-                        'kode_pos' => $siswa->kode_pos?? '65158',
-                        'kabupaten' => $siswa->kabupaten?? 'Malang',
-                        'hp' => $siswa->hp?? null,
-                        'email' => $siswa->email?? null,
-                        'nik' => $siswa->nik?? null,
-                        'is_active'=> $siswa->is_active?? '0',
-                        'status' => $siswa->status?? 'aktif'
-                    ]
-                    );
-            }
 
-            return response()->json([
-                'status' => 'ok',
-                'msg' => 'Impor Selesai'
-            ], 200);
+            $response = $siswaService->impor($siswas);
+            return response()->json($response, $response['response_code']);
         } catch(\Exception $e) {
             return response()->json([
                 'status' => 'fail',

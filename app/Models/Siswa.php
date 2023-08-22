@@ -29,7 +29,10 @@ class Siswa extends Model
         'nik',
         'is_active',
         'status',
-        'foto_url'
+        'foto_url',
+        'no_akta',
+        'sekolah_asal',
+        'no_kk'
     ];
 
     function rombel()  {
@@ -38,6 +41,10 @@ class Siswa extends Model
 
     function alumni() {
         return $this->hasOne(Alumni::class, 'nisn','nisn');
+    }
+
+    function ortu() {
+        return $this->belongsTo(Ortu::class, 'ortu_id', 'id');
     }
 
     function ekskuls() {
