@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
+import { Icon } from '@iconify/vue';
 
 const page = usePage();
 
@@ -43,45 +44,23 @@ const role = page.props.auth.user.userable.role
                             <td class="border py-1 px-2 ">{{ mapel.label }}</td>
                             <td class="border py-1 px-2 ">{{ mapel.label }}</td>
                             <td class="border px-2 w-[75%] md:w-[40%]">
-                                <div class="flex flex-wrap gap-1 p-1 justify-center">
+                                <div class="flex flex-wrap gap-2 p-1 justify-center">
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
+                                        class=" bg-green-600 px-1 py-1 rounded-sm hover:bg-green-500 active:bg-green-400 text-white gap-1 flex items-center"
                                     >
-                                        Kaldik
+                                        <Icon icon="mdi:notebook-multiple" />
+                                        Rencana
                                     </button>
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white"
+                                        class=" bg-red-600 px-1  py-1 rounded-sm hover:bg-red-500 active:bg-red-400 text-white flex items-center gap-1"
                                     >
-                                        Jadwal
+                                    <Icon icon="mdi:book-cog" />
+                                        Pelaksanaan
                                     </button>
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
+                                        class=" bg-sky-600 hover:bg-sky-500 active:bg-sky-400 px-1  py-1 rounded-sm text-white flex items-center gap-1"
                                     >
-                                        AHE
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        RPE
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        Prota
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        Prosem
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white"
-                                    >
-                                        Jurnal
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
+                                        <Icon icon="mdi:lead-pencil" />
                                         Evaluasi
                                     </button>
                                 </div>
@@ -116,43 +95,21 @@ const role = page.props.auth.user.userable.role
                             <td class="border px-2 w-[75%] md:w-[40%]">
                                 <div class="flex flex-wrap gap-1 p-1 justify-center">
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
+                                        class=" bg-green-600 px-1 py-1 rounded-sm hover:bg-green-500 active:bg-green-400 text-white gap-1 flex items-center"
                                     >
-                                        Kaldik
+                                        <Icon icon="mdi:notebook-multiple" />
+                                        Rencana
                                     </button>
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white"
+                                        class=" bg-red-600 px-1  py-1 rounded-sm hover:bg-red-500 active:bg-red-400 text-white flex items-center gap-1"
                                     >
-                                        Jadwal
+                                    <Icon icon="mdi:book-cog" />
+                                        Pelaksanaan
                                     </button>
                                     <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
+                                        class=" bg-sky-600 hover:bg-sky-500 active:bg-sky-400 px-1  py-1 rounded-sm text-white flex items-center gap-1"
                                     >
-                                        AHE
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        RPE
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        Prota
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
-                                        Prosem
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white"
-                                    >
-                                        Jurnal
-                                    </button>
-                                    <button
-                                        class=" bg-sky-400 px-1 rounded-sm hover:bg-sky-600 text-white hidden md:block"
-                                    >
+                                        <Icon icon="mdi:lead-pencil" />
                                         Evaluasi
                                     </button>
                                 </div>
