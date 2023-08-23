@@ -37,6 +37,7 @@ class Waapi
                     ],
             );
             $result = $sent->json();
+            // dd($result);
             return $result;
         } catch(\Exception $e) {
             // dd($e);

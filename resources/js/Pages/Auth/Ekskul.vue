@@ -256,10 +256,10 @@ onMounted(() => {
                     <thead>
                         <tr>
                             <th class="py-3 border bg-slate-400 text-slate-800">No</th>
-                            <th class="py-3 border bg-slate-400 text-slate-800">Kode</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800 hidden md:table-cell">Kode</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Label</th>
-                            <th class="py-3 border bg-slate-400 text-slate-800">Pembina</th>
-                            <th class="py-3 border bg-slate-400 text-slate-800">Keterangan</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800 hidden md:table-cell">Pembina</th>
+                            <th class="py-3 border bg-slate-400 text-slate-800 hidden md:table-cell">Keterangan</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Peserta</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Adminsitrasi</th>
                             <th class="py-3 border bg-slate-400 text-slate-800">Opsi</th>
@@ -278,9 +278,9 @@ onMounted(() => {
                             class="odd:bg-slate-100"
                         >
                             <td class="text-center border py-2">{{ item.no }}</td>
-                            <td class="text-center border py-2">{{ item.kode }}</td>
+                            <td class="text-center border py-2 hidden md:table-cell">{{ item.kode }}</td>
                             <td class="text-center border py-2">{{ item.label }}</td>
-                            <td class="text-left border py-2 px-2">
+                            <td class="text-left border py-2 px-2 hidden md:table-cell">
                                 <div class="w-full flex items-center gap-2">
                                     <img :src="setAvatar(item.guru)" :alt="item.guru.nama" class="w-[100px] aspect-square rounded-full shadow">
                                     <div>
@@ -293,12 +293,19 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-center border py-2">{{ item.keterangan }}</td>
+                            <td class="text-center border py-2 hidden md:table-cell">{{ item.keterangan }}</td>
                             <td class="text-center border py-2">{{ item.pesertas.length }}</td>
                             <td class="text-center border py-2">
                                 <ul>
-                                    <li>
-                                        <button class="bg-sky-400 py-1 px-2 rounded text-sm text-white hover:bg-sky-600" @click="cetakPresensi(item)">Presensi</button>
+                                    <li class="my-1">
+                                        <button class="bg-sky-600 py-1 px-2 rounded text-sm text-white hover:bg-sky-600 w-full" @click="cetakPresensi(item)">Presensi</button>
+                                    </li>
+                                    <li class="my-1">
+                                        
+                                        <button class="bg-green-600 py-1 px-2 rounded text-sm text-white hover:bg-sky-600 w-full flex items-center gap-1 justify-center" >
+                                            <Icon icon="mdi:camera" />
+                                            Jurnal
+                                        </button>
                                     </li>
                                 </ul>
                             </td>
