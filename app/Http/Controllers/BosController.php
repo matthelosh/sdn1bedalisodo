@@ -235,15 +235,47 @@ class BosController extends Controller
 
     function replyTersedia(Request $request) {
         try {
-            $res = "RKAS yang dapat dibelanjakan:\n";
-            $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->where('status', 'antri')->get();
+            $res = "Data Anggaran BOS:\n";
+            $q = $request->query("q") == 'tersedia' ? 'antri' : $request->query("q");
+            $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->get();
 
-            foreach($rkas as $rka)
+            $jml = $rkas->count();
+            $selesai = $rkas->filter(function($rka) use($q) {
+                return $rka->status == 'selesai';
+            });
+            $antri = $rkas->filter(function($rka) use($q) {
+                return $rka->status == 'antri';
+            });
+
+            $res .= "
+                Jumlah Anggaran: $jml,\n
+                Selesai: ".count($selesai).", \n
+                Antri: ".count($antri).", \n
+                Prosentase:".ceil((count($selesai) / $jml * 100))."%\n
+                ==============================
+            ";
+
+            // if($q == 'all') {
+            //     // $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->get();
+            //     $rkas = $rkas->filter(function($rka) {
+            //         return $rka;
+            //     });
+            // } else {
+            //     // $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->where('status', $q)->get();
+            //     $rkas = $rkas->filter(function($rka) use($q) {
+            //         return $rka->status == $q;
+            //     });
+            // }
+
+            $datas = $q == 'tersedia' ? $antri : ($q == 'selesal' ? $selesai : $rkas);
+
+            foreach($datas as $rka)
             {
                 $res .= "
                 Bulan: $rka->bulan,
                 Kegiatan: $rka->uraian,
-                Status: $rka-status
+                Status: $rka-status,
+                Nilai: Rp. $rka->jumlah
                 ================================
                 ";
             }
