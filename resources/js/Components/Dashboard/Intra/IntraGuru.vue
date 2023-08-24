@@ -1,10 +1,14 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, defineAsyncComponent } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 
 const page = usePage();
 
+const Rencana = defineAsyncComponent(() => import('./Rencana/index.vue'))
+const selectedRombel = ref(null);
+
+const mode = ref('rencana');
 const items = computed(() => {
     if (page.props.auth.user.userable.role == 'gkel') {
         return page.props.rombels[0].mapels
@@ -22,9 +26,9 @@ const role = page.props.auth.user.userable.role
 <template>
     <div class="wrapper w-full max-w-screen">
         <div class="toolbar bg-slate-300 sticky top-0 z-40 p-3 h-10 flex items-center justify-between">
-            <h1>Perangkat Guru</h1>
+            <h1>Perangkat Guru {{ mapel?.toUpperCase() }}</h1>
         </div>
-        <div class="content w-full bg-white p-3">
+        <div class="content w-full bg-white p-3" v-if="mode == 'list'">
             <!-- Jika User adalah Wali Kelas -->
             <div class="w-full" v-if="role == 'gkel'">
                 <table class="w-full border">
@@ -119,5 +123,6 @@ const role = page.props.auth.user.userable.role
                 </table>
             </div>
         </div>
+        <Rencana v-if="mode=='rencana'" :rombel="selectedRombel" :mapel="mapel" />
     </div>
 </template>

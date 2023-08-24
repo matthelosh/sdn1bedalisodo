@@ -101,6 +101,9 @@ Route::prefix('dashboard')->group(function() {
 
     Route::prefix('intra')->group(function() {
         Route::inertia("/", "Auth/Intra")->name('dashboard.intra.home');
+        Route::prefix("cp")->group(function() {
+            Route::post("/impor", [CpController::class, "impor"])->name('dashboard.intra.cp.impor');
+        });
     });
 
     Route::prefix('mapel')->group(function() {

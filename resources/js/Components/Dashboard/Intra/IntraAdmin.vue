@@ -115,6 +115,7 @@ onMounted(() => {
                                 </button>
                             </td>
                             <td class="py-1 px-3 border text-center">{{ mapel.tingkat }}</td>
+                            <td class="py-1 px-3 border text-center">{{ mapel.tingkat }}</td>
                             <td class="py-1 px-3 border text-center">{{ mapel.kurikulum }}</td>
                             <td class="py-1 px-3 border text-center">{{ mapel.kelompok }}</td>
                             <td class="py-1 px-3 border text-center">{{ mapel.kategori }}</td>

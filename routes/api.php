@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BosController;
 use App\Http\Controllers\WaController;
 use App\Models\Sekolah;
 use App\Models\Tapel;
@@ -29,3 +30,7 @@ Route::get("/sekolah", [WaController::class, 'replyDataSekolah'])->middleware('i
 Route::get('/siswa', [WaController::class, 'replyDataSiswa'])->middleware('isLegal');
 Route::get('/guru', [WaController::class, 'replyDataGuru'])->middleware('isLegal');
 Route::get('/agenda', [WaController::class, 'replyDataAgenda'])->middleware('isLegal');
+
+Route::prefix("bos")->group(function() {
+    Route::get('/rkas/tersedia', [BosController::class, 'replyTersedia']);
+})->middleware('isLegal');

@@ -232,6 +232,29 @@ class BosController extends Controller
 
     }
 
+
+    function replyTersedia(Request $request) {
+        try {
+            $res = "RKAS yang dapat dibelanjakan:\n";
+            $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->where('status', 'antri')->get();
+
+            foreach($rkas as $rka)
+            {
+                $res .= "
+                Bulan: $rka->bulan,
+                Kegiatan: $rka->uraian,
+                Status: $rka-status
+                ================================
+                ";
+            }
+
+            return response()->json(['status' => 'ok', 'rkas' => $res]);
+        } catch(\Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+
     function indexRkas(Request $request) {
         try {
             $rkas = Rkas::where('anggaran_id', $this->anggaran()->kode)->get();
