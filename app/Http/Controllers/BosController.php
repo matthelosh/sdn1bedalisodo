@@ -233,7 +233,7 @@ class BosController extends Controller
     }
 
 
-    function replyTersedia(Request $request) {
+    function replyRkas(Request $request) {
         try {
             $res = "Data Anggaran BOS:\n";
             $q = $request->query("q") == 'tersedia' ? 'antri' : $request->query("q");

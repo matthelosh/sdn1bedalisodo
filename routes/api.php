@@ -32,5 +32,5 @@ Route::get('/guru', [WaController::class, 'replyDataGuru'])->middleware('isLegal
 Route::get('/agenda', [WaController::class, 'replyDataAgenda'])->middleware('isLegal');
 
 Route::prefix("bos")->group(function() {
-    Route::get('/rkas', [BosController::class, 'replyTersedia']);
+    Route::get('/rkas', [BosController::class, 'replyRkas']);
 })->middleware('isLegal');
