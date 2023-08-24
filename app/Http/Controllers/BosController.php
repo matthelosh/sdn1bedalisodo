@@ -236,7 +236,7 @@ class BosController extends Controller
     function replyRkas(Request $request) {
         try {
             $res = "Data Anggaran BOS:\n";
-            $q = $request->query("q") == 'tersedia' ? 'antri' : $request->query("q");
+            $q = $request->query("q");
             $rkas = Rkas::all();
 
             $jml = $rkas->count();
@@ -247,6 +247,17 @@ class BosController extends Controller
                 return $rka->status == 'antri';
             });
 
+            $bulan = $rkas->filter(function($rka) use ($q) {
+                return $rka->bulan == substr($q, 5);
+            });
+
+            $tahap = $rkas->filter(function($rka) use ($q) {
+                return substr($rka->anggaran_id, -1) == substr($q, -1);
+            });
+
+            $datas = $q == 'tersedia' ? $antri : ($q == 'selesai' ? $selesai : (preg_match("/^bulan/i", $q) ? $bulan : (preg_match("/^tahap/i", $q) ? $tahap : $rkas)));
+
+            
             $res .= "
 Jumlah Anggaran: $jml,
 Selesai: ".count($selesai).",
@@ -256,7 +267,7 @@ Prosentase:".ceil((count($selesai) / $jml * 100))."%
             ";
 
 
-            $datas = $q == 'tersedia' ? $antri : ($q == 'selesai' ? $selesai : $rkas);
+            
 
             foreach($datas as $rka)
             {
