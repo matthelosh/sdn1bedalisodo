@@ -57,10 +57,19 @@ class HandleInertiaRequests extends Middleware
 
     protected function rombels($user) {
         $user = User::where('id', $user->id)->with('userable')->first();
-        if ($user->userable->role == 'gkel') {
-            $rombels = Rombel::where('tapel', $this->tapel()->kode)->where('guru_id', $user->userable->nip)->with('siswas','mapels')->get();
+        if ($user->level == 'admin') {
+            $rombels = Rombel::all();
+        }
+        elseif ($user->userable->role == 'gkel') {
+            $nip = $user->userable->nip;
+            $rombels = Rombel::where('tapel', $this->tapel()->kode)->where('guru_id', $user->userable->nip)->with('siswas','mapels', 'jadwals')->with('jadwals', function($q) use($nip) {
+                $q->where('guru_id', $nip);
+            })->get();
         } else {
-            $rombels = Rombel::where('tapel', $this->tapel()->kode)->with('siswas','guru')->get();
+            $nip = $user->userable->nip;
+            $rombels = Rombel::where('tapel', $this->tapel()->kode)->with('siswas','guru')->with('jadwals', function($q) use($nip) {
+                $q->where('guru_id', $nip);
+            })->get();
         }
 
         return $rombels;

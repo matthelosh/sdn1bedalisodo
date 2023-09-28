@@ -7,6 +7,10 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import { MotionPlugin } from '@vueuse/motion';
 import { setupCalendar } from 'v-calendar';
+import Vue3EasyDataTable from 'vue3-easy-data-table';
+import 'vue3-easy-data-table/dist/style.css';
+import Vue3Toasity from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
@@ -39,6 +43,8 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(setupCalendar, {})
             .use(MotionPlugin)
+            .use(Vue3Toasity)
+            .component('DataTable', Vue3EasyDataTable)
             .mount(el);
     },
     progress: {

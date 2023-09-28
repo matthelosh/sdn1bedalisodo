@@ -32,8 +32,19 @@ class Rombel extends Model
         return $this->belongsToMany(Siswa::class);
     }
 
+    function jadwals() {
+        return $this->hasMany(Jadwal::class, 'rombel_id', 'kode');
+    }
+
     function grupwa() {
         return $this->hasOne(GrupWa::class, 'rombel_id','id');
+    }
+
+    function atps() {
+        return $this->hasMany(Atp::class, 'tingkat', 'tingkat');
+    }
+    function pebelajarans() {
+        return $this->hasMany(Pembelajaran::class, 'tingkat', 'tingkat');
     }
 
     public static function boot() {
@@ -42,5 +53,7 @@ class Rombel extends Model
             $rombel->siswas()->detach();
         });
     }
+
+    
 
 }

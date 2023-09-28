@@ -34,7 +34,24 @@ class RombelController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            switch(auth()->user()->level)
+            {
+                case "admin":
+                    $rombels = Rombel::all();
+                    break;
+                case "guru":
+                    if (auth()->user()->userable->role == 'gkel') {
+                        $rombels = Rombel::where('guru_id', auth()->user()->userable->nip)->where('tapel', $this->tapel()->kode)->get();
+                    } else {
+                        $rombels = Rombel::where('tapel', $this->tapel()->kode)->get();
+                    }
+            }
+
+            return response()->json(['status' => 'ok', 'rombels' => $rombels], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     function nonMember(Request $request) {
@@ -185,5 +202,9 @@ class RombelController extends Controller
                 'msg' => $e
             ], 500);
         }
+    }
+
+    function tapel() {
+        return Tapel::where('status', '1')->first();
     }
 }

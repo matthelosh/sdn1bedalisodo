@@ -7,14 +7,20 @@ const props = defineProps({ rombel: Object, mapel: String });
 
 const Cp = defineAsyncComponent(() => import('./Cp.vue'))
 const Ki = defineAsyncComponent(() => import('./Ki.vue'))
+const Ahe = defineAsyncComponent(() => import('./Ahe.vue'))
+const Jadwal = defineAsyncComponent(() => import('./Jadwal.vue'))
+const Prota = defineAsyncComponent(() => import('./Prota.vue'))
 
 
 </script>
 
 <template>
     <div class="w-ful p-3 shadow grid grid-cols-1 md:grid-cols-4 bg-slate-100 gap-3">
-        <Cp :mapel="props.mapel" />
-        <Ki :mapel="props.mapel" />
+        <!-- <Cp :mapel="props.mapel" />
+        <Ki :mapel="props.mapel" /> -->
+        <Jadwal :mapel="props.mapel" class="col-span-2" />
+        <Ahe class="col-span-2" :mapel="props.mapel" :rombel="props.rombel"  />
+        <Prota class="col-span-4" :mapel="props.mapel" :rombel="props.rombel" />
     </div>
     
 </template>

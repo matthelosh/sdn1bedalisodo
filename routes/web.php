@@ -70,6 +70,7 @@ Route::prefix('dashboard')->group(function() {
     });
     Route::prefix("rombel")->group(function() {
         Route::get("/", [RombelController::class, 'page'])->name('dashboard.rombel.page');
+        Route::post("/", [RombelController::class, 'index'])->name('dashboard.rombel.index');
         Route::post("/store", [RombelController::class, 'store'])->name('dashboard.rombel.store');
         Route::post('/nonmember', [RombelController::class, 'nonMember'])->name('dashboard.rombel.nonmember');
         Route::delete('/{id}', [RombelController::class, 'destroy'])->name('dashboard.rombel.destroy');
@@ -104,6 +105,17 @@ Route::prefix('dashboard')->group(function() {
         Route::prefix("cp")->group(function() {
             Route::post("/impor", [CpController::class, "impor"])->name('dashboard.intra.cp.impor');
         });
+
+        Route::prefix('prota')->group(function() {
+            Route::post("/",[ ProtaController::class, 'index'])->name('dashboard.prota.index');
+            Route::post("/store",[ ProtaController::class, 'store'])->name('dashboard.prota.store');
+        });
+        Route::prefix('materi')->group(function() {
+            Route::post("/",[ MateriController::class, 'index'])->name('dashboard.materi.index');
+        });
+        Route::prefix('atp')->group(function() {
+            Route::post("/",[ AtpController::class, 'index'])->name('dashboard.atp.index');
+        });
     });
 
     Route::prefix('mapel')->group(function() {
@@ -111,6 +123,18 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/excluded-from-rombel', [MapelController::class, 'rombelExcluded'])->name('dashboard.mapel.excluded');
         Route::post('/store', [MapelController::class, 'store'])->name('dashboard.mapel.store');
         Route::delete('/{id}', [MapelController::class, 'destroy'])->name('dashboard.mapel.destroy');
+    });
+
+    Route::prefix('jadwal')->group(function() {
+        Route::post('/', [JadwalController::class, 'index'])->name('dashboard.jadwal.index');
+        Route::post('/store', [JadwalController::class, 'store'])->name('dashboard.jadwal.store');
+        Route::put('/store', [JadwalController::class, 'update'])->name('dashboard.jadwal.store');
+    });
+
+    Route::prefix("penilaian")->group(function() {
+        Route::get('/', function(Request $request) {
+            return Inertia::render('Auth/Penilaian');
+        })->name('dashboard.penilaian.home');
     });
 
     Route::prefix("bos")->group(function() {

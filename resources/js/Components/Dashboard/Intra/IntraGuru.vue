@@ -8,7 +8,7 @@ const page = usePage();
 const Rencana = defineAsyncComponent(() => import('./Rencana/index.vue'))
 const selectedRombel = ref(null);
 
-const mode = ref('rencana');
+const mode = ref('list');
 const items = computed(() => {
     if (page.props.auth.user.userable.role == 'gkel') {
         return page.props.rombels[0].mapels
@@ -20,6 +20,11 @@ const mapel = computed(() => {
     return page.props.auth.user.userable.role !== 'gkel' ? page.props.auth.user.userable.role.slice(1) : null
 })
 
+const rencana = (item) => {
+    selectedRombel.value = item
+    mode.value = 'rencana'
+}
+
 const role = page.props.auth.user.userable.role
 </script>
 
@@ -27,6 +32,11 @@ const role = page.props.auth.user.userable.role
     <div class="wrapper w-full max-w-screen">
         <div class="toolbar bg-slate-300 sticky top-0 z-40 p-3 h-10 flex items-center justify-between">
             <h1>Perangkat Guru {{ mapel?.toUpperCase() }}</h1>
+            <div class="toolbar-items flex items-center gap-2">
+                <button v-if="mode !== 'list'" @click="mode = 'list'">
+                    <Icon icon="mdi:close-circle" class="text-red-400 hover:text-red-600 active:text-red-500 text-2xl"  />
+                </button>
+            </div>
         </div>
         <div class="content w-full bg-white p-3" v-if="mode == 'list'">
             <!-- Jika User adalah Wali Kelas -->
@@ -100,6 +110,7 @@ const role = page.props.auth.user.userable.role
                                 <div class="flex flex-wrap gap-1 p-1 justify-center">
                                     <button
                                         class=" bg-green-600 px-1 py-1 rounded-sm hover:bg-green-500 active:bg-green-400 text-white gap-1 flex items-center"
+                                        @click="rencana(rombel)"
                                     >
                                         <Icon icon="mdi:notebook-multiple" />
                                         Rencana
@@ -123,6 +134,7 @@ const role = page.props.auth.user.userable.role
                 </table>
             </div>
         </div>
-        <Rencana v-if="mode=='rencana'" :rombel="selectedRombel" :mapel="mapel" />
+        
     </div>
+    <Rencana v-if="mode=='rencana'" :rombel="selectedRombel" :mapel="mapel" />
 </template>

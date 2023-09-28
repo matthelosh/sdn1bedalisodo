@@ -1,5 +1,5 @@
 <script setup>
-import { Head, usePage, useForm, Link } from '@inertiajs/vue3';
+import { Head, usePage, router, Link } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiEye, mdiRefresh } from '@mdi/js';
@@ -8,7 +8,7 @@ import {Icon} from '@iconify/vue';
 const page = usePage()
 const loading = ref(false)
 const showPassword = ref(false)
-const user = useForm({
+const user = ref({
     name: null,
     password: null,
     remember: false
@@ -28,8 +28,8 @@ const togglePassword = () => {
 
 const login = async() => {
     loading.value = true
-    showPassword.value = false
-    user.post(route('login'), user.value)
+    // showPassword.value = false
+    router.post(route('login'), user.value)
 }
 </script>
 
@@ -42,27 +42,27 @@ const login = async() => {
             <form ref="loginForm" @submit.prevent="login" class=" text-shadow">
                 <div class="row flex items-center justify-between gap-1 mb-2">
                     <label for="name">Username</label>
-                    <input id="name" type="text" placeholder="Username" class="rounded bg-opacity-70 border-none text-gray-900 w-[60%]" :readonly="user.processing" v-model="user.name" required>
+                    <input id="name" type="text" placeholder="Username" class="rounded bg-opacity-70 border-none text-gray-900 w-[60%]" :readonly="loading" v-model="user.name" required>
                 </div>
                 <div class="row flex items-center justify-between gap-1 mb-2">
                     <label for="password">Password</label>
                     <div class="input-group relative w-[60%]">
-                        <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded bg-opacity-70 border-none  text-gray-900 w-full" :readonly="user.processing" v-model="user.password" required>
-                        <button
-                            class="absolute z-20 right-2 py-1 cursor-pointer top-[50%] -translate-y-[50%]" @click.prevent="togglePassword" 
-                        >
-                            <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-4xl" />
-                        </button>
+                        <input id="password" :type="showPassword ? 'text' : 'password'" placeholder="Password" class="rounded bg-opacity-70 border-none  text-gray-900 w-full" :readonly="loading" v-model="user.password" required>
+                        <!-- <button
+                            class="absolute z-20 right-2 py-1 cursor-pointer top-[50%] -translate-y-[50%]" @click.self="togglePassword" 
+                        > -->
+                            <Icon icon="mdi:eye" :class=" showPassword ? 'text-lime-600' : 'text-gray-400' " class="hover:text-lime-600 text-4xl absolute z-20 right-2 py-1 cursor-pointer top-[50%] -translate-y-[50%]" @click="togglePassword" />
+                        <!-- </button> -->
                     </div>
                 </div>
                 <div class="row flex items-center justify-center gap-1 mt-8 mb-2">
-                    <button class="bg-lime-600 text-white hover:bg-lime-400 hover:text-gray-800 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
+                    <button type="submit" class="bg-lime-600 text-white hover:bg-lime-400 hover:text-gray-800 active:bg-lime-200 active:text-gray-800 py-2 px-4 rounded-xl w-full flex items-center justify-center gap-2" :disabled="loading">
                         Login
-                        <Icon icon="mdi:refresh" class="animate-spin" v-if="user.processing" />
+                        <Icon icon="mdi:refresh" class="animate-spin" v-if="loading" />
                     </button>
                 </div>
             </form>
-            <div v-if="page.props.errors && !user.processing" class="text-red-400">{{ errorText }}</div>
+            <div v-if="page.props.errors && !loading" class="text-red-400">{{ errorText }}</div>
             <Link href="/" class="text-lime-800 flex items-center gap-1 hover:text-lime-600">
                 <Icon icon="mdi:arrow-left" />
                 Beranda

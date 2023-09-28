@@ -64,9 +64,10 @@ const logout = async() => {
                     </li>
                 </ul>
             </div>
+            <p class="text-center absolute bottom-0">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
         </aside>
     </Transition>
-    <main class="col-span-12  md:col-span-10 bg-slate-200 print:bg-white w-full max-h-screen print:h-full print:overflow-y-visible overflow-y-auto">
+    <main class="col-span-12  md:col-span-10 bg-slate-200 print:bg-white w-full max-h-[100vh] overflow-hidden ">
         <header class="w-full h-10 bg-teal-50 shadow sticky top-0 print:hidden z-10">
             <nav class="w-full h-full flex items-center justify-between px-3">
                 <h1>{{ props.title ? props.title : 'Dashboard' }}</h1>
@@ -80,12 +81,12 @@ const logout = async() => {
                 </div>
             </nav>
         </header>
-        <section>
+        <section class="max-h-[95vh] print:h-full print:overflow-y-visible overflow-y-auto">
             <slot />
         </section>
-        <footer class="absolute bottom-0 bg-slate-300 p-3 w-full md:w-10/12">
+        <!-- <footer class="absolute bottom-0 bg-slate-300 p-3 w-full md:w-10/12">
             <p class="text-center">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
-        </footer>
+        </footer> -->
     </main>
     
 </div>

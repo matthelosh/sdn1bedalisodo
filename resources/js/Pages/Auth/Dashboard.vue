@@ -71,6 +71,7 @@ const onFilePicked = async(e) => {
     attachment.value = URL.createObjectURL(file)
 }
 
+
 </script>
 
 <template>

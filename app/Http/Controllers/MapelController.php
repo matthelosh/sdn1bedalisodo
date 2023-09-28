@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mapel;
+use App\Models\Rombel;
 use Illuminate\Http\Request;
 
 class MapelController extends Controller
@@ -12,10 +13,26 @@ class MapelController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json([
-            'status' => 'ok',
-            'mapels' => Mapel::all()
-        ], 200);
+        
+        try {
+            switch(auth()->user()->level)
+            {
+                case "admin":
+                    $mapels = Mapel::all();
+                    break;
+                case "guru":
+                    if (auth()->user()->userable->role == 'gkel') {
+                        $rombel = Rombel::where('guru_id', auth()->user()->userable->nip)->where('tapel', $this->tapel()->kode)->first();
+                        $mapels = $rombel->mapel();
+                    } else {
+                        $mapels = Mapel::where('kode', 'LIKE', substr(auth()->user()->userable->role,1))->get();
+                    }
+            }
+
+            return response()->json(['status' => 'ok', 'mapels' => $mapels], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
