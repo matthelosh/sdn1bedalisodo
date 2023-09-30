@@ -128,7 +128,7 @@ onMounted(() => {
                                     class="overflow-x-clipped w-[100px] whitespace-break-spaces break-words"
                                     v-for="materi in materis"
                                     :key="materi.id"
-                                    :value="materi.id">{{materi.bab}}</option>
+                                    :value="materi.id">{{materi.bab}} - {{ materi.pokok }}</option>
                             </select>
                         </div>
                         <div class="row w-full">

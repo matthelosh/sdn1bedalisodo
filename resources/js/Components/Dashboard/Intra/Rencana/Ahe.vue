@@ -17,7 +17,6 @@ const bulans = ref(['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AG
         haris = ref(['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']),
         kaldiks = ref([])
 
-// const kaldiks = ref([])
 const getAgendas = async() => {
     await axios.post(route('dashboard.agenda.index'))
                 .then(res => {
@@ -44,11 +43,8 @@ const getAgendas = async() => {
                         is_active: event.is_active
                     })
                 }
-                // events.concat(datas)
-                // console.log(datas)
             }
         })
-        // console.log(events)
         kaldiks.value = events
         })
 }

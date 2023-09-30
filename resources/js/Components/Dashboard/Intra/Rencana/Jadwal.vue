@@ -97,7 +97,7 @@ onMounted(() => {
 
 <template>
     <div class="w-full relative">
-        <div class="toolbar h-10 bg-slate-400 flex items-center justify-between p-3 text-white">
+        <div class="toolbar h-10 bg-slate-200 flex items-center justify-between p-3 text-slate-800">
             <h1 class="flex gap-1">
                 <Icon icon="mdi:calendar" class="text-2xl" />
                 Jadwal Pelajaran

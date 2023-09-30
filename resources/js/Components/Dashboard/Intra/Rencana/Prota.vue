@@ -76,7 +76,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="content bg-white w-full p-3">
-            <EasyDataTable :headers="headers" :items="protas">
+            <EasyDataTable :headers="headers" :items="protas" :rows-per-page="4">
                 <template #item-atp="item">
                     {{item.atp.teks}}
                 </template>

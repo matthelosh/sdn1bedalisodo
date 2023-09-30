@@ -43,10 +43,10 @@ const logout = async() => {
 }
 </script>
 <template>
-<div class="wrapper grid grid-cols-12 h-screen w-auto bg-gray-400">
+<div class="wrapper grid grid-cols-12 h-screen w-auto bg-slate-500 p-4 gap-0">
     <Transition name="slide">
-        <aside :class="!showSide ? 'hidden md:block' : 'md:block'" class=" absolute md:relative md:top-0 overflow-x-hidden md:w-full z-10 w-[60vw]  md:col-span-2 bg-teal-50 shadow-lg hover:shadow-xl h-screen transition-transform duration-150 print:hidden col-span-4">
-            <div class="avatar p-4 bg-teal-600 w-full relative">
+        <aside :class="!showSide ? 'hidden md:block' : 'md:block'" class=" absolute md:relative md:top-0 overflow-x-hidden md:w-full z-10 w-[60vw]  md:col-span-2 bg-[#fefefe] shadow-xl hover:shadow-none h-[97vh] transition-all duration-150 print:hidden col-span-4 rounded-s-lg">
+            <div class="avatar p-4 bg-teal-400 w-full relative">
                 <img src="/img/logo.png" alt="Avatar" class="w-[100px] aspect-square object-contain mx-auto">
                 <Link as="h1" class="text-center text-lime-200 mt-3 mx-auto cursor-pointer" :href="`/guru/${page.props.auth.user.name}`">
                     @{{ page.props.auth.user.name }}
@@ -64,13 +64,16 @@ const logout = async() => {
                     </li>
                 </ul>
             </div>
-            <p class="text-center absolute bottom-0">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
+            <p class="text-center absolute bottom-0 p-4">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
         </aside>
     </Transition>
-    <main class="col-span-12  md:col-span-10 bg-slate-200 print:bg-white w-full max-h-[100vh] overflow-hidden ">
-        <header class="w-full h-10 bg-teal-50 shadow sticky top-0 print:hidden z-10">
-            <nav class="w-full h-full flex items-center justify-between px-3">
-                <h1>{{ props.title ? props.title : 'Dashboard' }}</h1>
+    <main class="col-span-12  md:col-span-10 bg-[#fefefe] print:bg-white w-full max-h-[100vh] overflow-hidden shadow-lg hover:shadow-none transition-all rounded-e-lg pb-20">
+        <header class="w-full h-14 top-0 print:hidden z-10 ">
+            <nav class="w-full h-full flex items-center justify-between px-4">
+                <h1 class="font-bold text-slate-600 tracking-wide flex items-center text-lg gap-2">
+                    <Icon icon="mdi-folder-open" class="text-2xl" />
+                    {{ props.title ? props.title : 'Dashboard' }}
+                </h1>
                 <div class="nav-items flex items-center justify-end gap-2">
                     <button class="group md:hidden">
                         <SvgIcon type="mdi" :path="showSide ? mdiClose : mdiMenu" class="text-gray-800" :class="showSide ? 'text-red-400' : ''" @click="showSide = !showSide" />
@@ -81,7 +84,7 @@ const logout = async() => {
                 </div>
             </nav>
         </header>
-        <section class="max-h-[95vh] print:h-full print:overflow-y-visible overflow-y-auto">
+        <section class="max-h-[95vh] bg-white print:h-full print:overflow-y-visible overflow-y-auto">
             <slot />
         </section>
         <!-- <footer class="absolute bottom-0 bg-slate-300 p-3 w-full md:w-10/12">

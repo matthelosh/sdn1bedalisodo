@@ -110,8 +110,14 @@ Route::prefix('dashboard')->group(function() {
             Route::post("/",[ ProtaController::class, 'index'])->name('dashboard.prota.index');
             Route::post("/store",[ ProtaController::class, 'store'])->name('dashboard.prota.store');
         });
+
+        Route::prefix('prosem')->group(function() {
+            Route::post("/", [ProsemController::class, 'index'])->name('dashboard.prosem.index');
+        });
+
         Route::prefix('materi')->group(function() {
             Route::post("/",[ MateriController::class, 'index'])->name('dashboard.materi.index');
+            Route::post("/store",[ MateriController::class, 'store'])->name('dashboard.materi.store');
         });
         Route::prefix('atp')->group(function() {
             Route::post("/",[ AtpController::class, 'index'])->name('dashboard.atp.index');

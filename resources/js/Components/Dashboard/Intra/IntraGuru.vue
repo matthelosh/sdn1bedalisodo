@@ -29,8 +29,8 @@ const role = page.props.auth.user.userable.role
 </script>
 
 <template>
-    <div class="wrapper w-full max-w-screen">
-        <div class="toolbar bg-slate-300 sticky top-0 z-40 p-3 h-10 flex items-center justify-between">
+    <div class="wrapper w-full max-w-screen ">
+        <div class="toolbar sticky top-0 z-40 p-3 h-12 flex items-center justify-between bg-slate-500 text-white">
             <h1>Perangkat Guru {{ mapel?.toUpperCase() }}</h1>
             <div class="toolbar-items flex items-center gap-2">
                 <button v-if="mode !== 'list'" @click="mode = 'list'">
@@ -38,7 +38,7 @@ const role = page.props.auth.user.userable.role
                 </button>
             </div>
         </div>
-        <div class="content w-full bg-white p-3" v-if="mode == 'list'">
+        <div class="content w-full bg-white p-2 " v-if="mode == 'list'">
             <!-- Jika User adalah Wali Kelas -->
             <div class="w-full" v-if="role == 'gkel'">
                 <table class="w-full border">

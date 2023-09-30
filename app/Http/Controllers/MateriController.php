@@ -16,20 +16,20 @@ class MateriController extends Controller
         return response()->json(['status' => 'Ok', 'materis' => $materis], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $materi = new Materi($request->all());
+            $materi->save();
+
+            return response()->json(['status' => 'Ok', 'materi' => $materi], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
