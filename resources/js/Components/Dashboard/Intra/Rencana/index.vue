@@ -5,8 +5,8 @@ import { usePage } from '@inertiajs/vue3';
 const page = usePage();
 const props = defineProps({ rombel: Object, mapel: String });
 
-const Cp = defineAsyncComponent(() => import('./Cp.vue'))
-const Ki = defineAsyncComponent(() => import('./Ki.vue'))
+// const Cp = defineAsyncComponent(() => import('./Cp.vue'))
+// const Ki = defineAsyncComponent(() => import('./Ki.vue'))
 const Ahe = defineAsyncComponent(() => import('./Ahe.vue'))
 const Jadwal = defineAsyncComponent(() => import('./Jadwal.vue'))
 const Prota = defineAsyncComponent(() => import('./Prota.vue'))

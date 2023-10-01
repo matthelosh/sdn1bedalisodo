@@ -14,6 +14,7 @@ router.on('start', () => loading.value = true)
 router.on('finish', () => loading.value = false)
 
 const WritePost = defineAsyncComponent(() => import('@/Components/Dashboard/Post/WritePost.vue'))
+// import PostEditor from '@/Components/Dashboard/Post/PostEditor.vue'
 
 const page = usePage();
 
@@ -126,6 +127,7 @@ const tanggal = (tanggal) => {
             </div>
             <div v-else-if="mode == 'write'">
                 <WritePost  :key="'tr2'" @close="close" :selectedPost="selectedPost" />
+                <!-- <PostEditor /> -->
             </div>
             </transition>
         </div>

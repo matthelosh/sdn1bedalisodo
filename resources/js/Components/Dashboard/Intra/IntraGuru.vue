@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue';
 
 const page = usePage();
 
+const Kurikulum = defineAsyncComponent(() => import('./Kurikulum/index.vue'))
 const Rencana = defineAsyncComponent(() => import('./Rencana/index.vue'))
 const selectedRombel = ref(null);
 
@@ -23,6 +24,11 @@ const mapel = computed(() => {
 const rencana = (item) => {
     selectedRombel.value = item
     mode.value = 'rencana'
+}
+
+const kurikulum = (item) => {
+    selectedRombel.value = item
+    mode.value = 'kurikulum'
 }
 
 const role = page.props.auth.user.userable.role
@@ -59,6 +65,13 @@ const role = page.props.auth.user.userable.role
                             <td class="border py-1 px-2 ">{{ mapel.label }}</td>
                             <td class="border px-2 w-[75%] md:w-[40%]">
                                 <div class="flex flex-wrap gap-2 p-1 justify-center">
+                                    <button
+                                        class=" bg-teal-600 px-1 py-1 rounded-sm hover:bg-teal-500 active:bg-teal-400 text-white gap-1 flex items-center"
+                                        @click="kurikulum(item)"
+                                    >
+                                        <Icon icon="mdi:book-education" />
+                                        Kurikulum
+                                    </button>
                                     <button
                                         class=" bg-green-600 px-1 py-1 rounded-sm hover:bg-green-500 active:bg-green-400 text-white gap-1 flex items-center"
                                     >
@@ -109,6 +122,13 @@ const role = page.props.auth.user.userable.role
                             <td class="border px-2 w-[75%] md:w-[40%]">
                                 <div class="flex flex-wrap gap-1 p-1 justify-center">
                                     <button
+                                        class=" bg-teal-600 px-1 py-1 rounded-sm hover:bg-teal-500 active:bg-teal-400 text-white gap-1 flex items-center"
+                                        @click="kurikulum(item)"
+                                    >
+                                        <Icon icon="mdi:book-education" />
+                                        Kurikulum
+                                    </button>
+                                    <button
                                         class=" bg-green-600 px-1 py-1 rounded-sm hover:bg-green-500 active:bg-green-400 text-white gap-1 flex items-center"
                                         @click="rencana(rombel)"
                                     >
@@ -137,4 +157,5 @@ const role = page.props.auth.user.userable.role
         
     </div>
     <Rencana v-if="mode=='rencana'" :rombel="selectedRombel" :mapel="mapel" />
+    <Kurikulum v-if="mode=='kurikulum'" :rombel="selectedRombel" :mapel="mapel" />
 </template>
