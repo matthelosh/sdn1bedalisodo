@@ -51,6 +51,6 @@ class PostService
         // $store = Storage::putFileAs('public/images', $image, uniqid("featured_image-").".jpg");
         $store = $image->storePubliclyAs('images', $name, 's3');
         // dd(Storage::url($store));
-        return Storage::diks('s3')->url($store);
+        return Storage::disk('s3')->url($store);
     }
 }
