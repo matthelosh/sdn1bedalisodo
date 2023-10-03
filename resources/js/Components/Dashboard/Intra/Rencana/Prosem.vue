@@ -115,6 +115,10 @@ const listPromes = async() => {
         })
 }
 
+const tes = (item, minggu) => {
+    console.log(item, minggu)
+}
+
 onMounted(() => {
     getAgendas();
     listProta();
@@ -206,7 +210,8 @@ onMounted(() => {
                     <td class="border text-center">{{ prota.semester }}</td>
                     <td
                         v-for="m in weeksPerMonth(months[0])"
-                        class="border w-[40px]"
+                        class="border w-[40px] hover:cursor-pointer"
+                        @click="tes(prota, m)"
                     >
                         
                     </td>

@@ -103,7 +103,10 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix('intra')->group(function() {
         Route::inertia("/", "Auth/Intra")->name('dashboard.intra.home');
         Route::prefix("cp")->group(function() {
+            Route::post("/", [CpController::class, "index"])->name('dashboard.intra.cp.index');
+            Route::post("/store", [CpController::class, "store"])->name('dashboard.intra.cp.store');
             Route::post("/impor", [CpController::class, "impor"])->name('dashboard.intra.cp.impor');
+            Route::delete("/{id}", [CpController::class, "destroy"])->name('dashboard.intra.cp.destroy');
         });
 
         Route::prefix('prota')->group(function() {
@@ -243,6 +246,7 @@ Route::prefix("")->group(function() {
 
     Route::inertia('tes', 'Tes');
 
+    Route::get('/kategori/{kategori}', [FrontPageController::class, 'byCategory'])->name('Post.category');
     Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
 })->middleware(['guest','is_configured']);
 

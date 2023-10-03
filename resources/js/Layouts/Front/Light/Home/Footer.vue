@@ -1,10 +1,13 @@
 <script setup>
+import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import SvgIcon from '@jamescoyle/vue-icon';
 import {mdiEmail, mdiHeart, mdiLaravel, mdiVuejs, mdiTailwind} from '@mdi/js';
 import {ChevronDoubleRightIcon} from '@heroicons/vue/24/outline';
 
-const page = usePage()
+const page = usePage();
+
+const recentPosts = computed(() => page.props.posts.slice(-5))
 </script>
 <template>
     <footer class="w-full min-h-[200px] bg-primary">
@@ -27,7 +30,7 @@ const page = usePage()
             <div class="p-3 text-white">
                 <h1 class="text-lg font-bold tracking-wide text-yellow-200">Tulisan terbaru:</h1>
                 <ul>
-                    <li v-for="(post,p) in $page.props.posts" :key="p">
+                    <li v-for="(post,p) in recentPosts" :key="p">
                         <Link class="flex items-center gap-1 text-justify text-accent hover:text-yellow-400 truncate text-ellipsis"  :href="route('Post.read', {kategori:post.category.label.toLowerCase(), slug: post.slug})"> <ChevronDoubleRightIcon class="h-3 " /> {{ post.title }}</Link>
                     </li>
 

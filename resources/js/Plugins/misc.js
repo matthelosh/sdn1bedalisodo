@@ -18,4 +18,5 @@ export const paginate = (datas, chunk_size, current) => {
     // return results[page]
 }
 
+
 export default { paginate }

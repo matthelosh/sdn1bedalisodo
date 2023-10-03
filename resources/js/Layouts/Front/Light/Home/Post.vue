@@ -54,7 +54,7 @@ const posts = computed(() => {
                     <div class="hidden md:block relative card-header h-10 bg-transparent md:h-[125px] w-full overflow-hidden bg-cover group" :style="`background-image: url('${post.featured_image}');`">
                         <div class="absolute z-10 text-white bg-gradient-to-tr hover:from-transparent hover:to-transparent transition from-[#89786799] to-sky-600 text-xl  top-0 right-0 bottom-0 left-0 p-1 group-hover:bg-gradient-1 flex items-end">
                             <Link 
-                            :href="`/${post.category.label.toLowerCase()}`"
+                            :href="`/kategori/${post.category.label.toLowerCase()}`"
                             class="group-hover:shadow group-hover:bg-sky-600 p-2 leading-6 text-white tracking-wide truncate hover:text-ellipsis">
                                 {{ post.category.label }}
                             </Link>

@@ -26,44 +26,32 @@ const closeForm = () => {
     selectedRombel.value = null
 }
 
-
-
-
 </script>
 
 <template>
     <div class="w-ful bg-white shadow">
         <div class="toolbar p-2 bg-slate-400 text-white font-bold">
-            <h1>Kurikulum {{ props.mapel.toUpperCase(0) }} </h1>
+            <h1>Kurikulum {{ props.mapel.toUpperCase(0) }} Kelas {{ props.rombel.label }}</h1>
         </div>
-        <div class="content bg-white">
-            <ul>
-                <li
-                    v-for="(rombel, i) in rombels" :key="rombel.id"
-                    class="px-2 py-3 my-2 flex items-center gap-2 justify-between"
-                    :class="i <= (rombels.length-1) ? 'border-b border-dashed' : ''"
+        <div class="content bg-white p-4">
+            <div class="opsi flex items-center gap-2">
+                <button 
+                    class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
+                    @click="openForm(rombel)"
                 >
-                    {{ rombel.label }}
-                    <div class="opsi flex items-center gap-2">
-                        <button 
-                            class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
-                            @click="openForm(rombel)"
-                        >
-                            {{ rombel.kurikulum == 'K-13' ? 'KI' : 'CP' }}
-                        </button>
-                        <button 
-                            class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
-                        >
-                            {{ rombel.kurikulum == 'K-13' ? 'KD' : 'TP' }}
-                        </button>
-                        <button 
-                            class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
-                        >
-                            {{ rombel.kurikulum == 'K-13' ? 'Silabus' : 'ATP' }}
-                        </button>
-                    </div>
-                </li>
-            </ul>
+                    {{ rombel.kurikulum == 'K-13' ? 'KI' : 'CP' }}
+                </button>
+                <button 
+                    class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
+                >
+                    {{ rombel.kurikulum == 'K-13' ? 'KD' : 'TP' }}
+                </button>
+                <button 
+                    class="py-1 px-3 text-white rounded shadow-lg hover:shadow hover:bg-sky-500 active:bg-sky-400  bg-sky-600"
+                >
+                    {{ rombel.kurikulum == 'K-13' ? 'Silabus' : 'ATP' }}
+                </button>
+            </div>
         </div>
     </div>
     <FormCp v-if="showForm" @close="closeForm" :rombel="selectedRombel" :mapel="selectedMapel" />

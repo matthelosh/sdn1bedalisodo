@@ -82,5 +82,14 @@ class FrontPageController extends Controller
         return Inertia::render(str_replace(".","/", $routeName), $datas);
     }
 
+    public function byCategory(Request $request, $kategori) {
+        $category = Category::where('label', $kategori)->first();
+        $posts = Post::where('category_id', $category->kode)->with('category', 'author.userable')->get();
+        return Inertia::render('Post/Kategori', [
+            'posts' => $posts,
+            'kategori' => $category->label
+        ]);
+    }
+
     
 }

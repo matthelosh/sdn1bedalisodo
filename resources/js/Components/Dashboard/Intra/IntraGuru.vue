@@ -29,6 +29,7 @@ const rencana = (item) => {
 const kurikulum = (item) => {
     selectedRombel.value = item
     mode.value = 'kurikulum'
+    console.log(item)
 }
 
 const role = page.props.auth.user.userable.role
@@ -67,7 +68,7 @@ const role = page.props.auth.user.userable.role
                                 <div class="flex flex-wrap gap-2 p-1 justify-center">
                                     <button
                                         class=" bg-teal-600 px-1 py-1 rounded-sm hover:bg-teal-500 active:bg-teal-400 text-white gap-1 flex items-center"
-                                        @click="kurikulum(item)"
+                                        @click="kurikulum(mapel)"
                                     >
                                         <Icon icon="mdi:book-education" />
                                         Kurikulum
@@ -123,7 +124,7 @@ const role = page.props.auth.user.userable.role
                                 <div class="flex flex-wrap gap-1 p-1 justify-center">
                                     <button
                                         class=" bg-teal-600 px-1 py-1 rounded-sm hover:bg-teal-500 active:bg-teal-400 text-white gap-1 flex items-center"
-                                        @click="kurikulum(item)"
+                                        @click="kurikulum(rombel)"
                                     >
                                         <Icon icon="mdi:book-education" />
                                         Kurikulum
