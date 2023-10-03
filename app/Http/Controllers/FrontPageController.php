@@ -84,7 +84,7 @@ class FrontPageController extends Controller
 
     public function byCategory(Request $request, $kategori) {
         $category = Category::where('label', $kategori)->first();
-        $posts = Post::where('category_id', $category->kode)->with('category', 'author.userable')->get();
+        $posts = Post::where('category_id', $category->kode)->with('category', 'author.userable')->orderBy('updated_at', 'DESC')->get();
         return Inertia::render('Post/Kategori', [
             'posts' => $posts,
             'kategori' => $category->label
