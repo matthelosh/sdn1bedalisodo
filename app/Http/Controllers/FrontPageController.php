@@ -19,11 +19,12 @@ class FrontPageController extends Controller
         $datas = [
             'tes' => 'Halo',
             'infos' => Post::where('category_id','inf')->with('category','author')->take(5)->get(),
-            'beritas' => Post::where('category_id','brt')->with('author')->take(5)->get(),
+            'beritas' => Post::where('category_id','brt')->with('category','author')->orderBy('updated_at', 'DESC')->take(5)->get(),
             'prestasis' => Prestasi::latest()->take(5)->get(),
             'starredPosts' => Post::where('starred','1')->with('category')->latest()->take(5)->get(),
             'gurus' => Guru::whereNot('nama','Administrator')->get(),
             'posts' => Post::orderBy('updated_at', 'DESC')->with('category', 'views', 'author.userable')->limit(16)->get(),
+            
         ];
         // dd($datas);
         try {

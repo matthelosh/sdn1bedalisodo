@@ -2,16 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Anggaran;
 use App\Models\Guru;
 use App\Models\Menu;
+use App\Models\User;
+use App\Models\Tapel;
 use App\Models\Rombel;
 use App\Models\Sekolah;
-use App\Models\Tapel;
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Anggaran;
+use App\Models\Category;
 use Tightenco\Ziggy\Ziggy;
-use App\Models\User;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -52,6 +53,7 @@ class HandleInertiaRequests extends Middleware
             'tapel' => $this->tapel(),
             'anggaran' => $this->anggaran(),
             'rombels' => $request->user() ? $this->rombels($request->user()) : null,
+            'categories' => Category::all()
         ]);
     }
 

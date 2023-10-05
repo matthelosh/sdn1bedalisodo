@@ -64,7 +64,7 @@ const logout = async() => {
                     </li>
                 </ul>
             </div>
-            <p class="text-center absolute bottom-0 p-4">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
+            <!-- <p class="text-center absolute bottom-0 p-4">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p> -->
         </aside>
     </Transition>
     <main class="col-span-12  md:col-span-10 bg-[#fefefe] print:bg-white w-full max-h-[100vh] overflow-hidden shadow-lg hover:shadow-none transition-all rounded-e-lg pb-20">

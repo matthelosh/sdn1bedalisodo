@@ -91,7 +91,7 @@ onMounted(() => {
                 <Icon icon="mdi:plus-circle" class=" text-xl transition" :class="mode == 'form' ? 'rotate-45 text-red-100 hover:text-red-600' : 'rotate-0 text-sky-100 hover:text-sky-600'" />
             </button>
         </div>
-        <div class="content w-full p-3 bg-white">
+        <div class="content w-full p-0 md:p-1 bg-white  overflow-x-auto">
             <div class="table w-full overflow-x-auto">
                 <table class="w-full text-sm transition-all" v-if="mode == 'list'">
                     <thead>

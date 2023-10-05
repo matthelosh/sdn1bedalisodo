@@ -4,6 +4,7 @@ import { ref, onMounted, computed } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiEye, mdiRefresh } from '@mdi/js';
 import {Icon} from '@iconify/vue';
+import { toast } from 'vue3-toastify';
 
 const page = usePage()
 const loading = ref(false)
@@ -14,13 +15,7 @@ const user = ref({
     remember: false
 })
 
-const errorText = computed(() => {
-    if (Object.keys(page.props.errors).length > 0 ) {
-        return page.props.errors.name == 'These credentials do not match our records.' ? 'Username atau Password tidak sesuai.' : 'Ada kesalahan, mohon hubungi admin'
-    } else {
-        return null
-    }
-})
+const errorText = ref(null)
 
 const togglePassword = () => {
     showPassword.value = !showPassword.value
@@ -29,7 +24,22 @@ const togglePassword = () => {
 const login = async() => {
     loading.value = true
     // showPassword.value = false
-    router.post(route('login'), user.value)
+    router.post(route('login'), user.value, {
+        onError: err => {
+            Object.keys(err).forEach(k => {
+                notify(err[k], 'error')
+                errorText.value = err[k]
+            })
+            loading.value = false
+        }
+    })
+}
+
+const notify = (text, type) => {
+    toast(text, {
+        type: type,
+        position: toast.POSITION.TOP_RIGHT
+    })
 }
 </script>
 
@@ -62,7 +72,7 @@ const login = async() => {
                     </button>
                 </div>
             </form>
-            <div v-if="page.props.errors && !loading" class="text-red-400">{{ errorText }}</div>
+            <div v-if="page.props.errors && !loading" class="text-red-600 font-bold">{{ errorText }}</div>
             <Link href="/" class="text-lime-800 flex items-center gap-1 hover:text-lime-600">
                 <Icon icon="mdi:arrow-left" />
                 Beranda

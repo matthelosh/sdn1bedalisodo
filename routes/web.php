@@ -196,6 +196,11 @@ Route::prefix('dashboard')->group(function() {
             Route::post("/", [AgendaController::class, "index"])->name("dashboard.agenda.index");
             Route::post("/store", [AgendaController::class, "store"])->name("dashboard.agenda.store");
         });
+
+        Route::prefix('layout')->group(function() {
+            Route::post('/', [LayoutController::class, 'index'])->name('dashboard.setting.layout.index');
+            Route::put('/', [LayoutController::class, 'activate'])->name('dashboard.setting.layout.activate');
+        });
     });
     Route::prefix('profile')->group(function() {
         Route::get('/', function() {

@@ -29,7 +29,7 @@ onMounted(() => {
     <meta name="description" content="SD Negeri 1 Bedalisodo, Mandita (Mandiri, Disiplin, Bertakwa). Memiliki Visi menjadi sekolah dasar unggulan yang membawa peserta didik menjadi pribadi yang religius, berbudaya dan inovatif." />
 </Head>
 <Campaign v-if="showCampaign" @close="showCampaign = false" />
-<FrontLayout :starredPosts="$page.props.starredPosts">
+<FrontLayout>
     <FrontPrestasi />
     <FrontPosts />
     <FrontGallery />

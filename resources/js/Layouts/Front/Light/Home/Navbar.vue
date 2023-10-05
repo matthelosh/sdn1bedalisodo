@@ -11,14 +11,14 @@ onMounted(() => {
         entries.forEach(entry => {
             // console.log(entry.intersectionRatio);
             nav.classList.toggle("bg-transparent", entry.isIntersecting)
-            nav.classList.toggle("shadow", !entry.isIntersecting)
+            nav.classList.toggle("shadow-lg", !entry.isIntersecting)
             nav.classList.toggle("bg-gray-50", !entry.isIntersecting)
             nav.classList.toggle("text-slate-800", !entry.isIntersecting)
         })
     }, {
         root: null,
         threshold: 0,
-        // rootMargin: "-60px"
+        rootMargin: "70px"
     });
 
     observer.observe(document.querySelector(".sticky-observer"))
@@ -42,7 +42,7 @@ const toggleNav = () => {
 </script>
 
 <template>
-    <div class="sticky-observer h-2 md:h-4 bg-pink">&nbsp;</div>
+    <div class="sticky-observer h-0 md:h-0 bg-pink">&nbsp;</div>
     <nav class="w-full h-16  sticky top-0 bg-gray-50 z-20 transition-all">
         <div class="md:w-8/12 h-full flex items-center justify-between mx-auto px-3 md:px-0">
             <div class="left flex items-center gap-20">
