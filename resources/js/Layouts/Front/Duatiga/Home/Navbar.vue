@@ -12,21 +12,21 @@ const routes = computed(() => {
 
 <template>
     <div class="row bg-sky-600 w-full">
-        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12  mx-auto h-8  text-sm">
-           <div class="contacts flex items-center text-white gap-1">
-                <div class="telp flex items-center gap-1 text-white text-xs">
-                    <Icon icon="mdi:phone" />
+        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12  mx-auto h-8 px-4 sm:px-0 text-xs">
+           <div class="contacts flex items-center text-white gap-0 sm:gap-1">
+                <div class="telp hidden sm:flex items-center gap-1 text-white text-xs">
+                    <Icon icon="mdi:phone" class="hidden sm:inline-block" />
                     <a :href="`tel:${page.props.sekolah.telp}`" >{{ page.props.sekolah.telp }}</a>
                 </div>
-                |
-                <div class="email flex items-center gap-1 text-white text-xs">
-                    <Icon icon="mdi:email" />
+                
+                <div class="email hidden sm:flex  items-center gap-1 text-white text-xs">
+                    <Icon icon="mdi:email" class=" sm:inline-block" />
                     <a :href="`mailto:${page.props.sekolah.email}`" >{{ page.props.sekolah.email }}</a>
                 </div>
-                |
+                
                 <div class="alamat flex items-center gap-1 text-white text-xs">
-                    <Icon icon="mdi:map-marker" />
-                    <p>{{ page.props.sekolah.alamat }}</p>
+                    <Icon icon="mdi:map-marker" class=" sm:inline-block" />
+                    <p>{{ page.props.sekolah.alamat }}<span class="inline sm:hidden">, {{ page.props.sekolah.desa }}, {{ page.props.sekolah.kecamatan }}</span></p>
                 </div>
            </div>
            <div class="sosmed flex items-center gap-1">
@@ -43,15 +43,18 @@ const routes = computed(() => {
         </div>
     </div>
     <div class="row navbar h-16 bg-slate-100 w-full sticky top-0 z-30 shadow-xl">
-        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12 bg-slate-100 mx-auto h-full text-sm">
+        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12 bg-slate-100 px-2 sm:px-0 mx-auto h-full text-sm">
             <Link href="/" class="logo flex gap-1 items-center">
-                <img src="/img/logo.png" alt="Logo" class="h-12">
-                <span>
+                <img src="/img/logo.png" alt="Logo" class="h-10 sm:h-12">
+                <span class="hidden sm:block">
                     <h1 class="leading-3 font-extrabold uppercase text-teal-800">{{ page.props.sekolah.nama }}</h1>
                     <p class="leading-3 text-xs font-light text-slate-600">{{ page.props.sekolah.alamat }}</p>
                 </span>
             </Link>
-            <div class="nav-menu flex items-center gap-3">
+            <div class="motto block sm:hidden">
+                <h1 class="font-bold text-lg tracking-wide text-sky-700">MANDITA</h1>
+            </div>
+            <div class="nav-menu sm:flex items-center gap-3 hidden ">
                 <ul class="flex gap-2 justify-center text-sm">
                     <li>
                         <Link href="/"
@@ -74,6 +77,9 @@ const routes = computed(() => {
                     {{ page.props.auth.user ? 'Dashboard' : 'Login' }}
                 </Link>
             </div>
+            <button>
+                <Icon icon="mdi:menu" class="block sm:hidden text-2xl text-slate-600" />
+            </button>
         </div>
         
     </div>
