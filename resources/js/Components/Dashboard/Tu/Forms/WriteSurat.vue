@@ -1,8 +1,6 @@
 <script setup>
 import { router } from '@inertiajs/vue3';
 import { ref, onBeforeMount, defineAsyncComponent, computed } from 'vue';
-import 'jodit/build/jodit.min.css'
-// import { JoditEditor } from 'jodit-vue'
 import { vOnClickOutside } from '@vueuse/components'
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
@@ -13,18 +11,10 @@ onBeforeMount(() => {
 })
 
 const Sppd = defineAsyncComponent(() => import('./templates/Sppd.vue'))
-// const templateSurat = computed(
-//     () => {
-//         if(surat.value.tipe !== '0') {
-//             defineAsyncComponent(() => import('./templates/Sppd.vue'))
-//         }
-//     }
-//     )
 
 const template = ref('0')
 
 const temp = computed(() => surat.value.tipe)
-// const is = defineAsyncComponent(() => import(`./templates/${surat.value.tipe}.vue`))
 const is = computed(() => import(`./templates/${template.value}.vue`))
 
 const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
@@ -95,7 +85,6 @@ const setKlasifikasi = (e) => {
                 <input type="text" placeholder="Klasifikasi" class="border-0 bg-slate-200 py-1 rounded" @focus="showKlasi" v-model="queryKlasifikasi" />
                 <ul class="absolute hidden bg-white p-2 max-h-[400px] overflow-auto list-klasifikasi" >
                     <li v-for="(klasi, k) in filteredKlasifikasi" :key="k" class="my-1 cursor-pointer hover:bg-slate-200" @click.self="setKlasifikasi" :data-kode="klasi.kode" :data-label="klasi.uraian">
-                        <!-- <span class="kode">{{ klasi.kode }}</span> | <span class="uraian">{{ klasi.uraian }}</span> -->
                         <button :data-kode="klasi.kode" class="text-left block" @click="setKlasifikasi" :data-label="klasi.uraian">{{ klasi.uraian }}</button>
                     </li>
                 </ul>
@@ -119,7 +108,6 @@ const setKlasifikasi = (e) => {
     <div v-else-if="surat.tipe == '0'" class="w-full h-[50vh] flex items-center justify-center">
         <h1 class="text-slate-600 text-xl">Pilih Sifat dan Template Surat</h1>
     </div>
-    <!-- <JoditEditor v-model="content" ref="jodit" /> -->
 </div>
 
 </template>
