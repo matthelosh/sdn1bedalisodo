@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import {Link, Head} from '@inertiajs/vue3';
-import { Icon } from 'vue';
+import { Icon } from '@iconify/vue';
 
 const content = ref('Tulis sesuatu..')
 
