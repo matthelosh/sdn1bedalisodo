@@ -1,7 +1,6 @@
 <script setup>
 import { usePage, Head } from '@inertiajs/vue3';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiAccountTie, mdiCalendarBadgeOutline, mdiStar } from '@mdi/js';
+import { Icon } from '@iconify/vue';
 import { defineAsyncComponent, ref, computed } from 'vue';
 
 const page = usePage();

@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import {Link, Head} from '@inertiajs/vue3';
-import { mdiArrowLeft } from '@mdi/js';
-import SvgIcon from '@jamescoyle/vue-icon';
-import FileBrowser from '@/Components/File/FileBrowser.vue'
+import { Icon } from 'vue';
 
 const content = ref('Tulis sesuatu..')
 
@@ -19,7 +17,7 @@ const simpan = (content) => {
             <h1>
                 <span>Error: File Halaman tidak ditemukan.</span>
                 <small>
-                    <SvgIcon type="mdi" :path="mdiArrowLeft" />
+                    <Icon icon="mdi:arrow-left" />
                     <Link href="/">Kembali</Link>
                 </small>
             </h1>

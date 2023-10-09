@@ -1,7 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
-import { Bars3CenterLeftIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { Icon } from '@iconify/vue';
 import axios from 'axios';
 
 onMounted(() => {
@@ -49,8 +49,8 @@ const items = ref([
         </div>
         <div class="header-items flex items-center">
             <button class="md:hidden" @click="toggleNav">
-                <XMarkIcon class="h-8 text-red-400" v-if="navShow" />
-                <Bars3CenterLeftIcon class="h-8 " v-else />
+                <Icon icon="mdi:close" class="h-8 text-red-400" v-if="navShow" />
+                <Icon icon="mdi:menu" class="h-8 " v-else />
             </button>
             <transition name="expand">
                 <ul class="header-items--nav flex items-center flex-col justify-start md:flex-row md:gap-3 w-screen absolute md:relative md:w-auto md:shadow-none left-0 bg-white rounded-b-xl shadow-lg top-12 md:top-0" v-show="navShow">
@@ -61,7 +61,7 @@ const items = ref([
                         <form @submit.prevent="search">
                             <label for="search" class="flex items-center px-2 mb-4 md:mb-0 h-full">
                                 <input type="text" id="search" placeholder="Cari" class="rounded-xl w-full" v-model="searchQuery">
-                                <MagnifyingGlassIcon class="h-6 absolute right-4 text-teal-800" />
+                                <Icon icon="mdi:magnify" class="h-6 absolute right-4 text-teal-800" />
                             </label>
                         </form>
                     </li>

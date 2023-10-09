@@ -1,8 +1,8 @@
 <script setup>
 import { ref, defineAsyncComponent, computed } from 'vue'
 import { usePage, Link } from '@inertiajs/vue3';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiNewspaper } from '@mdi/js';
+import { Icon } from '@iconify/vue';
+
 
 const page = usePage()
 
@@ -17,7 +17,7 @@ const stripHTML = (html) => {
     <div class="w-full md:w-3/4 mx-auto md:px-16 mb-6">
 
         <div class="header flex justify-center items-end mt-4">
-            <SvgIcon type="mdi" :path="mdiNewspaper" class="text-violet-400" size="38" />
+            <Icon icon="mdi:newspaper" class="text-xl" />
             <h1 class="text-2xl">
                 <span class="font-extrabold text-gray-800">Kabar</span>
                 <span class=" font-extralight text-gray-600">Terbaru</span>

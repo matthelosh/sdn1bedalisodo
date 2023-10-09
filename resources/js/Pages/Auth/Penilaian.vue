@@ -4,9 +4,13 @@ import { Head, usePage } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 
 const AdminLayout = defineAsyncComponent(() => import('@/Layouts/AdminLayout.vue'));
+const Harian = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/Harian.vue'));
+const PTS = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/PTS.vue'));
+const PAS = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/PAS.vue'));
 
 const page = usePage()
 const role = page.props.auth.user.userable.role;
+const mode = ref('list');
 const rombels = computed(() => {
     let items = []
     page.props.rombels.forEach((item,index) => {
@@ -27,40 +31,78 @@ const headers = ref([
     { text: 'Penilaian', value: 'penilaian'},
 
 ])
+
+const comp = ref(null)
+const is = computed(() => {
+    switch(comp.value) {
+        case "Harian":
+            return Harian;
+            break;
+        case "PTS":
+            return PTS;
+            break;
+        case "PAS":
+            return PAS;
+            break;
+            
+    }
+})
+
+const show = (komponen, rombel) => {
+    console.log(komponen)
+    comp.value = komponen
+    selectedRombel.value = rombel
+    mode.value = komponen
+}
+
+const close = () => {
+    comp.value = null
+    mode.value = 'list'
+}
+
+const mapel = computed(() => {
+    // return (page.props.auth.user.userable.role !== 'gkel') ? page.props.auth.user.userable.role.splice(0,1) : null
+    return page.props.auth.user.userable.role !== 'gkel' ? page.props.auth.user.userable.role.slice(1) : null
+})
+
+const selectedRombel = ref(null)
 </script>
 
 <template>
 <Head title="Penilaian" />
 <AdminLayout>
-    <div class="wrapper p-4">
-        <div class="toolbar h-12 flex items-center justify-between bg-slate-50 shadow p-3">
+    <div class="wrapper p-3 shadow-lg w-full ">
+        <div class="toolbar h-12 flex items-center justify-between bg-slate-100 p-3 rounded-t-lg">
             <h1 class="flex items-center gap-1">
                 <Icon icon="mdi:order-bool-ascending-variant" />
-                Penilaian
+                Penilaian {{ comp }} 
             </h1>
             <div class="toolbar-items flex gap-2">
-                
+                <button v-if="mode !== 'list'" @click="close">
+                    <Icon icon="mdi-close-circle" class="text-2xl text-red-400 hover:text-red-500 active:text-red-300" />
+                </button>
             </div>
         </div>
-        <div class="content p-3 bg-white">
-            <DataTable :items="rombels" :headers="headers">
+        <div class="content p-3 bg-slate-50 rounded-b-lg shadow-lg">
+            <DataTable :items="rombels" :headers="headers" v-if="mode == 'list'">
                 <template #item-siswa="item">
                     {{ item.siswas.length }}
                 </template>
                 <template #item-penilaian="item">
                     <div class="flex flex-wrap gap-2">
-                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white">
+                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white" @click="show('Harian', item)">
                             Harian
                         </button>
-                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white">
+                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white" @click="show('PTS', item)">
                             Tengah Semester
                         </button>
-                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white">
+                        <button class="py-1 px-3 rounded bg-sky-400 hover:bg-sky-600 active:bg-sky-500 text-white" @click="show('PAS', item)">
                             Akhir Semester
                         </button>
                     </div>
                 </template>
             </DataTable>
+            <component :is="is" v-if="mode !=='list'" :mapel="mapel" :rombel="selectedRombel" />
         </div>
     </div>
    

@@ -1,9 +1,7 @@
 <script setup>
 import { ref, defineAsyncComponent, onMounted, onBeforeMount } from 'vue';
 import { usePage, Link, router } from '@inertiajs/vue3';
-import SvgIcon from '@jamescoyle/vue-icon';
 import { Icon } from '@iconify/vue';
-import { mdiExitToApp, mdiClose, mdiMenu, mdiViewDashboardOutline } from '@mdi/js';
 import SidebarItem from '@/Layouts/Admin/SidebarItem.vue'
 
 const ConfirmDialog = defineAsyncComponent(() => import('@/Components/General/ConfirmDialog.vue'))
@@ -12,10 +10,7 @@ const confirmDialog = ref(null)
 onMounted(() => {
     const aside = document.querySelector("aside")
     const asideStyle = window.getComputedStyle(aside)
-    // console.log(asideStyle)
     asideWidth.value = parseInt(asideStyle.width)+'px'
-    // console.log(window.getComputedStyle(aside))
-    
 })
 
 onBeforeMount(() => {
@@ -28,12 +23,6 @@ const props = defineProps({title: String})
 const page = usePage()
 const showSide = ref(false)
 
-// const side = computed(() => {
-//     const aside = document.querySelector("aside")
-//     return window.getComputedStyle(aside)
-//     // const asideElement = window.getComputedStyle(aside)
-//     // return aside.style
-// })
 
 const logout = async() => {
     if ( await confirmDialog.value.open("Mau Logout?", "orange")) {
@@ -64,7 +53,6 @@ const logout = async() => {
                     </li>
                 </ul>
             </div>
-            <!-- <p class="text-center absolute bottom-0 p-4">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p> -->
         </aside>
     </Transition>
     <main class="col-span-12  md:col-span-10 bg-[#fefefe] print:bg-white w-full max-h-[100vh] overflow-hidden shadow-lg hover:shadow-none transition-all rounded-e-lg pb-20">
@@ -76,10 +64,11 @@ const logout = async() => {
                 </h1>
                 <div class="nav-items flex items-center justify-end gap-2">
                     <button class="group md:hidden">
-                        <SvgIcon type="mdi" :path="showSide ? mdiClose : mdiMenu" class="text-gray-800" :class="showSide ? 'text-red-400' : ''" @click="showSide = !showSide" />
+                        <Icon :icon="`mdi:${showSide ? 'close' : 'menu'}`" @click="showSide = !showSide" />
                     </button>
                     <button class="group hidden" @click="logout">
-                        <SvgIcon type="mdi" :path="mdiExitToApp" class="text-red-400 group-hover:text-red-600" />
+                        <!-- <SvgIcon type="mdi" :path="mdiExitToApp" class="text-red-400 group-hover:text-red-600" /> -->
+                        <Icon icon="mdi:exit-to-app" class="text-lg text-red-400 group-hover:text-red-600" />
                     </button>
                 </div>
             </nav>
@@ -87,9 +76,6 @@ const logout = async() => {
         <section class="max-h-[95vh] bg-white print:h-full print:overflow-y-visible overflow-y-auto">
             <slot />
         </section>
-        <!-- <footer class="absolute bottom-0 bg-slate-300 p-3 w-full md:w-10/12">
-            <p class="text-center">Dikembangkan oleh <a href="mailto:matthelosh@gmail.com" class="text-teal-600 hover:text-teal-800">Mat Soleh</a></p>
-        </footer> -->
     </main>
     
 </div>

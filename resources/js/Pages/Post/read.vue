@@ -1,8 +1,7 @@
 <script setup>
 import { usePage, Head } from '@inertiajs/vue3';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiAccountTie, mdiCalendarBadgeOutline, mdiStar } from '@mdi/js';
 import { defineAsyncComponent, ref, computed } from 'vue';
+import { Icon } from '@iconify/vue';
 
 const page = usePage();
 
@@ -31,17 +30,17 @@ const post = computed(() => page.props.post)
         <div class="post-head absolute z-5 bottom-0 w-full bg-white bg-opacity-70 backdrop-blur p-2 box-border">
             <h1 class="text-xl font-bold text-gray-600">{{ page.props.post.title }}</h1>
             <p class="meta flex items-center mb-4">
-                <SvgIcon type="mdi" :path="mdiAccountTie" class="text-teal-600" /> 
+                <Icon icon="mdi:account-tie" class="text-teal-600" /> 
                 <span class="text-teal-800">
                     {{ post.author_id }}
                 </span>
                 &nbsp;
-                <SvgIcon type="mdi" :path="mdiCalendarBadgeOutline" class="text-orange-600" />
+                <Icon icon="mdi:calendar-badge-outline"  class="text-orange-600" />
                 <span class="text-orange-800">
                     {{ new Date(post.created_at).toDateString() }}
                 </span>
                 &nbsp;
-                <SvgIcon type="mdi" :path="mdiStar" class="text-yellow-400" v-if="post.starred" />
+                <Icon icon="mdi:star" class="text-yellow-400" v-if="post.starred" />
             </p>
         </div>
     </div>

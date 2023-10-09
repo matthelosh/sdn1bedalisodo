@@ -1,11 +1,17 @@
 <script setup>
 import { ref, computed, defineAsyncComponent } from 'vue';
 import { Head, usePage, Link, router } from '@inertiajs/vue3';
-import { Icon } from '@iconify/vue';
+import { Icon } from '@iconify/vue'
 
 import { paginate } from '@/Plugins/misc';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { formatDate } from '@vueuse/shared';
+
+import 'element-plus/es/components/table/style/css';
+import 'element-plus/es/components/pagination/style/css';
+
+import moment from 'moment';
+moment.locale('id');
 
 const loading = ref(false)
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
@@ -86,7 +92,42 @@ const tanggal = (tanggal) => {
                         </div>
                     </div>
                 </div>
-                <table class="table borrder border-collapse w-full">
+                <div class="content w-full overflow-auto">
+                    <el-table :data="posts.current" size="small" stripe>
+                        <el-table-column label="Judul">
+                            <template #default="scope">
+                                <p class="text-blue-600 hover:underline text-left cursor-pointer" @click="edit(scope.row)">
+                                    {{ scope.row.title }}
+                                </p>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="Kategori" >
+                            <template #default="scope">
+                                {{ scope.row.category.label }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="Penulis" >
+                            <template #default="scope">
+                                {{ scope.row.author.userable.nama }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="Penulis" >
+                            <template #default="scope">
+                                {{ moment(scope.row.created_at).format('d MMM Y') }}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="Status" prop="status"  />
+                        <el-table-column label="Opsi">
+                            <template #default="scope">
+                                <button class="bg-red-400 text-white py-1 px-2 rounded-md shadow-lg my-4 hover:shadow-sm active:shadow-none active:bg-red-500">
+                                    <Icon icon="mdi:delete"  />
+                                </button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-pagination small layout="prev, pager, next" :total="30" />
+                </div>
+                <!-- <table class="table borrder border-collapse w-full">
                     <thead>
                         <tr class="bg-teal-200">
                             <th class="py-2 border-e border-white px-2">No</th>
@@ -123,7 +164,7 @@ const tanggal = (tanggal) => {
                         <button v-for="b in posts.page_length" :key="b" class="flex justify-center w-8 border border-gray-500" :class="(b-1) == current ? 'bg-teal-800 text-white': ''" @click="current=(b-1)">{{ b }}</button>
                         <button @click="next" class="flex justify-center w-8 border border-gray-500 py-1"><Icon icon="mdi:chevron-double-right" /></button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div v-else-if="mode == 'write'">
                 <WritePost  :key="'tr2'" @close="close" :selectedPost="selectedPost" />

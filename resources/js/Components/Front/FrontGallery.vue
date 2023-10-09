@@ -2,8 +2,7 @@
 import { ref } from 'vue';
 import { Swiper, SwiperSlide,  } from 'swiper/vue'
 import { EffectCube, Pagination, Autoplay, EffectCards, EffectFlip, EffectCoverflow } from 'swiper'
-import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiCamera } from '@mdi/js';
+import { Icon } from '@iconify/vue';
 
 import 'swiper/css'
 import 'swiper/css/effect-cube'
@@ -25,7 +24,7 @@ const onSwiper = (swiper) => {
 <template>
 <div class="w-full overflow-hidden bg-sky-950 p-8 md:pt-4 md:pb-8" >
   <div class="header flex justify-center items-end mt-4 md:mb-4">
-      <SvgIcon type="mdi" :path="mdiCamera" class="text-violet-400" size="38" />
+      <Icon icon="mdi:camera" class="text-xl" />
       <h1>
           <span class="font-extrabold text-gray-50 text-2xl">Galeri</span>
           <span class=" font-extralight text-gray-200 text-xl">Terbaru</span>

@@ -8,6 +8,12 @@ const page = usePage()
 const routes = computed(() => {
    return page.props.categories
 })
+
+const toggleNav = () => {
+    const navItems = document.querySelector("ul.nav-items")
+    navItems.classList.toggle("hidden")
+    navItems.classList.toggle("shadow-xl")
+}
 </script>
 
 <template>
@@ -43,7 +49,7 @@ const routes = computed(() => {
         </div>
     </div>
     <div class="row navbar h-16 bg-slate-100 w-full sticky top-0 z-30 shadow-xl">
-        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12 bg-slate-100 px-2 sm:px-0 mx-auto h-full text-sm">
+        <div class="cols flex items-center justify-between w-full sm:w-10/12 md:w-9/12  px-2 sm:px-0 mx-auto h-full text-sm">
             <Link href="/" class="logo flex gap-1 items-center">
                 <img src="/img/logo.png" alt="Logo" class="h-10 sm:h-12">
                 <span class="hidden sm:block">
@@ -54,8 +60,11 @@ const routes = computed(() => {
             <div class="motto block sm:hidden">
                 <h1 class="font-bold text-lg tracking-wide text-sky-700">MANDITA</h1>
             </div>
-            <div class="nav-menu sm:flex items-center gap-3 hidden ">
-                <ul class="flex gap-2 justify-center text-sm">
+            <div class="nav-menu block sm:flex items-center gap-3  ">
+                <ul class="nav-items hidden transition-all bg-white sm:bg-transparent fixed sm:relative top-0 right-[40%] bottom-0 left-0 sm:flex gap-2 justify-center text-sm">
+                    <li class="block sm:hidden pb-2 pt-4 shadow-md bg-sky-400 text-white">
+                        <h1 class="text-center ">Menu</h1>
+                    </li>
                     <li>
                         <Link href="/"
                             class="text-slate-600 block p-3 hover:bg-slate-50">
@@ -72,13 +81,18 @@ const routes = computed(() => {
                             {{ menu.label }}
                         </Link>
                     </li>
+                    <li class="sm:hidden px-3">
+                        <Link :href="page.props.auth.user ? '/dashboard' : '/login'" class="bg-sky-500 text-white py-1 shadow-lg hover:shadow-sm px-4 w-[40%] flex items-center gap-1">
+                        {{ page.props.auth.user ? 'Dashboard' : 'Login' }}
+                    </Link>
+                    </li>
                 </ul>
-                <Link :href="page.props.auth.user ? '/dashboard' : '/login'" class="bg-sky-500 text-white py-1 shadow-lg hover:shadow-sm px-4 rounded flex items-center gap-1">
+                <Link :href="page.props.auth.user ? '/dashboard' : '/login'" class="bg-sky-500 text-white py-1 shadow-lg hover:shadow-sm px-4 rounded sm:flex items-center gap-1 hidden">
                     {{ page.props.auth.user ? 'Dashboard' : 'Login' }}
                 </Link>
             </div>
-            <button>
-                <Icon icon="mdi:menu" class="block sm:hidden text-2xl text-slate-600" />
+            <button class="block sm:hidden " @click="toggleNav">
+                <Icon icon="mdi:menu" class="text-2xl text-slate-600" />
             </button>
         </div>
         

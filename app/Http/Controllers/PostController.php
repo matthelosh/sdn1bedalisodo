@@ -26,11 +26,15 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * UPload Image of the Post.
      */
-    public function write()
+    public function uploadImage(Request $request)
     {
-        // return Inertia::render('Auth/')
+        // dd($request->all());
+        $file = $request->file('image');
+        $store = Storage::putFileAs("public/images/post/", $file, 'tes'.'.'.$file->extension());
+        $url = Storage::url($store);
+        return response()->json(['url' => $url], 200);
     }
 
     /**

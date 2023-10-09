@@ -19,13 +19,13 @@ const Breadcrumbs = defineAsyncComponent(() => import('@/Components/General/Brea
         <meta name="keywords" :content="`Mandita, SD Negeri 1 Bedalisodo, ${kategori}`" />
     </Head>
     <PostLayout>
-        <div class="hero w-full bg-[url('/img/cover-artikel.jpg')] relative h-[400px] bg-bottom bg-fixed bg-contain">
-            <div class="hero-content absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] p-4 bg-slate-800 shadow-xl">
-                <h1 class="text-4xl font-bold text-white">Tulisan dalam kategori: {{ kategori }} </h1>
+        <div class="hero w-full bg-[url('/img/cover-artikel.jpg')] relative h-[200px] sm:h-[400px] bg-bottom bg-fixed bg-contain">
+            <div class="hero-content absolute bottom-0 text-center sm:top-[50%] left-0 right-0 sm:left-[50%] sm:-translate-x-[50%] sm:-translate-y-[50%] p-4 bg-slate-800 shadow-xl">
+                <h1 class="text-xl sm:text-4xl font-bold text-white">Tulisan dalam kategori: {{ kategori }} </h1>
             </div>
         </div>
         <Breadcrumbs />
-        <div class="w-full p-4 bg-teal-100">
+        <div class="w-full p-4 bg-gradient-to-tr from-[#f6ebe6] to-[#aee1f9]">
             <div class="w-full sm:w-3/4  mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <div 
                     class="card bg-white shadow p-3 rounded-md hover:shadow-lg transition-all hover:-translate-y-1"

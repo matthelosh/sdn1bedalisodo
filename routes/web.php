@@ -125,6 +125,11 @@ Route::prefix('dashboard')->group(function() {
         Route::prefix('atp')->group(function() {
             Route::post("/",[ AtpController::class, 'index'])->name('dashboard.atp.index');
         });
+
+        Route::prefix('penilaian')->group(function() {
+            Route::post("/", [PenilaianController::class, 'index'])->name('dashboard.intra.penilaian.index');
+            Route::post("/store", [PenilaianController::class, 'store'])->name('dashboard.intra.penilaian.store');
+        });
     });
 
     Route::prefix('mapel')->group(function() {
@@ -233,9 +238,7 @@ Route::prefix("")->group(function() {
     Route::get('/guru/{name}', [FrontPageController::class, 'author'])->name('Author');
     
     Route::prefix("post")->group(function() {
-        Route::post('/upload-image', function(Request $request) {
-            dd($request->all());
-        })->name('post.upload.image');
+        Route::post('/upload-image', [PostController::class, 'uploadImage'])->name('post.image.upload');
     });
 
     Route::prefix("agenda")->group(function() {

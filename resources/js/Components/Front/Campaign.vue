@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiClose } from '@mdi/js';
-
+import { Icon } from '@iconify/vue';
 const campaign =ref(
     {
         id: '1',
@@ -25,7 +23,7 @@ const close = () => emit('close')
 <template>
 <div class="w-screen h-screen fixed z-50 bg-gray-800 bg-opacity-90 flex items-center justify-center" :style="`background-image: url('${campaign.background}');`" style="background-position: bottom; background-blend-mode: multiply;">
     <button class="absolute right-4 top-4" @click="close">
-        <SvgIcon type="mdi" :path="mdiClose" size="32" class="text-white z-50" />
+        <Icon icon="mdi:close" class="text-xl" />
     </button>
     <div class="w-3/4">
         <h1 class="text-4xl text-white text-center">{{campaign.title}}</h1>

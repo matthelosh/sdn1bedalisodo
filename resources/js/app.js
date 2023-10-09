@@ -11,32 +11,19 @@ import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 import Vue3Toasity from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
-
+import ElementPlus from 'element-plus';
+import ElementTiptapPlugin from 'element-tiptap-vue3-fixed';
+import 'element-tiptap-vue3-fixed/lib/style.css'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
-                            // .then(res => {
-                            //     console.log(res)
-                            //     return resolvePageComponent(`./Pages/Welcome.vue`, import.meta.glob('/Pages/Welcome.vue'))
-                            // })
                             .catch(err => {
                                 console.log(err)
                                 return resolvePageComponent(`./Pages/Error.vue`,import.meta.glob('./Pages/**/*.vue'))
                             }),
-    // resolve: async (name) => {
-    //     const page = await resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue'))
-    //                 .then(res => {
-    //                     console.log(res)
-    //                     return res
-    //                 })
-    //                 .catch(err => {
-    //                     return resolvePageComponent(`./Pages/Error.vue`,import.meta.glob('./Pages/**/*.vue'))
-    //                 })
-    //     return page
-    // },
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
@@ -44,6 +31,8 @@ createInertiaApp({
             .use(setupCalendar, {})
             .use(MotionPlugin)
             .use(Vue3Toasity)
+            .use(ElementPlus)
+            .use(ElementTiptapPlugin)
             .component('DataTable', Vue3EasyDataTable)
             .mount(el);
     },

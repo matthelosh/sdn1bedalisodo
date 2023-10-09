@@ -1,8 +1,6 @@
 <script setup>
 import { Head, usePage, router, Link } from '@inertiajs/vue3';
 import { ref, onMounted, computed } from 'vue';
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiEye, mdiRefresh } from '@mdi/js';
 import {Icon} from '@iconify/vue';
 import { toast } from 'vue3-toastify';
 

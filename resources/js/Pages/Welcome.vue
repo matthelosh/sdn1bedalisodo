@@ -1,7 +1,7 @@
 <script setup>
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { defineAsyncComponent, ref, onMounted } from 'vue';
-import { NewspaperIcon } from '@heroicons/vue/24/outline';
+import { Icon } from '@iconify/vue';
 import FrontLayout from '@/Layouts/FrontLayout.vue'
 const page = usePage()
 const FrontPosts = defineAsyncComponent(() => import('@/Components/Front/FrontPosts.vue'))

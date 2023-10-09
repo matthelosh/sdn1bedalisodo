@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import {Link, Head, usePage} from '@inertiajs/vue3';
-import { mdiArrowLeft } from '@mdi/js';
-import SvgIcon from '@jamescoyle/vue-icon';
+import { Icon } from 'vue';
 
 onMounted(() => {
     console.log(page)
@@ -19,7 +18,7 @@ const page = usePage()
             <h1>
                 <span>Error: File Halaman tidak ditemukan.</span>
                 <small>
-                    <SvgIcon type="mdi" :path="mdiArrowLeft" />
+                    <Icon icon="mdi:arrow-left" />
                     <Link href="/">Kembali</Link>
                 </small>
             </h1>

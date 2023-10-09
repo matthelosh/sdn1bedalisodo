@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { isClient } from '@vueuse/shared'
 import { useDraggable, useClipboard } from '@vueuse/core'
 import { UseDraggable as Draggable } from './component'
-import { mdiClose, mdiRefresh } from '@mdi/js';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
 
