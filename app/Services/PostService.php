@@ -9,10 +9,10 @@ use App\Services\Waapi;
 
 class PostService
 {
-    public function write( $post  = null, string $featured_image = null)
+    public function write( $post  = null, $featured_image = null)
     {
-        $waapi = new Waapi();
-        $data = json_decode($post);
+        // $waapi = new Waapi();
+        $data = $post;
         // dd($args);
         try {
             $slug = strtolower(str_replace(" ", "-",$data->title));
@@ -35,8 +35,8 @@ class PostService
             // $category = Category::where('kode', $store->category_id)->first();
             $stored = Post::where('id', $store->id)->with('category','author.userable')->first();
             $url = env('APP_URL').'/'. strtolower($stored->category->label).'/'.$store->slug;
-            $pesan = $stored->author->userable->nama . ' baru saja menulis postingan dengan judul: "'.$stored->title.'". Baca di '.$url;
-            $waapi->send(['isGroup' => '1', 'chatId' => $chatId, 'pesan' => $pesan]);
+            // $pesan = $stored->author->userable->nama . ' baru saja menulis postingan dengan judul: "'.$stored->title.'". Baca di '.$url;
+            // $waapi->send(['isGroup' => '1', 'chatId' => $chatId, 'pesan' => $pesan]);
             
             return $store;
         } catch (\Throwable $th) {

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 use App\Services\PostService;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -32,7 +33,8 @@ class PostController extends Controller
     {
         // dd($request->all());
         $file = $request->file('image');
-        $store = Storage::putFileAs("public/images/post/", $file, 'tes'.'.'.$file->extension());
+        $filename = Str::random(16);
+        $store = Storage::putFileAs("public/images/post/", $file, $filename.'.'.$file->extension());
         $url = Storage::url($store);
         return response()->json(['url' => $url], 200);
     }
@@ -42,7 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request, PostService $post)
     {
-        $data = $request->post;
+        $data = json_decode($request->post);
         // dd(json_decode($data));
         
         try {
@@ -57,9 +59,10 @@ class PostController extends Controller
 
 
             
-            return redirect(route('dashboard.post.home'))->with('status', $store);
+            // return redirect(route('dashboard.post.home'))->with('status', $store);
+            return response()->json(['status' => 'Ok', 'post' => $store], 200);
         } catch(\Exception $e) {
-            return back()->with(['error' => $e->getMessage()], 500);
+            return response()->json(['status' => 'Fail', 'msg' => $e->getMessage()], 500);
         }
     }
 

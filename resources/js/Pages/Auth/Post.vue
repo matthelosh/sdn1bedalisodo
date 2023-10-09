@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, defineAsyncComponent } from 'vue';
-import { Head, usePage, Link, router } from '@inertiajs/vue3';
+import { Head, usePage, router } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue'
 
 import { paginate } from '@/Plugins/misc';
@@ -60,7 +60,8 @@ const edit = async(post) => {
 
 const close = () => {
     selectedPost.value = null
-    mode.value = 'list'
+    mode.value = 'list';
+    router.reload({only: ['posts']})
 }
 
 const tanggal = (tanggal) => {
@@ -93,8 +94,8 @@ const tanggal = (tanggal) => {
                     </div>
                 </div>
                 <div class="content w-full overflow-auto">
-                    <el-table :data="posts.current" size="small" stripe>
-                        <el-table-column label="Judul">
+                    <el-table :data="posts.current" size="small" stripe height="500">
+                        <el-table-column label="Judul" width="350">
                             <template #default="scope">
                                 <p class="text-blue-600 hover:underline text-left cursor-pointer" @click="edit(scope.row)">
                                     {{ scope.row.title }}
@@ -127,44 +128,6 @@ const tanggal = (tanggal) => {
                     </el-table>
                     <el-pagination small layout="prev, pager, next" :total="30" />
                 </div>
-                <!-- <table class="table borrder border-collapse w-full">
-                    <thead>
-                        <tr class="bg-teal-200">
-                            <th class="py-2 border-e border-white px-2">No</th>
-                            <th class="py-2 border-e border-white px-2">Judul</th>
-                            <th class="py-2 border-e border-white px-2">Kategori</th>
-                            <th class="py-2 border-e border-white px-2">Penulis</th>
-                            <th class="py-2 border-e border-white px-2">Tanggal</th>
-                            <th class="py-2 border-e border-white px-2">Status</th>
-                            <th class="py-2  px-2">Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="(post, p) in posts.current"
-                            :key="p"
-                            class="even:bg-teal-100 "
-                        >
-                            <td class="py-1 border-e border-slate-200 px-2 text-center">{{  (p+1) + (10 * current)}}</td>
-                            <td class="py-1 border-e border-slate-200 px-2">
-                                <span class="text-teal-800 cursor-pointer hover:underline text-ellipsis" @click="edit(post)">{{ post.title }}</span>
-                            </td>
-                            <td class="py-1 border-e border-slate-200 px-2">{{ post.category.label }}</td>
-                            <td class="py-1 border-e border-slate-200 px-2">{{ post.author.userable.nama }}</td>
-                            <td class="py-1 border-e border-slate-200 px-2">{{ tanggal(post.created_at) }}</td>
-                            <td class="py-1 border-e border-slate-200 px-2">{{ post.status }}</td>
-                            <td class="py-1 px-2">Opsi</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="bg-slate-50 flex items-center justify-between p-3 flex-wrap w-full">
-                    Jml Halaman: {{ posts.page_length }} - {{ current }}
-                    <div class="flex items-center h-full flex-wrap">
-                        <button @click="prev" class="flex justify-center w-8 border border-gray-500  py-1"><Icon icon="mdi:chevron-double-left" /></button>
-                        <button v-for="b in posts.page_length" :key="b" class="flex justify-center w-8 border border-gray-500" :class="(b-1) == current ? 'bg-teal-800 text-white': ''" @click="current=(b-1)">{{ b }}</button>
-                        <button @click="next" class="flex justify-center w-8 border border-gray-500 py-1"><Icon icon="mdi:chevron-double-right" /></button>
-                    </div>
-                </div> -->
             </div>
             <div v-else-if="mode == 'write'">
                 <WritePost  :key="'tr2'" @close="close" :selectedPost="selectedPost" />
