@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import {Link, Head, usePage} from '@inertiajs/vue3';
-import { Icon } from 'vue';
+import { Icon } from '@iconify/vue';
 
 onMounted(() => {
     console.log(page)
