@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue';
 
 const props = defineProps({ rombel: Object, mapel: String })
 
-const FormPenilaian = defineAsyncComponent(() => import('./Forms/FormPenilaian.vue'));
+
 
 const headers = ref([
     { text: 'No', value: 'no'},
@@ -33,6 +33,6 @@ const items = ref([])
         <DataTable :headers="headers" :items="items">
 
         </DataTable>
-        <FormPenilaian :rombel="rombel" :mapel="mapel" :periode="'harian'" />
+        
     </div>
 </template>

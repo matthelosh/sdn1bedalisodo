@@ -39,7 +39,6 @@ use Tabuna\Breadcrumbs\Trail;
 Route::prefix('dashboard')->group(function() {
     Route::get('/', function() {
         return Inertia::render('Auth/Dashboard');
-        // return User::with('userable')->first();
     })->name('dashboard')->middleware('is_auth');
 
     Route::prefix('wa')->group(function() {

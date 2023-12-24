@@ -4,9 +4,13 @@ import { Head, usePage } from '@inertiajs/vue3';
 import { Icon } from '@iconify/vue';
 
 const AdminLayout = defineAsyncComponent(() => import('@/Layouts/AdminLayout.vue'));
+
+const FormPenilaian = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/Forms/FormPenilaian.vue'));
 const Harian = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/Harian.vue'));
 const PTS = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/PTS.vue'));
 const PAS = defineAsyncComponent(() => import('@/Components/Dashboard/Penilaian/PAS.vue'));
+
+defineProps({rombel: Object, mapel:String});
 
 const page = usePage()
 const role = page.props.auth.user.userable.role;
@@ -65,6 +69,11 @@ const mapel = computed(() => {
     return page.props.auth.user.userable.role !== 'gkel' ? page.props.auth.user.userable.role.slice(1) : null
 })
 
+const formPenilaian = ref(false)
+const openForm = () => {
+    formPenilaian.value = true
+}
+
 const selectedRombel = ref(null)
 </script>
 
@@ -80,6 +89,9 @@ const selectedRombel = ref(null)
             <div class="toolbar-items flex gap-2">
                 <button v-if="mode !== 'list'" @click="close">
                     <Icon icon="mdi-close-circle" class="text-2xl text-red-400 hover:text-red-500 active:text-red-300" />
+                </button>
+                <button v-else @click="openForm" class="flex items-center gap-1 bg-teal-500 py-1 px-2 rounded-lg text-white shadow-lg">
+                    Buat Penilaian
                 </button>
             </div>
         </div>
@@ -104,6 +116,7 @@ const selectedRombel = ref(null)
             </DataTable>
             <component :is="is" v-if="mode !=='list'" :mapel="mapel" :rombel="selectedRombel" />
         </div>
+        <FormPenilaian :rombel="rombel" :mapel="mapel" :periode="'harian'" v-if="formPenilaian" @close="formPenilaian = false" />
     </div>
    
 </AdminLayout>

@@ -5,6 +5,8 @@ import axios from 'axios';
 
 const props = defineProps({rombel: Object, mapel: String, periode: String})
 
+const emit = defineEmits(['close'])
+
 const penilaian = ref({
     semester: '1',
     tanggal: '2023-10-06'
@@ -34,11 +36,11 @@ const listPenilaian = async() => {
 </script>
 
 <template>
-    <div class="wrapper fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center z-50">
+    <div class="wrapper fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center z-50 bg-slate-800 bg-opacity-40 backdrop-blur">
         <div class="content w-[400px] bg-slate-100 rounded-md shadow-lg">
             <div class="toolbar p-2 flex items-center justify-between">
                 <h1>Formulir Penilaian</h1>
-                <button>
+                <button @click="emit('close')">
                     <Icon icon="mdi:close-circle" class="text-red-500 text-xl hover:text-red-600 active:text-red-400" />
                 </button>
             </div>

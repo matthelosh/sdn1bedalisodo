@@ -118,29 +118,46 @@ class BosController extends Controller
     function importTransaksi(Request $request) {
         try {
             $datas = json_decode($request->data);
+            $res = '';
             foreach($datas as $data) {
                 Transaksi::create([
+                    
+                    'kode' => $data->kode ?? Str::random(16),
+                    'rkas_id' => $this->getRkasId($data),
+                    'anggaran_id' => $this->anggaran()->kode,
                     'tipe' => $data->tipe??'kredit',
-                    'jenis' => $data->jenis,
+                    'jenis' => $data->jenis ?? 'tunai',
                     'tanggal' => $data->tanggal,
                     'uraian' => $data->uraian,
                     'kode_kegiatan' => $data->kode_kegiatan,
                     'kode_rekening' => $data->kode_rekening,
-                    'no_bukti' => $data->no_bukti,
-                    'merchant' => $data->merchant??null,
+                    'no_bukti' => $data->no_bukti ?? null,
+                    'merchant' => $data->merchant??'BOSREG',
                     'nilai' => $data->nilai??$data->kredit
                 ]);
+                Rkas::where('id',$this->getRkasId($data))->update(['status' => 'selesai']);
+                $anggaran = Anggaran::where('id', $this->anggaran()->id)->update(['silpa' => ($this->anggaran()->silpa - $data->nilai)]);
             }
             return response()->json([
                 'status' => 'ok',
-                'msg' => 'Impor Transaksi Selesai'
+                'msg' => $res,
             ], 200);
         } catch(\Exception $e) {
             return response()->json([
                 'status' => 'fail',
                 'msg' => $e->getMessage()
             ], 500);
+            // dd($e);
         }
+    }
+
+    function getRkasId($data) {
+        $rkas = Rkas::where('kode_kegiatan', $data->kode_kegiatan)
+                        ->where('kode_rekening', $data->kode_rekening)
+                        ->where('uraian', $data->uraian)
+                        ->where('jumlah', $data->nilai)
+                        ->first();
+        return $rkas ? $rkas->id : null;
     }
 
     function listKegiatan(Request $request) {

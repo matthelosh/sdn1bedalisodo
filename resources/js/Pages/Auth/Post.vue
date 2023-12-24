@@ -24,7 +24,7 @@ const WritePost = defineAsyncComponent(() => import('@/Components/Dashboard/Post
 
 const page = usePage();
 
-const current = ref(0)
+const current = ref(1)
 const search = ref(null)
 const mode = ref('list')
 
@@ -126,7 +126,7 @@ const tanggal = (tanggal) => {
                             </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination small layout="prev, pager, next" :total="30" />
+                    <el-pagination small layout="prev, pager, next" :total="page.props.posts.length" @prev-click="prev" @next-click="next" @current-change="(n) => current = n" />
                 </div>
             </div>
             <div v-else-if="mode == 'write'">
