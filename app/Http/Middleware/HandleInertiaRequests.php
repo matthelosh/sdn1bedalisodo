@@ -51,7 +51,7 @@ class HandleInertiaRequests extends Middleware
             'menus' => $request->user() ? $this->menus($request->user()) : null,
             'layout' => $this->frontLayout(),
             'tapel' => $this->tapel(),
-            'anggaran' => $this->anggaran(),
+            'anggarans' => $this->anggarans(),
             'rombels' => $request->user() ? $this->rombels($request->user()) : null,
             'categories' => Category::all()
         ]);
@@ -101,7 +101,7 @@ class HandleInertiaRequests extends Middleware
         return $tapel ?? null;
     }
 
-    protected function anggaran() {
-        return Anggaran::where('status', 'aktif')->first();
+    protected function anggarans() {
+        return Anggaran::where('status', 'aktif')->get();
     }
 }

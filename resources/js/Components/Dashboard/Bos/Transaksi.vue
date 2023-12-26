@@ -1,16 +1,26 @@
 <script setup>
 import { ref, onBeforeMount, computed, defineAsyncComponent } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import { usePage, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
 import {read, utils} from 'xlsx'
 
 const page = usePage();
+const anggarans = page.props.anggarans;
+
+const anggaran = ref({})
+const changeAnggaran = (e) => {
+    console.log(anggarans[e.target.value])
+    anggaran.value = anggarans[e.target.value]
+    list()
+}
 
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
 onBeforeMount(() => {
+    anggaran.value = anggarans[0]
     list()
+    
 })
 
 const FormTransaksi = defineAsyncComponent(() => import('./FormTransaksi.vue'))
@@ -20,7 +30,10 @@ const loading = ref(false)
 
 const list = async() => {
     loading.value = true
-    await axios.post(route('dashboard.bos.transaksi.index'))
+    // alert(anggaran.value.kode)
+    await axios.post(route('dashboard.bos.transaksi.index', {
+        anggaran_id: anggaran.value.kode
+    }))
         .then(res => {
             rawItems.value = res.data.transaksis
             silpa.value = res.data.silpa
@@ -64,22 +77,24 @@ const edit = async (trans) => {
 
 const formTitle = ref('Tambah Transaksi')
 const fileTransaksi = ref(null)
+const formImpor =ref(false)
+const imported = ref([])
+const closeImpor = () => {
+    formImpor.value = false
+    imported.value = []
+}
 const onFileTransaksiPicked = async(ev) => {
-    loading.value = true
+    // loading.value = true
     let file = ev.target.files[0]
 
     let reader = new FileReader();
+    
     reader.onload = async(e) => {
         let wb = await read(e.target.result)
         let datas = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
-        await axios.post(route('dashboard.bos.transaksi.import'), {data: JSON.stringify(datas)})
-                    .then(res => {
-                        loading.value = true
-                        list()
-                    }).catch(err => {
-                        loading.value = false
-                        alert(err.response.data.msg)
-                    })
+       
+        imported.value = datas
+        formImpor.value = true
     }
     reader.readAsArrayBuffer(file)
 }
@@ -88,17 +103,25 @@ const search = ref('');
 const newTransaksi = () => {
     showForm.value = true
 }
+
+const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
 </script>
 
 <template>
 
 <div>
     <Loading v-if="loading" />
+    <ImporBku v-if="formImpor" :items="imported" @close="closeImpor" :anggaran="anggaran" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
             <div class="text-sm">
-                <p class="leading-4">Dana Tahap {{ page.props.anggaran.tahap }}: Rp. {{page.props.anggaran.nilai.toLocaleString("id-ID")}} Silpa: Rp. {{ silpa.silpa?.toLocaleString("id-ID") }} Total: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</p>
-                <p class="leading-4">Terpakai: Rp. {{ terpakai.toLocaleString("id-ID") }} Saldo: Rp. {{ (parseInt(page.props.anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</p>
+                <select @change="changeAnggaran" >
+                    <option v-for="(anggaran, index) in anggarans" :key="anggaran.kode" :value="index">
+                        {{ anggaran.uraian }}
+                    </option>
+                </select>
+                <p class="leading-4">Dana Tahap {{ anggaran.tahap }}: Rp. {{anggaran.nilai.toLocaleString("id-ID")}} Silpa: Rp. {{ silpa.silpa?.toLocaleString("id-ID") }} Total: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</p>
+                <p class="leading-4">Terpakai: Rp. {{ terpakai.toLocaleString("id-ID") }} Saldo: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</p>
             </div>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>

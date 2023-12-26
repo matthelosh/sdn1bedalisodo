@@ -43,12 +43,13 @@ class BosController extends Controller
     }
 
     function transaksi(Request $request) {
+        // dd($request->query('anggaran_id'));
         try {
             $prevAnggaranId = Anggaran::where('id', '<', $this->anggaran()->id)->max('id');
             return response()->json([
                 'status' => 'ok',
                 'antris' => Rkas::where('status', 'antri')->get(),
-                'transaksis' => Transaksi::where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get(),
+                'transaksis' => Transaksi::where('anggaran_id', $request->query('anggaran_id'))->with('buktis')->get(),
 
                 'silpa' => Anggaran::where('id', $prevAnggaranId)->select('silpa')->first()
             ], 200);
@@ -124,7 +125,7 @@ class BosController extends Controller
                     
                     'kode' => $data->kode ?? Str::random(16),
                     'rkas_id' => $this->getRkasId($data),
-                    'anggaran_id' => $this->anggaran()->kode,
+                    'anggaran_id' => $request->query('anggaran_id'),
                     'tipe' => $data->tipe??'kredit',
                     'jenis' => $data->jenis ?? 'tunai',
                     'tanggal' => $data->tanggal,
