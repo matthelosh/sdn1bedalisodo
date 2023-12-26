@@ -10,7 +10,7 @@ const page = usePage()
     <div class="text-center">
         <h1 class="text-2xl font-bold text-gray-600 tracking-wide">Error 500</h1>
         <p class="text-gray-500">Ada sesuatu yang salah. Beri kami waktu mencari tahu.</p>
-        <p></p>
+        <p>{{ page.props }}</p>
     </div>
  </div>
 </template>
