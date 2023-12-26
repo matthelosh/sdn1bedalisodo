@@ -225,8 +225,9 @@ class BosController extends Controller
 
     function changeStatusAnggaran(Request $request, $id) {
         try {
-            Anggaran::where('status', 'aktif')->update(['status' => 'nonaktif']);
-            $anggaran = Anggaran::where('id', $id)->update(['status' =>  $request->status]);
+            $anggaran = Anggaran::where('id', $id)->first();
+            Anggaran::where('status', 'aktif')->where('kode','LIKE', substr($anggaran->kode, 0, 2).'%')->update(['status' => 'nonaktif']);
+            $anggaran->update(['status' =>  $request->status]);
             return response()->json([
                 'status' => 'ok',
                 'anggaran' => $anggaran

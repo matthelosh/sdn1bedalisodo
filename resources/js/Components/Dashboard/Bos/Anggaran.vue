@@ -36,6 +36,11 @@ const newAnggaran = () => {
 
 const toggleStatus = async(e,item) => {
     loading.value = true
+    if (!item.id) {
+        alert('Anggaran harus disimpan dulu sebelum statusnya dirubah.')
+        loading.value = false
+        return false
+    }
     await axios.post(route('dashbaord.bos.anggaran.status.change', {id: item.id}), {status: e.target.value, _method: 'put'})
             .then(res => {
                 loading.value = false
@@ -49,6 +54,11 @@ const toggleStatus = async(e,item) => {
 const simpan = async(i) => {
     // console.log(anggaran.value)
     loading.value = true
+    if(!anggarans.value[i].kode) {
+        alert('Isi data anggaran dulu!');
+        loading.value = false
+        return false
+    }
     await axios.post(route('dashboard.bos.anggaran.store'), {anggaran: JSON.stringify(anggarans.value[i])})
                 .then( res => {
                     loading.value = false
@@ -64,6 +74,10 @@ const edit = (item, index) => {
 
 const confirmDialog = ref(null)
 const hapus = async(item) => {
+    if (!item.id) {
+        anggarans.value.pop()
+        return false
+    }
     if( await confirmDialog.value.open("Yakin Menghapus Anggaran " + item.uraian+" ?")) {
         axios.delete(route('dashboard.bos.anggaran.hapus', {id: item.id}))
                 .then(res => {
