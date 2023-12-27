@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, computed, defineAsyncComponent } from 'vue';
-import { usePage, router } from '@inertiajs/vue3';
+import { usePage, Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Icon } from '@iconify/vue';
 import {read, utils} from 'xlsx'
@@ -10,7 +10,6 @@ const anggarans = page.props.anggarans;
 
 const anggaran = ref({})
 const changeAnggaran = (e) => {
-    console.log(anggarans[e.target.value])
     anggaran.value = anggarans[e.target.value]
     list()
 }
@@ -35,10 +34,10 @@ const list = async() => {
         anggaran_id: anggaran.value.kode
     }))
         .then(res => {
-            rawItems.value = res.data.transaksis
-            silpa.value = res.data.silpa
-            antris.value = res.data.antris
-            loading.value = false
+            rawItems.value = res.data.transaksis;
+            silpa.value = res.data.silpa;
+            antris.value = res.data.antris;
+            loading.value = false;
         }).catch(err => console.log(err))
 }
 
@@ -110,18 +109,23 @@ const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
 <template>
 
 <div>
+    <Head>
+        <title>Data Transaksi {{ anggaran.uraian }}</title>
+    </Head>
     <Loading v-if="loading" />
     <ImporBku v-if="formImpor" :items="imported" @close="closeImpor" :anggaran="anggaran" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
-            <div class="text-sm">
+            <div class="text-sm flex items-center gap-2 ">
                 <select @change="changeAnggaran" >
                     <option v-for="(anggaran, index) in anggarans" :key="anggaran.kode" :value="index">
                         {{ anggaran.uraian }}
                     </option>
                 </select>
-                <p class="leading-4">Dana Tahap {{ anggaran.tahap }}: Rp. {{anggaran.nilai.toLocaleString("id-ID")}} Silpa: Rp. {{ silpa.silpa?.toLocaleString("id-ID") }} Total: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa.silpa)).toLocaleString("id-ID") }}</p>
-                <p class="leading-4">Terpakai: Rp. {{ terpakai.toLocaleString("id-ID") }} Saldo: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa.silpa) - terpakai).toLocaleString("id-ID") }}</p>
+                <div class="border-s-4 h-full border-slate-800 pl-1 font-bold text-slate-700">
+                    <p class="leading-4">Dana Tahap {{ anggaran.tahap }}: Rp. {{anggaran.nilai.toLocaleString("id-ID")}} Silpa: Rp. {{ silpa !== null ? silpa.silpa?.toLocaleString("id-ID") : 0 }} Total: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa !== null ? silpa.silpa : 0)).toLocaleString("id-ID") }}</p>
+                    <p class="leading-4">Terpakai: Rp. {{ terpakai.toLocaleString("id-ID") }} Saldo: Rp. {{ (parseInt(anggaran.nilai)+parseInt(silpa !==null ? silpa.silpa : 0 ) - terpakai).toLocaleString("id-ID") }}</p>
+                </div>
             </div>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
@@ -197,6 +201,5 @@ const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
         </div>
     </div>
     <FormTransaksi :transaksi="transaksi" :antris="antris" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
-    
 </div>
 </template>

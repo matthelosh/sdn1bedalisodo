@@ -17,17 +17,17 @@ class BosController extends Controller
 {
     // Kuitansi Methods
 
-    function anggaran() {
-        return Anggaran::where('status', 'aktif')->first();
+    function anggaran($kode) {
+        return Anggaran::where('kode', $kode)->first();
     }
 
     function getBku(Request $request) {
         try {
             $year = date('Y');
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
-                $bkus = Transaksi::whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get();
+                $bkus = Transaksi::where('anggaran_id', $request->query('anggaran_id'))->whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->with('buktis')->get();
             } else {
-                $bkus = Transaksi::whereYear('tanggal', $year)->where('anggaran_id', $this->anggaran()->kode)->with('buktis')->get();
+                $bkus = Transaksi::where('anggaran_id', $request->query('anggaran_id'))->whereYear('tanggal', $year)->with('buktis')->get();
             }
             return response()->json([
                 'status' => 'ok',
@@ -45,7 +45,7 @@ class BosController extends Controller
     function transaksi(Request $request) {
         // dd($request->query('anggaran_id'));
         try {
-            $prevAnggaranId = Anggaran::where('id', '<', $this->anggaran()->id)->max('id');
+            $prevAnggaranId = Anggaran::where('sumber_dana', $this->anggaran($request->query('anggaran_id'))->sumber_dana)->where('id', '<', $this->anggaran($request->query('anggaran_id'))->id)->max('id');
             return response()->json([
                 'status' => 'ok',
                 'antris' => Rkas::where('status', 'antri')->get(),
@@ -72,7 +72,7 @@ class BosController extends Controller
                 ],
                 [
                     'rkas_id' => $data->rkas_id,
-                    'anggaran_id' => $this->anggaran()->kode,
+                    'anggaran_id' => $this->anggaran($request->query('anggaran_id'))->kode,
                     'tipe' => $data->tipe??'kredit',
                     'jenis' => $data->jenis,
                     'tanggal' => $data->tanggal,
@@ -100,7 +100,7 @@ class BosController extends Controller
 
             if($transaksi) {
                 Rkas::where('id', $data->rkas_id)->update(['status' => 'selesai']);
-                $anggaran = Anggaran::where('id', $this->anggaran()->id)->update(['silpa' => ($this->anggaran()->silpa - $transaksi->nilai)]);
+                $anggaran = Anggaran::where('id', $this->anggaran($request->query('anggaran_id'))->id)->update(['silpa' => ($this->anggaran($request->query('anggaran_id'))->silpa - $transaksi->nilai)]);
             }
 
             return response()->json([
@@ -133,11 +133,11 @@ class BosController extends Controller
                     'kode_kegiatan' => $data->kode_kegiatan,
                     'kode_rekening' => $data->kode_rekening,
                     'no_bukti' => $data->no_bukti ?? null,
-                    'merchant' => $data->merchant??'BOSREG',
+                    'merchant' => $data->merchant?? $this->anggaran($request->query('anggaran_id'))->sumber_dana,
                     'nilai' => $data->nilai??$data->kredit
                 ]);
                 Rkas::where('id',$this->getRkasId($data))->update(['status' => 'selesai']);
-                $anggaran = Anggaran::where('id', $this->anggaran()->id)->update(['silpa' => ($this->anggaran()->silpa - $data->nilai)]);
+                $anggaran = Anggaran::where('id', $this->anggaran($request->query('anggaran_id'))->id)->update(['silpa' => ($this->anggaran($request->query('anggaran_id'))->silpa - $data->nilai)]);
             }
             return response()->json([
                 'status' => 'ok',
@@ -156,7 +156,6 @@ class BosController extends Controller
         $rkas = Rkas::where('kode_kegiatan', $data->kode_kegiatan)
                         ->where('kode_rekening', $data->kode_rekening)
                         ->where('uraian', $data->uraian)
-                        ->where('jumlah', $data->nilai)
                         ->first();
         return $rkas ? $rkas->id : null;
     }

@@ -18,6 +18,7 @@ class Rkas extends Model
         'kode_kegiatan',
         'uraian',
         'volume',
+        'sumber',
         'satuan',
         'tarif',
         'jumlah'

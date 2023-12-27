@@ -48,9 +48,7 @@
                             <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_kegiatan }}</td>
                             <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.kode_rekening }}</td>
                             <td class="border text-sm px-2 text-center">
-                                <button class="p-2 bg-sky-400 rounded hover:bg-sky-600 text-white" @click="edit(trans)">
-                                    {{ trans.no_bukti }}
-                                </button>
+                                {{ trans.no_bukti }}
                             </td>
                             <td class="border text-sm px-2 ">{{ trans.uraian }}</td>
                             <td class="border text-sm px-2 hidden md:table-cell text-center">{{ trans.tipe }}</td>
@@ -100,7 +98,7 @@ const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.
 const yakin = ref(false)
 
 const impor = async() => {
-     await axios.post(route('dashboard.bos.transaksi.import', {anggaran_id: anggaran.value.kode}
+     await axios.post(route('dashboard.bos.transaksi.import', {anggaran_id: props.anggaran.kode}
         ), {data: JSON.stringify(props.items)})
                     .then(res => {
                         loading.value = true
