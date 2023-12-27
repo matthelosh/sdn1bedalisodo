@@ -174,9 +174,10 @@ const colsBukti = ref('3')
                             <td class="border border-black py-1 px-3">{{ bku?.uraian }}</td>
                         </tr>
                     </table>
+                    <h1 class="font-bold tetx-lg text-slate-800 font-serif text-center">Bukti / Berkas Terlampir</h1>
                 </div>
                 <div class="w-2/4 mx-auto my-4" v-if="mode=='kuitansi'">
-                    <h1 class="border-dashed border-b-gray-400 border-b-2">Bukti / Berkas Terlampir</h1>
+                    <h1 class="font-mono font-bold border-dashed border-b-gray-400 border-b-2">Terbilang</h1>
                     <h1 class="terbilang border-2 border-black my-4 p-2 text-center bg-gray-100 font-black text-2xl">Rp. {{ bku?.nilai.toLocaleString("id-ID") }},-</h1>
                 </div>
                 <div class="w-full my-2 grid grid-cols-3" v-if="mode=='kuitansi'">
