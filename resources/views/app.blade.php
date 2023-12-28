@@ -35,6 +35,15 @@
                 margin: 0 1px;
             }
         </style>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XWMX756V82"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-XWMX756V82');
+        </script>
     </head>
     <body class="font-sans antialiased">
         @inertia
