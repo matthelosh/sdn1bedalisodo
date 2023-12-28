@@ -20,4 +20,6 @@ export const paginate = (datas, chunk_size, current) => {
 
 export const capitalize = (text) => [...text].reduce((s,c,i,a) => s + (i === 0 || a[i - 1] === ' ' ? c.toUpperCase() : c.toLowerCase()), '');
 
-export default { paginate, capitalize }
+export const defaultImage = (e) => e.target.src = '/img/no-image.jpg';
+
+export default { paginate, capitalize, defaultImage };

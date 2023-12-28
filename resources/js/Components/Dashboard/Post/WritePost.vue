@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import {
@@ -110,8 +110,13 @@ const post = ref({
   content: `<p>Tulis konten di sini.</p>`,
   category_id: 'art',
   featured_image: '/img/no-image.jpg',
+  
+})
+const abstract = computed(() => {
+  return post.value.content.split("</p>")[0].replace("<p>","")
 })
 const toolbarTitle = ref('Tulisan Baru')
+
 
 const categories = ref([]);
 const listCategory = async() => {
@@ -195,6 +200,10 @@ onBeforeMount(() => {
     <div class="content w-full py-3">
       <element-tiptap v-model:content="post.content" :extensions="extensions" class="text-xs text-slate-400">
       </element-tiptap>
+    </div>
+    <div class="abstract w-full py-3">
+      <h1>Abstract</h1>
+      <textarea v-model="abstract" class="w-full outline-none border-slate-300 rounded bg-slate-100"></textarea>
     </div>
   </div>
   <FileManager v-if="showFm" @close="showFm = false" />

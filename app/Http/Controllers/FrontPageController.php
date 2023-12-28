@@ -49,12 +49,17 @@ class FrontPageController extends Controller
     }
 
     function search(Request $request) {
+
         $q = $request->query('q');
-        $posts = Post::where('title', 'LIKE' ,'%'.$q.'%')->orWhere('slug','LIKE','%'.$q.'%')->orWhere('content','LIKE','%'.$q.'%')->with('category', 'author', 'views')->orderBy('created_at','DESC')->get();
-        $datas = [
-            'posts' => $posts
-        ];
-        return $this->view(Route::currentRouteName(), $datas);
+        if($q) {
+            $posts = Post::where('title', 'LIKE' ,'%'.$q.'%')->orWhere('slug','LIKE','%'.$q.'%')->orWhere('content','LIKE','%'.$q.'%')->with('category', 'author', 'views')->orderBy('created_at','DESC')->get();
+            $datas = [
+                'posts' => $posts
+            ];
+            return $this->view(Route::currentRouteName(), $datas);
+        } else {
+            return $this->view(Route::currentRouteName(), ['posts' => []]);
+        }
     }
 
     public function readPost(Request $request, RecordView $recordView, $kategori, $slug)
