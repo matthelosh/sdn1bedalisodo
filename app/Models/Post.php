@@ -30,10 +30,10 @@ class Post extends Model
         return $this->belongsTo(Category::class, 'category_id', 'kode');
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class);
+    // }
 
     function views() {
         return $this->hasMany(ViewCounter::class, 'post_id', 'id');

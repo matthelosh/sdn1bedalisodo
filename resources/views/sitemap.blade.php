@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     @foreach ($posts as $post)
         <url>
-            <loc>{{ url('/') }}/post/{{ $post->slug }}</loc>
+            <loc>{{ url('/') }}/{{strtolower($post->category->label)}}/{{ $post->slug }}</loc>
             <lastmod>{{ $post->created_at->tz('UTC')->toAtomString() }}</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.8</priority>

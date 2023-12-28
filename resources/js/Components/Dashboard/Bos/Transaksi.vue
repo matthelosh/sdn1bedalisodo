@@ -104,6 +104,7 @@ const newTransaksi = () => {
 }
 
 const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
+
 </script>
 
 <template>

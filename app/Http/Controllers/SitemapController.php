@@ -9,7 +9,7 @@ class SitemapController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::latest()->get();
+        $posts = Post::latest()->with('category')->get();
   
         return response()->view('sitemap', [
             'posts' => $posts

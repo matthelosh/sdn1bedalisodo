@@ -4,6 +4,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { defineAsyncComponent, ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
+import { capitalize } from '@/Plugins/misc';
 
 const page = usePage()
 const loading = ref(false)
@@ -73,7 +74,7 @@ const removeAccount = async(item) => {
                     <tr v-for="(guru,g) in $page.props.gurus" :key="g" class="odd:bg-slate-200" >
                         <td class="py-1 px-2 border text-center">{{ g+1 }}</td>
                         <td class="py-1 px-2 border">{{ guru.nip }}</td>
-                        <td class="py-1 px-2 border">{{ guru.nama }}</td>
+                        <td class="py-1 px-2 border">{{ capitalize(guru.nama) }}</td>
                         <td class="py-1 px-2 border">{{ guru.user?.name }}</td>
                         <td class="py-1 px-2 border">{{ guru.jk }}</td>
                         <td class="py-1 px-2 border">{{ guru.role == "ks" ? "Kepala Sekolah" : (guru.role == "gkel" ? "Guru Kelas" : "Guru Mapel") }}</td>

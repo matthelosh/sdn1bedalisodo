@@ -18,5 +18,6 @@ export const paginate = (datas, chunk_size, current) => {
     // return results[page]
 }
 
+export const capitalize = (text) => [...text].reduce((s,c,i,a) => s + (i === 0 || a[i - 1] === ' ' ? c.toUpperCase() : c.toLowerCase()), '');
 
-export default { paginate }
+export default { paginate, capitalize }

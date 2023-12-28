@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class GuruController extends Controller
