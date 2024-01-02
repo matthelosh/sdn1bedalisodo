@@ -23,7 +23,7 @@ class BosController extends Controller
 
     function getBku(Request $request) {
         try {
-            $year = date('Y');
+            $year = substr($request->query('anggaran_id'), 2, 4);
             if($request->query('bulan') && $request->query('bulan') !== 'all') {
                 $bkus = Transaksi::where('anggaran_id', $request->query('anggaran_id'))->whereMonth('tanggal', $request->query('bulan'))->whereYear('tanggal', $year)->with('buktis')->get();
             } else {
