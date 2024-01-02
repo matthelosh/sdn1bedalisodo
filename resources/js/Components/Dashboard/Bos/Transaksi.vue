@@ -104,6 +104,11 @@ const newTransaksi = () => {
 }
 
 const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
+const CopyBku = defineAsyncComponent(() => import('./CopyBku.vue'))
+const showCopy = ref(false)
+const closeCopy = () => {
+    showCopy.value = !showCopy.value
+}
 
 </script>
 
@@ -115,6 +120,7 @@ const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
     </Head>
     <Loading v-if="loading" />
     <ImporBku v-if="formImpor" :items="imported" @close="closeImpor" :anggaran="anggaran" />
+    <CopyBku v-if="showCopy" :items="imported" @close="closeCopy" :anggaran="anggaran" />
     <div class="bg-white p-3 w-full">
         <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1">
             <div class="text-sm flex items-center gap-2 ">
@@ -130,6 +136,10 @@ const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
             </div>
             <div class="toolbar-items flex gap-4 items-center justify-between print:hidden">
                 <input type="file" ref="fileTransaksi" @change="onFileTransaksiPicked" class="hidden" accept=".xls,.xlsx,.ods,.csv" multiple>
+                <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="showCopy = !showCopy">
+                    <Icon icon="mdi:clipboard" class="text" />
+                    <span class="hidden md:block text-sm">Copy Transaksi</span>
+                </button>
                 <button class="flex items-center gap-1 group text-gray-600 hover:font-bold hover:text-gray-800" @click="fileTransaksi.click()">
                     <Icon icon="mdi:cart-arrow-up" class="text" />
                     <span class="hidden md:block text-sm">Impor Transaksi</span>

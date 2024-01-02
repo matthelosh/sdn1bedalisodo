@@ -106,7 +106,7 @@ const colsBukti = ref('3')
                 v-for="(bku, bk) in kuitansis" :key="bk" 
                 class=" w-3/4 mx-auto shadow-md p-4 print:p-0 print:shadow-none print:w-full bg-white break-inside-avoid-page break-after-all my-4 print:m-0">
                 <div class="header w-full">
-                    <Kop />
+                    <Kop v-if="mode == 'kuitansi'" />
                 </div>
                 <div class="meta w-3/4 print:w-full mx-auto grid grid-cols-5 mt-2">
                     <div class="col-span-2">
@@ -204,6 +204,7 @@ const colsBukti = ref('3')
                     </div>
                 </div>
                 <h1 class="text-2xl text-gray-200 mt-10 text-center" v-if="mode=='kuitansi'">Tempelkan Bukti Di bawah atau di belakang</h1>
+                
                 <!-- <div class="buktis w-full grid grid-cols-2 gap-2" v-if="bku" > -->
                     <!-- <div v-for="(bukti, bkt) in bku.buktis" :key="bkt"> -->
                         <!-- <object v-if="check(bukti) == 'pdf'" :data="bukti.url" class="w-full" width="100%" height="100%"></object> -->
@@ -215,7 +216,8 @@ const colsBukti = ref('3')
                     
                 <!-- </div> -->
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
-                <h1 class="text-center">Bukti Transaksi {{bku.uraian}}</h1>
+                <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
+                <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
                 <div v-if="bku.buktis.length > 0" class="grid grid-cols-3 gap-2">
                     <div v-for="(bukti, b) in bku.buktis" :key="b" :class="bukti.tipe == 'dokumen' ? ('col-span-3'): ('col-span-'+colsBukti)" class="w-full">
                         <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
