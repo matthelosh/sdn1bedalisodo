@@ -31,7 +31,9 @@ const list = async() => {
     loading.value = true
     // alert(anggaran.value.kode)
     await axios.post(route('dashboard.bos.transaksi.index', {
-        anggaran_id: anggaran.value.kode
+        _query: {
+            anggaran_id: anggaran.value.kode,
+        }
     }))
         .then(res => {
             rawItems.value = res.data.transaksis;

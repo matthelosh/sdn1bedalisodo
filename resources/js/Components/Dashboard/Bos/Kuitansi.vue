@@ -104,7 +104,7 @@ const colsBukti = ref('3')
             </div>
             <div
                 v-for="(bku, bk) in kuitansis" :key="bk" 
-                class=" w-3/4 mx-auto shadow-md p-4 print:p-0 print:shadow-none print:w-full bg-white break-inside-avoid-page break-after-all my-4 print:m-0">
+                class=" w-3/4 mx-auto shadow-md p-4 print:p-0 print:shadow-none print:w-full print:h-[33cm] bg-slate-100 print:bg-white break-inside-avoid-page break-after-all my-4 print:m-0 cetak lembar">
                 <div class="header w-full">
                     <Kop v-if="mode == 'kuitansi'" />
                 </div>
@@ -153,7 +153,7 @@ const colsBukti = ref('3')
                             <td class="border py-1 px-3">Kode Kegiatan: {{ bku?.kode_kegiatan }}</td>
                         </tr>
                     </table>
-                    <table class="mx-auto my-2">
+                    <table class="mx-auto my-2 table-detail">
                         <tr>
                             <td class="border border-black py-1 px-3">Sudah diterima dari</td>
                             <td class="border border-black py-1 px-3">:</td>
@@ -174,10 +174,10 @@ const colsBukti = ref('3')
                             <td class="border border-black py-1 px-3">{{ bku?.uraian }}</td>
                         </tr>
                     </table>
-                    <h1 class="font-bold tetx-lg text-slate-800 font-serif text-center">Bukti / Berkas Terlampir</h1>
+                    <h1 class="font-bold text-lg text-slate-800 font-serif text-center">Bukti / Berkas Terlampir</h1>
                 </div>
                 <div class="w-2/4 mx-auto my-4" v-if="mode=='kuitansi'">
-                    <h1 class="font-mono font-bold border-dashed border-b-gray-400 border-b-2">Terbilang</h1>
+                    <h1 class="font-mono text-sm font-bold border-dashed border-b-gray-400 border-b-2 border-l-0 border-t-0 border-r-0">Terbilang</h1>
                     <h1 class="terbilang border-2 border-black my-4 p-2 text-center bg-gray-100 font-black text-2xl">Rp. {{ bku?.nilai.toLocaleString("id-ID") }},-</h1>
                 </div>
                 <div class="w-full my-2 grid grid-cols-3" v-if="mode=='kuitansi'">
