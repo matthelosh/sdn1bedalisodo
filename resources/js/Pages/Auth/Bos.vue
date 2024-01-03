@@ -22,7 +22,7 @@ const cetak = async() => {
     cetaks.forEach(sheet => {
         container += sheet.outerHTML
     })
-    let win = window.open("","_blank","height=600,width=500")
+    let win = window.open("","_blank","height=600,width=1024")
     let html = `<!doctype html>
                     <html>
                         <head>
@@ -159,7 +159,12 @@ const cetak = async() => {
                         </body>
                     </html>
                 `
-    win.document.write(html)
+    await win.document.write(html)
+    setTimeout(() => {
+        win.print();
+        win.close();
+    }, 500);
+    
 
 
 }
