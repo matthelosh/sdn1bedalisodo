@@ -200,7 +200,7 @@ const colsBukti = ref('3')
                         <p class="text-center">yang Menerima</p>
 
                         <h3 class="underline font-black tracking-widest text-center mt-20">...........................................</h3>
-                        <p class="text-center leading-3 print:hidden">NIP. <span class="text-transparent ">{{ sekolah?.ks.nip }}</span></p>
+                        <p class="text-center leading-3 print:hidden">NIP. <span class="text-white ">{{ sekolah?.ks.nip }}</span></p>
                     </div>
                 </div>
                 <h1 class="text-2xl text-gray-200 mt-10 text-center" v-if="mode=='kuitansi'">Tempelkan Bukti Di bawah atau di belakang</h1>

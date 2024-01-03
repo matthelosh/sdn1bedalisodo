@@ -331,7 +331,7 @@ Nilai: Rp. $rka->jumlah
                         'id' => $data->id?? null,
                     ],
                     [
-                        'anggaran_id' => $this->anggaran()->kode,
+                        'anggaran_id' => $this->anggaran($request->query('anggaran_id'))->kode,
                         'bulan' => $request->bulan,
                         'tahun' => $request->tahun,
                         'status' => $data->status ?? 'antri',

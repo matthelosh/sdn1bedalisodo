@@ -1,6 +1,6 @@
 <script setup>
 import {usePage} from '@inertiajs/vue3';
-import { computed, ref, defineAsyncComponent, onMounted }  from 'vue';
+import { computed, ref, defineAsyncComponent, onMounted, onBeforeMount }  from 'vue';
 import { read, utils } from 'xlsx';
 import { Icon } from '@iconify/vue';
 import axios from 'axios';
@@ -10,6 +10,15 @@ const ImporRkas = defineAsyncComponent(() => import('./ImporRkas.vue'))
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'))
 
 const page = usePage();
+const anggarans = page.props.anggarans;
+
+const anggaran = ref({})
+const changeAnggaran = (e) => {
+    anggaran.value = anggarans[e.target.value]
+    listRkas()
+}
+
+
 const loading = ref(false);
 
 const fileRkas = ref(null);
@@ -34,14 +43,6 @@ const datas = computed(() => {
     return search.value == null ? datas : datas.filter(data => data.uraian.toLowerCase().includes(search.value.toLowerCase()))
 });
 const bulan = ref('all')
-// const filter = (e) => {
-//     if(e.target.value == 'all') {
-//         rkas.value = rkas.value
-//     } else {
-//         let filtered = rkas.value.filter(item => item.bulan == e.target.value)
-//         rkas.value =
-//     }
-// }
 
 const listRkas = async() => {
     loading.value = true
@@ -100,6 +101,10 @@ const updateStatus = async(e, item) => {
 
 onMounted(() => {
     listRkas()
+})
+
+onBeforeMount(() => {
+    anggaran.value = anggarans[0]
 })
 </script>
 
@@ -189,7 +194,7 @@ onMounted(() => {
     </div>
 
     <FormRkas v-if="formRkas" @close="formRkas = !formRkas" />
-    <ImporRkas v-if="formImpor" :items="imported" :bulan="bulanImpor" @close="closeFormImpor" />
+    <ImporRkas v-if="formImpor" :items="imported" :bulan="bulanImpor" @close="closeFormImpor" :anggaran="anggaran" />
     <Loading v-if="loading" />
 </div>
 </template>

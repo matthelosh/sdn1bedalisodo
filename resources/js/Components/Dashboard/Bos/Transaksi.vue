@@ -158,7 +158,7 @@ const closeCopy = () => {
             </div>
 
         </div>
-        <div class="content w-full overflow-x-auto my-4">
+        <div class="content w-full overflow-x-auto my-4 cetak lembar">
             <div class="table w-full overflow-x-auto">
                 <table class="w-full border border-slate-400 text-sm">
                     <thead>

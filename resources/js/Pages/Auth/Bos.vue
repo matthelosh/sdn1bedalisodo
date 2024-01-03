@@ -123,6 +123,7 @@ const cetak = async() => {
                                     font-size: 1.5rem/* 24px */;
                                     line-height: 2rem/* 32px */;
                                 }
+                                .text-white {color:white;}
                                 .border {border: 1px solid gray;}
                                 table.table-detail {border-collapse:collapse;}
                                 .cetak {
@@ -136,7 +137,7 @@ const cetak = async() => {
                                 .terbilang {
                                     border: 2px solid black!important;
                                 }
-                                body {border: 3px dashed black; height: 33cm;}
+                                lembar {border: 3px dashed black; height: 33cm;}
                                 cetak {height:33cm;}
                                 @media print {
                                     body{
