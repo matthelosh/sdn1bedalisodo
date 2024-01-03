@@ -1,7 +1,7 @@
 name: CD
 on:
   push:
-    branches: [ production ]
+    branches: [ main ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,11 +13,12 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
             cd /home/web/htdocs/sdn1-bedalisodo.sch.id
-            git pull origin production
+            git pull origin main
             git status
             composer install
             php artisan migrate
