@@ -24,5 +24,15 @@ export default defineConfig({
     ],
     optimizeDeps: {
         exclude: ['@splidejs/vue-splide']
-      }
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name == 'app.css') return 'assets/app.css';
+                    return 'assets/'+assetInfo.name;
+                }
+            }
+        }
+    }
 });

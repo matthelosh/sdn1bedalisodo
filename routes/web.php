@@ -224,7 +224,9 @@ Route::prefix("")->group(function() {
         return $files;
     });
 
-
+    Route::get('/print', function() {
+        Inertia::render('Print');
+    });
 
     Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

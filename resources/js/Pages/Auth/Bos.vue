@@ -22,148 +22,161 @@ const cetak = async() => {
     cetaks.forEach(sheet => {
         container += sheet.outerHTML
     })
-    let win = window.open("","_blank","height=600,width=1024")
-    let html = `<!doctype html>
-                    <html>
-                        <head>
-                            <title>Cetak</title>
-                            <link rel="stylesheet" type="text/css" href="${host}:5173/resources/css/app.css" />
-                            <style>
-                                .p-4{padding: 1rem;}
-                                .mx-auto{margin-left:auto;margin-right:auto;}
-                                .mt-2 {margin-top:0.5rem;}
-                                .mt-20 {
-                                    margin-top: 5rem/* 80px */;
-                                }
-                                .my-2 {
-                                    margin-top: 0.5rem/* 8px */;
-                                    margin-bottom: 0.5rem/* 8px */;
-                                }
-                                .leading-4 {line-height: 1rem;}
-                                .w-full { width: 100%; }
-                                .flex{
-                                    display: flex;
-                                }
-                                .items-center { align-items: center; }
-                                .justify-center { justify-contents: center; }
-                                img {
-                                    height: 75px;
-                                }
+    let win = window.open(host+'/print',"_blank","height=600,width=1024")
+    // let html = `<!doctype html>
+    //                 <html>
+    //                     <head>
+    //                         <title>Cetak</title>
+    //                         <link rel="stylesheet" type="text/css" href="${host}:5173/resources/css/app.css" />
+    //                         <style>
+    //                             .p-4{padding: 1rem;}
+    //                             .mx-auto{margin-left:auto;margin-right:auto;}
+    //                             .mt-2 {margin-top:0.5rem;}
+    //                             .mt-20 {
+    //                                 margin-top: 5rem/* 80px */;
+    //                             }
+    //                             .my-2 {
+    //                                 margin-top: 0.5rem/* 8px */;
+    //                                 margin-bottom: 0.5rem/* 8px */;
+    //                             }
+    //                             .leading-4 {line-height: 1rem;}
+    //                             .w-full { width: 100%; }
+    //                             .flex{
+    //                                 display: flex;
+    //                             }
+    //                             .items-center { align-items: center; }
+    //                             .justify-center { justify-contents: center; }
+    //                             img {
+    //                                 height: 75px;
+    //                             }
 
-                                .uppercase { text-transform: uppercase;}
-                                .font-bold { font-weight: 700;}
-                                .font-black {
-                                    font-weight: 900;
-                                }
-                                .tracking-widest {
-                                    letter-spacing: 0.1em;
-                                }
-                                .leading-3 {
-                                    line-height: .75rem/* 12px */;
-                                }
-                                .underline { text-decoration: underline; }
-                                .italic { font-style: italic;}
-                                .text-center { text-align: center;}
-                                h2 { font-size: 1em; margin: 0 }
-                                h3 { font-size: 1em; margin: 0; font-weight: 400; }
-                                .font-serif {
-                                    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-                                }
-                                .border-double { border-bottom: 4px double black; padding-bottom: 10px; }
-                                .border-b-dashed { boder-bottom: 4px dashed gray; }
-                                .border-dashed {
-                                    border-style: dashed;
-                                }
-                                .border-b-gray-400 {
-                                    --tw-border-opacity: 1;
-                                    border-bottom-color: rgb(156 163 175 / var(--tw-border-opacity));
-                                }
-                                .border-b-2 {
-                                    border-bottom-width: 2px;
-                                }
-                                .border-t-0 {
-                                    border-top-width: 0px;
-                                }
-                                .border-r-0 {
-                                    border-right-width: 0px;
-                                }
-                                .border-l-0 {
-                                    border-left-width: 0px;
-                                }
-                                .border-2 {
-                                    border-width: 2px;
-                                }
-                                .border-black {
-                                    --tw-border-opacity: 1;
-                                    border-color: rgb(0 0 0 / var(--tw-border-opacity));
-                                }
-                                .grid {display: grid;}
-                                .grid-cols-5 {grid-template-columns: repeat(5, minmax(0, 1fr));}
-                                .col-span-2 { grid-column: span 2 / span 2; }
-                                .grid-cols-3 {
-                                    grid-template-columns: repeat(3, minmax(0, 1fr));
-                                }
-                                .py-1 {
-                                    padding-top: 0.25rem/* 4px */;
-                                    padding-bottom: 0.25rem/* 4px */;
-                                }
-                                .px-3 {
-                                    padding-left: 0.75rem/* 12px */;
-                                    padding-right: 0.75rem/* 12px */;
-                                }
-                                .text-sm {
-                                    font-size: 0.875rem/* 14px */;
-                                    line-height: 1.25rem/* 20px */;
-                                }
-                                .text-lg {
-                                    font-size: 1.125rem/* 18px */;
-                                    line-height: 1.75rem/* 28px */;
-                                }
-                                .text-2xl {
-                                    font-size: 1.5rem/* 24px */;
-                                    line-height: 2rem/* 32px */;
-                                }
-                                .text-white {color:white;}
-                                .border {border: 1px solid gray;}
-                                table.table-detail {border-collapse:collapse;}
-                                .cetak {
-                                    background: #efefef;
-                                    box-shadow: 0 3px 5px rgba(0,0,0,0.4);
-                                }
-                                .font-mono {
-                                    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-                                }
-                                p {margin:0;padding:0;}
-                                .terbilang {
-                                    border: 2px solid black!important;
-                                }
-                                lembar {border: 3px dashed black; height: 33cm;}
-                                cetak {height:33cm;}
-                                @media print {
-                                    body{
-                                        background: url('${host}/img/bg-stripes.jpg');
-                                        height: 33cm;
-                                    }
-                                    .cetak {
-                                        page-break-after: always;
-                                        page-break-before: always;
-                                        background: white;
-                                        box-shadow: none;
-                                        margin: 10px;
+    //                             .uppercase { text-transform: uppercase;}
+    //                             .font-bold { font-weight: 700;}
+    //                             .font-black {
+    //                                 font-weight: 900;
+    //                             }
+    //                             .tracking-widest {
+    //                                 letter-spacing: 0.1em;
+    //                             }
+    //                             .leading-3 {
+    //                                 line-height: .75rem/* 12px */;
+    //                             }
+    //                             .underline { text-decoration: underline; }
+    //                             .italic { font-style: italic;}
+    //                             .text-center { text-align: center;}
+    //                             h2 { font-size: 1em; margin: 0 }
+    //                             h3 { font-size: 1em; margin: 0; font-weight: 400; }
+    //                             .font-serif {
+    //                                 font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    //                             }
+    //                             .border-double { border-bottom: 4px double black; padding-bottom: 10px; }
+    //                             .border-b-dashed { boder-bottom: 4px dashed gray; }
+    //                             .border-dashed {
+    //                                 border-style: dashed;
+    //                             }
+    //                             .border-b-gray-400 {
+    //                                 --tw-border-opacity: 1;
+    //                                 border-bottom-color: rgb(156 163 175 / var(--tw-border-opacity));
+    //                             }
+    //                             .border-b-2 {
+    //                                 border-bottom-width: 2px;
+    //                             }
+    //                             .border-t-0 {
+    //                                 border-top-width: 0px;
+    //                             }
+    //                             .border-r-0 {
+    //                                 border-right-width: 0px;
+    //                             }
+    //                             .border-l-0 {
+    //                                 border-left-width: 0px;
+    //                             }
+    //                             .border-2 {
+    //                                 border-width: 2px;
+    //                             }
+    //                             .border-black {
+    //                                 --tw-border-opacity: 1;
+    //                                 border-color: rgb(0 0 0 / var(--tw-border-opacity));
+    //                             }
+    //                             .grid {display: grid;}
+    //                             .grid-cols-5 {grid-template-columns: repeat(5, minmax(0, 1fr));}
+    //                             .col-span-2 { grid-column: span 2 / span 2; }
+    //                             .grid-cols-3 {
+    //                                 grid-template-columns: repeat(3, minmax(0, 1fr));
+    //                             }
+    //                             .py-1 {
+    //                                 padding-top: 0.25rem/* 4px */;
+    //                                 padding-bottom: 0.25rem/* 4px */;
+    //                             }
+    //                             .px-3 {
+    //                                 padding-left: 0.75rem/* 12px */;
+    //                                 padding-right: 0.75rem/* 12px */;
+    //                             }
+    //                             .text-sm {
+    //                                 font-size: 0.875rem/* 14px */;
+    //                                 line-height: 1.25rem/* 20px */;
+    //                             }
+    //                             .text-lg {
+    //                                 font-size: 1.125rem/* 18px */;
+    //                                 line-height: 1.75rem/* 28px */;
+    //                             }
+    //                             .text-2xl {
+    //                                 font-size: 1.5rem/* 24px */;
+    //                                 line-height: 2rem/* 32px */;
+    //                             }
+    //                             .text-white {color:white;}
+    //                             .border {border: 1px solid gray;}
+    //                             table.table-detail {border-collapse:collapse;}
+    //                             .cetak {
+    //                                 background: #efefef;
+    //                                 box-shadow: 0 3px 5px rgba(0,0,0,0.4);
+    //                             }
+    //                             .font-mono {
+    //                                 font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    //                             }
+    //                             p {margin:0;padding:0;}
+    //                             .terbilang {
+    //                                 border: 2px solid black!important;
+    //                             }
+    //                             lembar {border: 3px dashed black; height: 33cm;}
+    //                             cetak {height:33cm;}
+    //                             @media print {
+    //                                 body{
+    //                                     background: url('${host}/img/bg-stripes.jpg');
+    //                                     height: 33cm;
+    //                                 }
+    //                                 .cetak {
+    //                                     page-break-after: always;
+    //                                     page-break-before: always;
+    //                                     background: white;
+    //                                     box-shadow: none;
+    //                                     margin: 10px;
                                         
-                                    }
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            ${container}
-                        </body>
-                    </html>
-                `
+    //                                 }
+    //                             }
+    //                         </style>
+    //                     </head>
+    //                     <body>
+    //                         ${container}
+    //                     </body>
+    //                 </html>
+    //             `
+    
+    let html = `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Cetak</title>
+                <link rel="stylesheet" href="http://${host}/build/assets/app.css"
+            </head>
+            <body>
+                ${container}
+            </body>
+        </html>
+    `
     await win.document.write(html)
     setTimeout(() => {
         win.print();
-        win.close();
+        // win.close();
     }, 500);
     
 
