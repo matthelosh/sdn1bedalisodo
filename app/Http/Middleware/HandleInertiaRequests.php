@@ -53,7 +53,8 @@ class HandleInertiaRequests extends Middleware
             'tapel' => $this->tapel(),
             'anggarans' => $this->anggarans(),
             'rombels' => $request->user() ? $this->rombels($request->user()) : null,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'app_env' => config('app.env')
         ]);
     }
 

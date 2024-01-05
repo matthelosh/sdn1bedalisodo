@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { ref, defineAsyncComponent, computed } from 'vue';
 import { Icon } from '@iconify/vue';
 import Dash from '@/Layouts/AdminLayout.vue'
@@ -10,6 +10,7 @@ const Rkas = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Rkas.
 const Anggaran = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Anggaran.vue'));
 const Cover = defineAsyncComponent(() => import('@/Components/Dashboard/Bos/Cover.vue'));
 
+const page = usePage();
 const mode = ref('Mata Anggaran')
 const title = computed(() => {
     return mode.value[0].toUpperCase() + mode.value.slice(1)
@@ -160,13 +161,13 @@ const cetak = async() => {
     //                     </body>
     //                 </html>
     //             `
-    
+    let protocol = page.props.app_env == 'local' ? 'http' : 'https';
     let html = `
         <!doctype html>
         <html>
             <head>
                 <title>Cetak</title>
-                <link rel="stylesheet" href="http://${host}/build/assets/app.css"
+                <link rel="stylesheet" href="${protocol}://${host}/build/assets/app.css"
             </head>
             <body>
                 ${container}
