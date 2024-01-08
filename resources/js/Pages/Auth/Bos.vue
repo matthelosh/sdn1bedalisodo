@@ -161,7 +161,7 @@ const cetak = async() => {
     //                     </body>
     //                 </html>
     //             `
-    let protocol = page.props.app_env == 'local' ? 'http' : 'https';
+    let protocol = window.location.protocol;
     let html = `
         <!doctype html>
         <html>

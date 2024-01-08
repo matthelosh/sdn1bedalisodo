@@ -39,10 +39,13 @@ const list = async() => {
             rawItems.value = res.data.transaksis;
             silpa.value = res.data.silpa;
             antris.value = res.data.antris;
+            selesais.value = res.data.selesais;
             loading.value = false;
         }).catch(err => console.log(err))
 }
 
+const rkas = ref([])
+const selesais = ref([])
 const antris = ref([])
 const silpa = ref(0)
 const terpakai = computed(() => {
@@ -64,13 +67,16 @@ const transaksi = ref({
 const showForm = ref(false)
 
 const closeForm = () => {
+    transaksi.value = { jenis: 'tunai'}
     showForm.value = !showForm.value
+
     list()
 }
 
 const edit = async (trans) => {
     formTitle.value = `Edit Transaksi ${trans.no_bukti}`
     transaksi.value = trans
+    rkas.value = [trans]
     // console.log(transaksi.value)
     // imageHolder.value = true
     showForm.value = true
@@ -103,6 +109,7 @@ const search = ref('');
 
 const newTransaksi = () => {
     showForm.value = true
+    rkas.value = antris.value
 }
 
 const ImporBku = defineAsyncComponent(() => import('./ImporBku.vue'))
@@ -213,6 +220,6 @@ const closeCopy = () => {
             </div>
         </div>
     </div>
-    <FormTransaksi :transaksi="transaksi" :antris="antris" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
+    <FormTransaksi :transaksi="transaksi" :rkas="rkas" :antris="antris" @close="closeForm" :show="showForm" :title="formTitle" v-if="showForm" />
 </div>
 </template>

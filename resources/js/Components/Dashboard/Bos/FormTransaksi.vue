@@ -4,13 +4,14 @@ import { Icon } from '@iconify/vue';
 import axios from 'axios';
 import { computed } from 'vue';
 
-const props = defineProps({show: Boolean, transaksi: Object, title: String, antris: Array})
+const props = defineProps({show: Boolean, transaksi: Object, title: String, antris: Array, rkas: Array})
 const emit = defineEmits(['close'])
 
 onBeforeMount(() => {
     transaksi.value = props.transaksi;
     showForm.value = props.show
-    rkas.value = props.antris
+    rkas.value = props.rkas
+    selectedRkas.value = props.transaksi?.uraian
 })
 // onMounted(() => {
 //   
@@ -66,9 +67,11 @@ const onRkasFocus = (e) => {
   ul.classList.remove("hidden")
 }
 
-const rkas = computed(() => {
-  return props.antris.filter(item => item.uraian.toLowerCase().includes(selectedRkas.value.toLowerCase()))
-})
+// const rkas = computed(() => {
+//   return props.antris.filter(item => item.uraian.toLowerCase().includes(selectedRkas.value.toLowerCase()))
+// })
+
+const rkas =ref([])
 
 // watch(selectedRkas, (newValue, oldValue) => {
 
@@ -86,7 +89,9 @@ const simpan = async() => {
     for(let file of files.value) {
         fd.append("files[]", file)
     }
-    await axios.post(route('dashboard.bos.transaksi.store'), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
+    await axios.post(route('dashboard.bos.transaksi.store', {
+            _query: {anggaran_id: transaksi.value.anggaran_id}
+          }), fd, {headers: { 'Content-Type': 'multipart/form-data'}})
                 .then(res => {
                     loading.value = false
                     emit('close')
@@ -102,7 +107,7 @@ const simpan = async() => {
     <div class="fixed top-0 right-0 bottom-0 left-0 bg-white backdrop-blur-sm bg-opacity-60 flex items-center justify-center overflow-y-auto z-50" v-if="props.show">
         <div class="dialog bg-white w-11/12 md:max-w-full mx-auto md:min-w-[400px] overflow-y-auto shadow-lg border border-gray-200">
             <div class="toolbar p-3 bg-slate-100 flex items-center justify-between">
-                <h1>{{props.title}}</h1>
+                <h1>{{props.transaksi.id ? 'Edit Transaksi: '+props.transaksi.no_bukti : 'Masukkan transaksi baru'}}</h1>
                 <div class="toolbar-items flex items-center gap-3 justify-end">
                     <button @click="emit('close')">
                         <Icon icon="mdi:close-box" class="text-red-400 hover:text-red-600 text-2xl" />
