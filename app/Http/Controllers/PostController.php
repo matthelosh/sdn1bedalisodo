@@ -34,8 +34,9 @@ class PostController extends Controller
         // dd($request->all());
         $file = $request->file('image');
         $filename = Str::random(16);
-        $store = Storage::putFileAs("public/images/post/", $file, $filename.'.'.$file->extension());
-        $url = Storage::url($store);
+        // $store = Storage::putFileAs("public/images/post/", $file, $filename.'.'.$file->extension());
+        $store = $file->storePubliclyAs("public/images/post/", $filename.'.'.$file->extension(), 's3');
+        $url = Storage::disk('s3')->url($store);
         return response()->json(['url' => $url], 200);
     }
 

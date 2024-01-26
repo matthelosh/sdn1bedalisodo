@@ -90,11 +90,12 @@ class BosController extends Controller
             if($request->file('files')) {
                 foreach($request->file('files') as $file) {
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
-                    $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
+                    // $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
+                    $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
                     Bukti::create([
                         'transaksi_id' => $transaksi->kode,
                         'label' => $file->getClientOriginalName(),
-                        'url' => Storage::url($store),
+                        'url' => Storage::disk('s3')->url($store),
                         'tipe' => $tipe,
                     ]);
                 }

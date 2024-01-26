@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { isClient } from '@vueuse/shared'
 import { useDraggable, useClipboard } from '@vueuse/core'
