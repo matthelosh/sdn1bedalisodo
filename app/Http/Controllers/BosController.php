@@ -94,14 +94,8 @@ class BosController extends Controller
                 try {
                 foreach($request->file('files') as $file) {
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
-                    // $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
-                    if ($tipe == 'foto') {
-                        $file = ImageManager::imagick()->read($file);
-                        $file->resize(300, null);
-                        $file = $file->stream();
-                    }
-                    // $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
-                    $store = Storage::disk('s3')->putFileAs('bos/file/bukti', $file->getCLientOriginalName());
+                    $name = $file->getClientOriginalName();
+                    $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
                     Bukti::create([
                         'transaksi_id' => $transaksi->kode,
                         'label' => $file->getClientOriginalName(),

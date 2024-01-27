@@ -38,18 +38,39 @@ const setTransaksi = async(rka) => {
   ul.classList.add("hidden")
 }
 
+import Compressor from 'compressorjs'
+
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
     // console.log(file)
-    if (file.size > 90000000) {
-        alert('Ukuran FIle terlalu Besar')
-        return false
+    let compressed = file;
+    if (file.size > 2000000) {
+        // alert('Ukuran FIle terlalu Besar')
+        // return false
+        new Compressor(file, {
+          quality: 0.2,
+          success(result) {
+            compressed = result
+          }
+        })
     }
+
+    // let compressed = new Compressor(file, 
+    //   {
+    //     quality: 0.2,
+    //     success(result) {
+    //       console.log(result)
+    //     }
+    //   }
+
+    // )
+    // console.log(compressed)
+
     const imgNode = document.createElement("img")
     const pdfNode = document.createElement("object")
     const buktiHolder = document.querySelector(".bukti-holder")
     if(file.type.includes("image/")) {
-        imgNode.setAttribute("src", URL.createObjectURL(file))
+        imgNode.setAttribute("src", URL.createObjectURL(compressed))
         files.value.push(file)
         
         buktiHolder.appendChild(imgNode)
