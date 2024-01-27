@@ -217,7 +217,7 @@ const colsBukti = ref('3')
                     
                 <!-- </div> -->
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
-                <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>" {{ kosong }}</h1>
+                <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
                 <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
                 <div v-if="bku.buktis.length > 0 && !kosong" class="flex flex-wrap gap-2 justify-center">
                     <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full flex basis-[25%]">
