@@ -171,7 +171,7 @@ return [
         Dawson\Youtube\YoutubeServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
 
-        Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\Laravel\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,7 +189,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Youtube' => Dawson\Youtube\Facades\Youtube::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
-        'Image' => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\Laravel\Facades\Image::class,
     ])->toArray(),
 
 ];

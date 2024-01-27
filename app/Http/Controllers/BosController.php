@@ -11,8 +11,10 @@ use App\Models\Transaksi;
 use App\Models\KegiatanBos;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Intervention\Image\Image;
+// use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BosController extends Controller
 {
@@ -89,23 +91,26 @@ class BosController extends Controller
             );
             
             if($request->file('files')) {
+                try {
                 foreach($request->file('files') as $file) {
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
                     // $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
                     if ($tipe == 'foto') {
-                        $lebar = Image::make($file)->width();
-                        $lebar -= $lebar * 50 / 100;
-                        $file = Image::make($file)->resize($lebar, null, function($constraint) {
-                            $constraint->aspectRation();
-                        });
+                        $file = ImageManager::imagick()->read($file);
+                        $file->resize(300, null);
+                        $file = $file->stream();
                     }
-                    $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
+                    // $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
+                    $store = Storage::disk('s3')->putFileAs('bos/file/bukti', $file->getCLientOriginalName());
                     Bukti::create([
                         'transaksi_id' => $transaksi->kode,
                         'label' => $file->getClientOriginalName(),
                         'url' => Storage::disk('s3')->url($store),
                         'tipe' => $tipe,
                     ]);
+                }
+                } catch(\Throwable $th) {
+                    dd($th);
                 }
             }
 
@@ -119,7 +124,7 @@ class BosController extends Controller
                 'transaksi' => $transaksi
             ], 200);
         } catch(\Exception $e) {
-            // dd($e);
+            dd($e);
             return response()->json([
                 'status' => 'fail',
                 'msg' => $e->getMessage()
