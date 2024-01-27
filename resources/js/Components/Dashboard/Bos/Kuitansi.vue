@@ -97,7 +97,7 @@ const colsBukti = ref('3')
                             class="w-[100px] overflow-hidden truncate text-ellipsis whitespace-break-spaces"
                             v-for="(bku,b) in bkus"
                             :value="b">
-                            {{b+1 +'. '+ bku.uraian.substr(0,100) }}
+                            {{bku.no_bukti+'. '+ bku.uraian.substr(0,100) }}
                         </option>
                     </select>
                 </div>
