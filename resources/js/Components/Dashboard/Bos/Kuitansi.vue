@@ -218,19 +218,19 @@ const colsBukti = ref('3')
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
                 <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
                 <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
-                <div v-if="bku.buktis.length > 0" class="grid grid-cols-3 gap-2">
-                    <div v-for="(bukti, b) in bku.buktis" :key="b" :class="bukti.tipe == 'dokumen' ? ('col-span-3'): ('col-span-'+colsBukti)" class="w-full">
+                <div v-if="bku.buktis.length > 0" class="flex flex-wrap gap-2 justify-center">
+                    <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full flex basis-[25%]">
                         <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
                             <img :src="bukti.url" class="w-full" />
                             <figcaption class="text-center">{{bukti.label}}</figcaption>
-                            <label class="print:hidden">
+                            <!-- <label class="print:hidden">
                                 Lebar:
                                 <select v-model="colsBukti">
                                     <option value="3">Penuh</option>
                                     <option value="2">Setengah</option>
                                     <option value="1">Sepertiga</option>
                                 </select>
-                            </label>
+                            </label> -->
                         </figure>
 
                         <div v-else class="bg-gray-50 p-2 border-2">

@@ -162,12 +162,13 @@ const cetak = async() => {
     //                 </html>
     //             `
     let protocol = window.location.protocol;
+    let cssUrl = page.props.app_env == 'local' ? 'http://sdn1bedalisodo.test:5173/resources/css/app.css' : `${protocol}://${host}/build/assets/app.css`
     let html = `
         <!doctype html>
         <html>
             <head>
                 <title>Cetak</title>
-                <link rel="stylesheet" href="${protocol}://${host}/build/assets/app.css"
+                <link rel="stylesheet" href="${cssUrl}" />
             </head>
             <body>
                 ${container}
