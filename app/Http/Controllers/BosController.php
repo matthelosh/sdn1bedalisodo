@@ -91,6 +91,8 @@ class BosController extends Controller
             );
             
             if($request->file('files')) {
+
+                // dd($request->file('files'));
                 try {
                 foreach($request->file('files') as $file) {
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';

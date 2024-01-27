@@ -42,38 +42,25 @@ import Compressor from 'compressorjs'
 
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
-    // console.log(file)
-    let compressed = file;
-    if (file.size > 2000000) {
-        // alert('Ukuran FIle terlalu Besar')
-        // return false
-        new Compressor(file, {
-          quality: 0.2,
-          success(result) {
-            compressed = result
-          }
-        })
-    }
-
-    // let compressed = new Compressor(file, 
-    //   {
-    //     quality: 0.2,
-    //     success(result) {
-    //       console.log(result)
-    //     }
-    //   }
-
-    // )
-    // console.log(compressed)
 
     const imgNode = document.createElement("img")
     const pdfNode = document.createElement("object")
     const buktiHolder = document.querySelector(".bukti-holder")
-    if(file.type.includes("image/")) {
-        imgNode.setAttribute("src", URL.createObjectURL(compressed))
-        files.value.push(file)
-        
-        buktiHolder.appendChild(imgNode)
+    // console.log(file)
+    if (file.size > 2000000 && file.type.includes("image/")) {
+        // alert('Ukuran FIle terlalu Besar')
+        // return false
+        new Compressor(file, {
+          quality: 0.2,
+          convertTypes: 'image/webp',
+          success(result) {
+            console.log(result)
+            imgNode.setAttribute("src", URL.createObjectURL(result))
+            files.value.push(new File([result], result.name))
+            
+            buktiHolder.appendChild(imgNode)
+          }
+        })
     } else {
         files.value.push(file)
         pdfNode.setAttribute("type", "application/pdf")
