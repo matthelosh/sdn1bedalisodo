@@ -211,7 +211,16 @@ const hapusBukti = async(bukti) => {
                               v-if="transaksi.buktis.length > 0"
                           >
                               <div class="relative bg-slate-700 p-3 group">
-                                <el-button type="danger" class="absolute m-3" @click="hapusBukti(bukti)">Hapus</el-button>
+                                <el-popconfirm
+                                  confirm-button-text="Yakin"
+                                  cancel-button-text="Batal"
+                                  :title="`Anda akan menghapus bukti transaksi ${transaksi.no_bukti}-${transaksi.uraian}`"
+                                  @confirm="hapusBukti(bukti)"
+                                >
+                                  <template #reference>
+                                    <el-button type="danger" class="absolute m-3" >Hapus</el-button>
+                                  </template>
+                                </el-popconfirm>
                                 <img :src="bukti.url" alt="" v-if="bukti.tipe == 'foto'" />
                                 <object :data="bukti.url" type="application/pdf" v-else></object>
                               </div>
