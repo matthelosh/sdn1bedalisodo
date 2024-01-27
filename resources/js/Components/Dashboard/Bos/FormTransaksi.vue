@@ -47,20 +47,26 @@ const onBuktiPicked = (e) => {
     const pdfNode = document.createElement("object")
     const buktiHolder = document.querySelector(".bukti-holder")
     // console.log(file)
-    if (file.size > 2000000 && file.type.includes("image/")) {
+    if (file.type.includes("image/")) {
         // alert('Ukuran FIle terlalu Besar')
         // return false
+        if(file.size > 2000000 ) {
         new Compressor(file, {
           quality: 0.2,
           convertTypes: 'image/webp',
           success(result) {
-            console.log(result)
             imgNode.setAttribute("src", URL.createObjectURL(result))
             files.value.push(new File([result], result.name))
             
             buktiHolder.appendChild(imgNode)
           }
         })
+      } else {
+        imgNode.setAttribute("src", URL.createObjectURL(file))
+        files.value.push(file)
+        
+        buktiHolder.appendChild(imgNode)
+      }
     } else {
         files.value.push(file)
         pdfNode.setAttribute("type", "application/pdf")
