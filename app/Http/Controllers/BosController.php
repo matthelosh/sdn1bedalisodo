@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anggaran;
-use Illuminate\Http\Request;
 use App\Models\Bku;
-use App\Models\Bukti;
-use App\Models\KegiatanBos;
 use App\Models\Rkas;
-use App\Models\Transaksi;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Bukti;
+use App\Models\Anggaran;
 use Mockery\Matcher\Any;
+use App\Models\Transaksi;
+use App\Models\KegiatanBos;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Intervention\Image\Image;
+use Illuminate\Support\Facades\Storage;
 
 class BosController extends Controller
 {
@@ -91,6 +92,13 @@ class BosController extends Controller
                 foreach($request->file('files') as $file) {
                     $tipe = $file->extension() == 'pdf' ? 'dokumen' : 'foto';
                     // $store = Storage::putFileAs('public/files/bos', $file, $file->getClientOriginalName());
+                    if ($tipe == 'foto') {
+                        $lebar = Image::make($file)->width();
+                        $lebar -= $lebar * 50 / 100;
+                        $file = Image::make($file)->resize($lebar, null, function($constraint) {
+                            $constraint->aspectRation();
+                        });
+                    }
                     $store = $file->storePubliclyAs('bos/file/bukti', $file->getClientOriginalName(), 's3');
                     Bukti::create([
                         'transaksi_id' => $transaksi->kode,
