@@ -41,7 +41,7 @@ const setTransaksi = async(rka) => {
 const onBuktiPicked = (e) => {
     let file = e.target.files[0]
     // console.log(file)
-    if (file.size > 2000000) {
+    if (file.size > 90000000) {
         alert('Ukuran FIle terlalu Besar')
         return false
     }
