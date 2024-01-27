@@ -375,4 +375,12 @@ Nilai: Rp. $rka->jumlah
         }
     }
 
+    public function deleteBukti(Request $request, $id) {
+        $bukti = Bukti::findOrFail($id);
+        Storage::disk('s3')->delete($bukti->url);
+        $bukti->delete();
+
+        return response()->json(['status' => 'ok', 'message' => 'Bukti Dihapus'], 200);
+    }
+
 }

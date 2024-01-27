@@ -163,6 +163,7 @@ Route::prefix('dashboard')->group(function() {
             Route::post("/", [BosController::class, 'transaksi'])->name('dashboard.bos.transaksi.index');
             Route::post("/store", [BosController::class, 'storeTransaksi'])->name('dashboard.bos.transaksi.store');
             Route::post("/import", [BosController::class, 'importTransaksi'])->name('dashboard.bos.transaksi.import');
+            Route::delete("/bukti/{id}", [BosController::class, 'deleteBukti'])->name('dashboard.bos.transaksi.bukti');
         });
         Route::prefix('rkas')->group(function() {
             Route::post('/', [BosController::class, 'indexRkas'])->name('dashboard.bos.rkas.index');

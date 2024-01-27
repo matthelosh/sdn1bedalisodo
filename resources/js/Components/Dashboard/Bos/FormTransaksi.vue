@@ -100,6 +100,17 @@ const simpan = async() => {
                     console.log(err)
                 })
 }
+
+const hapusBukti = async(bukti) => {
+  await axios.delete(route('dashboard.bos.transaksi.bukti', {id: bukti.id}))
+            .then(res => {
+              let index = transaksi.value.buktis.lastIndexOf(bukti)
+              transaksi.value.buktis.splice(index,1)
+            }).catch(err => {
+              console.log(err)
+            })
+
+}
 </script>
 
 <template>
@@ -199,8 +210,11 @@ const simpan = async() => {
                               v-for="(bukti, bk) in transaksi.buktis" :key="bk"
                               v-if="transaksi.buktis.length > 0"
                           >
-                              <img :src="bukti.url" alt="" v-if="bukti.tipe == 'foto'" />
-                              <object :data="bukti.url" type="application/pdf" v-else></object>
+                              <div class="relative bg-slate-700 p-3 group">
+                                <el-button type="danger" class="absolute m-3" @click="hapusBukti(bukti)">Hapus</el-button>
+                                <img :src="bukti.url" alt="" v-if="bukti.tipe == 'foto'" />
+                                <object :data="bukti.url" type="application/pdf" v-else></object>
+                              </div>
                           </div>
                       </div>
                     <input type="file" ref="fileImage" class="hidden" @change="onBuktiPicked" accept=".jpg, .png, .JPG, .jpeg, .JPEG, .bmp, .PNG, .pdf">
