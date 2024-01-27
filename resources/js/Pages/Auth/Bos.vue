@@ -179,7 +179,7 @@ const cetak = async() => {
     setTimeout(() => {
         win.print();
         // win.close();
-    }, 500);
+    }, 1500);
     
 
 
