@@ -10,7 +10,7 @@ import {terbilang} from '@/Plugins/terbilang.js'
 const page = usePage();
 const sekolah = computed(() => page.props.sekolah)
 const anggarans = page.props.anggarans;
-
+const kosong = ref(false)
 const anggaran = ref({})
 const changeAnggaran = (e) => {
     anggaran.value = anggarans[e.target.value]
@@ -79,6 +79,7 @@ const colsBukti = ref('3')
                     <h1>Tidak ada transaksi di anggaran {{ anggaran.uraian }}</h1>
                 </div>
                 <div class="flex items-center justify-end gap-2 h-full" v-else>
+                    <el-button type="primary" @click="kosong = !kosong">{{ kosong ? 'Tampilkan Foto' : 'Sembunyikan Foto' }}</el-button>
                     <label class="flex items-center gap-2">
                     <select v-model="mode" class="h-8 py-1 text-sm">
                         <option value="kuitansi">Kuitansi</option>
@@ -216,9 +217,9 @@ const colsBukti = ref('3')
                     
                 <!-- </div> -->
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
-                <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
+                <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>" {{ kosong }}</h1>
                 <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
-                <div v-if="bku.buktis.length > 0" class="flex flex-wrap gap-2 justify-center">
+                <div v-if="bku.buktis.length > 0 && !kosong" class="flex flex-wrap gap-2 justify-center">
                     <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full flex basis-[25%]">
                         <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
                             <img :src="bukti.url" class="w-full" />
