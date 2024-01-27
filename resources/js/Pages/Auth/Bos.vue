@@ -161,8 +161,7 @@ const cetak = async() => {
     //                     </body>
     //                 </html>
     //             `
-    let protocol = window.location.protocol;
-    let cssUrl = page.props.app_env == 'local' ? 'http://localhost:5173/resources/css/app.css' : `${protocol}://${host}/build/assets/app.css`
+    let cssUrl = page.props.app_env == 'local' ? 'http://localhost:5173/resources/css/app.css' : `/build/assets/app.css`
     let html = `
         <!doctype html>
         <html>
