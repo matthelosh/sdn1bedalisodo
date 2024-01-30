@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Amal extends Model
+class MutasiAmal extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['saldo'];
+    protected $fillable = [
+        'tanggal',
+        'jenis',
+        'nilai',
+        'keterangan'
+    ];
 }

@@ -152,6 +152,10 @@ Route::prefix('dashboard')->group(function() {
 
     Route::prefix("amal")->group(function() {
         Route::inertia("/", "Auth/Amal")->name("dashboard.amal.home");
+        Route::post("/", [AmalController::class, 'index'])->name('dashboard.amal');
+        Route::prefix("mutasi")->group(function() {
+            Route::post('/store', [AmalController::class, 'storeMutasi'])->name('dashboard.amal.mutasi.store');
+        });
     });
 
     Route::prefix("bos")->group(function() {

@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('amals', function (Blueprint $table) {
+        Schema::create('mutasi_amals', function (Blueprint $table) {
             $table->id();
-            $table->float('saldo', 12,2);
+            $table->date('tanggal');
+            $table->enum('jenis', ['masuk','keluar']);
+            $table->float('nilai', 12,2);
+            $table->text('keterangan');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('amals');
+        Schema::dropIfExists('mutasi_amals');
     }
 };

@@ -12,6 +12,7 @@ import 'vue3-easy-data-table/dist/style.css';
 import Vue3Toasity from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css'
 import ElementTiptapPlugin from 'element-tiptap-vue3-fixed';
 import 'element-tiptap-vue3-fixed/lib/style.css'
 
