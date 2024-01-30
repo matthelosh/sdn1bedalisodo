@@ -238,7 +238,7 @@ class BosController extends Controller
     function changeStatusAnggaran(Request $request, $id) {
         try {
             $anggaran = Anggaran::where('id', $id)->first();
-            Anggaran::where('status', 'aktif')->where('kode','LIKE', substr($anggaran->kode, 0, 2).'%')->update(['status' => 'nonaktif']);
+            // Anggaran::where('status', 'aktif')->where('kode','LIKE', substr($anggaran->kode, 0, 2).'%')->update(['status' => 'nonaktif']);
             $anggaran->update(['status' =>  $request->status]);
             return response()->json([
                 'status' => 'ok',
@@ -319,7 +319,12 @@ Nilai: Rp. $rka->jumlah
 
     function indexRkas(Request $request) {
         try {
-            $rkas = Rkas::all();
+            // $anggaran
+            if($request->query('anggaran_id')) {
+                $rkas = Rkas::where('anggaran_id', $request->query('anggaran_id'))->get();
+            } else {
+                $rkas = Rkas::all();
+            }
 
             return response()->json([
                 'status' => 'ok',

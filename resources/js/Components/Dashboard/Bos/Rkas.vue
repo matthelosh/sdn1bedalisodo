@@ -14,7 +14,7 @@ const anggarans = page.props.anggarans;
 
 const anggaran = ref({})
 const changeAnggaran = (e) => {
-    anggaran.value = anggarans[e.target.value]
+    // anggaran.value = anggarans[e]
     listRkas()
 }
 
@@ -46,7 +46,7 @@ const bulan = ref('all')
 
 const listRkas = async() => {
     loading.value = true
-    axios.post(route('dashboard.bos.rkas.index'))
+    axios.post(route('dashboard.bos.rkas.index', {_query: {anggaran_id: anggaran.value ? anggaran.value : null}}))
             .then(res => {
                 rkas.value = res.data.rkas
                 loading.value = false
@@ -104,7 +104,7 @@ onMounted(() => {
 })
 
 onBeforeMount(() => {
-    anggaran.value = anggarans[0]
+    anggaran.value = anggarans[0].kode
 })
 </script>
 
@@ -112,6 +112,9 @@ onBeforeMount(() => {
 <div class="w-full p-3">
     <div class="toolbar w-full flex flex-wrap items-center justify-between sticky top-10 print:top-0 bg-white border-b py-1 px-2">
         <div>
+            <select @change="changeAnggaran" v-model="anggaran">
+                <option v-for="(anggaran,a ) in anggarans" :key="a" :value="anggaran.kode">{{ anggaran.uraian }}</option>
+            </select>
             <p class="text-sm leading-4">Total 1 Tahun Anggaran: [Rp. {{ total.toLocaleString("id-ID") }}]</p>
             <p class="text-sm leading-4">Selesai: [Rp. {{ selesai.toLocaleString("id-ID") }}] | Sisa: [Rp. {{ saldo.toLocaleString("id-ID") }}]</p>
         </div>

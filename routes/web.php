@@ -150,6 +150,10 @@ Route::prefix('dashboard')->group(function() {
         })->name('dashboard.penilaian.home');
     });
 
+    Route::prefix("amal")->group(function() {
+        Route::inertia("/", "Auth/Amal")->name("dashboard.amal.home");
+    });
+
     Route::prefix("bos")->group(function() {
         Route::inertia("/", "Auth/Bos")->name('dashboard.bos.home');
         Route::prefix('anggaran')->group(function() {
