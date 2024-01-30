@@ -229,6 +229,8 @@ Route::prefix("")->group(function() {
         return $files;
     });
 
+    Route::get("/verisign", [SignController::class, 'verify'])->name('verisign');
+
     Route::get('/print', function() {
         Inertia::render('Print');
     });
