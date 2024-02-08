@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, defineAsyncComponent } from 'vue';
+import { usePage } from '@inertiajs/vue3'
 import axios from 'axios'
 import { Icon } from '@iconify/vue';
 import dayjs from 'dayjs';
@@ -8,6 +9,8 @@ import 'dayjs/locale/id'
 dayjs.extend(localeData)
 dayjs().localeData()
 dayjs.locale("id");
+
+const page = usePage()
 
 const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
 
@@ -22,7 +25,7 @@ const roles = ref({
 })
 const bulan = ref('0')
 const tahun = ref('2024')
-const pekan = ref('1')
+const pekan = ref(1)
 const startDay = computed(() => {
     return dayjs(tahun.value+'-'+(bulan.value+1)+'-01').startOf("month").day()
 })
@@ -61,16 +64,59 @@ const init = async() => {
  */
 
 const cals = computed(() => {
-    let result = {1:[],2:[],3:[],4:[],5:[]}
-    for(let n=0;n < startDay.value;n++){
-        result[1].push(null)
-    }
-    for (let d=1;d<=(7-startDay.value);d++) {
-        result[1].push(d)
+    let result = []
+    let nulls = []
+    let alldays = Array.from({length: days.value}, (value,index) => 1+index)
+    for (let n=0;n<startDay.value;n++) {
+        nulls.push(null)
     }
 
+    nulls = [...nulls, ...alldays]
+
+    for(let w=0;w<5;w++){
+        result[w] = nulls.slice((w*7),((w*7)+7))
+        
+    }
     return result
 })
+
+const cetak = async() => {
+    // await window.print()
+    let host = window.location.host
+    let cetaks = document.querySelectorAll(".cetak");
+    let container = "";
+    cetaks.forEach(sheet => {
+        container += sheet.outerHTML
+    })
+    let win = window.open(host+'/print',"_blank","height=600,width=1024")
+    let cssUrl = page.props.app_env == 'local' ? 'http://localhost:5173/resources/css/app.css' : `/build/assets/app.css`
+    let html = `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Daftar Hadir Pegawai</title>
+                <link rel="stylesheet" href="${cssUrl}" />
+                <style>
+                    table {
+                        font-size: 0.7em!important;
+                    }
+                </style>
+            </head>
+            <body>
+                ${container}
+            </body>
+        </html>
+    `
+    await win.document.write(html)
+    setTimeout(() => {
+        win.print();
+        // win.close();
+    }, 1500);
+    
+
+
+}
+
 
 onMounted(() => {
     init()
@@ -78,7 +124,7 @@ onMounted(() => {
 </script>
 
 <template>
-<div class="wrapper  bg-slate-400">
+<div class="wrapper  bg-slate-400 ">
     <div class="toolbar print:hidden flex items-center justify-between h-12 bg-slate-200 p-3">
         <h3 class="font-bold text-slate-700">Blanko Daftar Hadir Pegawai</h3>
         <div class="toolbar-items flex gap-2">
@@ -91,7 +137,7 @@ onMounted(() => {
             <select v-model="tahun" placeholder="Pilih Tahun" class="w-[200px]">
                 <option v-for="(thn,t) in tahuns" :key="t" :value="thn">{{ thn }}</option>
             </select>
-            <el-button>
+            <el-button @click="cetak">
                 <Icon icon="mdi:printer" />
             </el-button>
             <el-button class="ml-4" circle type="danger">
@@ -99,11 +145,23 @@ onMounted(() => {
             </el-button>
         </div>
     </div>
-    <div class="content p-4 bg-slate-50">
-        <Kop />
+    <div class="content p-4 bg-slate-50 cetak">
+        <!-- <Kop /> -->
+        <div class="kop grid grid-cols-6 border-b border-b-double border-b-black border-b-6 pb-2">
+            <div class="logo flex items-center justify-center">
+                <img src="/img/malangkab.png" alt="Logo Kab Malang" class="h-[80px]">
+            </div>
+            <div class="col-span-4">
+                <h3 class="text-center">PEMERINTAH KABUPATEN MALANG</h3>
+                <h3 class="text-center">KOORDINATOR WILAYAH DINAS PENDIDIKAN KECAMATAN WAGIR</h3>
+                <h3 class="text-center uppercase font-bold">{{ page.props.sekolah.nama }}</h3>
+                <p class="text-center">{{ page.props.sekolah.alamat }}, {{ page.props.sekolah.desa }}, Kec. {{ page.props.sekolah.kecamatan }}, Kab. {{ page.props.sekolah.kabupaten }}</p>
+            </div>
+            <div></div>
+        </div>
 
-        {{ bulan }} - {{ startDay }} - {{ days }} -{{ pekans }} - {{ cals }}
-        <div class="meta">
+        <!-- {{ bulan }} - {{ startDay }} - {{ days }} -{{ pekans }} - {{ cals }} -->
+        <div class="meta mt-4">
             <h3 class="text-center">DAFTAR HADIR PEGAWAI</h3>
             <h3 class="text-center">BULAN {{ bulans[bulan]?.toUpperCase() }} TAHUN {{ tahun }}</h3>
             <h3 class="font-bold">Pekan Ke: {{ pekan }}</h3>
@@ -111,36 +169,48 @@ onMounted(() => {
         <table class="w-full">
             <thead>
                 <tr>
-                    <th rowspan="2" class="border border-slate-500 py-2">No</th>
-                    <th rowspan="2" class="border border-slate-500 py-2">NAMA / NIP</th>
-                    <th rowspan="2" class="border border-slate-500 py-2">JABATAN</th>
-                    <th class="border border-slate-500 py-2" :class="cals[pekan][h]?'bg-white':'bg-slate-200'" v-for="h in 6" :key="h" colspan="4">
-                        {{ haris[h] }}, {{ cals[pekan][h] }}  <span v-if="cals[pekan][h] !== null">{{ bulans[bulan] }} {{ tahun }}</span>
+                    <th rowspan="2" class="border border-slate-500 ">No</th>
+                    <th rowspan="2" class="border border-slate-500  w-[350px]">NAMA / NIP</th>
+                    <th rowspan="2" class="border border-slate-500  w-[200px]">JABATAN</th>
+                    <th class="border border-slate-500 " :class="cals[pekan-1][h]?'bg-white':'bg-slate-200'" v-for="h in 6" :key="h" colspan="4">
+                        {{ haris[h] }}, {{ cals[pekan-1][h] }}  <span v-if="cals[pekan-1][h]">{{ bulans[bulan] }} {{ tahun }}</span>
                     </th>
 
                 </tr>
                 <tr>
                     <template v-for="d in 6" :key="d">
-                        <th :class="cals[pekan][d]?'bg-white':'bg-slate-200'" class="border border-slate-500 py-2 w-[70px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">{{ l }}</th>
+                        <th :class="cals[pekan-1][d]?'bg-white':'bg-slate-200'" class="border border-slate-500 w-[60px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">{{ l }}</th>
                     </template>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(ptk,i) in ptks" :key="ptk.id">
-                    <td class="border border-slate-500 p-2 text-center">{{ i+1 }}</td>
-                    <td class="border border-slate-500 p-2">
-                        <p>{{ ptk.nama + (ptk.gelar_belakang ? ", "+ptk.gelar_belakang : '') }}</p>
-                        <p>NIP. {{ ptk.nip }}</p>
+                    <td class="border border-slate-500 px-2 text-center">{{ i+1 }}</td>
+                    <td class="border border-slate-500 px-2">
+                        <p class="leading-4">{{ ptk.nama + (ptk.gelar_belakang ? ", "+ptk.gelar_belakang : '') }}</p>
+                        <p >NIP. {{ ptk.nip }}</p>
                     </td>
-                    <td class="border border-slate-500 p-2 text-center">
+                    <td class="border border-slate-500 px-2 text-center">
                         {{ roles[ptk.role] }}
                     </td>
                     <template v-for="d in 6" :key="d">
-                        <td :class="cals[pekan][d]?'bg-white':'bg-slate-200'"  class="border border-slate-500 py-2" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i"></td>
+                        <td :class="cals[pekan-1][d]?'bg-white':'bg-slate-200'"  class="border border-slate-500 px-2" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i"></td>
                     </template>
                 </tr>
             </tbody>
         </table>
+
+        <div class="ttd grid grid-cols-3 my-2">
+            <div></div>
+            <div></div>
+            <div class="text-center">
+                <p>Wagir, ..... {{ bulans[bulan] }} {{ tahun }}</p>
+                <p>Kepala {{ page.props.sekolah.nama }}</p>
+
+                <p class="font-bold underline mt-12">{{ page.props.sekolah.ks.nama }}, {{ page.props.sekolah.ks.gelar_belakang }}</p>
+                <p>NIP. {{ page.props.sekolah.ks.nip }}</p>
+            </div>
+        </div>
     </div>
 </div>
 

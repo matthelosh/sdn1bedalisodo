@@ -31,6 +31,7 @@ const cetak = async() => {
             <head>
                 <title>Cetak</title>
                 <link rel="stylesheet" href="${cssUrl}" />
+                
             </head>
             <body>
                 ${container}
