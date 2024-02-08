@@ -8,6 +8,7 @@ const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.
 const loading = ref(false);
 
 const SuratKeluar = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/SuratKeluar.vue'));
+const Presensi = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/Presensi.vue'))
 
 const title = ref('Tata Usaha');
 
@@ -22,19 +23,13 @@ const close = () => {
 <Head :title="title" />
 <Loading v-if="loading" />
 <AdminLayout :title="title">
-    <div class="container w-full grid grid-cols-1 md:grid-cols-4 p-2 md:py-4" v-if="mode == 'list'">
-        <div class="surat-keluar bg-white p-3 rounded shadow flex justify-between items-center">
-            <h1 class="flex gap-1 items-center text-gray-800">
-                <Icon icon="mdi:mail" class="text-xl " />
-                Surat Keluar
-            </h1>
-
-            <button @click="mode = 'surat-keluar'">
-                <Icon icon="mdi:open-in-new" class="text-xl text-sky-600 hover:text-sky-400" />
-            </button>
-        </div>
-        <div class="surat-masuk"></div>
+    <div class="w-full h-[93vh] overflow-y-auto px-6 py-4 bg-slate-300 grid grid-cols-1 sm:grid-cols-4" v-if="mode=='list'">
+        <el-button size="large" @click="mode = 'presensi'">
+            Form Daftar Hadir Pegawai
+            <Icon icon="mdi:account-multiple-check" class="ml-2 text-2xl" />
+        </el-button>
     </div>
-    <SuratKeluar v-if="mode == 'surat-keluar'" @close="close" />
+    <!-- <SuratKeluar v-if="mode == 'surat-keluar'" @close="close" /> -->
+    <Presensi v-if="mode=='presensi'" />
 </AdminLayout>
 </template>
