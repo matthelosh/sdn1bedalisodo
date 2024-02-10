@@ -12,6 +12,8 @@ dayjs.locale("id");
 
 const page = usePage()
 
+// const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
+
 const ptks = ref([])
 const roles = ref({
     ks: 'Kepala Sekolah',
@@ -23,6 +25,7 @@ const roles = ref({
 })
 const bulan = ref('0')
 const tahun = ref('2024')
+// const pekan = ref(1)
 const startDay = computed(() => {
     return dayjs(tahun.value+'-'+(bulan.value+1)+'-01').startOf("month").day()
 })
@@ -44,6 +47,7 @@ const tahuns = computed(() => {
     return thns
 })
 
+// const pekans = ref([1,2,3,4,5])
 
 const haris  =computed(() => dayjs.weekdays())
 
@@ -121,7 +125,7 @@ onMounted(() => {
 
 <template>
 <div class="wrapper  bg-slate-400 ">
-    <div class="toolbar print:hidden flex items-center justify-between h-12 bg-slate-200 p-3">
+    <div class="toolbar print:hidden flex items-center justify-between h-12 bg-slate-200 p-3 sticky top-0">
         <h3 class="font-bold text-slate-700">Blanko Daftar Hadir Pegawai</h3>
         <div class="toolbar-items flex gap-2">
             <select v-model="bulan" placeholder="Pilih Bulan" class="w-[200px]">
@@ -160,12 +164,12 @@ onMounted(() => {
                 <h3 class="text-center">BULAN {{ bulans[bulan]?.toUpperCase() }} TAHUN {{ tahun }}</h3>
                 <h3 class="font-bold">Pekan Ke: {{ p }}</h3>
             </div>
-            <table class="w-full">
+            <table class="w-full text-[.6rem]">
                 <thead>
                     <tr>
                         <th rowspan="2" class="border border-slate-500 ">No</th>
                         <th rowspan="2" class="border border-slate-500  w-[350px]">NAMA / NIP</th>
-                        <th rowspan="2" class="border border-slate-500  w-[200px]">JABATAN</th>
+                        <th rowspan="2" class="border border-slate-500  w-[150px]">JABATAN</th>
                         <th class="border border-slate-500 " :class="cals[p-1][h]?'bg-white':'bg-slate-200'" v-for="h in 6" :key="h" colspan="4">
                             {{ haris[h] }}, {{ cals[p-1][h] }}  <span v-if="cals[p-1][h]">{{ bulans[bulan] }} {{ tahun }}</span>
                         </th>
@@ -179,12 +183,12 @@ onMounted(() => {
                 </thead>
                 <tbody>
                     <tr v-for="(ptk,i) in ptks" :key="ptk.id">
-                        <td class="border border-slate-500 px-2 text-center">{{ i+1 }}</td>
-                        <td class="border border-slate-500 px-2">
+                        <td class="border border-slate-500 text-center">{{ i+1 }}</td>
+                        <td class="border border-slate-500 px-1">
                             <p class="leading-4">{{ ptk.nama + (ptk.gelar_belakang ? ", "+ptk.gelar_belakang : '') }}</p>
                             <p >NIP. {{ ptk.nip }}</p>
                         </td>
-                        <td class="border border-slate-500 px-2 text-center">
+                        <td class="border border-slate-500 text-center">
                             {{ roles[ptk.role] }}
                         </td>
                         <template v-for="d in 6" :key="d">
