@@ -64,8 +64,8 @@ const getAgendas = async() => {
 const init = async() => {
     await axios.post(route('dashboard.guru.index'))
                 .then(res => ptks.value = res.data.gurus)
-    
-   
+
+
 }
 
 /***
@@ -87,7 +87,7 @@ const cals = computed(() => {
 
     for(let w=0;w<5;w++){
         result[w] = nulls.slice((w*7),((w*7)+7))
-        
+
     }
     return result
 })
@@ -139,7 +139,7 @@ const weekHasEvent = (p) => {
     let tanggals = events.value.map(e => parseInt(e.start.substr(-2)))
     let res = null;
     cals.value[p].forEach(d => {
-        res ||= tanggals.includes(d) 
+        res ||= tanggals.includes(d)
     })
 
     return res
