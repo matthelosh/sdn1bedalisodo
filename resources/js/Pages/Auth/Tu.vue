@@ -30,6 +30,6 @@ const close = () => {
         </el-button>
     </div>
     <!-- <SuratKeluar v-if="mode == 'surat-keluar'" @close="close" /> -->
-    <Presensi v-if="mode=='presensi'" />
+    <Presensi v-if="mode=='presensi'" @close="mode='list'" />
 </AdminLayout>
 </template>

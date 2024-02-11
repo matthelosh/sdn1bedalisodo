@@ -9,11 +9,13 @@ import 'dayjs/locale/id'
 dayjs.extend(localeData)
 dayjs().localeData()
 dayjs.locale("id");
+import * as _ from 'lodash'
 
 const page = usePage()
+const emit = defineEmits(['close'])
 
 // const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'))
-
+const events = ref([])
 const ptks = ref([])
 const roles = ref({
     ks: 'Kepala Sekolah',
@@ -51,9 +53,19 @@ const tahuns = computed(() => {
 
 const haris  =computed(() => dayjs.weekdays())
 
+const getAgendas = async() => {
+    await axios.post(route('dashboard.agenda.index', {_query: {bulan: (parseInt(bulan.value)+1), tahun: tahun.value}}))
+                .then(res=> {
+                    events.value = res.data.agendas
+                    // console.log(events.value.map(e=>parseInt(e.start.substr(-2))))
+                })
+}
+
 const init = async() => {
     await axios.post(route('dashboard.guru.index'))
                 .then(res => ptks.value = res.data.gurus)
+    
+   
 }
 
 /***
@@ -112,14 +124,20 @@ const cetak = async() => {
         win.print();
         // win.close();
     }, 1500);
-    
-
-
 }
 
+const isLibur = (tanggal) => {
+    let tanggals = events.value.map(e => parseInt(e.start.substr(-2)))
+    if (tanggals.includes(tanggal)) {
+        return true
+    } else {
+        return false
+    }
+}
 
 onMounted(() => {
     init()
+    getAgendas()
 })
 </script>
 
@@ -128,7 +146,7 @@ onMounted(() => {
     <div class="toolbar print:hidden flex items-center justify-between h-12 bg-slate-200 p-3 sticky top-0">
         <h3 class="font-bold text-slate-700">Blanko Daftar Hadir Pegawai</h3>
         <div class="toolbar-items flex gap-2">
-            <select v-model="bulan" placeholder="Pilih Bulan" class="w-[200px]">
+            <select v-model="bulan" placeholder="Pilih Bulan" class="w-[200px]" @change="getAgendas()">
                 <option v-for="(bln,b) in bulans" :key="b" :value="b">{{ bln }}</option>
             </select>
             <select v-model="tahun" placeholder="Pilih Tahun" class="w-[200px]">
@@ -137,7 +155,7 @@ onMounted(() => {
             <el-button @click="cetak">
                 <Icon icon="mdi:printer" />
             </el-button>
-            <el-button class="ml-4" circle type="danger">
+            <el-button class="ml-4" circle type="danger" @click="emit('close')">
                 <Icon icon="mdi:close" />
             </el-button>
         </div>
@@ -170,14 +188,14 @@ onMounted(() => {
                         <th rowspan="2" class="border border-slate-500 ">No</th>
                         <th rowspan="2" class="border border-slate-500  w-[350px]">NAMA / NIP</th>
                         <th rowspan="2" class="border border-slate-500  w-[150px]">JABATAN</th>
-                        <th class="border border-slate-500 " :class="cals[p-1][h]?'bg-white':'bg-slate-200'" v-for="h in 6" :key="h" colspan="4">
+                        <th class="border border-slate-500 " :class="(!cals[p-1][h] || isLibur(cals[p-1][h])) ?'bg-slate-300':'bg-white'" v-for="h in 6" :key="h" colspan="4">
                             {{ haris[h] }}, {{ cals[p-1][h] }}  <span v-if="cals[p-1][h]">{{ bulans[bulan] }} {{ tahun }}</span>
                         </th>
 
                     </tr>
                     <tr>
                         <template v-for="d in 6" :key="d">
-                            <th :class="cals[p-1][d]?'bg-white':'bg-slate-200'" class="border border-slate-500 w-[60px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">{{ l }}</th>
+                            <th :class="(!cals[p-1][d] || isLibur(cals[p-1][d])) ?'bg-slate-300':'bg-white'" class="border border-slate-500 w-[60px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">{{ l }}</th>
                         </template>
                     </tr>
                 </thead>
@@ -192,16 +210,23 @@ onMounted(() => {
                             {{ roles[ptk.role] }}
                         </td>
                         <template v-for="d in 6" :key="d">
-                            <td :class="cals[p-1][d]?'bg-white':'bg-slate-200'"  class="border border-slate-500 px-2" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i"></td>
+                            <td :class="(!cals[p-1][d] || isLibur(cals[p-1][d])) ?'bg-slate-300':'bg-white'"  class="border border-slate-500 text-center" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">
+                                {{ isLibur(cals[p-1][d]) ? 'X' : '' }}
+                            </td>
                         </template>
                     </tr>
                 </tbody>
             </table>
 
             <div class="ttd grid grid-cols-3 mt-4">
+                <div class="text-xs">
+                    Keterangan:
+                    <ul class="text-xs list-decimal pl-4">
+                        <li v-for="ev in events" :key="ev.id">[{{ ev.start }}] {{ ev.name }}</li>
+                    </ul>
+                </div>
                 <div></div>
-                <div></div>
-                <div class="text-center">
+                <div class="text-center text-xs">
                     <p>Wagir, ..... {{ bulans[bulan] }} {{ tahun }}</p>
                     <p>Kepala {{ page.props.sekolah.nama }}</p>
 
