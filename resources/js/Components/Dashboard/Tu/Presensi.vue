@@ -135,6 +135,29 @@ const isLibur = (tanggal) => {
     }
 }
 
+const weekHasEvent = (p) => {
+    let tanggals = events.value.map(e => parseInt(e.start.substr(-2)))
+    let res = null;
+    cals.value[p].forEach(d => {
+        res ||= tanggals.includes(d) 
+    })
+
+    return res
+}
+
+const eventsPerWeek = (p) => {
+    let res = []
+    events.value.forEach(e => {
+        cals.value[p].forEach(d => {
+            if (parseInt(e.start.substr(-2)) == d) {
+                res.push(e)
+            }
+        })
+    })
+
+    return res
+}
+
 onMounted(() => {
     init()
     getAgendas()
@@ -221,8 +244,8 @@ onMounted(() => {
             <div class="ttd grid grid-cols-3 mt-4">
                 <div class="text-xs">
                     Keterangan:
-                    <ul class="text-xs list-decimal pl-4">
-                        <li v-for="ev in events" :key="ev.id">[{{ ev.start }}] {{ ev.name }}</li>
+                    <ul class="text-xs list-decimal pl-4" v-if="weekHasEvent(p-1)">
+                        <li v-for="ev in eventsPerWeek(p-1)" :key="ev.id">[{{ ev.start }}] {{ ev.name }}</li>
                     </ul>
                 </div>
                 <div></div>
