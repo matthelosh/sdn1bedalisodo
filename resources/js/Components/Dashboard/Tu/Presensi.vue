@@ -252,15 +252,15 @@ onMounted(() => {
                     <p>Mengetahui,</p>
                     <p>Korwil Dinas Pendidikan Kec. Wagir</p>
 
-                    <p class="font-bold underline mt-12">ABDUL MANAB, S. Pd., M. Si</p>
-                    <p>NIP. </p>
+                    <p class="font-bold underline mt-12">ABDUL MANAB, S.Pd.,MM</p>
+                    <p>NIP. 196902261998021003</p>
                 </div>
                 <div class="text-xs text-center">
                     <p>Mengetahui,</p>
                     <p>Pengawas SD Kec. Wagir</p>
 
-                    <p class="font-bold underline mt-12">JAYENG YUWONO, S. Pd</p>
-                    <p>NIP. </p>
+                    <p class="font-bold underline mt-12">Dr. JAYENG BUDI YUWONO PUTRO, S.Pd.,MA</p>
+                    <p>NIP. 196903221998071001</p>
                 </div>
                 <div class="text-center text-xs">
                     <p>Wagir, ..... {{ bulans[bulan] }} {{ tahun }}</p>
