@@ -3,8 +3,6 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { defineAsyncComponent, computed } from 'vue';
 
 const page = usePage();
-// import Navbar from `@/Layouts/Front/${page.props.layout}/Navbar.vue`;
-// import Footer from `@/Layouts/Front/${page.props.layout}/Footer.vue`;
 const Navbar = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Home/Navbar.vue`))
 const Footer = defineAsyncComponent(() => import(`./../Layouts/Front/${page.props.layout}/Home/Footer.vue`))
 
