@@ -241,14 +241,27 @@ onMounted(() => {
                 </tbody>
             </table>
 
-            <div class="ttd grid grid-cols-3 mt-4">
+            <div class="ttd grid grid-cols-4 mt-4">
                 <div class="text-xs">
                     Keterangan:
                     <ul class="text-xs list-decimal pl-4" v-if="weekHasEvent(p-1)">
                         <li v-for="ev in eventsPerWeek(p-1)" :key="ev.id">[{{ ev.start }}] {{ ev.name }}</li>
                     </ul>
                 </div>
-                <div></div>
+                <div class="text-xs text-center">
+                    <p>Mengetahui,</p>
+                    <p>Korwil Dinas Pendidikan Kec. Wagir</p>
+
+                    <p class="font-bold underline mt-12">ABDUL MANAB, S. Pd., M. Si</p>
+                    <p>NIP. </p>
+                </div>
+                <div class="text-xs text-center">
+                    <p>Mengetahui,</p>
+                    <p>Pengawas SD Kec. Wagir</p>
+
+                    <p class="font-bold underline mt-12">JAYENG YUWONO, S. Pd</p>
+                    <p>NIP. </p>
+                </div>
                 <div class="text-center text-xs">
                     <p>Wagir, ..... {{ bulans[bulan] }} {{ tahun }}</p>
                     <p>Kepala {{ page.props.sekolah.nama }}</p>
