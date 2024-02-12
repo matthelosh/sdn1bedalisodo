@@ -5,6 +5,8 @@ import axios from 'axios';
 
 const emit = defineEmits(['close'])
 
+const props = defineProps({selectedGuru: Object})
+
 const loading = ref(false)
 const guru = ref({
     pangkat: '0',
@@ -35,16 +37,22 @@ const pangkats = ref([
     { value: 'ivd', text: 'Guru Utama [Pembina Utama Madya] | IV/d'},
     { value: 'ive', text: 'Guru Utama [Pembina Utama] | IV/e'},
 ])
+
+onMounted(() => {
+  if (props.selectedGuru !== null) {
+      guru.value = props.selectedGuru
+  }
+})
 </script>
 
 <template>
-    <div class="w-full bg-slate-100 bg-opacity-20 backdrop-blur-sm fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center z-40" @click.self="close">
+    <div class="w-full bg-slate-100 bg-opacity-20 backdrop-blur-sm fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center z-40" @click.self="emit('close')">
         <div class="dialog bg-white rounded shadow w-[400px] max-w-[800px]">
             <div class="toolbar h-10 flex items-center justify-between w-full p-2 bg-slate-200">
                 <h1>Data guru</h1>
                 <div class="toolbar-items flex items-center gap-2 justify-end">
                     <button @click="emit('close')">
-                        <Icon icon="mdi:close-box" class="text-2xl text-red-600 hover:text-red-400 active:text-red-800" />
+                        <Icon icon="mdi:close" class="text-2xl text-red-600 hover:text-red-400 active:text-red-800" />
                     </button>
                 </div>
             </div>
@@ -73,19 +81,19 @@ const pangkats = ref([
                         <label for="pangkat" class="w-full flex items-center  justify-between">
                             Pangkat
                             <select class="bg-slate-200 border-0 rounded py-1 w-[60%]"  v-model="guru.pangkat">
-                                <option 
+                                <option
                                     v-for="pangkat in pangkats" :key="pangkat.value"
                                     :value="pangkat.value">
                                         {{ pangkat.text }}
-                                </option>   
+                                </option>
                             </select>
                         </label>
                         <label for="jk" class="w-full flex items-center  justify-between">
                             Jenis Kelamin
                             <select class="bg-slate-200 border-0 rounded py-1 w-[60%]" required v-model="guru.jk">
-                                <option value="0">Pilih Jenis Kelamin</option>    
-                                <option value="Laki-laki">Laki-laki</option>    
-                                <option value="Perempuan">Perempuan</option>    
+                                <option value="0">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
                             </select>
                         </label>
                         <label for="tempat_lahir" class="w-full flex items-center  justify-between">
@@ -99,13 +107,13 @@ const pangkats = ref([
                         <label for="agama" class="w-full flex items-center  justify-between ">
                             Agama
                             <select class="bg-slate-200 border-0 rounded py-1 w-[60%]" required v-model="guru.agama">
-                                <option value="0">Pilih Agama</option>    
-                                <option value="Islam">Islam</option>    
-                                <option value="Kristen">Kristen</option>    
-                                <option value="Katolik">Katolik</option>    
-                                <option value="Hindu">Hindu</option>    
-                                <option value="Budha">Budha</option>    
-                                <option value="Konghuchu">Konghuchu</option>    
+                                <option value="0">Pilih Agama</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Konghuchu">Konghuchu</option>
                             </select>
                         </label>
                         <label for="hp" class="w-full flex items-center  justify-between ">

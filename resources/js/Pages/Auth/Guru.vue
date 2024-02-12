@@ -15,6 +15,7 @@ router.on('start', () => loading.value = true)
 router.on('finish', () => loading.value = false)
 
 const showForm = ref(false)
+const selectedGuru = ref(null)
 const closeForm = () => {
     showForm.value = !showForm.value
     router.reload({only: ['gurus']})
@@ -42,10 +43,15 @@ const removeAccount = async(item) => {
                 console.log(err)
             })
 }
+
+const edit = (item) => {
+    selectedGuru.value = item
+    showForm.value = true
+}
 </script>
 
 <template>
-<Head title="Data Guru" />   
+<Head title="Data Guru" />
 <AdminLayout title="Data Guru">
     <div class="wrapper w-full oveflow-x-hidden p-3">
         <div class="toolbar w-full h-10 flex items-center justify-between p-3 bg-slate-600 text-white">
@@ -58,7 +64,7 @@ const removeAccount = async(item) => {
             </button>
         </div>
         <div class="table w-full p-3 bg-white">
-            <table class="table-border border-collapse w-full">
+            <table class="table-border border-collapse w-full text-xs">
                 <thead>
                     <tr>
                         <th class="py-1 px-2 border">No</th>
@@ -74,7 +80,11 @@ const removeAccount = async(item) => {
                     <tr v-for="(guru,g) in $page.props.gurus" :key="g" class="odd:bg-slate-200" >
                         <td class="py-1 px-2 border text-center">{{ g+1 }}</td>
                         <td class="py-1 px-2 border">{{ guru.nip }}</td>
-                        <td class="py-1 px-2 border">{{ capitalize(guru.nama) }}</td>
+                        <td class="py-1 px-2 border">
+                            <el-button text @click="edit(guru)" type="primary">
+                                {{ capitalize(guru.nama) }}
+                            </el-button>
+                        </td>
                         <td class="py-1 px-2 border">{{ guru.user?.name }}</td>
                         <td class="py-1 px-2 border">{{ guru.jk }}</td>
                         <td class="py-1 px-2 border">{{ guru.role == "ks" ? "Kepala Sekolah" : (guru.role == "gkel" ? "Guru Kelas" : "Guru Mapel") }}</td>
@@ -93,5 +103,5 @@ const removeAccount = async(item) => {
     </div>
 </AdminLayout>
 <Loading v-if="loading" />
-<FormGuru v-if="showForm" @close="closeForm" />
+<FormGuru v-if="showForm" @close="closeForm" :selectedGuru="selectedGuru" />
 </template>

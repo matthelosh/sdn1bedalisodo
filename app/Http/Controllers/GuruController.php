@@ -49,6 +49,7 @@ class GuruController extends Controller
     {
         try {
             $data = json_decode($request->guru);
+            // dd($data);
             $guru = Guru::updateOrCreate(
                 [
                     'id' => $data->id ?? null,

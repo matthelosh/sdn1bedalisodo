@@ -165,7 +165,7 @@ onMounted(() => {
 </script>
 
 <template>
-<div class="wrapper  bg-slate-400 ">
+<div class="wrapper ">
     <div class="toolbar print:hidden flex items-center justify-between h-12 bg-slate-200 p-3 sticky top-0">
         <h3 class="font-bold text-slate-700">Blanko Daftar Hadir Pegawai</h3>
         <div class="toolbar-items flex gap-2">
@@ -184,7 +184,7 @@ onMounted(() => {
         </div>
     </div>
     <div class="cetak px-2" v-for="p of 5" :key="p">
-        <div class="content p-4 bg-slate-50 sheet my-2 break-before-all break-inside-avoid-page">
+        <div class="content p-4 bg-slate-50 print:bg-white sheet my-2 break-before-all break-inside-avoid-page">
             <!-- <Kop /> -->
             <div class="kop grid grid-cols-6 border-b border-b-double border-b-black border-b-6 pb-2">
                 <div class="logo flex items-center justify-center">
@@ -211,14 +211,14 @@ onMounted(() => {
                         <th rowspan="2" class="border border-slate-500 ">No</th>
                         <th rowspan="2" class="border border-slate-500  w-[350px]">NAMA / NIP</th>
                         <th rowspan="2" class="border border-slate-500  w-[150px]">JABATAN</th>
-                        <th class="border border-slate-500 " :class="(!cals[p-1][h] || isLibur(cals[p-1][h])) ?'bg-slate-300':'bg-white'" v-for="h in 6" :key="h" colspan="4">
+                        <th class="border border-slate-500 " :class="(!cals[p-1][h] || isLibur(cals[p-1][h])) ?'bg-gray-300':'bg-white'" v-for="h in 6" :key="h" colspan="4">
                             {{ haris[h] }}, {{ cals[p-1][h] }}  <span v-if="cals[p-1][h]">{{ bulans[bulan] }} {{ tahun }}</span>
                         </th>
 
                     </tr>
                     <tr>
                         <template v-for="d in 6" :key="d">
-                            <th :class="(!cals[p-1][d] || isLibur(cals[p-1][d])) ?'bg-slate-300':'bg-white'" class="border border-slate-500 w-[60px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">{{ l }}</th>
+                            <th :class="(!cals[p-1][d] || isLibur(cals[p-1][d]) ) ?'bg-gray-300': (l=='TTD' ? 'bg-gray-100': 'bg-white')" class="border border-slate-500 w-[60px]" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i" >{{ l }}</th>
                         </template>
                     </tr>
                 </thead>
@@ -233,7 +233,7 @@ onMounted(() => {
                             {{ roles[ptk.role] }}
                         </td>
                         <template v-for="d in 6" :key="d">
-                            <td :class="(!cals[p-1][d] || isLibur(cals[p-1][d])) ?'bg-slate-300':'bg-white'"  class="border border-slate-500 text-center" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">
+                            <td :class="(!cals[p-1][d] || isLibur(cals[p-1][d])) ?'bg-gray-300': (l=='TTD' ? 'bg-gray-100': 'bg-white')"  class="border border-slate-500 text-center" v-for="(l,i) in ['In', 'TTD','Out','TTD']" :key="i">
                                 {{ isLibur(cals[p-1][d]) ? 'X' : '' }}
                             </td>
                         </template>

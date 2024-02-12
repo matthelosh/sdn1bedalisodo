@@ -13,7 +13,7 @@ class Guru extends Model
         'nip',
         'nama',
         'gelar_depan',
-        'gelar-belakang',
+        'gelar_belakang',
         'jk',
         'tempat_lahir',
         'tanggal_lahir',
