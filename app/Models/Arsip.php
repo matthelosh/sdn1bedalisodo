@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KlasifikasiSurat extends Model
+class Arsip extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'kode',
-        'uraian'
+        'surat_id',
+        'jenis',
+        'url'
     ];
 
-    public function surats()
+    public function surat()
     {
-        return $this->hasMany(Surat::class, 'klasifikasi_id', 'kode');
+        return $this->belongsTo(Surat::class, 'surat_id', 'kode');
     }
 }

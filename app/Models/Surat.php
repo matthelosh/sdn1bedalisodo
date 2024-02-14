@@ -5,24 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SuratKeluar extends Model
+class Surat extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'no_surat',
         'klasifikasi_id',
-        'tanggal_surat',
+        'no_surat',
+        'kode',
+        'kategori',
+        'penerima',
         'perihal',
-        'tipe',
-        'sifat',
-        'lingkup',
-        'pengirim',
-        'alamat',
-        'ringkasan',
-        'file_surat'
+        'tanggal',
+        'tembusan',
+        'status',
     ];
 
-    function klasifikasi() {
+    public function klasifikasi()
+    {
         return $this->belongsTo(KlasifikasiSurat::class, 'klasifikasi_id', 'kode');
+    }
+
+    public function arsip()
+    {
+        return $this->hasOne(Arsip::class, 'surat_id', 'kode');
     }
 }

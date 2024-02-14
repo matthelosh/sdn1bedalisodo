@@ -194,6 +194,14 @@ Route::prefix('dashboard')->group(function() {
         // });
     });
 
+    // Route::resource("surat", SuratController::class);
+    Route::prefix('surat')->group(function() {
+        Route::post("/", [SuratController::class, 'index'])->name('surat.index');
+        Route::post("/store", [SuratController::class, 'store'])->name('surat.store');
+        Route::get('/last', [SuratController::class, 'last'])->name('surat.last');
+        Route::post('/arsip/add', [ArsipController::class, 'store'])->name('surat.arsip.add');
+    });
+
     Route::prefix('settings')->group(function() {
         Route::inertia('/', 'Auth/Setting')->name('dashboard.settings');
         Route::post('/tapel', [SettingController::class, 'tapel'])->name('dashboard.tapel.index');

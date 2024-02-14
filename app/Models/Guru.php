@@ -39,4 +39,9 @@ class Guru extends Model
     function rombels() {
         return $this->hasMany(Rombel::class,"guru_id", "nip");
     }
+
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class, 'guru_id', 'nip');
+    }
 }

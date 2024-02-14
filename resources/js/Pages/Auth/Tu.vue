@@ -7,7 +7,7 @@ const AdminLayout = defineAsyncComponent(() => import('@/Layouts/AdminLayout.vue
 const Loading = defineAsyncComponent(() => import('@/Components/General/Loading.vue'));
 const loading = ref(false);
 
-const SuratKeluar = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/SuratKeluar.vue'));
+const Surat = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/Surat.vue'));
 const Presensi = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/Presensi.vue'))
 
 const title = ref('Tata Usaha');
@@ -28,8 +28,13 @@ const close = () => {
             Form Daftar Hadir Pegawai
             <Icon icon="mdi:account-multiple-check" class="ml-2 text-2xl" />
         </el-button>
+        <el-button size="large" @click="mode = 'surat-keluar'">
+            Persuratan
+            <Icon icon="mdi:mailbox" class="ml-2 text-2xl" />
+        </el-button>
+        
     </div>
-    <!-- <SuratKeluar v-if="mode == 'surat-keluar'" @close="close" /> -->
+    <Surat v-if="mode == 'surat-keluar'" @close="close" />
     <Presensi v-if="mode=='presensi'" @close="mode='list'" />
 </AdminLayout>
 </template>

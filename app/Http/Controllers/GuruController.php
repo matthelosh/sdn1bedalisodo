@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Guru;
 use App\Models\User;
+use App\Models\tapel;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,8 +23,13 @@ class GuruController extends Controller
      */
     public function index(Request $request)
     {
+        try {
+        $tapel = Tapel::where('status', '1')->first();
         if(!$request->query('q')) {
-            $gurus = Guru::whereNot('role', 'admin')->get();
+            $gurus = Guru::whereNot('role', 'admin')->with('tugas')->with('rombels', function($q) use ($tapel) {
+                $q->where('tapel', $tapel->kode);
+                $q->with('siswas');
+            })->get();
         } else {
             $gurus = Guru::whereNot('role', 'admin')->where('nama','LIKE','%'.$request->query('q').'%')->get();
         }
@@ -32,6 +38,9 @@ class GuruController extends Controller
             'status' => 'ok',
             'gurus' => $gurus
         ], 200);
+        } catch(\Exception $e) {
+            throw $e;
+        }
     }
 
     /**
