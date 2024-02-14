@@ -27,13 +27,11 @@ class SuratController extends Controller
     {
         // dd('halo');
         try {
-            $klasifikasi = $request->query('klasifikasi');
-            $lastCategory = Surat::whereKlasifikasiId($klasifikasi)->orderBy('no_surat', 'DESC')->first();
-            $lastAll = Surat::latest()->first();
+            $tahun = $request->query('tahun');
+            $latest = Surat::whereYear('tanggal', $tahun)->orderBy('no_surat', 'DESC')->first();
             return response()->json([
                 'status' => 'ok',
-                'latest' => $lastCategory,
-                'latestAll' => $lastAll,
+                'latest' => $latest,
             ], 200);
         } catch(\Throwable $th) {
             dd($th);

@@ -24,9 +24,9 @@ const loading = ref(false)
 const tanggal = ref('2024-02-14')
 const lastNumber = ref(null)
 const getLastNumber =  async() => {
-	await axios.get(route('surat.last', { _query: {klasifikasi: '800'}}))
+	await axios.get(route('surat.last', { _query: {tahun: tanggal.value.substring(0,4)}}))
 				.then(res => {
-					if (res.data.latest == null && res.data.latestAll == null) {
+					if (res.data.latest == null) {
 						lastNumber.value = '001'
 					} else if (res.data.latest) {
 						let no = parseInt(res.data.latest.no_surat)
@@ -81,6 +81,9 @@ onBeforeMount(() => {
 <template>
 	<div class="p-4 bg-slate-100">
 		<div class="w-full flex justify-end gap-2 my-2 sticky top-12 bg-slate-100">
+				<el-form-item label="Nomor Surat">
+					<el-input type="text" v-model="lastNumber" placeholder="Nomor Surat"></el-input>
+				</el-form-item>
 				<el-form-item label="Tanggal Surat">
 					<el-date-picker v-model="tanggal" format="DD-MM-YYYY" value-format="YYYY-MM-DD" type="date"></el-date-picker>
 					</el-form-item>

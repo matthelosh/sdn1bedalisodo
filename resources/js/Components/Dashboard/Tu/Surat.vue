@@ -115,6 +115,7 @@ const edit = (item) => {
 
 const closeCompose = () => {
     mode.value = 'list'
+    selectedSurat.value = null
     init()
 }
 

@@ -101,22 +101,22 @@ onMounted(() => {
 			</div>
 		</div>
 		<div class="content ">
-			<div class="list p-6 grid grid-cols-1 sm:grid-cols-6 gap-10" v-if="mode=='list'">
+			<div class="list p-6 grid grid-cols-1 md:grid-cols-6  gap-10" v-if="mode=='list'">
 				<div class="box" v-for="category in categories" :key="category.kode">
-					<div class="thumb w-full bg-slate-100 border shadow-xl hover:shadow-sm transition-all hover:cursor-pointer  h-[175px] p-2" @click="buka(category.kode)">
-						<div class="kop h-4 w-full bg-slate-300 mb-4"></div>
-						<div class="kop h-1 w-full bg-slate-300 mb-1" v-for="i in 10" :key=i></div>
+					<div class="thumb w-full bg-slate-100 border shadow-xl hover:shadow-sm transition-all hover:cursor-pointer  h-[175px] md:h-auto p-2" @click="buka(category.kode)">
+						<div class="kop h-4 md:h-8 w-full bg-slate-300 mb-4"></div>
+						<div class="kop h-1 md:h-2 w-full bg-slate-300 mb-1 md:mb-2" v-for="i in 10" :key=i></div>
 						<div class="ttd w-[30px] h-[30px] rounded-full bg-blue-100 flex items-center justify-center ml-[60%] mt-3">
 							<div class="rounded-full w-[23px] h-[23px] bg-white bg-opacity-50 flex items-center">
 								<div class="w-full h-[10px] bg-blue-100"></div>
 							</div>
 						</div>
 					</div>
-					<p class="text-center text-slate-700">{{category.label}}</p>
+					<p class="text-center text-slate-700 mt-2">{{category.label}}</p>
 				</div>
 			</div>
 			<div v-else>
-				<component :is="comps[mode]" :ptks="ptks" :jabatans="jabatans" :selectedSurat="props.selectedSurat"></component>
+				<component :is="comps[mode]" :ptks="ptks" :jabatans="jabatans" :selectedSurat="props.selectedSurat" ></component>
 			</div>
 		</div>
 	</div>
