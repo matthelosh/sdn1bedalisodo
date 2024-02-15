@@ -140,7 +140,7 @@ const closeFormWa = () => {
                                 {{ rombel.mapels?.length }}
                             </button>
                         </td>
-                        <td class="py-1 px-2 border">{{ rombel.guru.nama }}</td>
+                        <td class="py-1 px-2 border">{{ rombel.guru?.nama }}</td>
                         <td class="py-1 px-2 border">
                             <div class="w-full flex items-center justify-center gap-2">
                                 <button :title="`Kirim Wa ke Grup Kelas ${rombel.label}`" v-if="rombel.grupwa" @click="openFormWa(rombel)">
