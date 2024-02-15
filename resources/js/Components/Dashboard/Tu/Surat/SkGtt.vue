@@ -11,7 +11,7 @@ dayjs.extend(localeData)
 dayjs().localeData()
 dayjs.locale("id");
 
-const page = usePage()
+const page = usePage();
 const props = defineProps({selectedSurat: Object})
 
 const sekolah = computed(() => page.props.sekolah)
