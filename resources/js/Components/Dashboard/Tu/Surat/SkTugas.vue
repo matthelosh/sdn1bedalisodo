@@ -182,10 +182,10 @@ onBeforeMount(() => {
 					</table>
 				</div>
 				<div class="ttd mt-4 w-full flex justify-around print:text-[.8rem]">
-					<div class="colspan-2 text-center pt-8">
+					<div class="colspan-2 text-center pt-8 relative">
 						<p>Mengetahui,</p>
 						<p>Pengawas SD Kecamatan Wagir</p>
-
+						<img src="/ttd/pak-jayeng.png" class="absolute -left-[4%] top-[35%] h-[70%]" />
 						<p class="mt-16 underline font-bold">Dr. <span class="uppercase">Jayeng Budi Yuwono Putro</span>, S. Pd., M.A</p>
 						<p>NIP. 196903221998071001</p>
 					</div>
@@ -254,7 +254,7 @@ onBeforeMount(() => {
 							<td class="border border-black px-1 text-center" contenteditable>{{jabatans[ptk.role]}}</td>
 							<td class="border border-black px-1 text-center" contenteditable>
 								<span v-if="ptk.role == 'ks'">Manajerial</span>
-								<span v-else-if="ptk.role == 'gkel'">{{ptk.rombels[0].label}}</span>
+								<span v-else-if="ptk.role == 'gkel'">{{ptk.rombels[0]?.label}}</span>
 								<span v-else-if="ptk.role == 'pjg'">-</span>
 								<span v-else>Kelas I - VI</span>
 							</td>
@@ -271,10 +271,10 @@ onBeforeMount(() => {
 					</tbody>
 				</table>
 				<div class="ttd mt-8 w-full flex justify-around print:text-[.8rem]">
-					<div class="colspan-2 text-center">
+					<div class="colspan-2 text-center relative">
 						<p>Mengetahui,</p>
 						<p>Pengawas SD Kecamatan Wagir</p>
-
+						<img src="/ttd/pak-jayeng.png" class="absolute left-[4%] top-[20%] h-[70%]" />
 						<p class="mt-16 underline font-bold">Dr. <span class="uppercase">Jayeng Budi Yuwono Putro</span>, S. Pd., M.A</p>
 						<p>NIP. 196903221998071001</p>
 					</div>
@@ -313,7 +313,7 @@ onBeforeMount(() => {
 								<p>{{ptk.nama}}</p>
 								<p v-if="ptk.bio == 'PNS' || ptk.bio == 'PPPK'">{{ptk.nip}}</p>
 							</td>
-							<td class="border border-black px-1 align-top" >{{ptk.tugas[0]? ptk.tugas[0].label : '-'}}</td>
+							<td class="border border-black px-1 align-top" >{{ptk.tugas[0]? ptk.tugas[0]?.label : '-'}}</td>
 							<td class="border border-black px-1 text-left align-top" >
 								<span v-if="ptk.role == 'ks'">
 									<ul class="list-decimal pl-6 text-left">
@@ -329,10 +329,10 @@ onBeforeMount(() => {
 					</tbody>
 				</table>
 				<div class="ttd mt-8 w-full flex justify-around print:text-[.8rem]">
-					<div class="colspan-2 text-center">
+					<div class="colspan-2 text-center relative">
 						<p>Mengetahui,</p>
 						<p>Pengawas SD Kecamatan Wagir</p>
-
+						<img src="/ttd/pak-jayeng.png" class="absolute left-[4%] top-[20%] h-[70%]" />
 						<p class="mt-16 underline font-bold">Dr. <span class="uppercase">Jayeng Budi Yuwono Putro</span>, S. Pd., M.A</p>
 						<p>NIP. 196903221998071001</p>
 					</div>
@@ -371,7 +371,7 @@ onBeforeMount(() => {
 								<p>{{ptk.nama}}</p>
 								<p v-if="ptk.bio == 'PNS' || ptk.bio == 'PPPK'">{{ptk.nip}}</p>
 							</td>
-							<td class="border border-black px-1" contenteditable>{{ptk.tugas[1]? ptk.tugas[1].label : '-'}}</td>
+							<td class="border border-black px-1" contenteditable>{{ptk.tugas[1]? ptk.tugas[1]?.label : '-'}}</td>
 							<td class="border border-black px-1 text-left" contenteditable>
 								<!-- <span v-if="ptk.role == 'ks'">
 									<ul class="list-decimal pl-6 text-left">
@@ -387,10 +387,10 @@ onBeforeMount(() => {
 					</tbody>
 				</table>
 				<div class="ttd mt-8 w-full flex justify-around print:text-[.8rem]">
-					<div class="colspan-2 text-center">
+					<div class="colspan-2 text-center relative">
 						<p>Mengetahui,</p>
 						<p>Pengawas SD Kecamatan Wagir</p>
-
+						<img src="/ttd/pak-jayeng.png" class="absolute left-[4%] top-[20%] h-[70%]" />
 						<p class="mt-16 underline font-bold">Dr. <span class="uppercase">Jayeng Budi Yuwono Putro</span>, S. Pd., M.A</p>
 						<p>NIP. 196903221998071001</p>
 					</div>

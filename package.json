@@ -41,7 +41,7 @@
         "swiper": "^9.3.2",
         "three": "^0.153.0",
         "unplugin-element-plus": "^0.8.0",
-        "v-calendar": "^3.0.3",
+        "v-calendar": "^3.1.2",
         "vue3-easy-data-table": "^1.5.47",
         "vue3-toastify": "^0.1.13",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"

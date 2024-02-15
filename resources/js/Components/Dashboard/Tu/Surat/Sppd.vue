@@ -87,7 +87,7 @@ onBeforeMount(() => {
 				</el-popover>
 				<el-form-item label="Penerima" class="pt-4">
 					<el-select v-model="surat.penerima" placeholder="Penerima" multiple collapse-tags>
-						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="`<p class='font-bold'>${ptk.nama}, ${ptk.gelar_belakang}</p><p>NIP. ${ptk.nip}</p>`" :label="ptk.nama" /> 
+						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="`<p class='font-bold'>${ptk.nama}, ${ptk.gelar_belakang ?? ''}</p><p>NIP. ${ptk.nip}</p>`" :label="ptk.nama" /> 
 					</el-select>
 				</el-form-item>
 				<el-form-item label="Tanggal Surat" class="pt-4">
@@ -140,7 +140,7 @@ onBeforeMount(() => {
 						</tr>
 					</table>
 					<p class="text-center my-2">menugaskan:</p>
-					<div class="mx-auto w-[90%] py-4">
+					<div class="mx-auto w-[90%] pb-4">
 						<table class="w-[80%] mx-auto">
 							<thead>
 								<tr>
@@ -427,7 +427,7 @@ onBeforeMount(() => {
 						<td class="align-top w-[47.5%] border-t border-b border-black p-2 font-bold">
 							CATATAN LAIN-LAIN
 						</td>
-						<td class="align-top w-[47.5%] border border-black p-2">
+						<td class="align-top w-[47.5%] border border-black p-2 h-[150px]">
 							
 						</td>
 					</tr>

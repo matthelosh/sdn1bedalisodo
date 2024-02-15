@@ -70,7 +70,7 @@ const cetak = async() => {
 	await win.document.write(html)
     setTimeout(() => {
         win.print();
-        // win.close();
+        win.close();
     }, 1500);
 }
 
