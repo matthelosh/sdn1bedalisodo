@@ -11,7 +11,7 @@ const emit = defineEmits(['close'])
 const mode = ref('list')
 const headers = ref([
     { text: 'No Surat', value: 'kode' },
-    { text: 'Penerima', value: 'penerima' },
+    { text: 'Penerima/Pengirim', value: 'penerima' },
     { text: 'Tanggal', value: 'tanggal' },
     { text: 'Perihal', value: 'perihal' },
     { text: 'Status', value: 'status' },
@@ -20,9 +20,11 @@ const headers = ref([
     { text: 'Opsi', value: 'opsi' },
 ])
 
+const Agenda = defineAsyncComponent(() => import('@/Components/Dashboard/Tu/Surat/Agenda.vue'))
 const FormKlasifikasi = defineAsyncComponent(() => import ('./Surat/FormKlasifikasi.vue'))
 const TulisSurat = defineAsyncComponent(() => import('./Surat/WriteSurat.vue'))
 
+const tujuan = ref('keluar')
 const loading = ref(false)
 const search = ref(null);
 const formKlasifikasi = ref(false)
@@ -39,37 +41,6 @@ const fileArsip = ref(null)
 
 const surat = ref({})
 
-const onfileArsipPicked = (e) => {
-    let file = e.target.files[0]
-    // console.log(file)
-    let arsipHolder = document.querySelector(".arsip-holder")
-    if (file.type.includes("image/") ) {
-        let imgNode = document.createElement("img")
-        if ( file.size > 2000000 ) {
-            new Compressor(file, {
-              quality: 0.2,
-              convertTypes: 'image/webp',
-              success(result) {
-                imgNode.setAttribute("src", URL.createObjectURL(result))
-                fileArsip.value = new File([result], result.name)
-                
-                
-              }
-            })
-        } else {
-            fileArsip.value = file
-            imgNode.setAttribute("src", URL.createObjectURL(file))
-        }
-        arsipHolder.appendChild(imgNode)
-    }else {
-            fileArsip.value = file
-            let pdfNode = document.createElement("object")
-            pdfNode.setAttribute("type", "application/pdf")
-            pdfNode.setAttribute("width", "100%")
-            pdfNode.setAttribute("data", URL.createObjectURL(new Blob([file], {type: 'application/pdf'})))
-            arsipHolder.appendChild(pdfNode)
-        }
-}
 
 const selectedSurat = ref(null)
 
@@ -102,36 +73,12 @@ const getKlasifikasi = async() => {
                 })
 }
 
-const addArsip = (item) => {
-    selectedSurat.value = item
-    formArsip.value = true
-}
-const onFormArsipClose = () => {
-    let arsipHolder = document.querySelector(".arsip-holder")
-    let formFileArsip = document.querySelector("#formFileArsip")
-    selectedSurat.value = null
-    fileArsip.value = null
-    arsipHolder.innerHTML = ""
-    formFileArsip.reset()
-}
 
-const saveArsip = async() => {
-    loading.value = true
-    let fd = new FormData()
-    fd.append('surat_id', selectedSurat.value.kode)
-    fd.append("file_arsip", fileArsip.value)
-    axios.post(route('surat.arsip.add'), fd)
-            .then(res => {
-                init()
-                loading.value = false
-                ElNotification({title: "Info", message: "Arsip surat disimpan"})
-            }).catch(err => {
-                ElNotification({title: "Error", message: err.response.data.message})
-                console.log(err)
-            })
-}
+
 
 const edit = (item) => {
+    
+    console.log(item)
     selectedSurat.value = item
     mode.value = 'tulis-surat'
 }
@@ -148,6 +95,7 @@ const categories = ref([
     {value: 'Sppd', label: 'Perjalanan Dinas'},
     {value: 'SkKhusus', label: 'SK Khusus'},
     {value: 'Undangan', label: 'Surat Undangan'},
+    {value: 'Lainnya', label: 'Lainnya'},
 ])
 
 // Form Input data surat
@@ -224,51 +172,13 @@ onBeforeMount(() => {
             </div>
         </div>
         <div class="content w-full p-3 bg-white ">
-            <div class="table overflow-x-auto w-full h-[650px]" >
-                <data-table :items="items" :headers="headers" show-index >
-                    <template #item-kode="item">
-                        <el-button text type="primary" class="text-sm" @click="edit(item)">{{item.kode}}</el-button>
-                    </template>
-                    <template #item-arsip="{arsip}">
-                        <el-link :href="arsip.url" target="_blank" :underline="false" class="my-4" v-if="arsip">
-                            <qrcode-vue :value="arsip.url" :size="50" level="L" :foreground="'#363636'" />
-                        </el-link>
-                    </template>
-                    <template #item-opsi="item">
-                        <el-button-group rounded>
-                            <el-button size="small" type="primary" @click="addArsip(item)">
-                                <Icon icon="mdi:archive" />
-                            </el-button>
-                            <el-popconfirm placement="bottom-end" title="Yakin menghapus surat ini?">
-                                <template #reference>
-                                    <el-button size="small"  type="danger">
-                                        <Icon icon="mdi:delete" />
-                                    </el-button>
-                                </template>
-                            </el-popconfirm>
-                        </el-button-group>
-                    </template>
-                </data-table>
-            </div>
-            
+
+            <Agenda :headers="headers" :items="surats" @edit="edit($event, item)" />
         </div>
         
     </div>
-    <TulisSurat class="w-full" v-if="mode == 'tulis-surat'" @close="closeCompose" :selectedSurat="selectedSurat" />
-    <el-dialog v-model="formArsip" draggable width="900px" @close="onFormArsipClose">
-        <template #header>
-            <h3>Formulir Arsip Surat {{selectedSurat?.kode}}</h3>
-        </template>
-        <div class="dialog-body">
-            <div class="flex justify-between mb-4">
-                <form id="formFileArsip">
-                    <input type="file" ref="inputArsip" @change="onfileArsipPicked" accept=".pdf, .jpg, .png, .jpeg, .JPG, .JPEG, .PNG, .PDF" />
-                </form>
-                <el-button type="primary" @click="saveArsip">Simpan</el-button>
-            </div>
-            <div class="arsip-holder"></div>
-        </div>
-    </el-dialog>
+    <TulisSurat class="w-full" v-if="mode == 'tulis-surat'" @close="closeCompose" :selectedSurat="selectedSurat"  />
+    
 
     <el-dialog v-model="formInput" draggable @close="onInputClosed">
         <template #header>
@@ -279,6 +189,16 @@ onBeforeMount(() => {
         </template>
         <div class="dialog-body">
             <el-form v-model="surat" label-position="top">
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="Jenis Surat">
+                            <el-select v-model="surat.tujuan" placeholder="Jenis Surat">
+                                <el-option value="keluar">Keluar</el-option>
+                                <el-option value="masuk">Masuk</el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
                 <el-row class="w-full" :gutter="20">
                     <el-col :span="12">
                         <el-form-item label="No Surat">
@@ -295,8 +215,8 @@ onBeforeMount(() => {
                 </el-row>
                 <el-row class="w-full" :gutter="20">
                     <el-col :span="12">
-                        <el-form-item label="Penerima">
-                            <el-input placeholder="Penerima" v-model="surat.penerima"></el-input>
+                        <el-form-item label="Penerima / Pengirim">
+                            <el-input placeholder="Penerima / Pengirim" v-model="surat.penerima"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">

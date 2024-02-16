@@ -1542,6 +1542,11 @@ dotenv@^16.3.1:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
   integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
 
+easyqrcodejs@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/easyqrcodejs/-/easyqrcodejs-4.6.1.tgz#e9b2230852cda7a63ecb47d9b3856348cc29a52c"
+  integrity sha512-J9C7UOJ67sZvu1Ei6JS/YHgmTVfl7jD+zPloxZGMtjGz+r9s0APJVxdPlGIYJsI9JEfgE6Q3ZfMEl/6+TL4BGA==
+
 electron-to-chromium@^1.4.535:
   version "1.4.544"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.544.tgz#fcb156d83f0ee6e4c9d030c6fedb2a37594f3abf"

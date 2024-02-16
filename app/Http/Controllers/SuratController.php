@@ -54,6 +54,7 @@ class SuratController extends Controller
                     'klasifikasi_id' => $data->klasifikasi_id,
                     'no_surat' => $data->no_surat,
                     'kode' => $data->kode,
+                    'tujuan' => $data->tujuan ?? 'keluar',
                     'kategori' => $data->kategori,
                     'penerima' => $data->penerima,
                     'perihal' => $data->perihal,

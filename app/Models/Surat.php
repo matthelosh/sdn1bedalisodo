@@ -13,6 +13,7 @@ class Surat extends Model
         'klasifikasi_id',
         'no_surat',
         'kode',
+        'tujuan',
         'kategori',
         'penerima',
         'perihal',

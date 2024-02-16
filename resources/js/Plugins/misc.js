@@ -22,4 +22,28 @@ export const capitalize = (text) => [...text].reduce((s,c,i,a) => s + (i === 0 |
 
 export const defaultImage = (e) => e.target.src = '/img/no-image.jpg';
 
-export default { paginate, capitalize, defaultImage };
+export const cetak = async (selector, title="Cetak", env) => {
+    let host = window.location.host
+	let el = document.querySelector(selector)
+	let cssUrl = env == 'local' ? 'http://localhost:5173/resources/css/app.css' : `/build/assets/app.css`
+	let html = `<!doctype html>
+				<html>
+					<head>
+						<title>${title}</title>
+						<link rel="stylesheet" href="${cssUrl}" />
+					</head>
+					<body>
+						${el.outerHTML}
+					</body>
+
+				</html>
+	`
+	let win = window.open(host+'/print',"_blank","height=600,width=1024")
+	await win.document.write(html)
+    setTimeout(() => {
+        win.print();
+        win.close();
+    }, 1500);
+}
+
+export default { paginate, capitalize, defaultImage, cetak };
