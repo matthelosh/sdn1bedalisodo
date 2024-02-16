@@ -29,22 +29,31 @@ class ArsipController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->query('return_type')) {
+            dd($request->query('return_type'));
+        }
         try {
             $file  =$request->file('file_arsip');
             $jenis = $file->extension() == 'pdf' ? 'dokumen' : 'gambar';
             $store = $file->storePubliclyAs('surat/arsip', str_replace("/", "-", $request['surat_id']).".".$file->extension(), 's3');
+            $url = Storage::disk('s3')->url($store);
             Arsip::create([
                 'surat_id' => $request['surat_id'],
                 'jenis' =>$jenis,
-                'url' => Storage::disk('s3')->url($store)
+                'url' => $url
             ]);
 
             return response()->json([
                 'status' => 'ok',
                 'message' => 'Arsip ditambahkan'
             ], 200);
-        } catch(\Trhowable $th) {
-            dd($th);
+
+            
+        } catch(\Throwable $th) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => $th->getMessage()
+            ], 500);
         }
     }
 

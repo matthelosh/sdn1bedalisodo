@@ -263,8 +263,8 @@ onBeforeMount(() => {
 								<span v-else>24</span>
 							</td>
 							<td class="border border-black px-1 text-center" contenteditable>
-								<span v-if="ptk.role == 'gkel'">{{ptk.rombels[0]?.siswas.length}}</span>
-								<span v-else>{{props.ptks.reduce((a,c) => a+ (c.rombels[0] ? c.rombels[0]?.siswas.length : 0),0)}}</span>
+								<span v-if="ptk.role == 'gkel'">{{ptk.rombels[0]?.siswas?.length}}</span>
+								<span v-else>{{props.ptks.reduce((a,c) => a+ (c.rombels[0] ? c.rombels[0]?.siswas?.length : 0),0)}}</span>
 							</td>
 
 						</tr>
@@ -413,5 +413,11 @@ onBeforeMount(() => {
 		.sheet {
 			page-break-after: always!important;
 		}
+		contenteditable {
+		background: white;
+	}
+	}
+	contenteditable {
+		background: #eddaa6;
 	}
 </style>

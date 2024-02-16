@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KlasifikasiSurat;
-use Illuminate\Http\Request;
+use App\Models\Arsip;
 use App\Models\Surat;
+use Illuminate\Http\Request;
+use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\Storage;
 
 class SuratController extends Controller
 {
@@ -41,9 +43,10 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         try {
+            // dd($request->data);
             $data  = json_decode($request->data);
             // dd($data);
-            Surat::updateOrCreate(
+            $surat = Surat::updateOrCreate(
                 [
                     'id' => $data->id ?? null
                 ],
@@ -55,10 +58,22 @@ class SuratController extends Controller
                     'penerima' => $data->penerima,
                     'perihal' => $data->perihal,
                     'tanggal' => $data->tanggal,
-                    'tembusan' => $data->tembusan,
-                    'status' => $data->status,
+                    'tembusan' => implode(",", $data->tembusan) ?? null,
+                    'status' => $data->status ?? 'arsip',
                 ]
             );
+
+            if($request->file('file_arsip')) {
+                $file  =$request->file('file_arsip');
+                $jenis = $file->extension() == 'pdf' ? 'dokumen' : 'gambar';
+                $store = $file->storePubliclyAs('surat/arsip', str_replace("/", "-", $request['surat_id']).".".$file->extension(), 's3');
+                $url = Storage::disk('s3')->url($store);
+                Arsip::create([
+                    'surat_id' => $surat->kode,
+                    'jenis' =>$jenis,
+                    'url' => $url
+                ]);
+            }
 
             return response()->json([
                 'status' => 'ok',
