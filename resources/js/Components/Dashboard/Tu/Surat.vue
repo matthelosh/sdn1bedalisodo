@@ -10,10 +10,10 @@ import { UploadFilled } from '@element-plus/icons-vue'
 const emit = defineEmits(['close'])
 const mode = ref('list')
 const headers = ref([
-    { text: 'No Surat', value: 'kode' },
+    { text: 'Perihal', value: 'perihal', fixed: true, width:200 },
+    { text: 'No Surat', value: 'kode', fixed:true, width: 300 },
     { text: 'Penerima/Pengirim', value: 'penerima' },
     { text: 'Tanggal', value: 'tanggal' },
-    { text: 'Perihal', value: 'perihal' },
     { text: 'Status', value: 'status' },
     { text: 'Tembusan', value: 'tembusan' },
     { text: 'Arsip', value: 'arsip' },
@@ -31,9 +31,7 @@ const formKlasifikasi = ref(false)
 const formArsip = ref(false)
 const surats = ref([])
 const formInput = ref(false)
-const items = computed(() => {
-    return !search.value ? surats.value : surats.value.filter(surat => surat.perihal.toLowerCase().includes(search.value.toLowerCase()))
-})
+
 
 const klasifikasis = ref([])
 
@@ -162,10 +160,7 @@ onBeforeMount(() => {
                     <Icon icon="mdi:typewriter" class="text-xl" />
                     <span>Tulis Surat</span>
                 </button>
-                <div class="search-box relative">
-                    <input type="text" placeholder="Cari Surat" class="rounded py-1" v-model="search">
-                    <Icon icon="mdi:magnify" class="text-xl absolute top-[50%] -translate-y-[50%] right-2 text-gray-400" />
-                </div>
+                
                 <button @click="closeMe" class=" text-red-600 hover:text-red-400">
                     <Icon icon="mdi:close-box" class="text-2xl" />
                 </button>
@@ -189,8 +184,8 @@ onBeforeMount(() => {
         </template>
         <div class="dialog-body">
             <el-form v-model="surat" label-position="top">
-                <el-row>
-                    <el-col :span="12">
+                <el-row :gutter="20">
+                    <el-col :span="8">
                         <el-form-item label="Jenis Surat">
                             <el-select v-model="surat.tujuan" placeholder="Jenis Surat">
                                 <el-option value="keluar">Keluar</el-option>
@@ -198,11 +193,16 @@ onBeforeMount(() => {
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row class="w-full" :gutter="20">
-                    <el-col :span="12">
+                    <el-col :span="16">
                         <el-form-item label="No Surat">
                             <el-input placeholder="No Surat" v-model="surat.kode"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="Penerima / Pengirim">
+                            <el-input placeholder="Penerima / Pengirim" v-model="surat.penerima"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -213,25 +213,20 @@ onBeforeMount(() => {
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row class="w-full" :gutter="20">
-                    <el-col :span="12">
-                        <el-form-item label="Penerima / Pengirim">
-                            <el-input placeholder="Penerima / Pengirim" v-model="surat.penerima"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
+                <el-row  :gutter="20">
+                    <el-col :span="16">
                         <el-form-item label="Perihal">
                             <el-input placeholder="Perihal" v-model="surat.perihal"></el-input>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row class="w-full" :gutter="20">
                     <el-col :span="8">
                         <el-form-item label="Tanggal surat">
                             <el-date-picker v-model="surat.tanggal" format="DD MMM YYYY" value-format="YYYY-MM-DD" type="date" placeholder="Pilih tanggal surat" />
                         </el-form-item>
                     </el-col>
-                    <el-col :span="16">
+                </el-row>
+                <el-row class="w-full" :gutter="20">
+                    <el-col :span="12">
                         <el-form-item label="Tembusan">
                             <el-select placeholder="Tembusan" v-model="surat.tembusan" multiple collapse-tags collapse-tags-tooltip>
                                 <el-option v-for="tembusan in [
@@ -245,12 +240,16 @@ onBeforeMount(() => {
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="&nbsp;">
+                            <form id="formFileArsip">
+                                <input type="file" ref="inputArsip" @change="onfileArsipPicked" accept=".pdf, .jpg, .png, .jpeg, .JPG, .JPEG, .PNG, .PDF" />
+                            </form>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="24">
-                        <form id="formFileArsip">
-                            <input type="file" ref="inputArsip" @change="onfileArsipPicked" accept=".pdf, .jpg, .png, .jpeg, .JPG, .JPEG, .PNG, .PDF" />
-                        </form>
                         <div class="arsip-holder"></div>
                     </el-col>
                 </el-row>

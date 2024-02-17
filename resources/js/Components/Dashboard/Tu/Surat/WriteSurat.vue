@@ -7,7 +7,7 @@ const page  = usePage();
 const props = defineProps({selectedSurat: Object});
 const emit = defineEmits(['close']);
 
-import SkTugas from './SkTugas.vue';
+import SkPbm from './SkPbm.vue';
 import SkGtt from './SkGtt.vue';
 import Sppd from './Sppd.vue';
 import Undangan from './Undangan.vue';
@@ -17,7 +17,7 @@ import Lain from './Lain.vue';
 const mode = ref('list')
 
 
-let comps = { SkTugas, SkGtt, Sppd, Undangan, SKelulusan, Lain };
+let comps = { SkPbm, SkGtt, Sppd, Undangan, SKelulusan, Lain };
 const ptks = ref([])
 const jabatans = ref(
 		{ ks: 'Kepala Sekolah',
@@ -29,11 +29,16 @@ const jabatans = ref(
 		)
 
 const categories  =ref([
-		{ kode: 'SkTugas', label: 'SK TUGAS'},
-		{ kode: 'SkGtt', label: 'SK GTT-PTT'},
+		{ kode: 'SkPbm', label: 'SK PBM'},
+		{ kode: 'SkGtt', label: 'SK GTT'},
+		{ kode: 'SkOperator', label: 'SK Operator'},
+		{ kode: 'SkBendahara', label: 'SK Bendahara BOS'},
+		{ kode: 'SkPanitia', label: 'SK Panitia'},
 		{ kode: 'Sppd', label: 'SPPD'},
+		{ kode: 'SkTugas', label: 'Surat Tugas'},
 		{ kode: 'Undangan', label: 'UNDANGAN'},
 		{ kode: 'SKelulusan', label: 'SK KELULUSAN'},
+		{ kode: 'SKetNisn', label: 'SK KETERANGAN NISN'},
 		{ kode: 'Lain', label: 'Lainnya'},
 	])
 

@@ -11,12 +11,16 @@ import { ElNotification} from 'element-plus';
 
 const page = usePage()
 const loading = ref(false)
+const search = ref('')
 const emit = defineEmits(['close', 'edit'])
 const props = defineProps({headers:Array, items: Array})
 const mode = ref('list')
 const toggle = ref(true)
 const tujuan = computed(() => toggle.value ? 'keluar' : 'masuk')
-const datas = computed(() => props.items.filter(s => s.tujuan === tujuan.value))
+const datas = computed(() => {
+    let results = !search.value ? props.items : props.items.filter(surat => surat.perihal.toLowerCase().includes(search.value.toLowerCase()))
+    return results.filter(s => s.tujuan === tujuan.value)
+})
 const fileArsip = ref(null)
 const formArsip = ref(false)
 const selectedSurat = ref(null)
@@ -24,6 +28,9 @@ const addArsip = (item) => {
     selectedSurat.value = item
     formArsip.value = true
 }
+const items = computed(() => {
+    // return 
+})
 
 const onfileArsipPicked = (e) => {
     let file = e.target.files[0]
@@ -147,15 +154,19 @@ const edit = (item) => {
                 <Icon :icon="`mdi:${toggle ? 'envelope':'inbox'}`" class="text-sky-800" />    
                 Agenda Surat {{ tujuan }}
             </p>
-            <div class="toolbar-items print:hidden">
-                <el-switch v-model="toggle" active-text="Surat Keluar" inactive-text="Surat Masuk" />
+            <div class="toolbar-items print:hidden flex gap-2">
+                <el-switch v-model="toggle" active-text="Keluar" inactive-text="Masuk" />
                 <el-button class="ml-4" @click="cetak">
                     <Icon icon="mdi:printer" />
                 </el-button>
+                <el-input placeholder="search" v-model="search">
+                    <template #prefix>
+                        <Icon icon="mdi:magnify" />
+                    </template>
+                </el-input>
             </div>
         </div>
         <div class="table overflow-x-auto w-full h-[650px]" >
-            <qr-code contents="Twsting" />
             <data-table :items="datas" :headers="props.headers" show-index >
                 <template #item-kode="item">
                     <el-button text type="primary" class="text-sm" @click="edit(item)">{{item.kode}}</el-button>

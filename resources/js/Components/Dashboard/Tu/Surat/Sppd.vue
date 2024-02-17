@@ -189,7 +189,7 @@ onBeforeMount(() => {
 						</tr>
 						
 						<tr>
-							<td class="px-1 align-top">Acara</td>
+							<td class="px-1 align-top">Ditugaskan sebagai</td>
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top w-[70%] " >{{ surat.perihal }}</td>
 						</tr>
