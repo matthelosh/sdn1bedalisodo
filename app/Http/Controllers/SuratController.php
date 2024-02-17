@@ -30,7 +30,7 @@ class SuratController extends Controller
         // dd('halo');
         try {
             $tahun = $request->query('tahun');
-            $latest = Surat::whereYear('tanggal', $tahun)->orderBy('no_surat', 'DESC')->first();
+            $latest = Surat::whereYear('tanggal', $tahun)->where('tujuan', 'keluar')->orderBy('no_surat', 'DESC')->first();
             return response()->json([
                 'status' => 'ok',
                 'latest' => $latest,
@@ -133,6 +133,23 @@ class SuratController extends Controller
                 'status' => 'fail',
                 'msg' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    function destroy(Request $request, $id) {
+        try {
+
+            $surat = Surat::findOrFail($id);
+            if($surat->arsip !== null) {
+                Storage::disk('s3')->delete($surat->arsip->url);
+                $surat->arsip()->delete();
+            } 
+            
+            $surat->delete();
+            
+            return response()->json(['status' => 'ok', 'message' => 'SUrat dihapus'], 200);
+        } catch(\Throwable $th) {
+            throw($th);
         }
     }
 }

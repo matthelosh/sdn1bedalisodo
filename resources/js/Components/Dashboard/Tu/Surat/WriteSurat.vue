@@ -10,6 +10,7 @@ const emit = defineEmits(['close']);
 import SkPbm from './SkPbm.vue';
 import SkGtt from './SkGtt.vue';
 import Sppd from './Sppd.vue';
+import SkOperator from './SkOperator.vue';
 import Undangan from './Undangan.vue';
 import SKelulusan from './SKelulusan.vue';
 import Lain from './Lain.vue';
@@ -17,7 +18,7 @@ import Lain from './Lain.vue';
 const mode = ref('list')
 
 
-let comps = { SkPbm, SkGtt, Sppd, Undangan, SKelulusan, Lain };
+let comps = { SkPbm, SkGtt, SkOperator, Sppd, Undangan, SKelulusan, Lain };
 const ptks = ref([])
 const jabatans = ref(
 		{ ks: 'Kepala Sekolah',

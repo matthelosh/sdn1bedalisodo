@@ -12,7 +12,7 @@ import { ElNotification} from 'element-plus';
 const page = usePage()
 const loading = ref(false)
 const search = ref('')
-const emit = defineEmits(['close', 'edit'])
+const emit = defineEmits(['close', 'edit', 'reload'])
 const props = defineProps({headers:Array, items: Array})
 const mode = ref('list')
 const toggle = ref(true)
@@ -140,6 +140,19 @@ const saveArsip = async() => {
             })
 }
 
+const hapus = async (item) => {
+    loading.value = true
+    await axios.delete(route('surat.hapus', {id: item.id}))
+                .then(res => {
+                    ElNotification({title: 'Info', message: 'Surat dihapus'})
+                    setTimeout(() => {
+                        emit('reload')
+                    }, 500)
+                }).catch(err => {
+                    console.log(err)
+                })
+}
+
 const edit = (item) => {
     // console.log(item)
     emit('edit', item)
@@ -181,7 +194,7 @@ const edit = (item) => {
                         <el-button size="small" type="primary" @click="addArsip(item)">
                             <Icon icon="mdi:archive" />
                         </el-button>
-                        <el-popconfirm placement="bottom-end" title="Yakin menghapus surat ini?">
+                        <el-popconfirm placement="bottom-end" title="Yakin menghapus surat ini?" @confirm="hapus(item)">
                             <template #reference>
                                 <el-button size="small"  type="danger">
                                     <Icon icon="mdi:delete" />

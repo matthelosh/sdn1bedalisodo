@@ -76,7 +76,7 @@ const getKlasifikasi = async() => {
 
 const edit = (item) => {
     
-    console.log(item)
+    // console.log(item)
     selectedSurat.value = item
     mode.value = 'tulis-surat'
 }
@@ -168,7 +168,7 @@ onBeforeMount(() => {
         </div>
         <div class="content w-full p-3 bg-white ">
 
-            <Agenda :headers="headers" :items="surats" @edit="edit($event, item)" />
+            <Agenda :headers="headers" :items="surats" @edit="edit($event, item)" @reload="init()" />
         </div>
         
     </div>

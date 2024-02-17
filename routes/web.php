@@ -200,6 +200,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post("/store", [SuratController::class, 'store'])->name('surat.store');
         Route::get('/last', [SuratController::class, 'last'])->name('surat.last');
         Route::post('/arsip/add', [ArsipController::class, 'store'])->name('surat.arsip.add');
+        Route::delete('/{id}', [SuratController::class, 'destroy'])->name('surat.hapus');
     });
 
     Route::prefix('settings')->group(function() {
