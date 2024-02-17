@@ -37,9 +37,9 @@ const getLastNumber =  async() => {
 					if (res.data.latest == null) {
 						lastNumber.value = '001'
 					} else if (res.data.latest) {
-						let no = parseInt(res.data.latest.no_surat)
+						let no = parseInt(res.data.latest)
 						no+=1
-
+						no = no.toString()
 						lastNumber.value = (no.length > 2) ? no : ((no.length === 2 )? ('0'+no) : ('00'+no))
 					}
 				})

@@ -30,7 +30,8 @@ class SuratController extends Controller
         // dd('halo');
         try {
             $tahun = $request->query('tahun');
-            $latest = Surat::whereYear('tanggal', $tahun)->where('tujuan', 'keluar')->orderBy('no_surat', 'DESC')->first();
+            // $latest = Surat::whereYear('tanggal', $tahun)->where('tujuan', 'keluar')->orderBy('no_surat', 'DESC')->first();
+            $latest = Surat::whereYear('tanggal', $tahun)->where('tujuan', 'keluar')->pluck('no_surat')->sortDesc()->first();
             return response()->json([
                 'status' => 'ok',
                 'latest' => $latest,
@@ -44,8 +45,18 @@ class SuratController extends Controller
     {
         try {
             // dd($request->data);
+            
             $data  = json_decode($request->data);
-            // dd($data);
+            // dd($data->penerima);
+            if(is_string($data->penerima)) {
+                $penerima = $data->penerima;
+            } else {
+                array_walk($data->penerima, function($val, $key) use(&$penerima) {
+                    $penerima .= $val->nama.", ";
+                });
+            }
+
+            
             $surat = Surat::updateOrCreate(
                 [
                     'id' => $data->id ?? null
@@ -56,10 +67,10 @@ class SuratController extends Controller
                     'kode' => $data->kode,
                     'tujuan' => $data->tujuan ?? 'keluar',
                     'kategori' => $data->kategori,
-                    'penerima' => $data->penerima,
-                    'perihal' => $data->perihal,
+                    'penerima' => $penerima,
+                    'perihal' => !is_object($data->perihal) ? $data->perihal : $data->perihal->perihal,
                     'tanggal' => $data->tanggal,
-                    'tembusan' => implode(",", $data->tembusan) ?? null,
+                    'tembusan' => is_array($data->tembusan) ? implode(",", $data->tembusan) : ($data->tembusan ?? null),
                     'status' => $data->status ?? 'arsip',
                 ]
             );

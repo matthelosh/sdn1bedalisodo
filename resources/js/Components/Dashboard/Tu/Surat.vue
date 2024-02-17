@@ -134,6 +134,7 @@ const simpanSurat = async() => {
 onBeforeMount(() => {
     init()
     getKlasifikasi()
+    
 })
 </script>
 
@@ -166,7 +167,7 @@ onBeforeMount(() => {
                 </button>
             </div>
         </div>
-        <div class="content w-full p-3 bg-white ">
+        <div class="content w-full overflow-x-auto p-3 bg-white ">
 
             <Agenda :headers="headers" :items="surats" @edit="edit($event, item)" @reload="init()" />
         </div>

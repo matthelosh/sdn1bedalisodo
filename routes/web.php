@@ -194,12 +194,17 @@ Route::prefix('dashboard')->group(function() {
         // });
     });
 
+    // Perundangan
+    Route::prefix("peraturan")->group(function() {
+        Route::post("/", [PeraturanController::class, 'index'])->name('peraturan.index');
+    });
     // Route::resource("surat", SuratController::class);
     Route::prefix('surat')->group(function() {
         Route::post("/", [SuratController::class, 'index'])->name('surat.index');
         Route::post("/store", [SuratController::class, 'store'])->name('surat.store');
         Route::get('/last', [SuratController::class, 'last'])->name('surat.last');
         Route::post('/arsip/add', [ArsipController::class, 'store'])->name('surat.arsip.add');
+        Route::post('/kegiatan', [KegiatanController::class, 'index'])->name('surat.kegiatan');
         Route::delete('/{id}', [SuratController::class, 'destroy'])->name('surat.hapus');
     });
 

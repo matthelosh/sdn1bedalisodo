@@ -20,12 +20,12 @@ const loading = ref(false)
 const tanggal = ref('2024-02-14')
 const lastNumber = ref(null)
 const surat = ref({
-		kode: computed(() => `090/${lastNumber.value}/35.07.101.408.012/${tanggal.value.substring(0,4)}`),
-		klasifikasi_id: '090',
+		kode: computed(() => `094/${lastNumber.value}/35.07.101.408.012/${tanggal.value.substring(0,4)}`),
+		klasifikasi_id: '094',
 		no_surat: computed(() =>lastNumber.value),
 		kategori: 'Sppd',
 		perihal: 'Guru Sukwan',
-		penerima: 'Guru',
+		penerima: [],
 		tanggal: computed(()=>tanggal.value),
 		tembusan: 'Korwil',
 		status: 'arsip'
@@ -37,9 +37,9 @@ const getLastNumber =  async() => {
 					if (res.data.latest == null) {
 						lastNumber.value = '001'
 					} else if (res.data.latest) {
-						let no = parseInt(res.data.latest.no_surat)
+						let no = parseInt(res.data.latest)
 						no+=1
-
+						no = no.toString()
 						lastNumber.value = (no.length > 2) ? no : ((no.length === 2 )? ('0'+no) : ('00'+no))
 					}
 				})
@@ -51,7 +51,7 @@ const onNamaChanged = (e) => {
 
 const simpan = async() => {
 	loading.value = true
-	axios.post(route('surat.store', {_query: {klasifikasi:'800'}}), {data: JSON.stringify(surat.value)})
+	axios.post(route('surat.store', {_query: {klasifikasi:'094'}}), {data: JSON.stringify(surat.value)})
 			.then(res => {
 				ElNotification({title: 'Info', message: 'Surat disimpan'})
 				loading.value = false
@@ -85,11 +85,11 @@ onBeforeMount(() => {
 						<el-button type="primary">Perihal</el-button>
 					</template>
 				</el-popover>
-				<el-form-item label="Penerima" class="pt-4">
-					<el-select v-model="surat.penerima" placeholder="Penerima" multiple collapse-tags>
-						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="`<p class='font-bold'>${ptk.nama}, ${ptk.gelar_belakang ?? ''}</p><p>NIP. ${ptk.nip}</p>`" :label="ptk.nama" /> 
+				<!-- <el-form-item label="Penerima" class="pt-4">
+					<el-select v-model="surat.penerima" placeholder="Penerima" multiple collapse-tags value-key="id">
+						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="ptk" :label="ptk.nama" /> 
 					</el-select>
-				</el-form-item>
+				</el-form-item> -->
 				<el-form-item label="Tanggal Surat" class="pt-4">
 					<el-date-picker v-model="tanggal" format="DD-MM-YYYY" value-format="YYYY-MM-DD" type="date"></el-date-picker>
 					</el-form-item>
@@ -104,7 +104,7 @@ onBeforeMount(() => {
 				<Kop />
 				<div class="meta text-center my-4">
 					<h3 class="underline uppercase font-bold">Surat Tugas</h3>
-					<h4>Nomor: 090/{{lastNumber}}/35.07.101.408.012/{{ tanggal.substring(0,4) }}</h4>
+					<h4>Nomor: {{surat.klasifikasi_id}}/{{lastNumber}}/35.07.101.408.012/{{ tanggal.substring(0,4) }}</h4>
 				</div>
 
 				<div class="content">
@@ -141,6 +141,11 @@ onBeforeMount(() => {
 					</table>
 					<p class="text-center my-2">menugaskan:</p>
 					<div class="mx-auto w-[90%] pb-4">
+						<el-form-item class="print:hidden w-[80%] mx-auto" label="Pilih Pneerima tugas">
+						<el-select v-model="surat.penerima" placeholder="Penerima" value-key="nip" multiple >
+                            <el-option v-for="ptk in props.ptks" :key="ptk.nip" :value="ptk">{{ ptk.nama }}</el-option>
+                        </el-select>
+					</el-form-item>
 						<table class="w-[80%] mx-auto">
 							<thead>
 								<tr>
@@ -156,9 +161,10 @@ onBeforeMount(() => {
 										{{ i+1 }}
 									</td>
 									<td class="border border-black px-2">
-										<span v-html="ptk" />
+										<p>{{ ptk.nama }}</p>
+										<p>NIP. {{ ptk.nip }}</p>
 									</td>
-									<td class="border border-black px-2" contenteditable></td>
+									<td class="border border-black px-2 bg-yellow-100 print:bg-white" contenteditable>Isi jabatan</td>
 								</tr>
 							</tbody>
 						</table>
@@ -214,7 +220,7 @@ onBeforeMount(() => {
 				<Kop />
 				<div class="meta text-center my-4">
 					<h3 class="underline uppercase font-bold">Surat Perintah Perjalanan Dinas (SPPD)</h3>
-					<h4>Nomor: 090/{{lastNumber}}/35.07.101.408.012/{{ tanggal.substring(0,4) }}</h4>
+					<h4>Nomor: {{surat.klasifikasi_id+'/'+lastNumber}}/35.07.101.408.012/{{ tanggal.substring(0,4) }}</h4>
 				</div>
 				<div class="content my-4">
 					<table class="w-[90%] mx-auto">

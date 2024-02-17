@@ -11,14 +11,16 @@ import SkPbm from './SkPbm.vue';
 import SkGtt from './SkGtt.vue';
 import Sppd from './Sppd.vue';
 import SkOperator from './SkOperator.vue';
+import SkBendahara from './SkBendahara.vue';
 import Undangan from './Undangan.vue';
 import SKelulusan from './SKelulusan.vue';
+import SkPanitia from './SkPanitia.vue';
 import Lain from './Lain.vue';
 
 const mode = ref('list')
 
-
-let comps = { SkPbm, SkGtt, SkOperator, Sppd, Undangan, SKelulusan, Lain };
+const legals = ref([])
+let comps = { SkPbm, SkGtt, SkOperator, SkBendahara, Sppd, SkPanitia, Undangan, SKelulusan, Lain };
 const ptks = ref([])
 const jabatans = ref(
 		{ ks: 'Kepala Sekolah',
@@ -79,9 +81,15 @@ const cetak = async() => {
         win.close();
     }, 1500);
 }
-
+const getLegal = async() => {
+    await axios.post(route('peraturan.index'))
+                .then(res => {
+                    legals.value = res.data.peraturans
+                })
+}
 onMounted(() => {
 	init()
+	getLegal()
 	if (props.selectedSurat !== null) {
 		// console.log(props.selectedSurat)
 		mode.value = props.selectedSurat.kategori
@@ -122,7 +130,7 @@ onMounted(() => {
 				</div>
 			</div>
 			<div v-else>
-				<component :is="comps[mode]" :ptks="ptks" :jabatans="jabatans" :selectedSurat="props.selectedSurat" ></component>
+				<component :is="comps[mode]" :ptks="ptks" :jabatans="jabatans" :selectedSurat="props.selectedSurat" :legals="legals" @close="mode='list'"></component>
 			</div>
 		</div>
 	</div>
