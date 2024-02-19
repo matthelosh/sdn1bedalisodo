@@ -24,7 +24,7 @@ const surat = ref({
 		klasifikasi_id: '094',
 		no_surat: computed(() =>lastNumber.value),
 		kategori: 'Sppd',
-		perihal: 'Guru Sukwan',
+		perihal: 'Peserta Kegiatan ..',
 		penerima: [],
 		tanggal: computed(()=>tanggal.value),
 		tembusan: 'Korwil',
@@ -59,6 +59,18 @@ const simpan = async() => {
 				loading.value = false
 				console.log(err)
 			})
+}
+
+const tujuan = ref('Isi lokasi tujuan')
+const onChangedTujuan = (e) => {
+	tujuan.value = e.target.innerText
+}
+const pejabatTujuan = ref({
+	nama: '..............................................',
+	nip: '-'
+})
+const onPejabatTujuanChanged = (e, text) => {
+	pejabatTujuan.value[text] = e.target.innerText
 }
 onBeforeMount(() => {
 	if (props.selectedSurat !== null) {
@@ -191,7 +203,7 @@ onBeforeMount(() => {
 						<tr>
 							<td class="px-1 align-top">Tempat</td>
 							<td class="px-1 align-top">:</td>
-							<td class="px-1 align-top bg-yellow-100 border-b print:border-none print:bg-white" contenteditable>Lokasi</td>
+							<td class="px-1 align-top bg-yellow-100 border-b print:border-none print:bg-white" contenteditable @change="onChangedTujuan">{{ tujuan }}</td>
 						</tr>
 						
 						<tr>
@@ -231,19 +243,41 @@ onBeforeMount(() => {
 						</tr>
 						<tr>
 							<td class="px-2 align-top border border-black text-center">2</td>
-							<td class="px-2 align-top border border-black">Nama/NIP Pegawai yagn diperintah</td>
-							<td class="px-2 align-top border border-black">Terlampir</td>
+							<td class="px-2 align-top border border-black">Nama/NIP Pegawai yang diperintah</td>
+							<td class="px-2 align-top border border-black">
+								<ul class="pl-4 list-decimal">
+									<li v-for="(penerima,p) in surat.penerima" :key="penerima.id">
+										<p>
+											{{ penerima.nama }}, {{ penerima.gelar_belakang ?? '' }}
+										</p>
+										<p>NIP.{{ penerima.nip }}</p>
+									</li>
+								</ul>
+							</td>
 						</tr>
 						<tr>
 							<td class="px-2 align-top border border-black text-center">3</td>
 							<td class="px-2 align-top border border-black">
 								<ul class="pl-4 list-[lower-alpha]">
-									<li>Pangkat fan golongan ruang gaji menurut PP. No. 6 tahun 1997</li>
+									<li>Pangkat dan golongan ruang gaji menurut PP. No. 6 tahun 1997</li>
 									<li>Jabatan / instansi</li>
 									<li>Tingkat menurut peraturan perjalanan dinas</li>
 								</ul>
 							</td>
-							<td class="px-2 align-top border border-black">Terlampir</td>
+							<td class="px-2 align-top border border-black">
+								<ul class="pl-4 list-[lower-alpha]">
+									<li>
+										<p>&nbsp;</p>
+										<ul class="pl-4 list-decimal">
+											<li v-for="(penerima,p) in surat.penerima" :key="penerima.id">
+												{{ penerima.pangkat }}
+											</li>
+										</ul>
+									</li>
+									<li>{{ sekolah.nama }}</li>
+									<li>-</li>
+								</ul>
+							</td>
 						</tr>
 						<tr>
 							<td class="px-2 align-top border border-black text-center">4</td>
@@ -266,7 +300,7 @@ onBeforeMount(() => {
 							<td class="px-2 align-top border border-black font-bold bg-yellow-100 print:bg-white" >
 								<ul class="pl-4 list-[lower-alpha]">
 									<li class="bg-yellow-100 print:bg-white" contenteditable>Dalisodo Kec. Wagir</li>
-									<li class="bg-yellow-100 print:bg-white" contenteditable>Tempat tujuan</li>
+									<li class="bg-yellow-100 print:bg-white" contenteditable>{{ tujuan }}</li>
 								</ul>
 							</td>
 						</tr>
@@ -306,7 +340,7 @@ onBeforeMount(() => {
 						<tr>
 							<td class="px-2 align-top border border-black text-center">10</td>
 							<td class="px-2 align-top border border-black">Keterangan lain-lain</td>
-							<td class="px-2 align-top border border-black font-bold bg-yellow-100 print:bg-white" contenteditable>Surat perintah ini supaya dilaksanakan dengan rasa tanggungjawab</td>
+							<td class="px-2 align-top border border-black font-bold bg-yellow-100 print:bg-white" contenteditable>Surat perintah ini supaya dilaksanakan dengan rasa tanggung jawab</td>
 						</tr>
 					</table>
 				</div>
@@ -354,7 +388,7 @@ onBeforeMount(() => {
 							<tr>
 								<td >Ke</td>
 								<td >:</td>
-								<td class="bg-yellow-100 print:bg-white" contenteditable>Isi tujuan</td>
+								<td class="bg-yellow-100 print:bg-white" contenteditable>{{tujuan}}</td>
 							</tr>
 						</table>
 						<p>Kepala SD Negeri 1 Bedalisodo</p>
@@ -372,7 +406,7 @@ onBeforeMount(() => {
 								<tr>
 									<td >Tiba di</td>
 									<td >:</td>
-									<td class="bg-yellow-100 print:bg-white" contenteditable>Isi tujuan</td>
+									<td class="bg-yellow-100 print:bg-white" contenteditable>{{ tujuan }}</td>
 								</tr>
 								<tr>
 									<td >Pada tanggal</td>
@@ -382,15 +416,15 @@ onBeforeMount(() => {
 							</table>
 							<p>Mengetahui pihak lembaga (instansi)</p>
 							
-							<p class="mt-16 underline font-bold">..................................................</p>
-							<p>NIP. </p>
+							<p class="mt-16 underline font-bold bg-yellow-100 print:bg-white uppercase" contenteditable @blur="onPejabatTujuanChanged($event, 'nama')">{{ pejabatTujuan.nama }}</p>
+							<p>NIP. <span contenteditable class="bg-yellow-100 print:bg-white" @blur="onPejabatTujuanChanged($event, 'nip')">{{ pejabatTujuan.nip }}</span></p>
 						</td>
 						<td class="align-top w-[47.5%] border border-black p-2">
 							<table>
 								<tr>
 									<td >Berangkat (kembali) dari</td>
 									<td >:</td>
-									<td class="bg-yellow-100 print:bg-white" contenteditable>Isi tujuan</td>
+									<td class="bg-yellow-100 print:bg-white" contenteditable>{{ tujuan }}</td>
 								</tr>
 								<tr>
 									<td >Pada tanggal</td>
@@ -400,8 +434,8 @@ onBeforeMount(() => {
 							</table>
 							<p>Mengetahui pihak lembaga (instansi)</p>
 							
-							<p class="mt-16 underline font-bold">..................................................</p>
-							<p>NIP. </p>
+							<p class="mt-16 underline font-bold uppercase">{{pejabatTujuan.nama}}</p>
+							<p>NIP. {{ pejabatTujuan.nip }}</p>
 						</td>
 					</tr>
 					<tr>
