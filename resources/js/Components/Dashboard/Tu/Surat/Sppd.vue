@@ -154,7 +154,7 @@ onBeforeMount(() => {
 					<p class="text-center my-2">menugaskan:</p>
 					<div class="mx-auto w-[90%] pb-4">
 						<el-form-item class="print:hidden w-[80%] mx-auto" label="Pilih Pneerima tugas">
-						<el-select v-model="surat.penerima" placeholder="Penerima" value-key="nip" multiple >
+						<el-select v-model="surat.penerima" placeholder="Penerima" value-key="nip" multiple  class="print:hidden">
                             <el-option v-for="ptk in props.ptks" :key="ptk.nip" :value="ptk">{{ ptk.nama }}</el-option>
                         </el-select>
 					</el-form-item>
