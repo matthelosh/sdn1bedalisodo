@@ -17,7 +17,7 @@ const props = defineProps({selectedSurat: Object, ptks: Array})
 const sekolah = computed(() => page.props.sekolah)
 const Kop = defineAsyncComponent(() => import('@/Components/General/Kop.vue'));
 const loading = ref(false)
-const tanggal = ref('2024-02-14')
+const tanggal = ref(dayjs(new Date()).format('YYYY-MM-DD'))
 const lastNumber = ref(null)
 const surat = ref({
 		kode: computed(() => `094/${lastNumber.value}/35.07.101.408.012/${tanggal.value.substring(0,4)}`),
