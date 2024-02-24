@@ -44,6 +44,9 @@ const removeAccount = async(item) => {
             })
 }
 
+const arsip = (item) => {
+    router.get(route('arsip.index', {_query:{nip:item.nip}}))
+}
 const edit = (item) => {
     selectedGuru.value = item
     showForm.value = true
@@ -73,6 +76,7 @@ const edit = (item) => {
                         <th class="py-1 px-2 border">Username</th>
                         <th class="py-1 px-2 border">JK</th>
                         <th class="py-1 px-2 border">Jabatan</th>
+                        <th class="py-1 px-2 border">Dokumen</th>
                         <th class="py-1 px-2 border">Opsi</th>
                     </tr>
                 </thead>
@@ -88,6 +92,11 @@ const edit = (item) => {
                         <td class="py-1 px-2 border">{{ guru.user?.name }}</td>
                         <td class="py-1 px-2 border">{{ guru.jk }}</td>
                         <td class="py-1 px-2 border">{{ guru.role == "ks" ? "Kepala Sekolah" : (guru.role == "gkel" ? "Guru Kelas" : "Guru Mapel") }}</td>
+                        <td class="py-1 px-2 border text-center">
+                            <el-button circle text type="primary" @click="arsip(guru)">
+                                <Icon icon="mdi:archive" />
+                            </el-button>
+                        </td>
                         <td class="py-1 px-2 border text-center">
                             <button v-if="!guru.user" @click="addAccount(guru)">
                                 <Icon icon="mdi:account-plus" class="text-xl text-sky-400 hover:text-sky-600"/>

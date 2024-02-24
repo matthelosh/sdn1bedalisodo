@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class ProfileController extends Controller
 {
+    public function index(Request $request) {
+        try {
+            $detail = User::where('id', $request->user()->id)->with('userable.arsips')->first();
+            return Inertia::render('Auth/Profile', [
+                'details' => $detail
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
     /**
      * Display the user's profile form.
      */

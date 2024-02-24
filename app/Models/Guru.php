@@ -44,4 +44,8 @@ class Guru extends Model
     {
         return $this->hasMany(Tugas::class, 'guru_id', 'nip');
     }
+
+    public function arsips() {
+        return $this->hasMany(BerkasGuru::class, 'guru_id','nip');
+    }
 }

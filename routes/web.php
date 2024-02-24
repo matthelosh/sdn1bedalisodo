@@ -66,6 +66,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/store', [GuruController::class, 'store'])->name('dashboard.guru.store');
         Route::post('/account/add', [GuruController::class, 'addAccount'])->name('dashboard.guru.account.add');
         Route::post('/account/remove', [GuruController::class, 'removeAccount'])->name('dashboard.guru.account.remove');
+        Route::resource('/arsip', BerkasGuruController::class);
     });
     Route::prefix("rombel")->group(function() {
         Route::get("/", [RombelController::class, 'page'])->name('dashboard.rombel.page');
@@ -230,9 +231,7 @@ Route::prefix('dashboard')->group(function() {
         });
     });
     Route::prefix('profile')->group(function() {
-        Route::get('/', function() {
-            return 'Profil';
-        })->name('profile');
+        Route::get('/', [ProfileController::class, 'index'])->name('profile');
     });
 })->middleware('is_auth');
 
@@ -255,7 +254,7 @@ Route::prefix("")->group(function() {
 
     Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
-    Route::resource('video', 'VideoController');
+    Route::resource('video', VideoController::class);
 
     Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');

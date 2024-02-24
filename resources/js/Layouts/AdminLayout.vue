@@ -37,7 +37,7 @@ const logout = async() => {
         <aside :class="!showSide ? 'hidden md:block' : 'md:block'" class=" absolute md:relative md:top-0 overflow-x-hidden md:w-full z-10 w-[60vw]  md:col-span-2 bg-[#fefefe] shadow-xl hover:shadow-none h-[97vh] transition-all duration-150 print:hidden col-span-4 rounded-s-lg ">
             <div class="avatar p-4 bg-teal-400 w-full relative">
                 <img src="/img/logo.png" alt="Avatar" class="w-[100px] aspect-square object-contain mx-auto">
-                <Link as="h1" class="text-center text-lime-200 mt-3 mx-auto cursor-pointer" :href="`/guru/${page.props.auth.user.name}`">
+                <Link as="h1" class="text-center text-lime-200 mt-3 mx-auto cursor-pointer" :href="route('profile')">
                     @{{ page.props.auth.user.name }}
                 </Link>
                 <small></small>
