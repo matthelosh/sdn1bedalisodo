@@ -8,7 +8,7 @@ const emit = defineEmits(['close'])
 const props = defineProps({
     items: Array,
     bulan: String,
-    anggaran: Object,
+    anggaran: String,
 })
 
 const bulans = [
@@ -46,7 +46,7 @@ const simpan = async() => {
         return false
     }
     loading.value = true
-    await axios.post(route('dashboard.bos.rkas.impor', {_query: {anggaran_id: anggaran.kode}}), {
+    await axios.post(route('dashboard.bos.rkas.impor', {_query: {anggaran_id: props.anggaran}}), {
         bulan: bulan.value,
         tahun: tahun.value,
         datas: JSON.stringify(props.items)

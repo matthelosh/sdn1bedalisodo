@@ -59,13 +59,15 @@ const listRkas = async() => {
 const formImpor = ref(false)
 const imported = ref([])
 const bulanImpor = ref(null)
-const onFileRkasPicked =  async (ev) => {
+const onFileRkasPicked =  async(ev) => {
+    // console.log('tes')
     const file = ev.target.files[0]
     const reader = new FileReader()
-
+    // alert('opo')
     reader.onload = async(e) => {
         let wb = await read(e.target.result)
         let items = await utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
+        // console.log(items)
         if (items.length > 1) {
             formImpor.value = true
             imported.value = items
@@ -100,6 +102,7 @@ const updateStatus = async(e, item) => {
 }
 
 onMounted(() => {
+    // alert('tes')
     listRkas()
 })
 
