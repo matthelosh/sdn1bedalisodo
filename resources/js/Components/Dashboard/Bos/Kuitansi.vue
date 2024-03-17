@@ -206,16 +206,6 @@ const colsBukti = ref('3')
                 </div>
                 <h1 class="text-2xl text-gray-200 mt-10 text-center" v-if="mode=='kuitansi'">Tempelkan Bukti Di bawah atau di belakang</h1>
                 
-                <!-- <div class="buktis w-full grid grid-cols-2 gap-2" v-if="bku" > -->
-                    <!-- <div v-for="(bukti, bkt) in bku.buktis" :key="bkt"> -->
-                        <!-- <object v-if="check(bukti) == 'pdf'" :data="bukti.url" class="w-full" width="100%" height="100%"></object> -->
-                        <!-- <figure v-if="check(bukti).type !== 'pdf'"> -->
-                            <!-- <img :src="bukti.url"  /> -->
-                        <!-- </figure> -->
-                        
-                    <!-- </div> -->
-                    
-                <!-- </div> -->
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
                 <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
                 <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
@@ -224,14 +214,6 @@ const colsBukti = ref('3')
                         <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
                             <img :src="bukti.url" class="w-full" />
                             <figcaption class="text-center">{{bukti.label}}</figcaption>
-                            <!-- <label class="print:hidden">
-                                Lebar:
-                                <select v-model="colsBukti">
-                                    <option value="3">Penuh</option>
-                                    <option value="2">Setengah</option>
-                                    <option value="1">Sepertiga</option>
-                                </select>
-                            </label> -->
                         </figure>
 
                         <div v-else class="bg-gray-50 p-2 border-2">
