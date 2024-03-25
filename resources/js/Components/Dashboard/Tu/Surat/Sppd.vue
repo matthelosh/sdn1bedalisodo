@@ -99,7 +99,7 @@ onBeforeMount(() => {
 				</el-popover>
 				<!-- <el-form-item label="Penerima" class="pt-4">
 					<el-select v-model="surat.penerima" placeholder="Penerima" multiple collapse-tags value-key="id">
-						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="ptk" :label="ptk.nama" /> 
+						<el-option v-for="ptk in props.ptks" :key="ptk.nip"  :value="ptk" :label="ptk.nama" />
 					</el-select>
 				</el-form-item> -->
 				<el-form-item label="Tanggal Surat" class="pt-4">
@@ -132,19 +132,19 @@ onBeforeMount(() => {
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top">{{ sekolah.ks.nip }}</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Pangkat, Gol. Ruang</td>
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top">Penata, {{ sekolah.ks.pangkat }}</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Jabatan</td>
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top">Kepala Sekolah</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Alamat Dinas</td>
 							<td class="px-1 align-top">:</td>
@@ -152,12 +152,14 @@ onBeforeMount(() => {
 						</tr>
 					</table>
 					<p class="text-center my-2">menugaskan:</p>
-					<div class="mx-auto w-[90%] pb-4 print:hidden">
-						<el-form-item class="print:hidden w-[80%] mx-auto" label="Pilih Pneerima tugas">
-						<el-select v-model="surat.penerima" placeholder="Penerima" value-key="nip" multiple  class="print:hidden">
-                            <el-option v-for="ptk in props.ptks" :key="ptk.nip" :value="ptk">{{ ptk.nama }}</el-option>
-                        </el-select>
-					</el-form-item>
+					<div class="mx-auto w-[90%] pb-4">
+                        <div class="print:hidden">
+				    		<el-form-item class="print:hidden w-[80%] mx-auto" label="Pilih Pneerima tugas">
+	    	    				<el-select v-model="surat.penerima" placeholder="Penerima" value-key="nip" multiple  class="print:hidden">
+                                    <el-option v-for="ptk in props.ptks" :key="ptk.nip" :value="ptk">{{ ptk.nama }}</el-option>
+                                </el-select>
+        					</el-form-item>
+                        </div>
 						<table class="w-[80%] mx-auto">
 							<thead>
 								<tr>
@@ -187,13 +189,13 @@ onBeforeMount(() => {
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top">{{ sekolah.nama }}</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Hari, tanggal</td>
 							<td class="px-1 align-top">:</td>
-							<td class="px-1 align-top">{{ dayjs(tanggal).format('dddd, DD MMMM YYYY') }}</td>
+							<td class="px-1 align-top bg-yellow-100 print:bg-white" contenteditable>{{ dayjs(tanggal).format('dddd, DD MMMM YYYY') }}</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Pukul</td>
 							<td class="px-1 align-top">:</td>
@@ -205,13 +207,13 @@ onBeforeMount(() => {
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top bg-yellow-100 border-b print:border-none print:bg-white" contenteditable @change="onChangedTujuan">{{ tujuan }}</td>
 						</tr>
-						
+
 						<tr>
 							<td class="px-1 align-top">Ditugaskan sebagai</td>
 							<td class="px-1 align-top">:</td>
 							<td class="px-1 align-top w-[70%] " >{{ surat.perihal }}</td>
 						</tr>
-						
+
 					</table>
 					<p class="my-4">Demikian surat tugas ini dibuat, agar dilaksanakan dengan penuh tanggung jawab.</p>
 				</div>
@@ -221,12 +223,12 @@ onBeforeMount(() => {
 					<div class="text-left">
 						<p>{{dayjs(tanggal).format('DD MMMM YYYY')}}</p>
 						<p>Kepala SD Negeri 1 Bedalisodo</p>
-						
+
 						<p class="mt-16 underline font-bold">{{page.props.sekolah.ks.nama}}, {{page.props.sekolah.ks.gelar_belakang}}</p>
 						<p>NIP. {{page.props.sekolah.ks.nip}}</p>
 					</div>
 				</div>
-				
+
 			</div>
 			<div class="sheet w-full md:w-[900px] mx-auto my-4 print:m-0 px-3 pb-3 bg-white break-inside-avoid-page">
 				<Kop />
@@ -346,7 +348,7 @@ onBeforeMount(() => {
 				</div>
 				<div class="ttd mt-4 w-full flex justify-around print:text-[.8rem]">
 					<div class="colspan-2 text-center pt-8">
-						
+
 					</div>
 					<div class="text-left">
 						<table>
@@ -362,7 +364,7 @@ onBeforeMount(() => {
 							</tr>
 						</table>
 						<p>Kepala SD Negeri 1 Bedalisodo</p>
-						
+
 						<p class="mt-16 underline font-bold">{{page.props.sekolah.ks.nama}}, {{page.props.sekolah.ks.gelar_belakang}}</p>
 						<p>NIP. {{page.props.sekolah.ks.nip}}</p>
 					</div>
@@ -371,7 +373,7 @@ onBeforeMount(() => {
 			<div class="sheet w-full md:w-[900px] mx-auto my-4 print:m-0 px-3 py-3 bg-white break-inside-avoid-page">
 				<div class="ttd my-4 w-full flex justify-around print:text-[.8rem]">
 					<div class="colspan-2 text-center pt-8">
-						
+
 					</div>
 					<div class="text-left">
 						<table>
@@ -392,7 +394,7 @@ onBeforeMount(() => {
 							</tr>
 						</table>
 						<p>Kepala SD Negeri 1 Bedalisodo</p>
-						
+
 						<p class="mt-16 underline font-bold">{{page.props.sekolah.ks.nama}}, {{page.props.sekolah.ks.gelar_belakang}}</p>
 						<p>NIP. {{page.props.sekolah.ks.nip}}</p>
 					</div>
@@ -415,7 +417,7 @@ onBeforeMount(() => {
 								</tr>
 							</table>
 							<p>Mengetahui pihak lembaga (instansi)</p>
-							
+
 							<p class="mt-16 underline font-bold bg-yellow-100 print:bg-white uppercase" contenteditable @blur="onPejabatTujuanChanged($event, 'nama')">{{ pejabatTujuan.nama }}</p>
 							<p>NIP. <span contenteditable class="bg-yellow-100 print:bg-white" @blur="onPejabatTujuanChanged($event, 'nip')">{{ pejabatTujuan.nip }}</span></p>
 						</td>
@@ -433,7 +435,7 @@ onBeforeMount(() => {
 								</tr>
 							</table>
 							<p>Mengetahui pihak lembaga (instansi)</p>
-							
+
 							<p class="mt-16 underline font-bold uppercase">{{pejabatTujuan.nama}}</p>
 							<p>NIP. {{ pejabatTujuan.nip }}</p>
 						</td>
@@ -454,7 +456,7 @@ onBeforeMount(() => {
 								</tr>
 							</table>
 							<p>Kepala {{ sekolah.nama }}</p>
-							
+
 							<p class="mt-16 underline font-bold">{{ sekolah.ks.nama }}</p>
 							<p>NIP. {{sekolah.ks.nip}}</p>
 						</td>
@@ -468,7 +470,7 @@ onBeforeMount(() => {
 							CATATAN LAIN-LAIN
 						</td>
 						<td class="align-top w-[47.5%] border border-black p-2 h-[150px]">
-							
+
 						</td>
 					</tr>
 				</table>
