@@ -97,7 +97,7 @@ Route::prefix('dashboard')->group(function() {
         Route::post('/peserta/masukkan/{id_ekskul}/{id_siswa}',[EkskulController::class, 'masukkan'])->name('dashboard.ekskul.peserta.masukkan');
         Route::post('/peserta/keluarkan/{id_ekskul}/{id_siswa}',[EkskulController::class, 'keluarkan'])->name('dashboard.ekskul.peserta.keluarkan');
         Route::delete('/{id}', [EkskulController::class, 'destroy'])->name('dashboard.ekskul.destroy');
-       
+
     });
 
     Route::prefix('intra')->group(function() {
@@ -261,16 +261,16 @@ Route::prefix("")->group(function() {
     Route::get('/about', [FrontPageController::class, 'index'])->name('About')->breadcrumbs(fn(Trail $trail) => $trail->parent('Welcome')->push('Profil', route('About')));
 
     Route::get('/guru/{name}', [FrontPageController::class, 'author'])->name('Author');
-    
+
     Route::prefix("post")->group(function() {
         Route::post('/upload-image', [PostController::class, 'uploadImage'])->name('post.image.upload');
     });
 
     Route::prefix("agenda")->group(function() {
         Route::post("/", [AgendaController::class, "index"])->name("agenda.index");
-        
+
     });
-   
+
     Route::get('/search', [FrontPageController::class, 'search'])->name('Search');
 
     Route::prefix('install')->group(function() {
@@ -281,5 +281,6 @@ Route::prefix("")->group(function() {
 
     Route::get('/kategori/{kategori}', [FrontPageController::class, 'byCategory'])->name('Post.category');
     Route::get('/{kategori}/{slug}', [FrontPageController::class, 'readPost'])->name('Post.read');
+    Route::resource('ppdb', PpdbController::class);
 })->middleware(['guest','is_configured']);
 
