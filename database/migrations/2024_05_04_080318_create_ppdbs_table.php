@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ppdbs', function (Blueprint $table) {
                 $table->id();
+                $table->string('kode', 16)->unique();
                 $table->string('tapel', 6);
                 $table->string('nisn', 35)->nullable();
                 $table->string('nik', 20)->nullable();

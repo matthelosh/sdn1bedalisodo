@@ -15,6 +15,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css'
 import ElementTiptapPlugin from 'element-tiptap-vue3-fixed';
 import 'element-tiptap-vue3-fixed/lib/style.css'
+import { install } from 'vue3-recaptcha-v2'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -34,6 +35,10 @@ createInertiaApp({
             .use(Vue3Toasity)
             .use(ElementPlus)
             .use(ElementTiptapPlugin)
+            .use(install, {
+                sitekey: '6LcTy9EpAAAAAGVNbsWbXDKR3eFpoKtIsNpwl6jJ',
+                cnDomain: false
+            })
             .component('DataTable', Vue3EasyDataTable)
             .mount(el);
     },

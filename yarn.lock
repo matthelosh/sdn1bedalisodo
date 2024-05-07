@@ -927,6 +927,39 @@
   resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.18.tgz#74bd1c8fd3a2058cb6fc76b188fcded50a83d866"
   integrity sha512-v/ZHEj9xh82usl8LMR3GarzFY1IrbXJw5L4QfQhokjRV91q+SelFqxQWSep1ucXEZ22+dSTwLFkXeur25sPIbw==
 
+"@unhead/dom@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.9.9.tgz#84fcd1c1958c94a9e067bb8256e5dde158a513c0"
+  integrity sha512-8XIMafnSImv9qZRxmnGjpg+TXYjIyOKYV6ifF/vWNwcNeirOGZuZkBlFk73bNk9VdF28niSAsy2eHwiK98cIsg==
+  dependencies:
+    "@unhead/schema" "1.9.9"
+    "@unhead/shared" "1.9.9"
+
+"@unhead/schema@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-1.9.9.tgz#87be26aa326dcfad3ac6ac3302b5a8b699417ea8"
+  integrity sha512-WSeCCXaavP/zsBmeYa5DMJv7eFpJTUST5fIcisb2WrA8W9G8c1Yw+ybOInZvoBDyH9TQYMLM08K8y8N/4GJUJA==
+  dependencies:
+    hookable "^5.5.3"
+    zhead "^2.2.4"
+
+"@unhead/shared@1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@unhead/shared/-/shared-1.9.9.tgz#526d9ecebc56475cb32898b09bfb40829b1b588e"
+  integrity sha512-oyOI+27cuT5RmezVE/EsNkAUqsRo0Te6IFYIC8XRk6jsCZ9mp9TavQ2KfwR+579RrDnjq/MCq7f2FlxSp8N9/A==
+  dependencies:
+    "@unhead/schema" "1.9.9"
+
+"@unhead/vue@^1.9.9":
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-1.9.9.tgz#7730d0f32ec69aecbbc96577020be8b50d007142"
+  integrity sha512-PrpoyEsSSPH0oo+s07Zh9GOrfjsWLVDYjhLr+S1+90D2ZBzt29aY7jAKYd77ozyMUOr9farjTh+fHjg90stJ0A==
+  dependencies:
+    "@unhead/schema" "1.9.9"
+    "@unhead/shared" "1.9.9"
+    hookable "^5.5.3"
+    unhead "1.9.9"
+
 "@vitejs/plugin-vue@^4.0.0":
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-4.4.0.tgz#8ae96573236cdb12de6850a6d929b5537ec85390"
@@ -1276,9 +1309,9 @@ camelcase-css@^2.0.1:
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001541:
-  version "1.0.30001546"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz#10fdad03436cfe3cc632d3af7a99a0fb497407f0"
-  integrity sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==
+  version "1.0.30001616"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001616.tgz"
+  integrity sha512-RHVYKov7IcdNjVHJFNY/78RdG4oGVjbayxv8u5IO74Wv7Hlq4PnJE6mo/OjFijjVFNy5ijnCt6H3IIo4t+wfEw==
 
 case-anything@^2.1.13:
   version "2.1.13"
@@ -1541,11 +1574,6 @@ dotenv@^16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
   integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
-
-easyqrcodejs@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/easyqrcodejs/-/easyqrcodejs-4.6.1.tgz#e9b2230852cda7a63ecb47d9b3856348cc29a52c"
-  integrity sha512-J9C7UOJ67sZvu1Ei6JS/YHgmTVfl7jD+zPloxZGMtjGz+r9s0APJVxdPlGIYJsI9JEfgE6Q3ZfMEl/6+TL4BGA==
 
 electron-to-chromium@^1.4.535:
   version "1.4.544"
@@ -3233,6 +3261,16 @@ unctx@^2.3.1:
     magic-string "^0.30.0"
     unplugin "^1.3.1"
 
+unhead@1.9.9:
+  version "1.9.9"
+  resolved "https://registry.yarnpkg.com/unhead/-/unhead-1.9.9.tgz#f4658d0b6eccacf56a7eaf0dbbb442ce3089b02b"
+  integrity sha512-RwheobyCir358HfvDrY2bFb/puievoCu1f+OpxdA9mFnKs8k6JyMvGxrsaPlFbTeC47JSeN2URdW94Z/JdGzsA==
+  dependencies:
+    "@unhead/dom" "1.9.9"
+    "@unhead/schema" "1.9.9"
+    "@unhead/shared" "1.9.9"
+    hookable "^5.5.3"
+
 unimport@^3.0.14, unimport@^3.3.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/unimport/-/unimport-3.4.0.tgz#e8302c2eabdfc6e23b65e02c3dfe592e427e8340"
@@ -3379,6 +3417,11 @@ vue3-easy-data-table@^1.5.47:
   dependencies:
     vue "^3.2.45"
 
+vue3-recaptcha-v2@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/vue3-recaptcha-v2/-/vue3-recaptcha-v2-2.0.2.tgz#127d568d90cd3de3588429eb500d16f408380f13"
+  integrity sha512-uIxJG4+BVquSVJxCLdkJV3Y0IgXPG+sWqAG34qwHt9MungDFshuKprtrN48oJHcLXePLey/FEo2B5pbfMB5cjQ==
+
 vue3-toastify@^0.1.13:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/vue3-toastify/-/vue3-toastify-0.1.13.tgz#83d8a101efbdaa2584185f57c6ba1213f4df9283"
@@ -3438,3 +3481,8 @@ yaml@^2.1.1:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.3.2.tgz#f522db4313c671a0ca963a75670f1c12ea909144"
   integrity sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==
+
+zhead@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/zhead/-/zhead-2.2.4.tgz#87cd1e2c3d2f465fa9f43b8db23f9716dfe6bed7"
+  integrity sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==

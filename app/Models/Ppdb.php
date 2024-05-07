@@ -9,6 +9,7 @@ class Ppdb extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'kode',
         'tapel',
         'nisn',
         'nik',

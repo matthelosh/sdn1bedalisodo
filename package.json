@@ -26,6 +26,7 @@
         "@gabojkz/vue_moveable_v3": "^0.0.3-semantically-released",
         "@popperjs/core": "^2.11.8",
         "@splidejs/vue-splide": "^0.6.12",
+        "@unhead/vue": "^1.9.9",
         "@vueuse/components": "^10.2.1",
         "@vueuse/core": "^10.1.2",
         "@vueuse/motion": "^2.0.0",
@@ -43,6 +44,7 @@
         "unplugin-element-plus": "^0.8.0",
         "v-calendar": "^3.1.2",
         "vue3-easy-data-table": "^1.5.47",
+        "vue3-recaptcha-v2": "^2.0.2",
         "vue3-toastify": "^0.1.13",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
     }
