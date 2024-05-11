@@ -6,7 +6,7 @@ import { Icon } from '@iconify/vue'
 import { paginate } from '@/Plugins/misc';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { formatDate } from '@vueuse/shared';
-
+import { ElNotification } from 'element-plus'
 import 'element-plus/es/components/table/style/css';
 import 'element-plus/es/components/pagination/style/css';
 
@@ -44,13 +44,13 @@ const prev = (e) => {
     if(current.value > 0) {
         current.value -=1
     }
-        
+
 }
 const next = (e) => {
     if (current.value < posts.value.page_length-1) {
         current.value +=1
     }
-        
+
 }
 const selectedPost = ref(null)
 const edit = async(post) => {
@@ -68,10 +68,21 @@ const tanggal = (tanggal) => {
     let date = new Date(tanggal)
     return date.getDate()+'-'+date.getMonth()+'-'+date.getFullYear()+' : '+ date.getHours()+'.'+date.getMinutes()+'.'+date.getSeconds()
 }
+
+const hapus = async(id) => {
+    router.delete(route('dashboard.post.destroy', {id: id}), {
+        onSuccess: (page) => {
+            ElNotification({title: 'Info', message: 'Postingan dihapus', type: 'info'})
+        },
+        onError: (err) => {
+            ElNotification({ title: 'Error', message: 'Ada yang error', type: 'error'})
+        }
+    })
+}
 </script>
 
 <template>
-<Head title="Post" />   
+<Head title="Post" />
 <AdminLayout title="Postingan">
     <Loading v-if="loading" />
         <div class="p-4">
@@ -86,7 +97,7 @@ const tanggal = (tanggal) => {
                             <Icon icon="mdi:typewriter" />
                             Baru
                         </button>
-                        
+
                         <div class="relative">
                             <input type="text" placeholder="Cari" class="h-8 border-gray-400 rounded" v-model="search">
                             <Icon icon="mdi:magnify" class="absolute right-2 top-2" />
@@ -120,7 +131,7 @@ const tanggal = (tanggal) => {
                         <el-table-column label="Status" prop="status"  />
                         <el-table-column label="Opsi">
                             <template #default="scope">
-                                <button class="bg-red-400 text-white py-1 px-2 rounded-md shadow-lg my-4 hover:shadow-sm active:shadow-none active:bg-red-500">
+                                <button class="bg-red-400 text-white py-1 px-2 rounded-md shadow-lg my-4 hover:shadow-sm active:shadow-none active:bg-red-500" @click="hapus(scope.row.id)">
                                     <Icon icon="mdi:delete"  />
                                 </button>
                             </template>

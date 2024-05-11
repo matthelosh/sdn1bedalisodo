@@ -47,7 +47,7 @@ class PostController extends Controller
     {
         $data = json_decode($request->post);
         // dd(json_decode($data));
-        
+
         try {
 
             if($request->file('featured_image')) {
@@ -59,7 +59,7 @@ class PostController extends Controller
             $store = $post->write($data, $featured_image);
 
 
-            
+
             // return redirect(route('dashboard.post.home'))->with('status', $store);
             return response()->json(['status' => 'Ok', 'post' => $store], 200);
         } catch(\Exception $e) {
@@ -94,8 +94,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Post $post, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return back()->with('status', 'success');
     }
 }

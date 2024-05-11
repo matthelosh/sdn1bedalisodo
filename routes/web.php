@@ -51,6 +51,7 @@ Route::prefix('dashboard')->group(function() {
     Route::prefix("post")->group(function() {
         Route::get('/', [PostController::class, 'index'])->name('dashboard.post.home');
         Route::post('/store', [PostController::class, 'store'])->name('dashboard.post.store');
+        Route::delete('/destroy/{id}', [PostController::class, 'destroy'])->name('dashboard.post.destroy');
     });
     Route::prefix('images')->group(function() {
         Route::post('/upload', [ImageController::class, 'store'])->name('image.upload');
