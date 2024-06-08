@@ -241,6 +241,7 @@ require __DIR__.'/auth.php';
 
 Route::prefix("")->group(function() {
 
+    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     // Tes IDC Storage
     Route::get('/s3', function() {
         $files = Storage::disk('s3')->files('images');
@@ -257,7 +258,6 @@ Route::prefix("")->group(function() {
 
     Route::resource('video', VideoController::class);
 
-    Route::get('/', [FrontPageController::class, 'index'])->name('Welcome');
     Route::get('/posts', [FrontPageController::class, 'index'])->name('Post.index');
     Route::get('/about', [FrontPageController::class, 'index'])->name('About')->breadcrumbs(fn(Trail $trail) => $trail->parent('Welcome')->push('Profil', route('About')));
 

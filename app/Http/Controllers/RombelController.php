@@ -32,13 +32,18 @@ class RombelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->tapel);
         try {
             switch(auth()->user()->level)
             {
                 case "admin":
-                    $rombels = Rombel::all();
+                    if ($request->tingkat && $request->tapel) {
+                        $rombels = Rombel::where('tapel', $request->tapel)->where('tingkat', $request->tingkat)->with('siswas')->get();
+                    } else {
+                        $rombels = Rombel::all();
+                    }
                     break;
                 case "guru":
                     if (auth()->user()->userable->role == 'gkel') {
