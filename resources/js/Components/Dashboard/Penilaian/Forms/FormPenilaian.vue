@@ -8,8 +8,8 @@ const props = defineProps({rombel: Object, mapel: String, periode: String})
 const emit = defineEmits(['close'])
 
 const penilaian = ref({
-    semester: '1',
-    tanggal: '2023-10-06'
+    semester: '',
+    tanggal: ''
 });
 
 const simpan = async() => {
