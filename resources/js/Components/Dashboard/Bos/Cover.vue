@@ -8,8 +8,8 @@
                     </option>
                 </select>
             </div>
-        </div>
-        <div class="sheet flex flex-col justify-between min-h-[100vh] bg-white rounded shadow-lg w-[80%] print:w-full mx-auto p-10">
+        </div> 
+        <div class="sheet cetak flex flex-col justify-between min-h-[100vh] bg-white rounded shadow-lg w-[80%] print:w-full mx-auto p-10">
             <div>
                 <h1 class="text-2xl font-bold text-center uppercase">LAPORAN</h1>
                 <h1 class="text-2xl font-bold text-center uppercase">PERTANGGUNGJAWABAN</h1>
