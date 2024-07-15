@@ -127,7 +127,23 @@ const cetak = async() => {
 }
 
 const isLibur = (tanggal) => {
-    let tanggals = events.value.map(e => parseInt(e.start.substr(-2)))
+    // let tanggals = events.value.map(e => parseInt(e.start.substr(-2)))
+    let tanggals = Array()
+    let tunggals = Array()
+    let jamak = Array()
+    events.value.forEach(ev => {
+        let range = parseInt(ev.end.substr(-2)) - parseInt(ev.start.substr(-2))
+        if (range === 0) {
+            tunggals.push(parseInt(ev.start.substr(-2)))
+        } else {
+            let s = parseInt(ev.start.substr(-2))
+            let e = parseInt(ev.end.substr(-2))
+            jamak = (Array.from({length: (e-s)}, (_,i) => i + 1))
+            
+        }
+    })
+    tanggals = tunggals.concat(jamak)
+    // console.log(tanggals)
     if (tanggals.includes(tanggal)) {
         return true
     } else {
@@ -245,7 +261,7 @@ onMounted(() => {
                 <div class="text-xs">
                     Keterangan:
                     <ul class="text-xs list-decimal pl-4" v-if="weekHasEvent(p-1)">
-                        <li v-for="ev in eventsPerWeek(p-1)" :key="ev.id">[{{ ev.start }}] {{ ev.name }}</li>
+                        <li v-for="ev in eventsPerWeek(p-1)" :key="ev.id">[{{ ev.start }} - {{ ev.end }}] {{ ev.name }}</li>
                     </ul>
                 </div>
                 <div class="text-xs text-center">
