@@ -209,7 +209,7 @@ const colsBukti = ref('3')
                 <div class="bukti mt-6" v-if="mode == 'bukti'">
                 <h1 class="text-center w-[80%] mx-auto">Bukti Transaksi: "<span class="font-semibold text-slate-800">{{bku.uraian}}</span>"</h1>
                 <hr class="border-1 border-slate-700 my-3 w-[60%] mx-auto ">
-                <div v-if="bku.buktis.length > 0 && !kosong" class="flex flex-wrap gap-2 justify-center">
+                <div v-if="bku.buktis.length > 0 && !kosong" class="flex flex-wrap gap-2 justify-center w-full">
                     <div v-for="(bukti, b) in bku.buktis" :key="b" class="w-full flex basis-[25%]">
                         <figure v-if="bukti.tipe == 'foto'" class="w-full border-2 p-2 ">
                             <img :src="bukti.url" class="w-full" />
@@ -219,9 +219,11 @@ const colsBukti = ref('3')
                         <div v-else class="bg-gray-50 p-2 border-2">
                             Bukti berjenis Dokumen. Link unduh: 
                             <p class="flex gap-2">
-                                <qrcode-vue :value="check(bukti).url" :size="100" level="L" :foreground="'#363636'" />
-                                <a :href="check(bukti).url" target="_blank" class="text-sky-600">{{check(bukti).url}}</a>
+                                <qrcode-vue :value="bukti.url" :size="100" level="L" :foreground="'#363636'" />
+                                <a :href="bukti.url" target="_blank" class="text-sky-600">{{bukti.url}}</a>
                             </p>
+
+                            <!-- <object :data="bukti.url" type="application/pdf" width="1024" height="800"></object> -->
                         </div>
                     </div>
                 </div>
