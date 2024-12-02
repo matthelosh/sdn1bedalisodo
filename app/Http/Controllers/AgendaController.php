@@ -15,17 +15,18 @@ class AgendaController extends Controller
     public function index(Request $request)
     {
         try {
-            
+
             // $agendas = Agenda::whereMonth('start', (int) ($request->query('bulan')+1))->whereYear('start', $request->query('tahun'))->with('user.userable')->get();
             if($request->query('bulan') && $request->query('tahun')) {
                 // dd($request->query('tahun'));
-                $agendas = Agenda::whereMonth('start', $request->query('bulan'))->whereYear('start', $request->query('tahun'))->with('user.userable')->get();
+                $status = $request->query('status') ?? null;
+                $agendas = Agenda::whereStatus($status)->whereMonth('start', $request->query('bulan'))->whereYear('start', $request->query('tahun'))->with('user.userable')->get();
             } else {
                 $agendas = Agenda::with('user.userable')->get();
             }
             return response()->json(['status' => 'success', 'agendas' => $agendas], 200);
         } catch (\Exception $e) {
-             return response()->json(['status' => 'error','message' => $e->getMessage()], 500);
+            return response()->json(['status' => 'error','message' => $e->getMessage()], 500);
         }
     }
 
