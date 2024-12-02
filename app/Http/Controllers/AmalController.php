@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AmalController extends Controller
 {
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         try {
             $amal = Amal::first();
@@ -21,13 +21,13 @@ class AmalController extends Controller
                 'mutasis' => $mutasis,
                 'saldo' => $amal->saldo,
             ], 200);
-
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    public function storeMutasi(Request $request) {
+    public function storeMutasi(Request $request)
+    {
         try {
             $amal = Amal::first();
             if (!$amal) {
@@ -45,7 +45,7 @@ class AmalController extends Controller
                     'keterangan' => $request['keterangan']
                 ]
             );
-            if ( $store ) {
+            if ($store) {
                 if ($request['jenis'] == 'masuk') {
                     $amal->update(['saldo' => $saldo + $request['nilai']]);
                 } else {
@@ -56,6 +56,22 @@ class AmalController extends Controller
             return response()->json([
                 'status' => 'ok',
                 'msg' => 'Mutasi disimpan'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'fail',
+                'msg' => $e->getMEssage()
+            ], 500);
+        }
+    }
+    public function destroyMutasi(MutasiAmal $mutasi, $id)
+    {
+        try {
+            $destroyMutasi = $mutasi::destroy($id);
+
+            return response()->json([
+                'status' => 'ok',
+                'msg' => $destroyMutasi ? 'Mutasi dihapus' : 'Ada yang salah'
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onBeforeMount, defineAsyncComponent } from "vue";
-import { usePage, Head } from "@inertiajs/vue3";
+import { usePage, Head, router } from "@inertiajs/vue3";
 import { Icon } from "@iconify/vue";
 import axios from "axios";
 import { h } from "vue";
@@ -8,6 +8,15 @@ import { ElNotification } from "element-plus";
 import { terbilang } from "@/Plugins/terbilang";
 
 const page = usePage();
+const confirmDialog = ref(null);
+const ConfirmDialog = defineAsyncComponent(() =>
+    import("@/Components/General/ConfirmDialog.vue")
+);
+const Alert = defineAsyncComponent(() =>
+    import("@/Components/General/Alert.vue")
+);
+
+const alert = ref(null);
 
 const loading = ref(false);
 const Layout = defineAsyncComponent(() => import("@/Layouts/AdminLayout.vue"));
@@ -18,6 +27,7 @@ const headers = ref([
     { text: "Mutasi", value: "jenis" },
     { text: "Jumlah", value: "nilai" },
     { text: "Keterangan", value: "keterangan" },
+    { text: "Opsi", value: "opsi" },
 ]);
 const formShown = ref(false);
 const mutasi = ref({});
@@ -47,12 +57,30 @@ const list = async () => {
     });
 };
 
+const hapus = async (item) => {
+    // confirmDialog.value.open("Halo");
+    await confirmDialog.value.open("Yakin Hapus Mutasi?").then((ok) => {
+        if (ok) {
+            axios
+                .delete(route("dashboard.amal.mutasi.destroy", { id: item.id }))
+                .then((res) => {
+                    alert.value.open(res.data.msg);
+                    list();
+                });
+        } else {
+            return false;
+        }
+    });
+};
+
 onBeforeMount(() => {
     list();
 });
 </script>
 
 <template>
+    <Alert ref="alert" />
+    <ConfirmDialog ref="confirmDialog" />
     <Layout>
         <Head title="Manajemen Amal Jumat" />
         <div class="wrapper">
@@ -90,7 +118,16 @@ onBeforeMount(() => {
                     </div>
                 </div>
                 <div class="mx-4 mt-4">
-                    <DataTable :headers="headers" :items="mutasis" />
+                    <DataTable :headers="headers" :items="mutasis">
+                        <template #item-opsi="item">
+                            <button
+                                class="p-2 bg-red-200 rounded-full"
+                                @click="hapus(item)"
+                            >
+                                <Icon icon="mdi:delete" class="text-red-700" />
+                            </button>
+                        </template>
+                    </DataTable>
                 </div>
             </div>
         </div>
