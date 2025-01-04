@@ -223,6 +223,7 @@ onMounted(() => {
                     v-model="tahun"
                     placeholder="Pilih Tahun"
                     class="w-[200px]"
+                    @change="getAgendas()"
                 >
                     <option v-for="(thn, t) in tahuns" :key="t" :value="thn">
                         {{ thn }}
