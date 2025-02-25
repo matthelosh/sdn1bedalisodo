@@ -27,7 +27,7 @@ class GuruController extends Controller
         try {
             $tapel = Tapel::where('status', '1')->first();
             if (!$request->query('q')) {
-                $gurus = Guru::whereNot('role', 'admin')->with('tugas')->with('rombels', function ($q) use ($tapel) {
+                $gurus = Guru::whereNot('role', 'admin')->whereStatus('active')->with('tugas')->with('rombels', function ($q) use ($tapel) {
                     $q->where('tapel', $tapel->kode);
                     $q->with('siswas');
                 })->get();
