@@ -68,6 +68,7 @@ Route::prefix('dashboard')->group(function () {
         Route::post('/store', [GuruController::class, 'store'])->name('dashboard.guru.store');
         Route::post('/account/add', [GuruController::class, 'addAccount'])->name('dashboard.guru.account.add');
         Route::post('/account/remove', [GuruController::class, 'removeAccount'])->name('dashboard.guru.account.remove');
+        Route::put('/status/toggle', [GuruController::class, 'toggleStatus'])->name('dashboard.guru.status.toggle');
         Route::resource('/arsip', BerkasGuruController::class);
     });
     Route::prefix("rombel")->group(function () {

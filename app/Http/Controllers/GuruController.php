@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Hash;
 class GuruController extends Controller
 {
 
-    function page() {
+    function page()
+    {
         return Inertia::render('Auth/Guru', [
             'gurus' => Guru::whereNot("nama", "Administrator")->with('user')->get(),
         ]);
@@ -24,21 +25,21 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         try {
-        $tapel = Tapel::where('status', '1')->first();
-        if(!$request->query('q')) {
-            $gurus = Guru::whereNot('role', 'admin')->with('tugas')->with('rombels', function($q) use ($tapel) {
-                $q->where('tapel', $tapel->kode);
-                $q->with('siswas');
-            })->get();
-        } else {
-            $gurus = Guru::whereNot('role', 'admin')->where('nama','LIKE','%'.$request->query('q').'%')->get();
-        }
+            $tapel = Tapel::where('status', '1')->first();
+            if (!$request->query('q')) {
+                $gurus = Guru::whereNot('role', 'admin')->with('tugas')->with('rombels', function ($q) use ($tapel) {
+                    $q->where('tapel', $tapel->kode);
+                    $q->with('siswas');
+                })->get();
+            } else {
+                $gurus = Guru::whereNot('role', 'admin')->where('nama', 'LIKE', '%' . $request->query('q') . '%')->get();
+            }
 
-        return response()->json([
-            'status' => 'ok',
-            'gurus' => $gurus
-        ], 200);
-        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'ok',
+                'gurus' => $gurus
+            ], 200);
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -46,9 +47,17 @@ class GuruController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function toggleStatus(Request $request)
     {
-        //
+        try {
+            $guru = Guru::whereId($request->id)->first();
+            $guru->update([
+                'status' => $request->status === 'active' ? 'inactive' : 'active'
+            ]);
+            return back()->with('message', 'Status Guru diganti');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -76,10 +85,10 @@ class GuruController extends Controller
                     'alamat' => $data->alamat,
                     'role' => $data->role ?? 'gkel',
                     'foto' => $data->foto ?? null,
-                    'facebook' => $data->facebook?? null,
-                    'youtube' => $data->youtube?? null,
-                    'instagram' => $data->instagram?? null,
-                    'status' => $data->status?? 'active',
+                    'facebook' => $data->facebook ?? null,
+                    'youtube' => $data->youtube ?? null,
+                    'instagram' => $data->instagram ?? null,
+                    'status' => $data->status ?? 'active',
                     'nickname' => $data->nickname,
                     'bio' => $data->bio ?? null,
                     'pangkat' => $data->pangkat ?? null
@@ -90,7 +99,6 @@ class GuruController extends Controller
                 'status' => 'ok',
                 'guru' => $guru
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'fail',
@@ -100,14 +108,15 @@ class GuruController extends Controller
     }
 
 
-    public function addAccount(Request $request) {
+    public function addAccount(Request $request)
+    {
         try {
             $guru = Guru::where('id', $request->query('id'))->first();
             // dd($guru);
             $username = strtolower($guru->nickname);
             $user = User::create([
                 'name' => $username,
-                'email' => $username.'@sdn1-bedalisodo.sch.id',
+                'email' => $username . '@sdn1-bedalisodo.sch.id',
                 'email_verified_at' => date('y-m-d H:i:a'),
                 'password' => Hash::make('12345'), // password
                 'level' => $guru->role == 'admin' ? 'admin' : 'guru',
@@ -128,9 +137,10 @@ class GuruController extends Controller
         }
     }
 
-    function removeAccount(Request $request) {
+    function removeAccount(Request $request)
+    {
         try {
-            $delete = User::where('userable_id',$request->query('id' ))->delete();
+            $delete = User::where('userable_id', $request->query('id'))->delete();
             return response()->json([
                 'status' => 'ok',
                 'msg' => $delete
